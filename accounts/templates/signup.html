@@ -1,0 +1,220 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css'%}">
+    <link rel="stylesheet" href="{% static 'css/swiper.css'%}">
+    <!-- <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/> -->
+    <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+    <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <title>레몬::회원가입</title>
+</head>
+<style>
+    .signup-wrap::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera*/
+    }
+.form-control{
+    padding-left: 10px;
+    margin-bottom: 15px;
+    width:98%;
+    height: 40px;
+    border-bottom: 1px solid #31BC89;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    /* ios 기능 */
+    -webkit-user-select:none;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    background-color: #fff;
+    }
+.sms_btn{
+    width: 40px;
+    height: 30px;
+    padding-top: 6px;
+    text-align: center;
+    vertical-align: middle;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 10pt;
+    font-weight: bold;
+    float:right;
+    color:white !important;
+    background:#31BC89;
+    border-radius:10px;
+    position:relative;
+}
+
+table{
+width:100%;
+height:40px;
+text-align:center;
+position: sticky;
+top: 0px;
+z-index: 2;
+background: white;
+}
+body{
+margin:0px;}
+
+button{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+    vertical-align: middle;
+width:100%;
+height: 50px;
+margin-top:20px;
+background:#31BC89;
+border:0px;
+border-radius:50px;
+color:white;
+}
+
+button:disabled{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+    vertical-align: middle;
+width:100%;
+height: 50px;
+/*margin-top:20px;*/
+    background:#a0a0a0;
+    border:0px;
+    border-radius:50px;
+    color:white;
+}
+textarea{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 12px;
+    border: 1px solid #CACACA;
+    border-radius: 10px;
+    background-color: #fff;
+    resize: none;
+    padding-left: 5px;
+    padding-top: 5px;
+}
+
+.all_chk_wrap{
+    margin-bottom: 15px;
+}
+
+.all_chk_font{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 400;
+    color: #3a3a3a;
+    font-size: 12pt; /*16px*/
+}
+
+</style>
+
+<body>
+    <div class="signup-wrap" style="background-color: #fff;">
+
+        <div class="input-form col-md-12 mx-auto" style="height:100%; padding:20px; text-align:left;">
+            <div style="width: 100%; text-align:center; margin-bottom:20px; margin-top:30px;">
+                <img src="media/LEMON_LOGO_146x40.png" style="width: 146px; height:40px;">
+            </div>
+            <form class="validation-form" method="POST" action="" id="signup-form">
+                {% csrf_token %}
+                <div class="service_access">
+                    <div class="all_chk-wrap">
+                    <label style="text-align:end;">
+                        <input type="checkbox" name="all_chk" value ="0" id="all_chk">
+                        <a class="all_chk_font">레몬서비스 이용약관, 개인정보 수집에 모두 동의 합니다.</a>
+                    </div>
+                    <div class="require_chk_wrap">
+                        </label>
+                        <a>레몬서비스 이용약관 동의(필수)</a><br>
+                        <textarea cols="30" rows="10" style="width:100%;" disabled="disabled">이부분은 이용약관관련된 내용이 들어갈 예정입니다.</textarea><br>
+                        <label style="text-align:end;">
+                            <input type="checkbox" name="u_chk" value ="1" id="require_chk">
+                            <span>이용약관에 동의합니다.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="persnal_info_access">
+                    <div class="require_chk_wrap" style="margin-top: 15px;">
+                        <a>개인정보 수집 동의(필수)</a><br>
+                        <textarea cols="30" rows="10" style="width:100%;" disabled="disabled">이부분은 개인정보 수집에 대한 내용이 들어갈 예정입니다.</textarea><br>
+                        <label style="text-align:end;">
+                            <input type="checkbox" name="e_chk" value ="1" id="require_chk">
+                            <span>이용약관에 동의합니다.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="signup-form-wrap">
+                    <div class="signup-form">
+                        <input type="text" class="form-control" style="margin-top: 15px;"
+                                id="uid" name="uid" placeholder="아이디를 입력해주세요." value="">
+                    </div>
+                    <div class="signup-form">
+                        <input type="password" class="form-control"
+                                id="password" name="password" placeholder="비밀번호를 입력해주세요." value="">
+                    </div>
+                    <div class="signup-form">
+                        <input type="password" class="form-control"
+                                id="password1" name="password1" placeholder="한번 더 비밀번호를 입력해주세요."
+                                value="">
+                    </div>
+                    <div class="signup-form">
+                        <input type="text" class="form-control"
+                                id="name" name="name" placeholder="이름을 입력해주세요." value="">
+                    </div>
+                    <div class="signup-form">
+                        <input type="email" class="form-control" id="email" name="email" placeholder="이메일을 입력해주세요." value="">
+                    </div>
+                    <div class="signup-form" style="text-align:left;">
+                        <input type="text" id="phonenumber" class="form-control"
+                                name="phonenumber" placeholder="- 를 제외한 휴대폰번호"
+                                style="width:85%;display:inline;">
+                                <a class="sms_btn" href="#" onclick="click_sms">발송</a>
+                    </div>
+                    <div class="input-style has-icon input-style-1 input-required" id="sms_cert_div" style="display: none">
+                        <span>인증번호</span>
+                        <d class="sms_btn" id="send_sms_cert_btn">확인</d>
+                        <d class="sms_time">남은시간(<d id="time">00:00</d>)</d>
+                        <input type="hidden" id="cert_id" value="">
+                        <input type="number" oninput="maxLengthCheck(this)" class="form-control"
+                            style="padding-right: 140px;padding-left: 10px;" id="cert_key"
+                            name="cert_key" placeholder="인증번호 입력">
+                    </div>
+
+                    <div class="signup-form">
+                        <input type="number" class="form-control" id="invest" name="invest" placeholder="모의 투자금액" value="">
+                    </div>
+                    <button class="btn btn-primary btn-lg btn-block" id="signupBtn" type="submit" value="signup" disabled style="width:100%">회원가입</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+<script>
+    
+    $('#all_chk').change(function () {
+        var checked = $(this).prop('checked');
+        $('input[id="require_chk"]').prop('checked', checked);
+        $('#signupBtn').removeAttr('disabled');
+    });
+
+    $('input[id="require_chk"]').change(function () {
+        var tmpLength = $('input[id="require_chk"]').length;
+        var checkedLength = $('input[id="require_chk"]:checked').length;
+        var selectAll = (tmpLength == checkedLength);
+        $('#all_chk').prop('checked', selectAll);
+        selectAll ? $('#signupBtn').removeAttr('disabled'):$('#signupBtn').attr('disabled','true');});
+</script>
+
+</html>
