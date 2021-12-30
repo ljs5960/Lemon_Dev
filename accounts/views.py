@@ -189,7 +189,7 @@ def calendar(request):
         'Category_count_label': category_count_label,
         })
 '''
-
+'''
 def add_calendar(request):
     if request.method == "POST":
         if 'spendbtn' in request.POST:
@@ -263,7 +263,7 @@ def all_events(request):
         })
         
     return JsonResponse(out, safe=False)
-
+'''
 def search_stock(request):
     return render(request, 'search_stock.html')
 
@@ -283,7 +283,7 @@ def signup(request):
                                             uid=request.POST['uid'],
                                             password=request.POST['password'],
                                             email=request.POST['email'],
-                                            name=request.POST['name'],
+                                            username=request.POST['username'],
                                             phonenumber=request.POST['phonenumber'],
                                             invest=request.POST['invest'],
                                             u_chk=request.POST['u_chk'],

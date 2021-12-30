@@ -173,7 +173,6 @@
         border-bottom: 1px solid #767676;
         resize: none;
         /* ios 기능 */
-        -webkit-user-select:none;
         appearance: none;
         -moz-appearance: none;
         -webkit-appearance: none;
@@ -181,6 +180,10 @@
         -webkit-border-radius: 0;
         -moz-border-radius: 0;
         background-color: #fff;
+        -moz-user-select: auto;
+        -webkit-user-select: auto;
+        -ms-user-select: auto;
+        user-select: auto;
 
     }
     .addBtn{
@@ -204,7 +207,7 @@
         <label for="income">수입</label>
     </div>
 
-    <form action="{%url 'accounts:add_calendar' %}" method="POST">
+    <form action="{%url 'calendars:add_calendar' %}" method="POST">
         {% csrf_token %}
     <div class="span_div" id="span_div">
         <div class="span_list">
@@ -285,7 +288,7 @@
     </form>
     </div>
 
-    <form action="{% url 'accounts:add_calendar' %}" method = "POST">
+    <form action="{% url 'calendars:add_calendar' %}" method = "POST">
         {% csrf_token %}
     <div class="income_div" id="income_div">
         <div class="income_list">

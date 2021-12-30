@@ -140,9 +140,13 @@ def add_calendar(request):
         iform = IncomeForm()
     return render(request, 'add_calendar.html')
 
+def edit_calendar(request):
+    return render(request, 'edit_calendar.html')
+
 @csrf_exempt
 def ajax_pushdate(request):
     if request.method == "POST":
+        user = request.user.user_id
         test = request.POST.get("testtest", None)
         spend = Spend.objects.filter(user_id = user,spend_date=test).values('kind','spend_date','amount','place')
         income = Income.objects.filter(user_id = user,income_date=test).values('kind','income_date','amount','income_way')
