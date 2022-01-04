@@ -101,9 +101,165 @@
         width: 100%;
     }
 
-    </style>
+    .loader-main{
+        position: fixed;
+        top: 50px;
+        left: 0px;
+        right: 0px;
+        bottom: 55px;
+        z-index: 999;
+        background-color: #F3F4F6;
+        will-change: opacity;
+        transition: all 250ms ease;
+        z-index: 99;
+        }
+    
+    .la-ball-clip-rotate,
+    .la-ball-clip-rotate > div {
+        position: relative;
+        -webkit-box-sizing: border-box;
+           -moz-box-sizing: border-box;
+                box-sizing: border-box;
+    }
+    .la-ball-clip-rotate {
+        display: block;
+        font-size: 0;
+        color: #4C8AE5;
+        margin: 0 auto;
+        top: 46%;
+    }
+    .la-ball-clip-rotate.la-dark {
+        color: #333;
+    }
+    .la-ball-clip-rotate > div {
+        display: inline-block;
+        float: none;
+        background-color: currentColor;
+        border: 0 solid currentColor;
+    }
+    .la-ball-clip-rotate {
+        width: 40px;
+        height: 40px;
+    }
+    .la-ball-clip-rotate > div {
+        width: 40px;
+        height: 40px;
+        background: transparent;
+        border-width: 3px;
+        border-bottom-color: transparent;
+        border-radius: 100%;
+        -webkit-animation: ball-clip-rotate .75s linear infinite;
+           -moz-animation: ball-clip-rotate .75s linear infinite;
+             -o-animation: ball-clip-rotate .75s linear infinite;
+                animation: ball-clip-rotate .75s linear infinite;
+    }
+    .la-ball-clip-rotate.la-sm {
+        width: 16px;
+        height: 16px;
+    }
+    .la-ball-clip-rotate.la-sm > div {
+        width: 16px;
+        height: 16px;
+        border-width: 1px;
+    }
+    .la-ball-clip-rotate.la-2x {
+        width: 64px;
+        height: 64px;
+    }
+    .la-ball-clip-rotate.la-2x > div {
+        width: 64px;
+        height: 64px;
+        border-width: 4px;
+    }
+    .la-ball-clip-rotate.la-3x {
+        width: 96px;
+        height: 96px;
+    }
+    .la-ball-clip-rotate.la-3x > div {
+        width: 96px;
+        height: 96px;
+        border-width: 6px;
+    }
+    /*
+     * Animation
+     */
+    @-webkit-keyframes ball-clip-rotate {
+        0% {
+            -webkit-transform: rotate(0deg);
+                    transform: rotate(0deg);
+        }
+        50% {
+            -webkit-transform: rotate(180deg);
+                    transform: rotate(180deg);
+        }
+        100% {
+            -webkit-transform: rotate(360deg);
+                    transform: rotate(360deg);
+        }
+    }
+    @-moz-keyframes ball-clip-rotate {
+        0% {
+            -moz-transform: rotate(0deg);
+                 transform: rotate(0deg);
+        }
+        50% {
+            -moz-transform: rotate(180deg);
+                 transform: rotate(180deg);
+        }
+        100% {
+            -moz-transform: rotate(360deg);
+                 transform: rotate(360deg);
+        }
+    }
+    @-o-keyframes ball-clip-rotate {
+        0% {
+            -o-transform: rotate(0deg);
+               transform: rotate(0deg);
+        }
+        50% {
+            -o-transform: rotate(180deg);
+               transform: rotate(180deg);
+        }
+        100% {
+            -o-transform: rotate(360deg);
+               transform: rotate(360deg);
+        }
+    }
+    @keyframes ball-clip-rotate {
+        0% {
+            -webkit-transform: rotate(0deg);
+               -moz-transform: rotate(0deg);
+                 -o-transform: rotate(0deg);
+                    transform: rotate(0deg);
+        }
+        50% {
+            -webkit-transform: rotate(180deg);
+               -moz-transform: rotate(180deg);
+                 -o-transform: rotate(180deg);
+                    transform: rotate(180deg);
+        }
+        100% {
+            -webkit-transform: rotate(360deg);
+               -moz-transform: rotate(360deg);
+                 -o-transform: rotate(360deg);
+                    transform: rotate(360deg);
+        }
+    }    
 
+    </style>
+<script>
+    $(window).on('load',function(){
+    $('.loader-main').fadeOut(550);
+    });
+</script>
 <body>
+<div id="page-preloader">
+        <div class="loader-main">
+            <div class="la-ball-clip-rotate">
+                <div></div>
+            </div>
+        </div>
+</div>
 <div id="wrap">
     {% block nav %}
     <div id="nav">
@@ -113,18 +269,9 @@
                 <img onclick="location.href='calendar'" src="media/lemonlogo_white.png" width="150px">
             </div>
         </div>
-        <div style="float:right; margin-right:20px;">
-            <i style="font-size: 20px;" class="fas fa-bell"></i>
-        </div>
     </div>
     {% endblock %}
-    <div id="page-preloader">
-        <div class="loader-main">
-            <div class="la-ball-clip-rotate">
-                <div></div>
-            </div>
-        </div>
-    </div>
+
     <div id="container">
         {% block container %}
         {% endblock %}
@@ -147,155 +294,3 @@
 </div>
 </body>
 </html>
-
-<script>
-    $(window).on('load',function(){
-    $('.loader-main').fadeOut(550);
-    });
-</script>
-<style>
-.loader-main{
-    position: fixed;
-    top: 50px;
-    left: 0px;
-    right: 0px;
-    bottom: 55px;
-    z-index: 999;
-    background-color: #FFF;
-    will-change: opacity;
-    transition: all 250ms ease;
-    z-index: 99;
-    }
-
-.la-ball-clip-rotate,
-.la-ball-clip-rotate > div {
-    position: relative;
-    -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
-}
-.la-ball-clip-rotate {
-    display: block;
-    font-size: 0;
-    color: #4cbcaf;
-    margin: 0 auto;
-    top: 46%;
-}
-.la-ball-clip-rotate.la-dark {
-    color: #333;
-}
-.la-ball-clip-rotate > div {
-    display: inline-block;
-    float: none;
-    background-color: currentColor;
-    border: 0 solid currentColor;
-}
-.la-ball-clip-rotate {
-    width: 40px;
-    height: 40px;
-}
-.la-ball-clip-rotate > div {
-    width: 40px;
-    height: 40px;
-    background: transparent;
-    border-width: 3px;
-    border-bottom-color: transparent;
-    border-radius: 100%;
-    -webkit-animation: ball-clip-rotate .75s linear infinite;
-       -moz-animation: ball-clip-rotate .75s linear infinite;
-         -o-animation: ball-clip-rotate .75s linear infinite;
-            animation: ball-clip-rotate .75s linear infinite;
-}
-.la-ball-clip-rotate.la-sm {
-    width: 16px;
-    height: 16px;
-}
-.la-ball-clip-rotate.la-sm > div {
-    width: 16px;
-    height: 16px;
-    border-width: 1px;
-}
-.la-ball-clip-rotate.la-2x {
-    width: 64px;
-    height: 64px;
-}
-.la-ball-clip-rotate.la-2x > div {
-    width: 64px;
-    height: 64px;
-    border-width: 4px;
-}
-.la-ball-clip-rotate.la-3x {
-    width: 96px;
-    height: 96px;
-}
-.la-ball-clip-rotate.la-3x > div {
-    width: 96px;
-    height: 96px;
-    border-width: 6px;
-}
-/*
- * Animation
- */
-@-webkit-keyframes ball-clip-rotate {
-    0% {
-        -webkit-transform: rotate(0deg);
-                transform: rotate(0deg);
-    }
-    50% {
-        -webkit-transform: rotate(180deg);
-                transform: rotate(180deg);
-    }
-    100% {
-        -webkit-transform: rotate(360deg);
-                transform: rotate(360deg);
-    }
-}
-@-moz-keyframes ball-clip-rotate {
-    0% {
-        -moz-transform: rotate(0deg);
-             transform: rotate(0deg);
-    }
-    50% {
-        -moz-transform: rotate(180deg);
-             transform: rotate(180deg);
-    }
-    100% {
-        -moz-transform: rotate(360deg);
-             transform: rotate(360deg);
-    }
-}
-@-o-keyframes ball-clip-rotate {
-    0% {
-        -o-transform: rotate(0deg);
-           transform: rotate(0deg);
-    }
-    50% {
-        -o-transform: rotate(180deg);
-           transform: rotate(180deg);
-    }
-    100% {
-        -o-transform: rotate(360deg);
-           transform: rotate(360deg);
-    }
-}
-@keyframes ball-clip-rotate {
-    0% {
-        -webkit-transform: rotate(0deg);
-           -moz-transform: rotate(0deg);
-             -o-transform: rotate(0deg);
-                transform: rotate(0deg);
-    }
-    50% {
-        -webkit-transform: rotate(180deg);
-           -moz-transform: rotate(180deg);
-             -o-transform: rotate(180deg);
-                transform: rotate(180deg);
-    }
-    100% {
-        -webkit-transform: rotate(360deg);
-           -moz-transform: rotate(360deg);
-             -o-transform: rotate(360deg);
-                transform: rotate(360deg);
-    }
-}
-</style>

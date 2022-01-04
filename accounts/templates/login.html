@@ -21,15 +21,15 @@
         width:100px;
         height: 110px;
     }
+    .loader-main{
+    display:none !important;
+    }
 </style>
 <div style="padding: 0 10px;">
     <div class="logo-wrap">
         <div class="logo-title" style="text-align:center;">
             <img src="../../media/LEMON_LOGO_100x110.png"><br>
         </div>
-        {% comment %} <div style="margin: 3rem auto 1rem auto; height:150px;width:150px;">
-            <img src="../../media/logo.jpg" style="width: 100%; height:100%; object-fit:cover; border:0.5px solid gray; border-radius:50%;">
-        </div> {% endcomment %}
     </div>
     <div class = "form_errors_view">
         {% include "form_errors.html" %}
@@ -59,8 +59,8 @@
         </div>
         <ul class="sign-button-list">
             <li style="margin-right:15px;"><button class="kakako-btn"><i class="fas fa-comment" onclick="location.href='{% provider_login_url 'kakao' %}'"></i></button></li>
-            <li style="margin-right:15px;"><button class="google-btn"><i class="fab fa-google"></i></button></li>
-            <li><button class="google-btn"><img class="naver-btn" src="../../media/naverbtn1.png"></button></li>
+            <!-- <li style="margin-right:15px;"><button class="google-btn"><i class="fab fa-google" onclick="location.href='{% provider_login_url 'google' %}'"></i></button></li> -->
+            <li><button onclick="location.href='{% provider_login_url 'naver' %}'" class="google-btn"><img class="naver-btn" src="../../media/naverbtn1.png"></button></li>
         </ul>
     </div>
 </div>

@@ -36,6 +36,7 @@ from .socialviews import KakaoSignInView, KakaoSignInCallbackView
 #             with open(os.path.join(str(settings.ROOT_DIR),
 #                                     'front',
 #                                     'build',
+
 #                                     'index.html')) as file:
 #                 return HttpResponse(file.read())
 
