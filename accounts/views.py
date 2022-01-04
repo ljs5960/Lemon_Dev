@@ -36,6 +36,7 @@ from .socialviews import KakaoSignInView, KakaoSignInCallbackView
 #             with open(os.path.join(str(settings.ROOT_DIR),
 #                                     'front',
 #                                     'build',
+
 #                                     'index.html')) as file:
 #                 return HttpResponse(file.read())
 
@@ -123,6 +124,70 @@ def calendar(request):
         })
 
 
+'''
+def calendar(request):
+    user = request.user.user_id
+    now = datetime.datetime.now()
+    year = now.strftime('%Y')
+    month = now.strftime('%m')
+    events = AccountBook.objects.filter(user_id=user )
+    events = Income.objects.all().values("amount", "income_date" ,"kind").union(Spend.objects.all().values("amount","spend_date", "kind"))
+    # 내역 페이지_월별 기간 필터링
+    spend_month_filter = Spend.objects.filter(user_id=user, spend_date__year=year, spend_date__month=month).values('kind','spend_date','amount')
+    income_month_filter = Income.objects.filter(user_id=user, income_date__year=year, income_date__month=month).values('kind','income_date','amount')
+    # 내역 페이지_쿼리셋 union
+    detail_month = spend_month_filter.union(income_month_filter).order_by('-spend_date')
+    # 내역 페이지_일별 수입,지출값 합산
+    spend_day_sum2 = spend_month_filter.values('spend_date__day').annotate(amount=Sum('amount')).order_by('-spend_date__day').values('kind','spend_date','amount')
+    income_day_sum2 = income_month_filter.values('income_date__day').annotate(amount=Sum('amount')).order_by('-income_date__day').values('kind','income_date','amount')
+    spend_day_sum = spend_month_filter.values('spend_date__day').annotate(amount=Sum('amount')).order_by('-spend_date__day')
+    income_day_sum = income_month_filter.values('income_date__day').annotate(amount=Sum('amount')).order_by('-income_date__day')
+    # 요약 페이지_월별 기간 필터링
+    spend_month_filter2 = Spend.objects.filter(user_id=user, spend_date__year=year, spend_date__month=month)
+    income_month_filter2 = Income.objects.filter(user_id=user, income_date__year=year, income_date__month=month)
+    # 요약 페이지_월 총 수입, 지출
+    spend_sum = spend_month_filter2.aggregate(Sum('amount'))
+    income_sum = income_month_filter2.aggregate(Sum('amount'))
+    # 요약 페이지_카테고리 금액별 TOP5
+    category_amount_sum = spend_month_filter2.values('category').annotate(amount=Sum('amount')).order_by('-amount')[:5]
+    # 요약 페이지_카테고리 건수별 TOP5
+    category_amount_count = spend_month_filter2.values('category').annotate(count=Count('category')).order_by('-count')[:5]
+    # 요약 페이지_카드사 TOP5
+    card_amount = spend_month_filter2.values('card').annotate(amount=Sum('amount')).order_by('-amount')[:5]
+    # 요약 페이지_기업명 TOP5
+    place_amount = spend_month_filter2.values('place').annotate(amount=Sum('amount')).order_by('-amount')[:5]
+    category_amount_data = []
+    category_amount_label = []
+    category_count_data = []
+    category_count_label = []
+    for item in category_amount_sum:
+        category_amount_data.append(item['amount'])
+        category_amount_label.append(item['category'])
+    for item in category_amount_count:
+        category_count_data.append(item['count'])
+        category_count_label.append(item['category'])
+        
+    return render(request, 'calendar.html', {
+        'events':events,
+        'Detail_month':detail_month,
+        'Spend_day':spend_day_sum,
+        'Income_day':income_day_sum,
+        'Spend': spend_sum,
+        'Income': income_sum,
+        'Category_sum': category_amount_sum,
+        'Category_count': category_amount_count,
+        'Card': card_amount,
+        'Place': place_amount,
+        'month':month,
+        'spend_day_sum2':spend_day_sum2,
+        'income_day_sum2':income_day_sum2,
+        'Category_amount_data': category_amount_data,
+        'Category_amount_labels': category_amount_label,
+        'Category_count_data': category_count_data,
+        'Category_count_label': category_count_label,
+        })
+'''
+'''
 def add_calendar(request):
     if request.method == "POST":
         if 'spendbtn' in request.POST:
@@ -196,7 +261,7 @@ def all_events(request):
         })
         
     return JsonResponse(out, safe=False)
-
+'''
 def search_stock(request):
     return render(request, 'search_stock.html')
 
@@ -218,7 +283,7 @@ def signup(request):
                                             uid=request.POST['uid'],
                                             password=request.POST['password'],
                                             email=request.POST['email'],
-                                            name=request.POST['name'],
+                                            username=request.POST['username'],
                                             phonenumber=request.POST['phonenumber'],
                                             invest=request.POST['invest'],
                                             u_chk=request.POST['u_chk'],

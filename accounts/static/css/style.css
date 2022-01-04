@@ -237,6 +237,9 @@ ex. 12rem -> 120px;
 	}
 	
 	.naver-btn{
+		background-attachment:initial;
+		text-align: center;
+		vertical-align: middle;
 		width: 26px;
 		height: 26px;
 	}
@@ -377,14 +380,41 @@ ex. 12rem -> 120px;
 		border-collapse:separate;
 		border-spacing:0 20px;
 		}
+		.summary-nodata-wrap{
+			margin-top:10px;
+			margin-right:20px;
+			padding-right:20px;
+			text-align:center;
+			font-size: 14px;
+			font-weight:500;
+			font-family: 'Noto Sans KR', sans-serif;
+		}
+		.list-empty-wrap{
+			margin: 50px auto;
+			padding: 30px 0;
+			width: 90%;
+			height:150px;
+			border-radius: 10px;
+			border: 1px solid #ea4335;
+			color: #ea4335;
+			text-align: center;
+			vertical-align: middle;
+			font-family: 'Noto Sans KR', sans-serif;
+			font-size: 20px;
+			font-weight: 500;
+		}
+		.fa-exclamation{
+			font-size: 50px;
+			margin-bottom: 10px;
+		}
 
     /* swiper 관련 css */
-    .swiper-container{
-    }
     .swiper-wrapper{
+		min-height: 100% !important;
     }
   .swiper-slide{
-    margin-bottom: 50px !important;
+	min-height:calc(100vh - 105px) !important;
+    margin-bottom: 60px !important;
     position: static !important;
     display: inline-block !important;
   }
