@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}레몬::문의하기{% endblock title %}
+{% block container %}
+
+<div>
+  <a href="/qna/list"><<</a>
+</div>
+<div>
+  <h1 style="float: center;">{{ qna.title }}</h1>
+  상담일 : {{ qna.qna_date }}<br>
+
+  {% if qna.category == 1 %}
+    분류 : 계정<br>
+  {% elif qna.category == 2 %}
+    분류 : 가계부<br>
+  {% elif qna.category == 3 %}
+    분류 : 주식<br>
+  {% elif qna.category == 4 %}
+    분류 : 기타<br>
+  {% endif %}
+
+  내용 : {{ qna.content }}<br>
+  <img src="{{ static.qna.url }}">
+  {% if qna.reply %}
+    답변 : {{ qna.reply }}
+  {% else %}
+    답변이 등록되지 않았습니다.
+  {% endif %}
+</div>
+
+{% endblock %}

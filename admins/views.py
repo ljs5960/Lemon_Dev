@@ -5,7 +5,13 @@ from accounts.models import user
 from .models import Qna
 from .forms import QnaForm
 
-# Create your views here.
+
+def qna(request, pk):
+    qna = Qna.objects.get(qna_id=pk)
+    
+    return render(request, 'qna.html', {'qna': qna})
+
+
 def qna_write(request):
     if request.method == 'POST':
         form = QnaForm(request.POST)
@@ -24,8 +30,9 @@ def qna_write(request):
         
     return render(request, 'qna_write.html', {'form': form})
 
+
 def qna_list(request):
-    user = request.user.user_id  # 일반 로그인
+    user = request.user.user_id
     qna_list = Qna.objects.filter(user_id=user).order_by('-qna_date')
     
     return render(request, 'qna_list.html', {'qna_list': qna_list})

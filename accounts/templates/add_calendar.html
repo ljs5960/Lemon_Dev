@@ -204,7 +204,7 @@
         <label for="income">수입</label>
     </div>
 
-    <form action="{%url 'accounts:add_calendar' %}" method="POST">
+    <form action="{%url 'calendars:add_calendar' %}" method="POST">
         {% csrf_token %}
     <div class="span_div" id="span_div">
         <div class="span_list">
@@ -285,7 +285,7 @@
     </form>
     </div>
 
-    <form action="{% url 'accounts:add_calendar' %}" method = "POST">
+    <form action="{% url 'calendars:add_calendar' %}" method = "POST">
         {% csrf_token %}
     <div class="income_div" id="income_div">
         <div class="income_list">

@@ -1,25 +1,22 @@
-<h1>나의 문의내역</h1>
-  {% for list in qna_list %}
-    <div style="border: 1px solid black">
+{% extends 'base.html' %}
+{% block title %}레몬::문의하기{% endblock title %}
+{% block container %}
 
+<h1>나의 문의내역</h1>
+<a href="/qna/write">문의하기></a>
+{% for list in qna_list %}
+  <div>
+    <a href="/qna/{{ list.qna_id }}">
       {% if list.status == 0 %}
         <div>답변전</div>
       {% elif list.status == 1 %}
         <div>답변완료</div>
       {% endif %}
-
       <div>제목: {{ list.title }}</div>
       <div>시간: {{ list.qna_date }}</div>
-      <div>내용: {{ list.content }}</div>
+    </a>
+  </div>
+  <br>
+{% endfor %}
 
-      {% if list.status == 0 %}
-        <div>답변전</div>
-      {% elif list.status == 1 %}
-        <div>답변완료</div>
-        <div>답변: {{list.reply}}</div>
-      {% endif %}
-
-    </div>
-    <br>
-  {% endfor %}
-<a href="/qna/write">문의하기</a>
+{% endblock %}
