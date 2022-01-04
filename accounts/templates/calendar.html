@@ -246,7 +246,7 @@
         <div>
           <ol style="padding-left: 1rem !important;">
           <table border="0" style="width: 100%; margin-top:10px; border-collapse:inherit;">
-            {% for method in Method %}
+            {% for method in TOP %}
             <tr>
               <td width='10'><li style="font-weight: bold; color:#8e8e8e;"></li></td>
               <td style="text-align: center;" width='50'>
@@ -310,7 +310,7 @@
         <div>
           <ol style="padding-left: 1rem !important;">
             <table border="0" style="width: 100%; margin-top:10px; border-collapse:inherit;">
-              {% for area in Area %}
+              {% for area in TOP %}
               <tr>
                 <td width='10'><li style="font-weight: bold; color:#8e8e8e;"></li></td>
                 <td style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:50px; text-align: left;" width='50'>
@@ -343,7 +343,7 @@
       <div>
         <ol style="padding-left: 1rem !important;">
           <table border="0" style="width: 100%; margin-top:10px; border-collapse:inherit;">
-            {% for category in Category %}
+            {% for category in TOP %}
             <tr>
               <td width='10'><li style="font-weight: bold; color:#8e8e8e;"></li></td>
               <td style="text-align: left;" width='60'>
@@ -426,17 +426,19 @@
         {% ifchanged detail.spend_date.day %}
         <tr style="vertical-align:top;">
         <th style="text-align:left;padding-left:5px; border-bottom:1px solid #dddddd;">
-          <a style="font-weight: 400; color:#808183;font-size:13px">{{detail.income_id}}{{ detail.spend_date | date:'m월 d일' }}</a>
+          <img src="media/date.png" style="margin-right: 5px; width:30px; height:30px; vertical-align: -webkit-baseline-middle;">
+          <a style="font-weight: 100; color:#3a3a3a;font-size:20pt; vertical-align: inherit;">{{detail.income_id}}{{ detail.spend_date | date:'d일' }}</a>
         </th>
-        <th style="text-align:right;font-size:13px; border-bottom:1px solid #dddddd;">
-          <div style="display:flex;flex-direction:column;align-items:flex-end;">
+        <th style="text-align:right;font-size:13px; border-bottom:1px solid #dddddd; vertical-align: middle;">
+         <!-- <div style="display:flex;flex-direction:column;align-items:flex-end;"> -->
+          <div>
           {% if Income_day|find_income_money:detail.spend_date.day %}
-          <a style="margin-right:5px; color: #5498FE;">+{{Income_day|find_income_money:detail.spend_date.day|intcomma}}원</a>
+          <a style="font-family: 'Noto Sans KR', sans-serif; font-weight: bold; font-size:10pt; margin-right:5px; color: #4c8ae5;">+{{Income_day|find_income_money:detail.spend_date.day|intcomma}}원</a>
             {% else %}
             {% endif %}
 
           {% if Spend_day|find_spend_money:detail.spend_date.day %}
-            <a style="margin-right:5px; color: #FF4343">-{{ Spend_day|find_spend_money:detail.spend_date.day|intcomma }}원</a>
+            <a style="font-family: 'Noto Sans KR', sans-serif; font-weight: bold; font-size:10pt; margin-right:5px; color: #ff5d51">-{{ Spend_day|find_spend_money:detail.spend_date.day|intcomma }}원</a>
               {% else %}
           {% endif %}
             </div>
@@ -449,26 +451,26 @@
 
 
               {% endif %}
-          <td style="vertical-align:top;padding-bottom: 20px;">
-            <div style="text-align:left;padding-left:5px;">
+          <td style="vertical-align:top;">
+            <div style="text-align:left;padding-left:30px;">
               {% if detail.kind == "지출" %}
-            <a style="font-weight:bold;display:block;">{{ detail.place }}</a>
+            <a style="font-family: 'Noto Sans KR', sans-serif; font-weight:400; font-size:12pt; color: #3a3a3a; display:block;">{{ detail.place }}</a>
               {% elif detail.kind == "수입" %}
-              <a style="font-weight:bold;display:block;">{% if detail.place == '1' %} 급여 {% endif %}</a>
-              <a style="font-weight:bold;display:block;">{% if detail.place == '2' %} 용돈 {% endif %}</a>
-              <a style="font-weight:bold;display:block;">{% if detail.place == '3' %} 금융수입 {% endif %}</a>
-              <a style="font-weight:bold;display:block;">{% if detail.place == '4' %} 사업수입 {% endif %}</a>
-              <a style="font-weight:bold;display:block;">{% if detail.place == '5' %} 기타 {% endif %}</a>
+              <a style="font-family: 'Noto Sans KR', sans-serif; font-weight:400; font-size:12pt; color: #3a3a3a;display:block;">{% if detail.place == '1' %} 급여 {% endif %}</a>
+              <a style="font-family: 'Noto Sans KR', sans-serif; font-weight:400; font-size:12pt; color: #3a3a3a;display:block;">{% if detail.place == '2' %} 용돈 {% endif %}</a>
+              <a style="font-family: 'Noto Sans KR', sans-serif; font-weight:400; font-size:12pt; color: #3a3a3a;display:block;">{% if detail.place == '3' %} 금융수입 {% endif %}</a>
+              <a style="font-family: 'Noto Sans KR', sans-serif; font-weight:400; font-size:12pt; color: #3a3a3a;display:block;">{% if detail.place == '4' %} 사업수입 {% endif %}</a>
+              <a style="font-family: 'Noto Sans KR', sans-serif; font-weight:400; font-size:12pt; color: #3a3a3a;display:block;">{% if detail.place == '5' %} 기타 {% endif %}</a>
               {% endif %}
             <a style="text-align:left;font-size: 13px; color:gray;display:block;">{{ detail.spend_date | date:'h:m' }}</a>
               </div>
           </td>
           <td style="vertical-align: top;">
-            <div style="text-align:right; padding-right:5px;">
+            <div style="text-align:right; padding-right:15px;">
             {% if detail.kind == '지출' %}
-            <a class="amount" style="color: black">-{{ detail.amount|intcomma }}원</a>
+            <a class="amount" style="color: #2a2a2a">-{{ detail.amount|intcomma }}원</a>
           {% else %}
-            <a class="amount" style="color: black">+{{ detail.amount|intcomma }}원</a>
+            <a class="amount" style="color: #2a2a2a">+{{ detail.amount|intcomma }}원</a>
           {% endif %}
             </div>
           </td>
