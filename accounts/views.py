@@ -272,9 +272,7 @@ def addlist(request):
     return render(request, 'addlist.html')
 
 def myinfo(request):
-    social = socialaccount_socialaccount.objects.all()
-    
-    return render(request, 'myinfo.html', {'Social': social})
+    return render(request, 'myinfo.html')
 
 def signup(request):
     if request.method == 'POST':
