@@ -9,11 +9,8 @@ from django.conf.urls.static import static
 app_name='accounts'
 
 urlpatterns = [
-    #path('lemon/', LemonUserAPI),
     path('main', views.main, name='main'),
-    path('home', views.home, name='home'),
-    #path('calendar', views.calendar, name='calendar'),
-    #path('cal_list', views.cal_list, name='calendarList'),
+    #path('home', views.home, name='home'),
     path('search_stock', views.search_stock, name='search_stock'),
     path('stock', views.stock, name='stock'),
     path('addlist', views.addlist, name='addlist'),
@@ -22,12 +19,7 @@ urlpatterns = [
     path('signup', views.signup, name='signup'),
     path('login', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    #path('add_calendar', views.add_calendar, name='add_calendar'),
-    #path('edit_calendar', views.add_calendar, name='add_calendar'),
     path('user_delete/<int:user_id>', views.user_delete, name='user_delete'), #회원탈퇴
-    #path('ajax_pushdate/', views.ajax_pushdate, name='ajax_pushdate'),
-    #path('all_events/', views.all_events, name='all_events'),
-    #path('add_event', views.add_event, name='add_event'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

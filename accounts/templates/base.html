@@ -75,7 +75,7 @@
     	/* footer 관련 css */
 	.bottom-nav-calendar,.bottom-nav-search-stock,
     .bottom-nav-stock,.bottom-nav-addlist,
-    .bottom-nav-myinfo{
+    .bottom-nav-myinfo,.bottom-nav-home{
         vertical-align: middle;
         list-style: none;
         float: left;
@@ -84,12 +84,12 @@
     }
     .bottom-nav-calendar i,.bottom-nav-search-stock i,
     .bottom-nav-stock i,.bottom-nav-addlist i,
-    .bottom-nav-myinfo i{
+    .bottom-nav-myinfo i,.bottom-nav-home i{
         font-size: 20px;
     }
     .bottom-nav-calendar a,.bottom-nav-search-stock a,
     .bottom-nav-stock a,.bottom-nav-addlist a,
-    .bottom-nav-myinfo a{
+    .bottom-nav-myinfo a, .bottom-nav-home a{
         font-family: 'Noto Sans KR', sans-serif;
         font-weight: 500;
         font-size: 14px;
@@ -99,6 +99,7 @@
         list-style: none;
         float: left;
         width: 100%;
+        z-index: 1024 !important;
     }
 
     .loader-main{
@@ -107,7 +108,6 @@
         left: 0px;
         right: 0px;
         bottom: 55px;
-        z-index: 999;
         background-color: #F3F4F6;
         will-change: opacity;
         transition: all 250ms ease;
@@ -118,8 +118,8 @@
     .la-ball-clip-rotate > div {
         position: relative;
         -webkit-box-sizing: border-box;
-           -moz-box-sizing: border-box;
-                box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
     }
     .la-ball-clip-rotate {
         display: block;
@@ -149,9 +149,9 @@
         border-bottom-color: transparent;
         border-radius: 100%;
         -webkit-animation: ball-clip-rotate .75s linear infinite;
-           -moz-animation: ball-clip-rotate .75s linear infinite;
-             -o-animation: ball-clip-rotate .75s linear infinite;
-                animation: ball-clip-rotate .75s linear infinite;
+        -moz-animation: ball-clip-rotate .75s linear infinite;
+        -o-animation: ball-clip-rotate .75s linear infinite;
+        animation: ball-clip-rotate .75s linear infinite;
     }
     .la-ball-clip-rotate.la-sm {
         width: 16px;
@@ -253,13 +253,13 @@
     });
 </script>
 <body>
-<div id="page-preloader">
+    <div id="page-preloader">
         <div class="loader-main">
             <div class="la-ball-clip-rotate">
                 <div></div>
             </div>
         </div>
-</div>
+    </div>
 <div id="wrap">
     {% block nav %}
     <div id="nav">
@@ -280,14 +280,16 @@
     <div id="footer">
         {% block footer %}
         <ul class="bottom-nav-wrap" style="padding-left:0 !important;">
-            <li class="bottom-nav-calendar" style="width: 25%; height:100%; text-align:center;"><a
+            <li class="bottom-nav-home" style="width: 20%; height:100%; text-align:center;"><a
+                href="{% url 'calendars:home' %}"><i class="fas fa-home"></i><br>홈</a></li>
+            <li class="bottom-nav-calendar" style="width: 20%; height:100%; text-align:center;"><a
                     href="{% url 'calendars:calendar' %}"><i class="far fa-calendar-alt"></i><br>가계부</a></li>
-            <li class="bottom-nav-stock" style="width: 25%; height:100%; text-align:center;"><a
+            <li class="bottom-nav-stock" style="width: 20%; height:100%; text-align:center;"><a
                     href="{% url 'accounts:stock' %}"><i class="fas fa-chart-area"></i><br>주식</a></li>
-            <li class="bottom-nav-addlist" style="width: 25%; height:100%; text-align:center;"><a
-                    href="{% url 'accounts:addlist' %}"><i class="fas fa-shopping-cart"></i><br>구매내역</a></li>
-            <li class="bottom-nav-myinfo" style="width: 25%; height:100%; text-align:center;"><a
-                    href="{% url 'accounts:myinfo' %}"><i class="fas fa-user"></i><br>내정보</a></li>
+            <li class="bottom-nav-addlist" style="width: 20%; height:100%; text-align:center;"><a
+                    href="{% url 'accounts:addlist' %}"><i class="fas fa-user"></i><br>포트폴리오</a></li>
+            <li class="bottom-nav-myinfo" style="width: 20%; height:100%; text-align:center;"><a
+                    href="{% url 'accounts:myinfo' %}"><i class="fas fa-bars"></i></i><br>더보기</a></li>
         </ul>
         {% endblock %}
     </div>

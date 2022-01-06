@@ -22,6 +22,10 @@ from rest_framework.decorators import api_view
 
 from django.contrib.auth.hashers import check_password
 # Create your views here.
+
+def home(request):
+    return render(request, 'home.html')
+
 def calendar(request):
     if request.method == 'POST':
         user = request.user.user_id
@@ -128,12 +132,6 @@ def edit_calendar(request, spend_id, kind):
     if kind == "수입":
         income = Income.objects.filter(income_id=spend_id, user_id = user)
         return render(request, 'iedit_calendar.html', {'income':income})
-
-def sedit_calendar(request):
-    return render(request, 'sedit_calendar.html')
-
-def iedit_calendar(request):
-    return render(request, 'iedit_calendar.html')
 
 @csrf_exempt
 def ajax_pushdate(request):

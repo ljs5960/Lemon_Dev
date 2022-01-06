@@ -10,7 +10,7 @@ app_name = 'calendars'
 
 urlpatterns = [
 
-
+    path('home', views.home, name='home'),
     path('calendar', views.calendar, name='calendar'),
     # path('cal_list', views.cal_list, name='calendarList'),
 

@@ -68,7 +68,7 @@ ex. 12rem -> 120px;
         top: 0;
         left: 0;
         right: 0;
-        z-index: 6;
+        z-index: 1024;
     }
 
 	/* nav 관련 */
@@ -88,7 +88,7 @@ ex. 12rem -> 120px;
 	#container{
         -ms-overflow-style: none; /* IE, Edge */
         scrollbar-width: none; /* Firefox */
-        padding-top: 50px;
+        padding-top: 50px !important;
         padding-bottom: 55px;
         height:calc( 100% - 110px );
         overflow: auto;
@@ -105,7 +105,7 @@ ex. 12rem -> 120px;
         background-color: #4C8AE5;
         border-radius : 1rem 1rem 0 0 ;
         box-shadow: 0 3px 5px 3px rgb(202, 202, 202);
-        z-index: 4;
+        z-index: 1024;
         left: 0;
         right: 0;
         bottom: 0;
@@ -414,9 +414,12 @@ ex. 12rem -> 120px;
     }
   .swiper-slide{
 	min-height:calc(100vh - 105px) !important;
-    margin-bottom: 60px !important;
+    /*margin-bottom: 60px !important;*/
     position: static !important;
     display: inline-block !important;
+	-webkit-backface-visibility:hidden;
+	-webkit-transform:translateZ(0);
+	-webkit-transform:translate3d(0, 0, 0);
   }
   .swiper-pagination{
     position: fixed;
@@ -426,6 +429,7 @@ ex. 12rem -> 120px;
     margin: 0 0 0 20px;
     text-align: center;
     background-color: #F5F5F5;
+	z-index: 999;
   }
   .swiper-pagination-bullet {
   /*color: #6c6d6e;*/
@@ -463,8 +467,7 @@ ex. 12rem -> 120px;
       border-radius: 20px !important;
       /*border: 1px solid green !important;*/
       box-shadow: 1px 1px 5px 1px rgb(202, 202, 202);
-      margin: 20px !important;
-      padding: 10px !important;
+      margin: 0 20px !important;
     }
     .fc-prev-button.fc-button.fc-button-primary,
     .fc-next-button.fc-button.fc-button-primary{
