@@ -6,10 +6,9 @@ from .models import Qna
 from .forms import QnaForm
 
 
-def qna(request, pk):
-    qna = Qna.objects.get(qna_id=pk)
-    
-    return render(request, 'qna.html', {'qna': qna})
+def qna(request):
+
+    return render(request, 'qna.html')
 
 
 def qna_write(request):
