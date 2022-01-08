@@ -24,4 +24,5 @@ urlpatterns = [
     path('ajax_pushdate/', views.ajax_pushdate, name='ajax_pushdate'),
     path('all_events/', views.all_events, name='all_events'),
     path('add_event', views.add_event, name='add_event'),
+    path('ajax_cal_list', views.ajax_cal_list, name='ajax_cal_list') # [가계부-내역] 월별 이동
 ]

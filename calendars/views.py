@@ -36,8 +36,8 @@ def calendar(request):
     year = now.strftime('%Y')
     month = now.strftime('%m')
     # 월별 기간 필터링
-    spend_month_filter = Spend.objects.filter(user_id = user).values('spend_id','kind','spend_date','amount','place')
-    income_month_filter = Income.objects.filter(user_id = user).values('income_id','kind','income_date','amount','income_way')
+    spend_month_filter = Spend.objects.filter(user_id=user, spend_date__year=year, spend_date__month=month).values('spend_id','kind','spend_date','amount','place')
+    income_month_filter = Income.objects.filter(user_id=user, income_date__year=year, income_date__month=month).values('income_id','kind','income_date','amount','income_way')
     # 월별 쿼리셋 합치기
     detail_month = spend_month_filter.union(income_month_filter).order_by('-spend_date')
     # 일별 수입,지출값 합산
@@ -77,6 +77,7 @@ def calendar(request):
         'Expenditure': spend_sum,
         'Income': income_sum,
         'TOP': category_amount,
+        'year': year,
         'month':month,
         'spend_day_sum2':spend_day_sum2,
         'income_day_sum2':income_day_sum2,
@@ -172,3 +173,20 @@ def all_events(request):
         })
 
     return JsonResponse(out, safe=False)
+
+
+# [가계부-내역] 월별 이동
+def ajax_cal_list(request):
+    if request.method == 'POST':
+        jsonresponse = request.POST.get("yearNmonth")
+        json_data = json.loads(jsonresponse)
+        year = json_data['year']
+        month = json_data['month']
+        user = request.user.user_id
+        # 월별 기간 필터링
+        spend_month_filter = Spend.objects.filter(user_id=user, spend_date__year=year, spend_date__month=month).values('spend_id','kind','spend_date','amount','place')
+        income_month_filter = Income.objects.filter(user_id=user, income_date__year=year, income_date__month=month).values('income_id','kind','income_date','amount','income_way')
+        # 월별 쿼리셋 합치기
+        detail_month = spend_month_filter.union(income_month_filter).order_by('-spend_date')
+
+        return HttpResponse(detail_month)
