@@ -22,7 +22,7 @@ djangorestframework==3.12.4
 entrypoints==0.3
 idna==3.3
 importlib-metadata==4.8.2
-ipykernel==6.6.0a0
+ipykernel==6.0.0a0
 ipython==7.30.1
 jedi==0.18.1
 jupyter-client==7.1.0
