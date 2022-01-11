@@ -53,6 +53,7 @@
         font-weight: 500;
     }
 </style>
+{% if user.is_authenticated %}
 <h2>홈화면<h2>
 
     <div class="home-div1">
@@ -62,4 +63,11 @@
     <div class="home-div2">
         <a>모의주식</a>
     </div>
+{% else %}
+<div class="list-empty-wrap">
+    <i class="fas fa-exclamation"></i><br>
+    <a>로그인 후 이용해주세요.</a><br>
+    <a href="/login">로그인</a>
+</div>
+{% endif %}
 {% endblock container %}

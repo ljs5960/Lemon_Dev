@@ -3,6 +3,16 @@
 {% block nav %}{%endblock nav%}
 {% block container %}
 <style>
+    @media screen and (max-width: 1023px) {
+        .main_wrap2{
+            display:none;
+        }
+    }khs
+    @media screen and (min-width: 1024px) {
+        .main_wrap{
+            display:none;
+        }
+    }
     .titletxt{
         text-align: center;
         font-family: 'Noto Sans KR', sans-serif;
@@ -42,14 +52,22 @@
     display:none !important;
     }
 </style>
-<div style="text-align: center; padding-top:3rem; margin-bottom:2rem; width:100%;">
-    <a class="titletxt">가계부와 주식을 관리해보세요.</a><br>
-    <a class="sub-titletxt">나의 소비패턴을 기반으로 주식도 관리할수있습니다.</a>
+<div class="main_wrap">
+    <div style="text-align: center; padding-top:3rem; margin-bottom:2rem; width:100%;">
+        <a class="titletxt">가계부와 주식을 관리해보세요.</a><br>
+        <a class="sub-titletxt">나의 소비패턴을 기반으로 주식도 관리할수있습니다.</a>
+    </div>
+    <div style="text-align: center;  margin-bottom:2rem">
+    <button style="margin-bottom: 1rem;" class="download-btn" type="button">
+        <img src="https://visualbank.io/wp-content/themes/qlip/imgs/google_play.png" alt="구글 플레이" width=15" scale="0">
+        <a style="margin-left:5px;">Download</a></button><br>
+    <button class="login1-btn" type="button"><a href="{% url 'accounts:login' %}">로그인하러가기</a></button>
+    </div>
 </div>
-<div style="text-align: center;  margin-bottom:2rem">
-<button style="margin-bottom: 1rem;" class="download-btn" type="button">
-    <img src="https://visualbank.io/wp-content/themes/qlip/imgs/google_play.png" alt="구글 플레이" width=15" scale="0">
-    <a style="margin-left:5px;">Download</a></button><br>
-<button class="login1-btn" type="button"><a href="{% url 'accounts:login' %}">로그인하러가기</a></button>
+
+<div class="main_wrap2">
+    <h1>이 화면이 보인다면, 모바일환경이 아닌 PC 화면으로 접속했을때 나타나는 화면입니다.</h1>
+    <h1>화면을 모바일 사이즈로 변경해주세요.</h1>
+    <h1>width -> 1024px 이상인 디스플레이에서 접속시 나타나는 이 페이지를 곧 꾸밀 예정입니다.</h1>
 </div>
 {% endblock container %}

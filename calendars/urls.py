@@ -10,7 +10,7 @@ app_name = 'calendars'
 
 urlpatterns = [
 
-    path('home', views.home, name='home'),
+    path('', views.home, name='home'),
     path('calendar', views.calendar, name='calendar'),
     # path('cal_list', views.cal_list, name='calendarList'),
 
@@ -24,4 +24,5 @@ urlpatterns = [
     path('ajax_pushdate/', views.ajax_pushdate, name='ajax_pushdate'),
     path('all_events/', views.all_events, name='all_events'),
     path('add_event', views.add_event, name='add_event'),
+    path('load_list', views.load_list, name='load_list'),
 ]

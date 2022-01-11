@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.contrib import auth
+
 from django.contrib.auth import login, authenticate, get_user_model
 from django.contrib.auth.models import User
 from accounts.models import user
@@ -22,7 +23,6 @@ from rest_framework.decorators import api_view
 
 from django.contrib.auth.hashers import check_password
 # Create your views here.
-
 def home(request):
     return render(request, 'home.html')
 
@@ -81,6 +81,7 @@ def calendar(request):
         'Expenditure': spend_sum,
         'Income': income_sum,
         'TOP': category_amount,
+        'year':year,
         'month':month,
         'spend_day_sum2':spend_day_sum2,
         'income_day_sum2':income_day_sum2,
@@ -106,7 +107,7 @@ def add_calendar(request):
                 card = sform.cleaned_data['card'],
                 memo = sform.cleaned_data['memo']
                 sform.save()
-                return redirect('/calendar#calendar')
+                return redirect('/calendar#list')
 
         elif 'incomebtn' in request.POST:
             iform = IncomeForm(request.POST)
@@ -118,7 +119,7 @@ def add_calendar(request):
                 income_way = iform.cleaned_data['income_way'],
                 memo = iform.cleaned_data['memo']
                 iform.save()
-                return redirect('/calendar#calendar')
+                return redirect('/calendar#list')
     else:
         sform = SpendForm()
         iform = IncomeForm()
@@ -170,3 +171,24 @@ def all_events(request):
         })
 
     return JsonResponse(out, safe=False)
+
+
+@csrf_exempt
+def load_list(request):
+    if request.method == "POST":
+        user = request.user.user_id
+        date = request.POST.get('date')
+        print('유저id->>' + str(user) + str(date))
+        date2 = date.split('-')
+        year = date2[0]
+        month = date2[1]
+
+        spend = Spend.objects.filter(user_id=user, spend_date__year=year, spend_date__month=month).values('spend_id','kind','spend_date','amount','place','category')
+        income = Income.objects.filter(user_id=user, income_date__year=year, income_date__month=month).values('income_id','kind','income_date','amount','income_way','income_way')
+        
+        # 월별 쿼리셋 합치기
+        detail_month = spend.union(income).order_by('-spend_date')
+        detail_month2 = list(detail_month)
+        print(str(detail_month))
+    #return render(request, 'calendars:calendar.html',{'detail_month2':detail_month2})
+    return JsonResponse(detail_month2, safe=False)
