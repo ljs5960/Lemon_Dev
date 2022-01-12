@@ -23,7 +23,7 @@ entrypoints==0.3
 idna==3.3
 importlib-metadata==4.8.2
 ipykernel==6.0.0a0
-ipython==7.16.2
+ipython
 jedi==0.18.1
 jupyter-client==7.1.0
 jupyter-core==4.9.1
