@@ -468,41 +468,65 @@
             },
             success: function(data){
               console.log('통신성공');
-              //b = data
-              
-              /*console.log(moment(data[0]['spend_date']).format('DD')); 
-              for(k=0; k=data.length; k++){
-                console.log(data[k]['spend_id']);
-              };*/
-              
+              console.log(data);
+              console.log('공백');
+              console.log(typeof(data));
 
+
+              const reset = document.getElementById('list-table-tbody');
+              const date_title = document.getElementById('list-table-tbody');
+              //const element = document.getElementById('trtr');
+              
+              reset.innerHTML = '';
+              
+              //date_title.innerHTML += total;
+              $(document).ready(function(){
+              
+                for(var k=1; k<32; k++){
+                genRowspan(k);
+              };
+              });
+              
+              function genRowspan(className){
+                $("."+className).each(function(){
+                  var rows = $("."+className+":contains('"+$(this).text()+"')");
+                  if(rows.length > 1){
+                    rows.eq(0).attr("rowspan", rows.length);//중복되는 첫번째 td에 rowspan값 세팅
+                    rows.not(":eq(0)").remove();//중복되는 td를 삭제
+                        }
+                      });
+                    }
+              
+              for(var i=0; i<data.length; i++){
+              date_title.innerHTML += '<tr><th class="'+moment(data[i]['spend_date']).format('DD')+'" style="border: 1px solid;">' + moment(data[i]['spend_date']).format('DD일') + '</th>'
+                                      +'<th>' + (data[i]['kind'])+ '</th>'
+                                      +'<th>' + (data[i]['place'])+ '</th>'
+                                      +'<th>' + (data[i]['amount'])+ '원</th>'
+                                      '</tr>';
+              };
+              //console.log(typeof(data));
               /*
-              for(var k=0; k<data.length; k++){
-                var spend_id = data[k]['spend_id'];
-                var kind = data[k]['kind'];
-                var spend_date = moment(data[k]['spend_date']).format('DD');
-                var amount = data[k]['amount'];
-                var place = data[k]['place'];
-
-                var total2 = new Array(data[k]['spend_id'], data[k]['kind'], moment(data[k]['spend_date']).format('DD'), data[k]['amount'], data[k]['place']);
+              var b = data;
+              
+              var arrayValues = [];
+              for(var i=0; i<b.length; i++){
+                var array = b[i];
+                
+                var sid = b[i]['spend_date__day'];
+                
+                arrayValues[i] = {sid};
               }
-              console.log(total2);*/
+              //console.log(array);*/
+
               /*
               var groupBy = function(xs, key) {
                 return xs.reduce(function(rv, x) {
                   (rv[x[key]] = rv[x[key]] || []).push(x);
                   return rv;
                 }, {});
-              };
+              };*/
 
-              console.log(groupBy(data,'kind'));*/
-              //b = JSON.stringify(data);
               /*
-              for(var i=0; i<data.length; i++){
-                console.log(data[i]['spend_date']);
-              }
-
-              $('#test10').val(b);
               const groupBy = function (data, key) {
                 return data.reduce(function (carry, el) {
                     var group = el[key];
@@ -515,6 +539,24 @@
                     return carry
                 }, {})
             }
+
+
+
+              console.log(groupBy(data,'spend_date__day'));
+              group_date = groupBy(data,'spend_date__day');
+
+              for(i=0; i<group_date.length; i++){
+                console.log(group_date[i])
+              };*/
+              
+              //b = JSON.stringify(data);
+              /*
+              for(var i=0; i<data.length; i++){
+                console.log(data[i]['spend_date']);
+              }
+
+              $('#test10').val(b);
+              
               group_data = (groupBy(b,'spend_date'));
               console.log(group_data);
               console.log(group_data[b[0]['spend_date']]);
@@ -530,15 +572,9 @@
                 console.log(data[key]);
                 //console.log(moment(data[key]['spend_date']).format('MM-DD'));
               }*/
-
-              const reset = document.getElementById('list-table-tbody');
-              const date_title = document.getElementById('list-table-tbody');
-              const element = document.getElementById('trtr');
-              reset.innerHTML = '';
-              //date_title.innerHTML += total;
-              
-              for (var j = 0; j<data.length; j++) {
-              date_title.innerHTML += '<tr style="vertical-align:top;">' + 
+            
+              /*
+              '<tr style="vertical-align:top;">' + 
                 '<th style="text-align:left;padding-left:5px; border-bottom:1px solid #dddddd;">' +
                 '<img src="media/date.png" style="margin-right: 5px; width:30px; height:30px; vertical-align: -webkit-baseline-middle;">'+
                 '<a style="font-weight: 100; color:#3a3a3a;font-size:20pt; vertical-align: inherit;">'+ moment(data[j]['spend_date']).format('DD') + '일</a></th>' +
@@ -554,7 +590,7 @@
                   '<div style="text-align:right; padding-right:15px;">'+
                   '<a class="amount" style="color: #2a2a2a">'+ data[j]['amount'] + '원</a></div>'+
                 '</td>'+
-                  '</tr>';}
+                  '</tr>';}*/
              
                   /*
               for (var i = 0; i<data.length; i++){
@@ -598,7 +634,7 @@
         </colgroup>
         <tbody id="list-table-tbody">
         {% for detail in Detail_month %}
-        {% ifchanged detail.spend_date.day %}
+        
         
         <tr style="vertical-align:top;" id="date_title">
         <th style="text-align:left;padding-left:5px; border-bottom:1px solid #dddddd;">
@@ -618,7 +654,7 @@
               {% else %}
           {% endif %}
             </div>
-        </th>{% endifchanged %}
+        </th>
 </tr>
         {% if detail.kind == "지출" %}
         <tr id="trtr" onclick="location.href='{% url 'calendars:edit_calendar'  detail.kind detail.spend_id %}'">

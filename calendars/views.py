@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.contrib import auth
-
+from django.core import serializers
 from django.contrib.auth import login, authenticate, get_user_model
 from django.contrib.auth.models import User
 from accounts.models import user
@@ -178,7 +178,7 @@ def load_list(request):
     if request.method == "POST":
         user = request.user.user_id
         date = request.POST.get('date')
-        print('유저id->>' + str(user) + str(date))
+        print('유저id->>' + str(user) +'이 작성한' + str(date) + '를 가져옵니다.')
         date2 = date.split('-')
         year = date2[0]
         month = date2[1]
@@ -188,7 +188,7 @@ def load_list(request):
         
         # 월별 쿼리셋 합치기
         detail_month = spend.union(income).order_by('-spend_date')
-        detail_month2 = list(detail_month)
-        print(str(detail_month))
-    #return render(request, 'calendars:calendar.html',{'detail_month2':detail_month2})
-    return JsonResponse(detail_month2, safe=False)
+        print(detail_month)
+        data2 = list(detail_month)
+        print(data2)
+    return JsonResponse(data2, safe=False)
