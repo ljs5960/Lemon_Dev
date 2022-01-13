@@ -9,6 +9,7 @@ from .models import user
 from .forms import LemonSignupForm#, SpendForm, IncomeForm
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 import datetime
 from django.db.models import Sum, Count
@@ -19,31 +20,10 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .socialviews import KakaoSignInView, KakaoSignInCallbackView
-#from .serializers import LemonUserSerializers
 
-# @api_view(['GET'])
-# def LemonUserAPI(request):
-#     return Response("LemonUser!")
+URL_LOGIN = '/login'
 
-# class LemonViewSet(viewsets.ModelViewSet):
-#     queryset = user.objects.all()
-#     serializer_class = LemonUserSerializer
-
-# class ReactAppView(View):
-    
-#     def get(self, request):
-#         try:
-#             with open(os.path.join(str(settings.ROOT_DIR),
-#                                     'front',
-#                                     'build',
-
-#                                     'index.html')) as file:
-#                 return HttpResponse(file.read())
-
-#         except:
-#             return HttpResponse(status=501,)
-
-
+@login_required(login_url=URL_LOGIN)
 def main(request):
     return render(request, 'main.html')
 
@@ -265,12 +245,15 @@ def all_events(request):
 def search_stock(request):
     return render(request, 'search_stock.html')
 
+@login_required(login_url=URL_LOGIN)
 def stock(request):
     return render(request, 'stock.html')
 
+@login_required(login_url=URL_LOGIN)
 def addlist(request):
     return render(request, 'addlist.html')
 
+@login_required(login_url=URL_LOGIN)
 def myinfo(request):
     return render(request, 'myinfo.html')
 
