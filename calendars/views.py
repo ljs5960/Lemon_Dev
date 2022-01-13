@@ -25,6 +25,7 @@ from django.contrib.auth.hashers import check_password
 # Create your views here.
 URL_LOGIN = '/login'
 
+@login_required(login_url=URL_LOGIN)
 def home(request):
     return render(request, 'home.html')
 
