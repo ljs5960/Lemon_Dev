@@ -1,11 +1,12 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.contrib import auth
+from django.core import serializers
 from django.contrib.auth import login, authenticate, get_user_model
 from django.contrib.auth.models import User
 from accounts.models import user
 from .models import Income, Spend, AccountBook
-
+from django.contrib.auth.decorators import login_required
 from .calendarsforms import  SpendForm, IncomeForm
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
@@ -22,6 +23,12 @@ from rest_framework.decorators import api_view
 
 from django.contrib.auth.hashers import check_password
 # Create your views here.
+URL_LOGIN = '/login'
+
+def home(request):
+    return render(request, 'home.html')
+
+@login_required(login_url=URL_LOGIN)
 def calendar(request):
     if request.method == 'POST':
         user = request.user.user_id
@@ -77,6 +84,7 @@ def calendar(request):
         'Expenditure': spend_sum,
         'Income': income_sum,
         'TOP': category_amount,
+        'year':year,
         'month':month,
         'spend_day_sum2':spend_day_sum2,
         'income_day_sum2':income_day_sum2,
@@ -102,7 +110,7 @@ def add_calendar(request):
                 card = sform.cleaned_data['card'],
                 memo = sform.cleaned_data['memo']
                 sform.save()
-                return redirect('/calendar#calendar')
+                return redirect('/calendar#list')
 
         elif 'incomebtn' in request.POST:
             iform = IncomeForm(request.POST)
@@ -114,7 +122,7 @@ def add_calendar(request):
                 income_way = iform.cleaned_data['income_way'],
                 memo = iform.cleaned_data['memo']
                 iform.save()
-                return redirect('/calendar#calendar')
+                return redirect('/calendar#list')
     else:
         sform = SpendForm()
         iform = IncomeForm()
@@ -129,11 +137,29 @@ def edit_calendar(request, spend_id, kind):
         income = Income.objects.filter(income_id=spend_id, user_id = user)
         return render(request, 'iedit_calendar.html', {'income':income})
 
-def sedit_calendar(request):
-    return render(request, 'sedit_calendar.html')
+def sedit_calendar(request, spend_id):
+    if request.method == "POST":
+        user = request.user.user_id
+        spe = Spend.objects.filter(spend_id=spend_id, user_id = user).update(
+        amount=request.POST['amount'],
+        place = request.POST['place'],
+        spend_date =request.POST['spend_date'],
+        way = request.POST['way'],
+        category = request.POST['category'],
+        card = request.POST['card'],
+        memo = request.POST['memo'])
+        return redirect('/calendar#list')
 
-def iedit_calendar(request):
-    return render(request, 'iedit_calendar.html')
+def iedit_calendar(request,spend_id):
+    if request.method == "POST":
+        user = request.user.user_id
+        spe = Income.objects.filter(income_id=spend_id, user_id = user).update(
+        kind=request.POST['kind'],
+        amount = request.POST['amount'],
+        income_date =request.POST['income_date'],
+        income_way = request.POST['income_way'],
+        memo = request.POST['memo'],)
+        return redirect('/calendar#list')
 
 @csrf_exempt
 def ajax_pushdate(request):
@@ -172,3 +198,24 @@ def all_events(request):
         })
 
     return JsonResponse(out, safe=False)
+
+
+@csrf_exempt
+def load_list(request):
+    if request.method == "POST":
+        user = request.user.user_id
+        date = request.POST.get('date')
+        print('유저id->>' + str(user) +'이 작성한' + str(date) + '를 가져옵니다.')
+        date2 = date.split('-')
+        year = date2[0]
+        month = date2[1]
+
+        spend = Spend.objects.filter(user_id=user, spend_date__year=year, spend_date__month=month).values('spend_id','kind','spend_date','amount','place','category')
+        income = Income.objects.filter(user_id=user, income_date__year=year, income_date__month=month).values('income_id','kind','income_date','amount','income_way','income_way')
+        
+        # 월별 쿼리셋 합치기
+        detail_month = spend.union(income).order_by('-spend_date')
+        print(detail_month)
+        data2 = list(detail_month)
+        print(data2)
+    return JsonResponse(data2, safe=False)
