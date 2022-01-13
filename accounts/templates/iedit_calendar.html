@@ -227,9 +227,8 @@
         <input type="radio" name="jtags" value="수입" id="income" checked>
         <label for="span">수입내역 수정하기</label>
     </div>
-
-    <form action="{% url 'calendars:add_calendar' %}" method = "POST">
-        {% for i in income %}
+    {% for i in income %}
+    <form action="{% url 'calendars:iedit_calendar' i.income_id %}" method = "POST">
         {% csrf_token %}
     <div class="income_div" id="income_div">
         <div class="income_list">

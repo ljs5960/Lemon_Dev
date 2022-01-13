@@ -1,4 +1,65 @@
 {% extends 'base.html' %}
-{% block nav %}알거같아요{% endblock%}
-{% block container %}알거같아요{% endblock%}
-{% block footer %}알거같아요{% endblock%}
+{% load static %}
+
+{% block title %}레몬::홈{% endblock title %}
+{% block container %}
+<style>
+    /* FOOTER에서 사용하는 CSS */
+    .bottom-nav-home{
+        color: #FFD859 !important;
+    }
+
+    .bottom-nav-home a{
+        color: #FFD859 !important;
+    }
+
+    .bottom-nav-search-stock a,.bottom-nav-calendar a,
+    .bottom-nav-stock a,.bottom-nav-addlist a,
+    .bottom-nav-myinfo a{
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: 500;
+        font-size: 0.8rem;
+        color: #D1D6DA !important;
+    }
+
+    .home-div1{
+        margin: 50px auto;
+        padding: 30px 0;
+        width: 90%;
+        height:150px;
+        border-radius: 10px;
+        border: 1px solid #f77c71;
+        color: #2a2a2a;
+        background-color: #f77c71;
+        text-align: center;
+        vertical-align: middle;
+        font-family: 'Noto Sans KR', sans-serif;
+        font-size: 20px;
+        font-weight: 500;
+    }
+    .home-div2{
+        margin: 50px auto;
+        padding: 30px 0;
+        width: 90%;
+        height:150px;
+        border-radius: 10px;
+        border: 1px solid #0C7D9D;
+        color: #2a2a2a;
+        background-color: #0C7D9D;
+        text-align: center;
+        vertical-align: middle;
+        font-family: 'Noto Sans KR', sans-serif;
+        font-size: 20px;
+        font-weight: 500;
+    }
+</style>
+<h2>홈화면<h2>
+
+    <div class="home-div1">
+        <a>1월 소비</a>
+    </div>
+
+    <div class="home-div2">
+        <a>모의주식</a>
+    </div>
+{% endblock container %}
