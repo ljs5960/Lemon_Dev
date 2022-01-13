@@ -23,7 +23,7 @@ from .socialviews import KakaoSignInView, KakaoSignInCallbackView
 
 URL_LOGIN = '/login'
 
-
+@login_required(login_url=URL_LOGIN)
 def main(request):
     return render(request, 'main.html')
 
@@ -34,9 +34,11 @@ def search_stock(request):
 def stock(request):
     return render(request, 'stock.html')
 
+@login_required(login_url=URL_LOGIN)
 def addlist(request):
     return render(request, 'addlist.html')
 
+@login_required(login_url=URL_LOGIN)
 def myinfo(request):
     return render(request, 'myinfo.html')
 

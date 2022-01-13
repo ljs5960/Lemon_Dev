@@ -6,7 +6,7 @@ from django.contrib.auth import login, authenticate, get_user_model
 from django.contrib.auth.models import User
 from accounts.models import user
 from .models import Income, Spend, AccountBook
-
+from django.contrib.auth.decorators import login_required
 from .calendarsforms import  SpendForm, IncomeForm
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
@@ -23,9 +23,12 @@ from rest_framework.decorators import api_view
 
 from django.contrib.auth.hashers import check_password
 # Create your views here.
+URL_LOGIN = '/login'
+
 def home(request):
     return render(request, 'home.html')
 
+@login_required(login_url=URL_LOGIN)
 def calendar(request):
     if request.method == 'POST':
         user = request.user.user_id
@@ -133,6 +136,30 @@ def edit_calendar(request, spend_id, kind):
     if kind == "수입":
         income = Income.objects.filter(income_id=spend_id, user_id = user)
         return render(request, 'iedit_calendar.html', {'income':income})
+
+def sedit_calendar(request, spend_id):
+    if request.method == "POST":
+        user = request.user.user_id
+        spe = Spend.objects.filter(spend_id=spend_id, user_id = user).update(
+        amount=request.POST['amount'],
+        place = request.POST['place'],
+        spend_date =request.POST['spend_date'],
+        way = request.POST['way'],
+        category = request.POST['category'],
+        card = request.POST['card'],
+        memo = request.POST['memo'])
+        return redirect('/calendar#list')
+
+def iedit_calendar(request,spend_id):
+    if request.method == "POST":
+        user = request.user.user_id
+        spe = Income.objects.filter(income_id=spend_id, user_id = user).update(
+        kind=request.POST['kind'],
+        amount = request.POST['amount'],
+        income_date =request.POST['income_date'],
+        income_way = request.POST['income_way'],
+        memo = request.POST['memo'],)
+        return redirect('/calendar#list')
 
 @csrf_exempt
 def ajax_pushdate(request):
