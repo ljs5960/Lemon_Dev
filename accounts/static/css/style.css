@@ -50,6 +50,13 @@ ex. 12rem -> 120px;
 		-ms-overflow-style: none;
 		font-family: 'Noto Sans KR', sans-serif;
 		background:var(--body-background-color);
+		/* no drag */
+		-webkit-touch-callout: none !important;
+		-webkit-user-select: none !important;
+		-khtml-user-select: none !important;
+		-moz-user-select: none !important;
+		-ms-user-select: none !important;
+		user-select: none !important;
 	}
 	body::-webkit-scrollbar{
 		display: none;
@@ -68,7 +75,7 @@ ex. 12rem -> 120px;
         top: 0;
         left: 0;
         right: 0;
-        z-index: 6;
+        z-index: 100;
     }
 
 	/* nav 관련 */
@@ -105,7 +112,7 @@ ex. 12rem -> 120px;
         background-color: #4C8AE5;
         border-radius : 1rem 1rem 0 0 ;
         box-shadow: 0 3px 5px 3px rgb(202, 202, 202);
-        z-index: 4;
+        z-index: 1024;
         left: 0;
         right: 0;
         bottom: 0;
@@ -409,16 +416,21 @@ ex. 12rem -> 120px;
 		}
 
     /* swiper 관련 css */
+
     .swiper-wrapper{
 		min-height: 100% !important;
     }
   .swiper-slide{
-	min-height:calc(100vh - 105px) !important;
-    margin-bottom: 60px !important;
-    position: static !important;
-    display: inline-block !important;
+	min-height:calc(100vh - 115px) !important;
+    /*margin-bottom: 60px !important;*/
+    /*position: static !important;*/
+    /*display: inline-block !important;
+	-webkit-backface-visibility:hidden;
+	-webkit-transform:translateZ(0);
+	-webkit-transform:translate3d(0, 0, 0);*/
   }
   .swiper-pagination{
+	-webkit-tap-highlight-color:transparent;
     position: fixed;
     border-radius: 20px;
     width: 90%;
@@ -426,8 +438,10 @@ ex. 12rem -> 120px;
     margin: 0 0 0 20px;
     text-align: center;
     background-color: #F5F5F5;
+	z-index: 999;
   }
   .swiper-pagination-bullet {
+	-webkit-tap-highlight-color:transparent;
   /*color: #6c6d6e;*/
   color: #202020;
   background-color: transparent;
@@ -442,6 +456,7 @@ ex. 12rem -> 120px;
   padding-top: 5px;
   }
   .swiper-pagination-bullet-active {
+	-webkit-tap-highlight-color:transparent;
   transition-property: background-color;
   transition-duration: 0.3s;
   margin: auto;
@@ -453,19 +468,26 @@ ex. 12rem -> 120px;
   border-radius: 20px;
   padding-top: 5px;
   }
+  .swiper-pagination-bullet:focus{
+	-webkit-tap-highlight-color:transparent;
+	outline: none;
+  }
+  .swiper-pagination-bullet-active{
+	-webkit-tap-highlight-color:transparent;
+	outline: none;
+  }
 
     /* Fullcalendar 관련 css */
     .fc-toolbar-chunk{
       display: flex;
     }
-    .cal-container{
-      background-color:#fff;
-      border-radius: 20px !important;
-      /*border: 1px solid green !important;*/
-      box-shadow: 1px 1px 5px 1px rgb(202, 202, 202);
-      margin: 20px !important;
-      padding: 10px !important;
-    }
+.cal-container{
+	background-color:#fff;
+	border-radius: 20px !important;
+	min-height: 465px;
+	box-shadow: 1px 1px 5px 1px rgb(202, 202, 202);
+	margin: 20px 20px 0 20px !important;
+}
     .fc-prev-button.fc-button.fc-button-primary,
     .fc-next-button.fc-button.fc-button-primary{
       background-color: transparent;

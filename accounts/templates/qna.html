@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block title %}레몬::문의하기{% endblock title %}
+{% block container %}
+<style>
+  .chatLogoCont {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 40px 20px;
+  }
+  .chatBtnCont {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .chatBtn {
+    width: 70%;
+    border: 0;
+    font-size: 13px;
+    padding: 12px;
+    border-radius: 5px;
+    text-align: center;
+    display: block;
+    color: black;
+    background-color: #F7E600;
+    font-weight: normal;
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
+  .chatBtnCont a {
+    background-color: rgba(128, 128, 128, 0.637);
+  }
+</style>
+<body>
+  <div class="chatLogoCont">
+    <img src="media/LEMON.png">
+    <p>
+      대충 카카오톡채널을 이용해서 상담하라는 내용
+    </p>
+  </div>
+  <div class="chatBtnCont">
+    <div class="chatBtn" id="kakaoChatBtn">카카오톡 상담하기</div>
+    <a href="/myinfo" class="chatBtn">뒤로가기</a>
+  </div>
+</body>
+<script>
+  document.querySelector("#kakaoChatBtn").addEventListener("click", kakaoChat);
+
+  function kakaoChat() {
+    Kakao.Channel.chat({
+      channelPublicId: '_xhxeIXb'
+    });
+  };
+
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = 'https://developers.kakao.com/sdk/js/kakao.channel.min.js';
+    fjs.parentNode.insertBefore(js, fjs);
+  })(document, 'script', 'kakao-js-sdk');
+</script>
+
+{% endblock %}
