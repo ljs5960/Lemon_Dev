@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}레몬::공지사항{% endblock title %}
+{% block container %}
+
+<style>
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items : center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  }
+  main {
+    padding: 0.5rem;
+  }
+  .noticeContent {
+    width: 90%;
+  }
+  .noticeContent div:first-child {
+    font-size: 2rem;
+  }
+  .noticeContent div:last-child {
+    font-size: 0.7rem;
+    color:rgba(0, 0, 0, 0.6);
+  }
+  .noticeArrow {
+    width: 10%;
+    text-align: center;
+    vertical-align: middle;
+  }
+</style>
+<body>
+  <nav>
+    <a href="{% url 'accounts:myinfo' %}"><h3><i class="fas fa-chevron-left"></i></h3></a>
+    <span><h3>공지사항</h3></span>
+    <span></span>
+  </nav>
+  <main>
+    {% for notice in notices %}
+      <a href="{% url 'accounts:notice_detail' notice.notice_id %}">
+        <div style="display: flex;">
+          <div class="noticeContent">
+            <div>{{ notice.title }}</div>
+            <div>{{ notice.date }}</div>
+          </div>
+          <div class="noticeArrow">
+            <i class="fas fa-chevron-right"></i>
+          </div>
+        </div>
+      </a>
+      <br>
+    {% endfor %}
+  </main>
+</body>
+
+{% endblock %}

@@ -1,37 +1,39 @@
-{% extends 'base.html' %}
-{% load static %}
-{% block title %}레몬::주식{% endblock title %}
-{% block container %}
-<style>
-    .bottom-nav-stock,.bottom-nav-stock a{
-      color: #FFD859;
-    }
-</style>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="assets/style.css">
+    <title>Hammer.js</title>
+    <script as src="https://hammerjs.github.io/dist/hammer.js"></script>
 
-다음에 만나요~
+    <style>
+      #myElement {
+        background: silver;
+        height: 300px;
+        text-align: center;
+        font: 30px/300px Helvetica, Arial, sans-serif;
+      }
+    </style>
+</head>
+<body>
+  <div id="myElement"></div>
 
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Launch demo modal
-</button>
+</body>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
+<script>
+  var myElement = document.getElementById('myElement');
 
-{% endblock %}
+  // create a simple instance
+  // by default, it only adds horizontal recognizers
+  var mc = new Hammer(myElement);
+  
+  // listen to events...
+  mc.on("swipeleft", function(ev) {
+      window.location.href="/calendar";
+  });
+
+  mc.on("swiperight", function(ev) {
+    window.location.href="/addlist";
+});
+</script>
+</html>
