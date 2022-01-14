@@ -16,7 +16,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="media/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="media/favicon/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="media/favicon/favicon-16x16.png">
-    <link rel="manifest" href="media/favicon/manifest.json">
+    <link rel="manifest" href="/media/favicon/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="media/favicon/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
@@ -26,8 +26,6 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <meta http-equiv="Expires" content="-1">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Cache-Control" content="no-cache">
 
 
     <!-- <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script> -->
@@ -61,7 +59,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.2/chart.min.js"
             integrity="sha512-tMabqarPtykgDtdtSqCL3uLVM0gS1ZkUAVhRFu1vSEFgvB73niFQWJuvviDyBGBH22Lcau4rHB5p2K2T0Xvr6Q=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    
+
+            <!-- hammer.js -->
+            <script src="https://hammerjs.github.io/dist/hammer.js"></script>
+
     <!-- PC접속시 홍보페이지 이동 -->
     <!-- 홍보페이지 extends 'base.html' 구문때문에 무한 리다이렉트, 구문 삭제 후 코드 활성화 -->
     <script>
@@ -121,7 +122,7 @@
         transition: all 250ms ease;
         z-index: 999;
         }
-    
+
     .la-ball-clip-rotate,
     .la-ball-clip-rotate > div {
         position: relative;
@@ -252,31 +253,35 @@
                  -o-transform: rotate(360deg);
                     transform: rotate(360deg);
         }
-    }    
+    }
 
     </style>
 <script>
+$( document ).ready(function() {
+        $('#container').hide();
+        $('#container').fadeIn(150);
+    });
+
     $(window).on('load',function(){
-    $('.loader-main').fadeOut(550);
+        $('.loader-main').fadeOut(850);
+
     });
 </script>
 <body>
-    <div id="page-preloader">
+
+  <div id="page-preloader">
         <div class="loader-main">
             <div class="la-ball-clip-rotate">
                 <div></div>
             </div>
         </div>
     </div>
-<div id="wrap">
-    <!-- 로그인 검증 -->
-
     {% block nav %}
     <div id="nav">
         <div>
             <!-- <i class="fas fa-arrow-left"></i> -->
             <div style="margin-left:15px; float:left; width:35%;">
-                <img onclick="location.href='calendar'" src="media/lemonlogo_white.png" width="150px">
+                <img onclick="location.href='calendar'" src="/media/lemonlogo_white.png" width="150px">
             </div>
         </div>
     </div>
@@ -288,7 +293,7 @@
             <li class="bottom-nav-home" style="width: 20%; height:100%; text-align:center;"><a
                 href="{% url 'calendars:home' %}"><i class="fas fa-home"></i><br>홈</a></li>
             <li class="bottom-nav-calendar" style="width: 20%; height:100%; text-align:center;"><a
-                    href="calendar" ><i class="far fa-calendar-alt"></i><br>가계부</a></li>
+                    href="{% url 'calendars:list' %}" ><i class="far fa-calendar-alt"></i><br>가계부</a></li>
             <li class="bottom-nav-stock" style="width: 20%; height:100%; text-align:center;"><a
                     href="{% url 'accounts:stock' %}"><i class="fas fa-chart-area"></i><br>주식</a></li>
             <li class="bottom-nav-addlist" style="width: 20%; height:100%; text-align:center;"><a
@@ -298,6 +303,8 @@
         </ul>
         {% endblock %}
     </div>
+<div id="wrap">
+    <!-- 로그인 검증 -->
 
     <div id="container">
         {% block container %}
