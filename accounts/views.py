@@ -68,7 +68,6 @@ def user_delete(request, user_id):
     return redirect('/')
     return render(request, 'user_delete.html')
 
-
 # 공지사항
 def notice(request):
     notice = Notice.objects.all().order_by('-notice_id')

@@ -99,8 +99,7 @@ class user(AbstractBaseUser):
 
     def has_module_perms(self, app_label):
         return self.is_admin
-
-
+    
 class Notice(models.Model):
     notice_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=45, null=False, verbose_name = '제목')

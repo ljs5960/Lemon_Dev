@@ -20,6 +20,7 @@ urlpatterns = [
     path('user_delete/<int:user_id>', views.user_delete, name='user_delete'), #회원탈퇴
     path('notice', views.notice, name='notice'), # 공지사항
     path('notice/<int:pk>', views.notice_detail, name='notice_detail'), # 공지사항 상세보기
+    
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

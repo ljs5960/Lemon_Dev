@@ -10,7 +10,7 @@ class UserAdmin(admin.ModelAdmin):
         'email',
         'phonenumber',
     )
-
+    
 
 @admin.register(Notice)
 class NoticeAdmin(admin.ModelAdmin):
