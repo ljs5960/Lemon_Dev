@@ -37,6 +37,7 @@ urlpatterns = [
     path('.*', TemplateView.as_view(template_name='index.html')),
     url(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),
     url(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),
+    path('ckeditor/', include('ckeditor_uploader.urls'))
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
