@@ -1,6 +1,8 @@
 from django.contrib import admin
-from .models import Qna
+from admins.models import Qna, Notice
 
+
+# 문의하기
 @admin.register(Qna)
 class QnaAdmin(admin.ModelAdmin):
     list_display = [
@@ -16,3 +18,12 @@ class QnaAdmin(admin.ModelAdmin):
         ('문의내용', {'fields': ['qna_date', 'category', 'title', 'content', 'file']}),
         ('답변내용', {'fields': ['reply', 'status']}),
     ]
+
+
+# 공지사항
+@admin.register(Notice)
+class NoticeAdmin(admin.ModelAdmin):
+    list_display = (
+        'title',
+        'date',
+    )

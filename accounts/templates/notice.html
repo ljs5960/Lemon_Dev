@@ -37,7 +37,7 @@
   </nav>
   <main>
     {% for notice in notices %}
-      <a href="{% url 'accounts:notice_detail' notice.notice_id %}">
+      <a href="{% url 'admins:notice_detail' notice.notice_id %}">
         <div style="display: flex;">
           <div class="noticeContent">
             <div>{{ notice.title }}</div>

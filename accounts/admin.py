@@ -1,7 +1,6 @@
 from django.contrib import admin
-from accounts.models import user, Notice
+from accounts.models import user
 
-# Register your models here.
 
 @admin.register(user)
 class UserAdmin(admin.ModelAdmin):
@@ -9,12 +8,4 @@ class UserAdmin(admin.ModelAdmin):
         'uid',
         'email',
         'phonenumber',
-    )
-    
-
-@admin.register(Notice)
-class NoticeAdmin(admin.ModelAdmin):
-    list_display = (
-        'title',
-        'date',
     )
