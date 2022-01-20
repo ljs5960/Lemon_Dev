@@ -100,8 +100,55 @@
     box-shadow: 1px 1px 5px 1px rgb(202, 202, 202);
     margin: 20px !important;
   }
+
+  ul{
+    list-style: none;
+    margin:0;
+    padding: 0;
+  }
+  .pagenation{
+    background-color: #f5f5f5;
+    z-index: 99;
+    padding:0;
+    bottom: 70px;
+    left: 28px;
+    position: fixed;
+    vertical-align: middle;
+    text-align: center;
+    width: 90%;
+    height: 30px;
+    border-radius: 20px;
+    margin: 0 auto;
+  }
+  .pagenation li{
+    padding-top: 2px;
+    font-weight: 500;
+    border-radius: 20px;
+    width : 24%;
+    height: 30px;
+    display:inline-block;
+  }
+
+  #pagenation_calendar{
+    background-color: #4C8AE5;
+  }
+  #pagenation_calendar a{
+    color: #fff;
+  }
+  #pagenation_recom a, #pagenation_summary a, #pagenation_list a{
+    color: #adadad;
+  }
   </style>
 
+  <!-- pagenation -->
+<div class="pagenation">
+  <ul>
+    <li id="pagenation_recom"><a href="{% url 'calendars:recom' %}">추천</a></li>
+    <li id="pagenation_summary"><a href="{% url 'calendars:summary' %}">요약</a></li>
+    <li id="pagenation_list"><a href="{% url 'calendars:listview' %}">내역</a></li>
+    <li id="pagenation_calendar"><a href="{% url 'calendars:calendar' %}">달력</a></li>
+  </ul>
+</div>
 
 <!-- Modal -->
 <div id="calendarModal" class="modal fade">
@@ -135,8 +182,6 @@
 
 <div class="swiper mySwiper">
   <div class="swiper-wrapper">
-
-
 
       <!--- 달력 SWIPER div영역 시작--->
       <script>
@@ -197,38 +242,38 @@
         eventClick: function(info) {
           console.log(info.event);
           click_date = info.event.startStr; // 날짜
-          title_date = moment(click_date).format('YY. MM. DD');
+          title_date = moment(click_date).format('DD일');
           //click_title = event.dayEl.innerText;
           console.log(click_date);
-          document.getElementById('testtest').value = click_date;
+          document.getElementById('click_date').value = click_date;
           $.ajax({
             type: "POST",
             url: "{% url 'calendars:ajax_pushdate' %}",
             data: {
-              testtest: $('#testtest').val(),
+              clikDate: $('#click_date').val(),
               csrfmiddlewaretoken: '{{ csrf_token }}',
               dataType: "json",
             },
-            cache: false,
-            headers: {"cache-control": "no-cache","pragma": "no-cache"},
             success: function(data){
+              
               msg_value = data.msg1;
               const reset = document.getElementById('modalBody');
+              const element = document.getElementById('modalBody');
               reset.innerHTML = '';
-              for (var i = 0; i<msg_value.length; i++) {
-                const element = document.getElementById('modalBody');
-                element.innerHTML += '<div class="modal-body-text"><a>'
-                + msg_value[i]['amount'] + '원' +  '</a> </div>';
-              }
+              $.each (msg_value, function (index, el) {
+                console.log('element', index, el);
+                element.innerHTML += '<div class="modal-body-text">'+el.kind+
+                                    el.amount +'원</div>';
+              });
             },
-            fail: function() {
+            fail: function(data) {
               console.log('ajax send error!');
               alert('해당날짜의 내역을 불러오는 과정에서 오류가 발생했습니다');
             },
           });
           $('#calendarModal').modal('show');
-          $('#modalTitle').text(click_date);
-        },
+          $('#modalTitle').text(title_date);
+          },
         });
         calendar.render();
       });
@@ -237,54 +282,10 @@
         <div class="cal-container">
           <div id='calendar'></div>
         </div>
-        <input type="hidden" value="" id="testtest">
+        <input type="hidden" value="" id="click_date">
       </div><!--- 달력 SWIPER div영역 끝 --->
     </div><!--swiper-wrapper 선언끝-->
-
-    <div class="swiper-pagination" ></div>
   </div><!--myswiper 선언끝-->
-
-  <!-- Swiper JS -->
-
-  <!-- Initialize Swiper -->
-  <script>
-    var bullet = ["추천", "요약", "내역" ,"달력"];
-
-    var swiper = new Swiper(".mySwiper", {
-      slidesPerView: 'auto',
-      centeredSlides: true,
-      autoHeight: true,
-      //effect:'fade',
-      fadeEffect: { crossFade: true },
-      mousewheel: false,
-      speed: 0,
-      hashNavigation: {
-        watchState: true,
-        replaceState:true,
-      },
-      pagination : {
-        observer: true,
-        observeParents: true,
-        el : '.swiper-pagination',
-        clickable : true,
-        paginationType: "custom",
-        renderBullet: function (index, className) {
-          return '<div class="' + className + '"><span>' + (bullet[index]) + '</span></div>';
-        }
-        },
-
-        scrollbar: {
-          el: '.swiper-scrollbar',
-        },
-    });
-    /*
-    swiper.on('slideChange', function () {
-      window.scrollTo(0,0);
-      swiper.update(true);
-      //console.log('slide changed');
-    });*/
-    swiper.update();
-  </script>
 
   <script>
     var myElement = document.getElementById('container');
@@ -299,7 +300,7 @@
     });
 
     mc.on("swiperight", function(ev) {
-        window.location.href="/list";
+        window.location.href="/listview";
   });
   </script>
 

@@ -3,6 +3,74 @@
 {% block title %}레몬::추천{% endblock title %}
 {% block container %}
 {% load humanize %}
+
+<style>
+   /* FOOTER에서 사용하는 CSS */
+   .bottom-nav-calendar{
+    color: #FFD859 !important;
+  }
+
+  .bottom-nav-calendar a{
+    color: #FFD859 !important;
+  }
+
+  .bottom-nav-search-stock a,.bottom-nav-home a,
+  .bottom-nav-stock a,.bottom-nav-addlist a,
+  .bottom-nav-myinfo a{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 500;
+    font-size: 0.8rem;
+    color: #D1D6DA !important;
+  }
+  ul{
+    list-style: none;
+    margin:0;
+    padding: 0;
+  }
+  .pagenation{
+    background-color: #f5f5f5;
+    z-index: 10;
+    padding:0;
+    bottom: 70px;
+    left: 28px;
+    position: fixed;
+    vertical-align: middle;
+    text-align: center;
+    width: 90%;
+    height: 30px;
+    border-radius: 20px;
+    margin: 0 auto;
+  }
+  .pagenation li{
+    padding-top: 2px;
+    font-weight: 500;
+    border-radius: 20px;
+    width : 24%;
+    height: 30px;
+    display:inline-block;
+  }
+
+  #pagenation_summary{
+    background-color: #4C8AE5;
+  }
+  #pagenation_summary a{
+    color: #fff;
+  }
+  #pagenation_recom a, #pagenation_list a, #pagenation_calendar a{
+    color: #adadad;
+  }
+</style>
+
+<!-- pagenatino -->
+<div class="pagenation">
+  <ul>
+    <li id="pagenation_recom"><a href="{% url 'calendars:recom' %}">추천</a></li>
+    <li id="pagenation_summary"><a href="{% url 'calendars:summary' %}">요약</a></li>
+    <li id="pagenation_list"><a href="{% url 'calendars:listview' %}">내역</a></li>
+    <li id="pagenation_calendar"><a href="{% url 'calendars:calendar' %}">달력</a></li>
+  </ul>
+</div>
+
 <div class="swiper-slide" data-name="요약" data-hash="summary">
   <div class="money-info-wrap">
     <div class="money-info-container">
@@ -47,7 +115,9 @@
   </div><!--money-info-wrap 끝-->
 
   <div style="background-color:#fff; margin:20px 5% 0 5%; padding: 10px; border-radius:15px; box-shadow:1px 1px 5px 1px rgb(202 202 202);"><!-- 소비 탑5 카드사 div 시작-->
-    <div style="text-align:center; font-weight: bold; border-bottom:1px solid #c8c8c8; font-size:16px;"><img style="margin-right:5px; vertical-align:bottom; width: 30px; height: 30px;" src="media/trophy.png"><a style="font-weight: bold; font-family: 'Noto Sans KR', sans-serif; font-size:16pt;">소비 Top5 카드사</a>
+    <div style="text-align:center; font-weight: bold; border-bottom:1px solid #c8c8c8; font-size:16px;">
+      <img style="margin-right:5px; vertical-align:bottom; width: 30px; height: 30px;" src="media/trophy.png">
+      <a style="font-weight: bold; font-size:16pt;">소비 Top5 카드사</a>
     </div>
     <div>
       <ol style="padding-left: 1rem !important;">
@@ -57,35 +127,35 @@
           <td width='10'><li style="font-weight: bold; color:#8e8e8e;"></li></td>
           <td style="text-align: center;" width='50'>
             {% if method.card == 1 %}
-          <a style="font-family: 'Noto Sans KR', sans-serif; font-weight:bold; color:#3a3a3a">국민카드</a>
+          <a style="font-weight:bold; color:#3a3a3a">국민카드</a>
           {% elif method.card == 2 %}
-          <a style="font-family: 'Noto Sans KR', sans-serif; font-weight:bold; color:#3a3a3a">롯대카드</a>
+          <a style="font-weight:bold; color:#3a3a3a">롯대카드</a>
           {% elif method.card == 3 %}
-          <a style="font-family: 'Noto Sans KR', sans-serif; font-weight:bold; color:#3a3a3a">BC카드</a>
+          <a style="font-weight:bold; color:#3a3a3a">BC카드</a>
           {% elif method.card == 4 %}
-          <a style="font-family: 'Noto Sans KR', sans-serif; font-weight:bold; color:#3a3a3a">삼성카드</a>
+          <a style="font-weight:bold; color:#3a3a3a">삼성카드</a>
           {% elif method.card == 6 %}
-          <a style="font-family: 'Noto Sans KR', sans-serif; font-weight:bold; color:#3a3a3a">신한카드</a>
+          <a style="font-weight:bold; color:#3a3a3a">신한카드</a>
           {% elif method.card == 7 %}
-          <a style="font-family: 'Noto Sans KR', sans-serif; font-weight:bold; color:#3a3a3a">하나카드</a>
+          <a style="font-weight:bold; color:#3a3a3a">하나카드</a>
           {% elif method.card == 8 %}
-          <a style="font-family: 'Noto Sans KR', sans-serif; font-weight:bold; color:#3a3a3a">현대카드</a>
+          <a style="font-weight:bold; color:#3a3a3a">현대카드</a>
           {% elif method.card == 9 %}
-          <a style="font-family: 'Noto Sans KR', sans-serif; font-weight:bold; color:#3a3a3a">농협카드</a>
+          <a style="font-weight:bold; color:#3a3a3a">농협카드</a>
           {% elif method.card == 10 %}
-          <a style="font-family: 'Noto Sans KR', sans-serif; font-weight:bold; color:#3a3a3a">시티카드</a>
+          <a style="font-weight:bold; color:#3a3a3a">시티카드</a>
           {% elif method.card == 11 %}
-          <a style="font-family: 'Noto Sans KR', sans-serif; font-weight:bold; color:#3a3a3a">카카오뱅크카드</a>
+          <a style="font-weight:bold; color:#3a3a3a">카카오뱅크카드</a>
           {% endif %}
           </td>
           <td width='25' style="text-align: right;"><a style="font-family: 'Noto Sans KR', sans-serif; font-weight:400; color:#3a3a3a">{{ method.amount|truncatechars:100|intcomma }}원</a></td>
           <td width='15' style="text-align: right;">
             {% if method.card == 1 %}
-            <a style="font-family: 'Noto Sans KR', sans-serif; font-size:9pt; font-weight:300; color:#ff5d51">156,700</a>
+            <a style="font-size:9pt; font-weight:300; color:#ff5d51">156,700</a>
             {% elif method.card == 4 %}
-            <a style="font-family: 'Noto Sans KR', sans-serif; font-size:9pt; font-weight:300; color:#4c8ae5">34,200</a>
+            <a style="font-size:9pt; font-weight:300; color:#4c8ae5">34,200</a>
             {% elif method.card == 7 %}
-            <a style="font-family: 'Noto Sans KR', sans-serif; font-size:9pt; font-weight:300; color:#4c8ae5">44,100</a>
+            <a style="font-size:9pt; font-weight:300; color:#4c8ae5">44,100</a>
             {% endif %}
           </td>
           <!--
@@ -114,7 +184,9 @@
   </div> <!-- 소비 탑5 카드사 div 끝-->
 
   <div style="background-color:#fff; margin:20px 5% 0 5%; padding: 10px; border-radius:15px; box-shadow:1px 1px 5px 1px rgb(202 202 202);"><!-- 소비 탑5 기업명 div 시작-->
-    <div style="text-align:center; font-weight: bold; border-bottom:1px solid #c8c8c8; font-size:16px;"><img style="margin-right:5px; vertical-align:bottom; width: 30px; height: 30px;" src="media/trophy.png"><a style="font-weight: bold; font-family: 'Noto Sans KR', sans-serif; font-size:16pt;">소비 Top5 기업명</a></div>
+    <div style="text-align:center; font-weight: bold; border-bottom:1px solid #c8c8c8; font-size:16px;">
+      <img style="margin-right:5px; vertical-align:bottom; width: 30px; height: 30px;" src="media/trophy.png">
+      <a style="font-weight: bold; font-size:16pt;">소비 Top5 기업명</a></div>
     <div>
       <ol style="padding-left: 1rem !important;">
         <table border="0" style="width: 100%; margin-top:10px; border-collapse:inherit;">
@@ -122,13 +194,13 @@
           <tr>
             <td width='10'><li style="font-weight: bold; color:#8e8e8e;"></li></td>
             <td style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:50px; text-align: left;" width='50'>
-              <a style="font-family: 'Noto Sans KR', sans-serif; font-weight:bold; color:#3a3a3a">{{ area.place }}</a>
+              <a style="font-weight:bold; color:#3a3a3a">{{ area.place }}</a>
             </td>
             <td style="text-align: right;" width='25'>
-              <a style="font-family: 'Noto Sans KR', sans-serif; font-weight:400; color:#3a3a3a">{{ area.amount|truncatechars:500|intcomma }}원</a>
+              <a style="font-weight:400; color:#3a3a3a">{{ area.amount|truncatechars:500|intcomma }}원</a>
             </td>
             <td width='10' style="text-align: right;">
-              <a style="font-family: 'Noto Sans KR', sans-serif; font-size:9pt; font-weight:300; color:#ff5d51">1,256,400</a>
+              <a style="font-size:9pt; font-weight:300; color:#ff5d51">1,256,400</a>
             </td>
             <!--
             <td width='40' style="text-align: right;">
@@ -149,7 +221,9 @@
 
   <!-- 카테고리 탑5 div 시작-->
   <div style="background-color:#fff; margin:20px 5% 0 5%; padding: 10px; border-radius:15px; box-shadow:1px 1px 5px 1px rgb(202 202 202);">
-    <div style="text-align:center; font-weight: bold; border-bottom:1px solid #c8c8c8; font-size:16px;"><img style="margin-right:5px; vertical-align:bottom; width: 30px; height: 30px;" src="media/trophy.png"><a style="font-weight: bold; font-family: 'Noto Sans KR', sans-serif; font-size:16pt;">소비 Top5 카테고리</a></div>
+    <div style="text-align:center; font-weight: bold; border-bottom:1px solid #c8c8c8; font-size:16px;">
+      <img style="margin-right:5px; vertical-align:bottom; width: 30px; height: 30px;" src="media/trophy.png">
+      <a style="font-weight: bold; font-size:16pt;">소비 Top5 카테고리</a></div>
   <div>
     <ol style="padding-left: 1rem !important;">
       <table border="0" style="width: 100%; margin-top:10px; border-collapse:inherit;">
@@ -158,19 +232,19 @@
           <td width='10'><li style="font-weight: bold; color:#8e8e8e;"></li></td>
           <td style="text-align: left;" width='60'>
             {% if category.category == 1 %}
-            <a style="font-family: 'Noto Sans KR', sans-serif; font-weight:bold; color:#3a3a3a">식비</a>
+            <a style="font-weight:bold; color:#3a3a3a">식비</a>
             {% elif category.category == 2 %}
-            <a style="font-family: 'Noto Sans KR', sans-serif; font-weight:bold; color:#3a3a3a">카페/간식</a>
+            <a style="font-weight:bold; color:#3a3a3a">카페/간식</a>
             {% elif category.category == 3 %}
-            <a style="font-family: 'Noto Sans KR', sans-serif; font-weight:bold; color:#3a3a3a">술/유흥</a>
+            <a style="font-weight:bold; color:#3a3a3a">술/유흥</a>
             {% elif category.category == 4 %}
-            <a style="font-family: 'Noto Sans KR', sans-serif; font-weight:bold; color:#3a3a3a">생활</a>
+            <a style="font-weight:bold; color:#3a3a3a">생활</a>
             {% elif category.category == 5 %}
-            <a style="font-family: 'Noto Sans KR', sans-serif; font-weight:bold; color:#3a3a3a">쇼핑</a>
+            <a style="font-weight:bold; color:#3a3a3a">쇼핑</a>
             {% endif %}
           </td>
           <td style="text-align: right;" width='150'>
-            <a style="font-family: 'Noto Sans KR', sans-serif; font-weight:400; color:#3a3a3a">{{ category.amount|truncatechars:16|intcomma }}원</a>
+            <a style="font-weight:400; color:#3a3a3a">{{ category.amount|truncatechars:16|intcomma }}원</a>
           </td>
         </tr>
         {% empty %}
@@ -185,7 +259,10 @@
 
     <!-- 건수 탑5 div 시작-->
   <div style="background-color:#fff; margin:20px 5% 80px 5%; padding: 10px; border-radius:15px; box-shadow:1px 1px 5px 1px rgb(202 202 202);">
-    <div style="text-align:center; font-weight: bold; border-bottom:1px solid #c8c8c8; font-size:16px;"><img style="margin-right:5px; vertical-align:bottom; width: 30px; height: 30px;" src="media/trophy.png"><a style="font-weight: bold; font-family: 'Noto Sans KR', sans-serif; font-size:16pt;">건수 Top5 카테고리</a></div>
+    <div style="text-align:center; font-weight: bold; border-bottom:1px solid #c8c8c8; font-size:16px;">
+      <img style="margin-right:5px; vertical-align:bottom; width: 30px; height: 30px;" src="media/trophy.png">
+      <a style="font-weight: bold; font-family: 'Noto Sans KR', sans-serif; font-size:16pt;">건수 Top5 카테고리</a>
+    </div>
   <div>
   <ol style="padding-left: 1rem !important;">
     <table border="0" style="width: 100%; margin-top:10px; border-collapse:inherit;">
@@ -194,19 +271,19 @@
         <td width='10'><li style="font-weight: bold; color:#8e8e8e;"></li></td>
         <td style="text-align: left;" width='60'>
           {% if category.category == 1 %}
-          <a style="font-family: 'Noto Sans KR', sans-serif; font-weight:bold; color:#3a3a3a">식비</a>
+          <a style="font-weight:bold; color:#3a3a3a">식비</a>
           {% elif category.category == 2 %}
-          <a style="font-family: 'Noto Sans KR', sans-serif; font-weight:bold; color:#3a3a3a">카페/간식</a>
+          <a style="font-weight:bold; color:#3a3a3a">카페/간식</a>
           {% elif category.category == 3 %}
-          <a style="font-family: 'Noto Sans KR', sans-serif; font-weight:bold; color:#3a3a3a">술/유흥</a>
+          <a style="font-weight:bold; color:#3a3a3a">술/유흥</a>
           {% elif category.category == 4 %}
-          <a style="font-family: 'Noto Sans KR', sans-serif; font-weight:bold; color:#3a3a3a">생활</a>
+          <a style="font-weight:bold; color:#3a3a3a">생활</a>
           {% elif category.category == 5 %}
-          <a style="font-family: 'Noto Sans KR', sans-serif; font-weight:bold; color:#3a3a3a">쇼핑</a>
+          <a style="font-weight:bold; color:#3a3a3a">쇼핑</a>
           {% endif %}
         </td>
         <td style="text-align: right;" width='150'>
-          <a style="font-family: 'Noto Sans KR', sans-serif; font-weight:400; color:#3a3a3a">{{ category.count|intcomma }}회</a>
+          <a style="font-weight:400; color:#3a3a3a">{{ category.count|intcomma }}회</a>
         </td>
       </tr>
       {% empty %}
@@ -230,7 +307,7 @@
 
   // listen to events...
   mc.on("swipeleft", function(ev) {
-      window.location.href="/list";
+      window.location.href="/listview";
   });
 
   mc.on("swiperight", function(ev) {
