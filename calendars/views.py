@@ -17,12 +17,9 @@ from django.db.models import Sum, Count
 import os, json
 from django.conf import settings
 from django.views.generic import View
-from rest_framework import viewsets
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
-
-
 from django.contrib.auth.hashers import check_password
+
+
 # Create your views here.
 URL_LOGIN = '/login'
 def recom(request):
@@ -124,6 +121,16 @@ def listview(request):
     # 'month':month,
     'spend_day_sum2':spend_day_sum2,
     'income_day_sum2':income_day_sum2,})
+    
+def detail_search(request):
+    user = request.user.user_id
+    start_date = request.POST.get('start_date', None)
+    end_date = request.POST.get("end_date", None)
+    spend_date = Spend.objects.filter(user_id = user, spend_date__range = (start_date, end_date)).values('spend_id','kind','spend_date','amount','place', 'category')
+    income_date = Income.objects.filter(user_id = user, income_date__range = (start_date, end_date)).values('income_id','kind','income_date','amount','income_way', 'income_way')
+    total_date = spend_date.union(income_date).order_by('-spend_date')
+    print('tatal_date--->', str(total_date))
+    return render(request, 'detail_search.html' , {'total_date':total_date})
 
 @login_required(login_url=URL_LOGIN)
 def home(request):

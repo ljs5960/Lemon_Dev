@@ -15,6 +15,7 @@ urlpatterns = [
     path('summary', views.summary, name='summary'), # 요약페이 지
     path('recom', views.recom, name='recom'), # 추천페이지
     path('listview', views.listview, name='listview'), # 내역페이지
+    path('detail_search', views.detail_search, name='detail_search'), # 내역필터페이지
 
     path('add_calendar/', views.add_calendar, name='add_calendar'),
     path('edit_calendar/<str:kind>/<int:spend_id>/', views.edit_calendar, name='edit_calendar'),

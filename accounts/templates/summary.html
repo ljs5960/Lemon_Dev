@@ -215,7 +215,7 @@
                                     el.amount +'원</div>';
               });
             },
-            fail: function(data) {
+            fail: function() {
               console.log('ajax send error!');
               alert('해당날짜의 내역을 불러오는 과정에서 오류가 발생했습니다');
             },
@@ -227,15 +227,10 @@
         calendar.render();
       });
       </script>
-      <div class="swiper-slide" id="swiper-cal" data-name="달력" data-hash="calendar2">
-        <div class="cal-container">
+        <div class="cal-container" id="cal-container">
           <div id='calendar'></div>
         </div>
         <input type="hidden" value="" id="click_date">
-
-
-
-
 
 </div><!--- 요약 SWIPER div영역 끝 --->
 <script>

@@ -253,7 +253,7 @@ font-family: 'Noto Sans KR', sans-serif;
 	/* 로그인페이지 관련 CSS */
 
 	.logo-wrap{
-		margin-top: 80px;
+		margin-top: 180px;
 		width: 100%;
 	}
 	.logo-logo{
@@ -380,6 +380,99 @@ font-family: 'Noto Sans KR', sans-serif;
 	}
 
 	/* 홈화면 css */
+
+	/* 홈화면-추가동의페이지관련 css */
+	.add_info_title{
+		font-weight: 500;
+}
+.add_info_input{
+		margin-bottom: 10px;
+		padding-left: 10px;
+		border: 1px solid #D1D6DA;
+		font-family: 'Noto Sans KR', sans-serif;
+		font-size: 18px;
+		font-weight: 400;
+		width: 100%;
+		height: 35px;
+}
+.add_info_phone{
+		margin-bottom: 10px;
+		padding-left: 10px;
+		border: 1px solid #D1D6DA;
+		font-family: 'Noto Sans KR', sans-serif;
+		font-size: 18px;
+		font-weight: 400;
+		width: 70%;
+		height: 35px;
+}
+.phone_code_btn{
+		width: 29%;
+		height: 35px;
+		background:#31BC89;
+		font-family: 'Noto Sans KR', sans-serif;
+		font-weight: bold;
+		font-size: 14px;
+		text-align: center;
+		vertical-align: top;
+		border:0px;
+		border-radius:1px;
+		color:white;
+}
+.phone_code_btn:disabled{
+		background:#a0a0a0;
+}
+.add_info_phonecode{
+		margin-bottom: 10px;
+		padding-left: 10px;
+		border: 1px solid #D1D6DA;
+		font-family: 'Noto Sans KR', sans-serif;
+		font-size: 18px;
+		font-weight: 400;
+		width: 50%;
+		height: 35px;
+}
+.count{
+		margin-left: 15px;
+		position: relative;
+
+}
+.add_info_select{
+		margin-bottom: 10px;
+		padding-left: 10px;
+		background-color: #fff;
+		border: 1px solid #D1D6DA;
+		font-family: 'Noto Sans KR', sans-serif;
+		font-size: 16px;
+		font-weight: 500;
+		width: 100%;
+		height: 35px;
+}
+.add_info_year{
+		padding-left: 10px;
+		border: 1px solid #D1D6DA;
+		font-family: 'Noto Sans KR', sans-serif;
+		font-size: 18px;
+		font-weight: 400;
+		width: 100%;
+		height: 35px;
+}
+.access_btn{
+		font-family: 'Noto Sans KR', sans-serif;
+		font-weight: bold;
+		font-size: 16px;
+		text-align: center;
+		vertical-align: middle;
+		width:100%;
+		height: 50px;
+		margin-top:20px;
+		background:#31BC89;
+		border:0px;
+		border-radius:10px;
+		color:white;
+}
+.access_btn:disabled{
+		background:#a0a0a0;
+}
 	.home-wrap{
 		padding: 0 20px;
 	}
@@ -447,6 +540,11 @@ font-family: 'Noto Sans KR', sans-serif;
 		background-color: #fff;
 		width: 100px;
 		height: 40px;
+	}
+	.home-spand-dateView{
+		color: #FFF;
+		font-size:14px;
+		float: right;
 	}
 
 	.home-stock-div{

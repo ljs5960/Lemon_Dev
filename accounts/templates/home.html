@@ -33,128 +33,6 @@
         color: #D1D6DA !important;
     }
 
-    .home-div1{
-        margin: 50px auto;
-        padding: 30px 0;
-        width: 90%;
-        height:150px;
-        border-radius: 10px;
-        border: 1px solid #f77c71;
-        color: #2a2a2a;
-        background-color: #f77c71;
-        text-align: center;
-        vertical-align: middle;
-        font-family: 'Noto Sans KR', sans-serif;
-        font-size: 20px;
-        font-weight: 500;
-    }
-    .home-div2{
-        margin: 50px auto;
-        padding: 30px 0;
-        width: 90%;
-        height:150px;
-        border-radius: 10px;
-        border: 1px solid #0C7D9D;
-        color: #2a2a2a;
-        background-color: #0C7D9D;
-        text-align: center;
-        vertical-align: middle;
-        font-family: 'Noto Sans KR', sans-serif;
-        font-size: 20px;
-        font-weight: 500;
-    }
-
-    .add_info_title{
-        font-weight: 500;
-    }
-    .add_info_input{
-        margin-bottom: 10px;
-        padding-left: 10px;
-        border: 1px solid #D1D6DA;
-        font-family: 'Noto Sans KR', sans-serif;
-        font-size: 18px;
-        font-weight: 400;
-        width: 100%;
-        height: 35px;
-    }
-    .add_info_phone{
-        margin-bottom: 10px;
-        padding-left: 10px;
-        border: 1px solid #D1D6DA;
-        font-family: 'Noto Sans KR', sans-serif;
-        font-size: 18px;
-        font-weight: 400;
-        width: 70%;
-        height: 35px;
-    }
-    .phone_code_btn{
-        width: 29%;
-        height: 35px;
-        background:#31BC89;
-        font-family: 'Noto Sans KR', sans-serif;
-        font-weight: bold;
-        font-size: 14px;
-        text-align: center;
-        vertical-align: top;
-        border:0px;
-        border-radius:1px;
-        color:white;
-    }
-    .phone_code_btn:disabled{
-        background:#a0a0a0;
-    }
-    .add_info_phonecode{
-        margin-bottom: 10px;
-        padding-left: 10px;
-        border: 1px solid #D1D6DA;
-        font-family: 'Noto Sans KR', sans-serif;
-        font-size: 18px;
-        font-weight: 400;
-        width: 50%;
-        height: 35px;
-    }
-    .count{
-        margin-left: 15px;
-        position: relative;
-
-    }
-    .add_info_select{
-        margin-bottom: 10px;
-        padding-left: 10px;
-        background-color: #fff;
-        border: 1px solid #D1D6DA;
-        font-family: 'Noto Sans KR', sans-serif;
-        font-size: 16px;
-        font-weight: 500;
-        width: 100%;
-        height: 35px;
-    }
-    .add_info_year{
-        padding-left: 10px;
-        border: 1px solid #D1D6DA;
-        font-family: 'Noto Sans KR', sans-serif;
-        font-size: 18px;
-        font-weight: 400;
-        width: 100%;
-        height: 35px;
-    }
-    .access_btn{
-        font-family: 'Noto Sans KR', sans-serif;
-        font-weight: bold;
-        font-size: 16px;
-        text-align: center;
-        vertical-align: middle;
-        width:100%;
-        height: 50px;
-        margin-top:20px;
-        background:#31BC89;
-        border:0px;
-        border-radius:10px;
-        color:white;
-    }
-    .access_btn:disabled{
-        background:#a0a0a0;
-    }
 </style>
 {% if user.e_chk == 0 %}
 <style>
@@ -399,7 +277,7 @@ $('input[id="require_chk"]').change(function () {
     <div class="home-spand-div">
         <div class="home-spand-title">
             <a>1월 소비</a>
-            <a style="font-size:14px; float: right;">22.01.21</a>
+            <a class="home-spand-dateView" id="date_view"></a>
         </div>
 
         <div class="home-spand-input">
@@ -415,7 +293,7 @@ $('input[id="require_chk"]').change(function () {
     <div class="home-stock-div">
         <div class="home-stock-title">
             <a>주식</a>
-            <a style="font-size:14px; float: right;">22.01.21</a>
+            <a class="home-spand-dateView" id="date_view2"></a>
         </div>
 
         <div class="home-stock-input">
@@ -442,6 +320,13 @@ $('input[id="require_chk"]').change(function () {
     </div>
 </div>
 
+<script>
+    let date = new Date();
+    let today = moment(date).format('YY.MM.DD');
+    console.log(today);
+    $('#date_view').html(today);
+    $('#date_view2').html(today);
+</script>
 
 {% endif %}
 {% endblock container %}

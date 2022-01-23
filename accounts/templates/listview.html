@@ -73,6 +73,24 @@
 		margin: 10px 10px 20px 10px;
 		padding:10px 15px;
   }
+  .search-date{
+    text-align: center;
+    border:1px solid #adadad;
+    border-radius: 5px;
+    width:47%;
+    height:30px;
+  }
+  .search-btn{
+    margin: 25px 0 5px 0;
+    width: 98%;
+    height: 40px;
+    font-size: 18px;
+    font-weight: 500;
+    background-color: #4c8ae5;
+    border: 1px solid #325b98;
+    border-radius: 5px;
+    color: #fff;
+  }
 </style>
 <!-- pagenation -->
 <div class="pagenation">
@@ -80,7 +98,7 @@
     <li id="pagenation_recom"><a href="{% url 'calendars:recom' %}">추천</a></li>
     <li id="pagenation_summary"><a href="{% url 'calendars:summary' %}">요약</a></li>
     <li id="pagenation_list"><a href="{% url 'calendars:listview' %}">내역</a></li>
-    <li id="pagenation_calendar"><a href="{% url 'calendars:calendar' %}">달력</a></li>
+    <li id="pagenation_calendar"><a href="{% url 'calendars:calendar' %}">TOP 5</a></li>
   </ul>
 </div>
 <!-- pagenation 끝 -->
@@ -176,16 +194,14 @@
     </script>
 
     <div class="filter-menu-contents" id="filter-contents" style="display: none;">
+      <form class="check_box_form" action="{% url 'calendars:detail_search' %}" method="post">
+    {% csrf_token %}
       <a>기간으로 검색하기</a><br>
-      <input type="month"> <a>부터</a> <input type="month"><button>조회</button> <br>
-      <a>카테고리로 검색하기</a><br>
-      <select>
-        <option>-- 선택하세요 --</option>
-        <option>식비</option>
-        <option>교통</option>
-        <option>이것저것...</option>
-      </select>
-      <button>조회</button> <br>
+      <div style="text-align: center;">
+      <input class="search-date" type="date" id="start_date" min="1900-01-01" max="2099-12-31" autocomplete="off" name="start_date" value=""> ~
+      <input class="search-date" type="date" id="end_date" min="1900-01-01" max="2099-12-31" autocomplete="off" name="end_date" value=""> <br>
+    <button class="search-btn" type=submit>검색</button></form> <br>
+      </div>
     </div>
 
   </div>
@@ -221,11 +237,9 @@
     {% endifchanged %}
 </tr>
     {% if detail.kind == "지출" %}
-    <tr id="trtr" onclick="location.href='{% url 'calendars:edit_calendar'  detail.kind detail.spend_id %}'">
+    <tr onclick="location.href='{% url 'calendars:edit_calendar'  detail.kind detail.spend_id %}'">
       {% else %}
       <tr onclick="location.href='{% url 'calendars:edit_calendar' detail.kind detail.spend_id %}'">
-
-
           {% endif %}
       <td style="vertical-align:top;">
         <div style="text-align:left;padding-left:30px;">
