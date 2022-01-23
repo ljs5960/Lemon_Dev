@@ -63,6 +63,7 @@
         <meta property="og:image:width" content="700"/>
         <meta property="og:image:height" content="300"/>
         <link rel="icon" href="{% static 'main/assets/img/favicon-16x16.png'%}">
+        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
         <link rel="stylesheet" href="{% static 'main/assets/css/bootstrap.min.css'%}">
         <link rel="stylesheet" href="{% static 'main/style.css'%}">
         <link rel="stylesheet" href="https://unpkg.com/fullpage.js/dist/fullpage.min.css">
@@ -84,7 +85,7 @@
     <body>
         <div id="app">
             <div class="logo">
-                <a href="#page1"><img src="{% static 'main/assets/img/android-chrome-192x192.png'%}" alt=""></a><span>LEMON</span>
+                <a href="#page1"><img src="{% static 'main/assets/img/레몬 가로.png'%}" alt=""></a>
             </div>
             <full-page ref="fullpage" :options="options" id="fullpage">
                 <div class="section">
@@ -94,7 +95,7 @@
                                 <div class="header-wrapper">
                                     <div class="hero-text-inner">
                                         <div class="hero-text">
-                                        <div style="width:100%;text-align:center;"><img src="{% static 'main/assets/img/android-chrome-192x192.png'%}"></div>
+                                        <div class="page_loge" style="width:100%;text-align:center;"><img src="{% static 'main/assets/img/android-chrome-192x192.png'%}"></div>
                                          <h1>오늘의 당신을 신뢰하세요</h1>
                                             <div class="heroimg">
                                                 <div class="hero-text-img">
@@ -105,37 +106,209 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="move_page">
+                                  <a href="#page2"><i class="fas fa-angle-double-down" style="color:lightgrey;"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="section">
-                    <div id="s6" class="notice background-bs">
+                    <div id="s1" class="header background-bs">
                         <div class="container">
                             <div class="row">
-                                <div class="noticewrapper">
-                                    <div class="noticeinner">
-                                        <div class="noticetext">
-                                               <div class="heroimg1">
+                                <div class="choose-wrapper">
+                                    <div class="hero-text-inner">
+                                        <div class="hero-text">
+                                         <h2>소비와 투자를 연계하다</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="choose-wrapper2">
+                                    <div class="hero-text-inner">
+                                        <div class="hero-text">
+                                             <h3>(- And +)</h3>
+                                            <h3>=</h3>
+                                         <h3>Positive Or Negative?</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="position-left">
+                                    <div>
+                                        <img src="{% static 'main/assets/img/목업이미지1.png'%}">
+                                    </div>
+                                </div>
+                                <div class="position-right">
+                                    <div>
+                                        <img src="{% static 'main/assets/img/목업이미지4.png'%}">
+                                    </div>
+                                </div>
+                                <div class="move_page">
+                                  <a href="#page3"><i class="fas fa-angle-double-down" style="color:lightgrey;"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div id="s2" class="header background-bs">
+                        <div class="container">
+                            <div class="row">
+                                <div class="position-left-text">
+                                    <div class="hero-text-inner">
+                                        <div class="hero-text" style="text-align:left;">
+                                         <h2>나의 소비는 오늘의 나!</h2>
+                                         <h4>내 라이프를 기록해 보세요</h4>
+                                         <h4>나를 토대로 투자할 수 있어요</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="position-right">
+                                    <div>
+                                        <img src="{% static 'main/assets/img/목업이미지3.png'%}">
+                                    </div>
+                                </div>
+                                <div class="move_page">
+                                  <a href="#page4"><i class="fas fa-angle-double-down" style="color:lightgrey;"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div id="s3" class="header background-bs">
+                        <div class="container">
+                            <div class="row">
+                                <div class="choose-wrapper">
+                                    <div class="hero-text-inner">
+                                        <div class="hero-text">
+                                         <h2>가상투자를 시작해보세요</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="position-center">
+                                    <div>
+                                        <img src="{% static 'main/assets/img/목업이미지2.png'%}">
+                                    </div>
+                                </div>
+                                <div class="position-center-text">
+                                    <div class="hero-text-inner">
+                                        <div class="hero-text">
+                                         <h4>가상 자본을 설정하고</h4>
+                                            <h4>나와 밀접한 기업에 자유롭게 투자해보세요</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="move_page">
+                                  <a href="#page5"><i class="fas fa-angle-double-down" style="color:lightgrey;"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div id="s4" class="header background-bs">
+                        <div class="container">
+                            <div class="row">
+                                <div class="choose-wrapper">
+                                    <div class="hero-text-inner">
+                                        <div class="hero-text">
+                                         <h2>자유롭고 가벼운 자산관리</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="position-center">
+                                    <div>
+                                        <img src="{% static 'main/assets/img/목업이미지2.png'%}">
+                                    </div>
+                                </div>
+                                <div class="position-center-text">
+                                    <div class="hero-text-inner">
+                                        <div class="hero-text">
+                                         <h4>소비내역을 토대로 제공받은 주식을</h4>
+                                            <h4>가상구매해 포트폴리오를 완성하세요</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="move_page">
+                                  <a href="#page6"><i class="fas fa-angle-double-down" style="color:lightgrey;"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <div class="section">
+                    <div id="s1" class="header background-bs">
+                        <div class="container">
+                            <div class="row">
+                                <div class="position-left-text">
+                                    <div class="hero-text-inner">
+                                        <div class="hero-text" style="text-align:left;">
+                                         <h2>나의 다양한 기업 소개</h2>
+                                             <h4>머신러닝을 활용하여 여러분의 포토폴리오를 분석하고</h4>
+                                            <h4>코스닥, 나스닥의 구분 없이 예상 밖 다양한 주식을 추천합니다.</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="position-right">
+                                    <div>
+                                        <img src="{% static 'main/assets/img/목업이미지4.png'%}">
+                                    </div>
+                                </div>
+                                <div class="move_page">
+                                  <a href="#page7"><i class="fas fa-angle-double-down" style="color:lightgrey;"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div id="s5" class="header background-bs">
+                        <div class="container">
+                            <div class="row">
+                                         <div class="position-left-text">
+                                    <div class="hero-text-inner">
+                                        <div class="hero-text" style="text-align:left;">
+                                         <h2>가상 투자를 시작해보세요</h2>
+                                             <h4>여러분의 현명했떤 오늘의 소비</h4>
+                                            <h4>내일도 모레도 계속 유호할 수 있도록, <span style="color:#f5d05c"> 레몬</span>을 시작해보세요.</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                        <div class="position-right">
+                                            </div>
+                                </div>
+                            <div class="move_page">
+                                  <a href="#page8"><i class="fas fa-angle-double-down" style="color:lightgrey;"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <div class="section">
+                    <div id="s5" class="header background-bs">
+                        <div class="container">
+                            <div class="row">
+                                        <div class="position-center">
+                                                <h2>
+                                                    <strong>(주)바숲텐서</strong>
+                                                </h2>
+                                                <h5>대표자 : 김선희
+                                                    <br>
+                                                    주소 : 광주광역시 서구 천변좌로 318, 3층
+                                                    <br>
+                                                    대표메일 : basoup.t@gmail.com
+                                                    <br>
+                                                    사업자번호 : 883-87-02312
+                                                    <br>
+                                                    <strong>Copyright @BasoupTensor Corp. All Rights Reserved</strong>
+                                                </h5>
+                                            <div class="heroimg1">
                                                 <div class="hero-text-img1">
                                                         <a href="https://play.google.com/store/apps/details?id=kr.co.mycampus.android" target="blank"><img src="{% static 'main/assets/img/googleplay.png'%}" alt=""></a>
                                                         <a href="https://apps.apple.com/app/id1533306020" target="blank"><img src="{% static 'main/assets/img/appstore.png'%}" alt=""></a>
                                                     </div>
                                                 </div>
-                                                <h6>
-                                                    <strong>(주) 바숲텐서</strong>
-                                                </h6>
-                                                <h5>대표자 : 김선희
-                                                    <br>
-                                                    주소 : 광주광역시 서구 천변좌로 318, 3층<br>
-                                                    대표메일 : basoup.t@gmail.com
-                                                    <br>
-                                                    사업자번호 : 883-87-02312<br>
-                                                    <strong>Copyright @BasoupTensor Corp. All Rights Reserved</strong>
-                                                </h5>
                                             </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
