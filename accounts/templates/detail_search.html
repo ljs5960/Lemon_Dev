@@ -89,6 +89,24 @@
     border-radius: 5px;
     color: #fff;
   }
+
+  .th-month-title{
+    text-align: right;
+    vertical-align: bottom;
+    border-left: none;
+    border-right: none;
+    border-top:  1px solid #dddddd;
+    border-bottom:  1px solid transparent;
+    color:#3a3a3a;
+    font-size: 25px;
+    font-weight: 500;
+  }
+  .th-month-title2{
+    border-left: none;
+    border-right: none;
+    border-top:  1px solid #dddddd;
+    border-bottom:  1px solid transparent;
+  }
 </style>
 
 <!-- pagenation -->
@@ -142,6 +160,12 @@
   </colgroup>
   <tbody id="list-table-tbody">
   {% for filter in total_date %}
+  <tr class="tr-month-title">
+  {% ifchanged filter.spend_date.month %}
+    <th class="th-month-title">{{ filter.spend_date | date:'m월' }}</th>
+    <th class="th-month-title2"></th>
+  {% endifchanged %}
+  </tr>
   {% ifchanged filter.spend_date.day %}
   <tr style="vertical-align:top;" id="date_title">
     <th style="text-align:left;padding-left:5px; border-bottom:1px solid #dddddd;">

@@ -5,7 +5,7 @@ from django.http.response import HttpResponse
 from django.contrib import auth
 from django.contrib.auth import login, authenticate, get_user_model
 from django.contrib.auth.models import User
-from .models import user, Notice
+from .models import user
 from .forms import LemonSignupForm#, SpendForm, IncomeForm
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
@@ -67,16 +67,3 @@ def user_delete(request, user_id):
     user1.delete()
     return redirect('/')
     return render(request, 'user_delete.html')
-
-# 공지사항
-def notice(request):
-    notice = Notice.objects.all().order_by('-notice_id')
-
-    return render(request, 'notice.html', {'notices': notice})
-
-
-# 공지사항 상세보기
-def notice_detail(request, pk):
-    notice = Notice.objects.get(notice_id = pk)
-    
-    return render(request, 'notice_detail.html', {'notice': notice})

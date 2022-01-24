@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
 
 {% block title %}레몬::홈{% endblock title %}
 {% block container %}
@@ -81,28 +82,28 @@
 
             <div class="add_info">
                 <a class="add_info_title">이름</a><br>
-                <input type="text" class="add_info_input"> <br>
+                <input id="name" name="username" type="text" class="add_info_input" value=""> <br>
                 <a class="add_info_title">성별</a><br>
-                <select class="add_info_select">
+                <select name="gender" class="add_info_select">
                     <option value=""> 성별 </option>
                     <option value="M"> 남자 </option>
                     <option value="F"> 여자 </option>
                 </select> <br>
                 <a class="add_info_title">직업군</a><br>
-                <select class="add_info_select">
+                <select name = job class="add_info_select">
                     <option value=""> 직업군 </option>
-                    <option value="1"> 학생 </option>
-                    <option value="1"> 자영업자 </option>
-                    <option value="1"> 회사원 </option>
-                    <option value="1"> 의사 </option>
+                    <option value="1">학생</option>
+                    <option value="2">자영업자</option>
+                    <option value="3">회사원</option>
+                    <option value="4">의사</option>
                 </select> <br>
                 <a class="add_info_title">휴대전화</a><br>
-                <input class="add_info_phone" id="phoneinput" type="tel" placeholder="- 를 제외하고 입력하세요">
+                <input class="add_info_phone" id="phonenumber" name="phonenumber" type="text" placeholder="- 를 제외하고 입력하세요">
                 <button type="button" id="codeBtn" class="phone_code_btn">인증번호 받기</button><br>
                 <input id="inputCode" class="add_info_phonecode" type="number" placeholder="인증번호 입력" disabled> <a id="count" class="count"></a>
                 <button style="float: right;" type="button" id="certBtn" onclick="certfun();" class="phone_code_btn" disabled >인증번호 확인</button><br>
                 <a class="add_info_title">생년월일</a><br>
-                    <input class="add_info_year" type="text" id="year" maxlength="8" placeholder="예시)19801210">
+                    <input class="add_info_year" name = birthday type="integrity" id="year" maxlength="8" placeholder="예시)19801210">
             </div>
 
                 <button class="access_btn" id="signupBtn" type="submit" value="signup" disabled style="width:100%">레몬 시작하기</button>
@@ -136,7 +137,7 @@ $('input[id="require_chk"]').change(function () {
         var isRunning = false;
         var display = $('#count');
         var leftSec = 180;
-        var phoneInput = document.getElementById('phoneinput');
+        var phoneInput = document.getElementById('phonenumber');
         if(phoneInput.value == '' || phoneInput.value == null){
             alert('휴대전화번호를 입력하세요.');
             return false;
@@ -163,7 +164,7 @@ $('input[id="require_chk"]').change(function () {
                 type: "POST",
                 url: "{% url 'calendars:ajax_sendSMS' %}",
                 data: {
-                    NUM: $('#phoneinput').val(),
+                    NUM: $('#phonenumber').val(),
                     KEY: KEY,
                     csrfmiddlewaretoken: '{{ csrf_token }}',
                     dataType: "json",
@@ -194,7 +195,7 @@ $('input[id="require_chk"]').change(function () {
         if(document.querySelector("#inputCode").value == KEY){
             alert('확인되었습니다.');
             clearInterval(timer);
-            $('#phoneinput').attr('disabled', true);
+            $('#phonenumber').attr('disabled', true);
             $('#inputCode').attr('disabled', true);
             $('#codeBtn').attr('disabled', true);
             $('#certBtn').attr('disabled', true);
@@ -276,21 +277,21 @@ $('input[id="require_chk"]').change(function () {
 
     <div class="home-spand-div">
         <div class="home-spand-title">
-            <a>1월 소비</a>
+            <a>{{month}}월 소비</a>
             <a class="home-spand-dateView" id="date_view"></a>
         </div>
 
         <div class="home-spand-input">
-            <a>지출 2,234,500원</a>
+            <a>지출 {{Expenditure.amount__sum|default_if_none:'0'|intcomma}}원</a>
         </div>
 
         <div class="home-spand-buttons">
-            <button style="margin-right:15px;" class="home-spand-button">소비 내역</button>
-            <button style="margin-left:15px;" class="home-spand-button">소비 분석</button>
+            <button onclick="location.href='{% url 'calendars:listview' %}'" style="margin-right:15px;" class="home-spand-button">소비 내역</button>
+            <button onclick="location.href='{% url 'calendars:top5' %}'" style="margin-left:15px;" class="home-spand-button">소비 분석</button>
         </div>
     </div>
 
-    <div class="home-stock-div">
+    <div class="home-stock-div" style="display:none;">
         <div class="home-stock-title">
             <a>주식</a>
             <a class="home-spand-dateView" id="date_view2"></a>
@@ -312,7 +313,7 @@ $('input[id="require_chk"]').change(function () {
 
     </div>
 
-    <div class="home-property-div">
+    <div class="home-property-div" style="display:none;">
         <div class="home-property-title">
             <a>총 자산</a>
             <a style="font-size:14px; float: right;">금일기준</a>

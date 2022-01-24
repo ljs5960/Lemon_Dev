@@ -18,8 +18,6 @@ urlpatterns = [
     path('login', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('user_delete/<int:user_id>', views.user_delete, name='user_delete'), #회원탈퇴
-    path('notice', views.notice, name='notice'), # 공지사항
-    path('notice/<int:pk>', views.notice_detail, name='notice_detail'), # 공지사항 상세보기
     path('authaccounts/kakao/login', views.KakaoSignInView, name='KakaoSignInView'),
 
 ]
