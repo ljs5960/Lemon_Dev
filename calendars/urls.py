@@ -14,7 +14,7 @@ urlpatterns = [
     path('calendar', views.calendar, name='calendar'),
     path('summary', views.summary, name='summary'), # 요약페이지
     path('recom', views.recom, name='recom'), # 추천페이지
-    path('list/', views.list, name='list'), # 내역페이지
+    path('list_view', views.list_view, name='list_view'), # 내역페이지
     #path('calendar', views.list, name='list'),
     # path('cal_list', views.cal_list, name='calendarList'),
 
@@ -31,3 +31,5 @@ urlpatterns = [
     path('add_event', views.add_event, name='add_event'),
     path('load_list', views.load_list, name='load_list'),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

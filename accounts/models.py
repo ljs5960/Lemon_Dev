@@ -76,6 +76,7 @@ class user(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
+    pin = models.IntegerField(verbose_name="pin번호", blank=True, null=True)
 
     USERNAME_FIELD = 'uid'
     REQUIRED_FIELDS = ['email','username','phonenumber','invest']

@@ -255,7 +255,7 @@ def all_events(request):
 
     return JsonResponse(out, safe=False)
 
-def list(request):
+def list_view(request):
     input_year = request.POST.get('input_year','')
     input_month = request.POST.get("input_month",'')
     user = request.user.user_id
