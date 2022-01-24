@@ -31,9 +31,6 @@ ALLOWED_HOSTS = ['52.78.138.222']
 
 # Application definition
 INSTALLED_APPS = [
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.sites',
@@ -49,6 +46,10 @@ INSTALLED_APPS = [
     'corsheaders',
     'ckeditor',
     'ckeditor_uploader',
+    
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
     'allauth.socialaccount.providers.auth0',
     'allauth.socialaccount.providers.kakao',
     'allauth.socialaccount.providers.google',
@@ -59,6 +60,13 @@ LOGIN_REDIRECT_URL = '/signup2' # 로그인 후 리디렉션할 페이지
 
 ACCOUNT_LOGOUT_REDIRECT_URL = "/"  # 로그아웃 후 리디렉션 할 페이지
 ACCOUNT_LOGOUT_ON_GET = True # 로그아웃 버튼 클릭 시 자동 로그아웃
+ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
+
+SOCIALACCOUNT_AUTO_SIGNUP = False
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',  # <- 디폴트 모델 백엔드
+    'allauth.account.auth_backends.AuthenticationBackend', # <- 추가
+)
 
 SITE_ID = 1
 
@@ -79,13 +87,15 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'frontend', 'build')
+            #os.path.join(BASE_DIR, 'templates'),
+            #os.path.join(BASE_DIR, 'templates', 'allauth'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                'django.template.context_processors.media',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],

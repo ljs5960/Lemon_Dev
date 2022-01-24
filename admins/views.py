@@ -6,26 +6,21 @@ from accounts.models import user
 from .models import Notice
 from datetime import datetime
 
+# Create your views here.
 
 #  문의하기
 def qna(request):
-    
     return render(request, 'qna.html')
-
 
 # 공지사항
 def notice(request):
     notice = Notice.objects.all().order_by('-notice_id')
-
     return render(request, 'notice.html', {'notices': notice})
-
 
 # 공지사항 상세보기
 def notice_detail(request, pk):
-    notice = Notice.objects.get(notice_id=pk)
-    
+    notice = Notice.objects.get(notice_id = pk)
     return render(request, 'notice_detail.html', {'notice': notice})
-
 
 # 자산 설정
 def invest_change(request):
@@ -50,7 +45,6 @@ def invest_change(request):
             return redirect('/myinfo')
     return render(request, 'invest.html', {'user': user_db})
 
-
 # 내 정보 변경
 def edit_myinfo(request):
     if request.method == 'POST':
@@ -62,7 +56,6 @@ def edit_myinfo(request):
         return redirect('/myinfo/update')
     return render(request, 'edit_myinfo.html')
 
-
 # pin번호
 def input_pin(request):
     if request.method == 'POST':
@@ -71,4 +64,4 @@ def input_pin(request):
         user_db.pin = request.POST['pin']
         user_db.save()
         return redirect('/myinfo')
-    return render(request, 'input_pin.html')
+    return render(request, 'input_pin.html') 

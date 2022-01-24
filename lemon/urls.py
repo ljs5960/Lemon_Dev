@@ -30,9 +30,9 @@ from django.views.generic import TemplateView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('accounts.urls')),
-    path('', include('calendars.urls')),
-    path('', include('admins.urls')),
-    path('account/', include('allauth.urls')),
+    path('',include('calendars.urls')),
+    path('',include('admins.urls')),
+    path('social/', include('allauth.urls')),
 #    path(r'^', include(router.urls)),
     path('.*', TemplateView.as_view(template_name='index.html')),
     url(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),

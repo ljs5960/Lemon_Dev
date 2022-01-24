@@ -1,39 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" href="assets/style.css">
-    <title>Hammer.js</title>
-    <script as src="https://hammerjs.github.io/dist/hammer.js"></script>
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}레몬::주식{% endblock title %}
+{% block container %}
+<style>
+    .bottom-nav-stock,.bottom-nav-stock a{
+      color: #FFD859;
+    }
+</style>
 
-    <style>
-      #myElement {
-        background: silver;
-        height: 300px;
-        text-align: center;
-        font: 30px/300px Helvetica, Arial, sans-serif;
-      }
-    </style>
-</head>
-<body>
-  <div id="myElement"></div>
+주식 api를 받아오면 작업 예정
 
-</body>
-
-<script>
-  var myElement = document.getElementById('myElement');
-
-  // create a simple instance
-  // by default, it only adds horizontal recognizers
-  var mc = new Hammer(myElement);
-  
-  // listen to events...
-  mc.on("swipeleft", function(ev) {
-      window.location.href="/calendar";
-  });
-
-  mc.on("swiperight", function(ev) {
-    window.location.href="/addlist";
-});
-</script>
-</html>
+{% endblock %}

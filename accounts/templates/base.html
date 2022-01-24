@@ -63,9 +63,11 @@
     <!-- PC접속시 홍보페이지 이동 -->
     <!-- 홍보페이지 extends 'base.html' 구문때문에 무한 리다이렉트, 구문 삭제 후 코드 활성화 -->
     <script>
+        
         if(!navigator.userAgent.match(/Android|Mobile|iP(hone|od|ad)|BlackBerry|IEMobile|Kindle|NetFront|Silk-Accelerated|(hpw|web)OS|Fennec|Minimo|Opera M(obi|ini)|Blazer|Dolfin|Dolphin|Skyfire|Zune/)){
         location.href = "/main"; // 추후 홍보페이지 주소 입력
         }
+        
     </script>
     <title>{% block title %}{% endblock %}</title>
 
@@ -101,10 +103,12 @@
         color: #D1D6DA;
     }
     .bottom-nav-wrap{
+        text-align: center;
         list-style: none;
-        float: left;
         width: 100%;
         z-index: 1024 !important;
+    }
+    .bottom-nav-stock,.bottom-nav-addlist{
     }
     </style>
 
@@ -145,7 +149,7 @@ $( document ).ready(function() {
             <li class="bottom-nav-home" style="width: 20%; height:100%; text-align:center;"><a
                 href="{% url 'calendars:home' %}"><i class="fas fa-home"></i><br>홈</a></li>
             <li class="bottom-nav-calendar" style="width: 20%; height:100%; text-align:center;"><a
-                    href="calendar" ><i class="far fa-calendar-alt"></i><br>가계부</a></li>
+                    href="{% url 'calendars:listview' %}" ><i class="far fa-calendar-alt"></i><br>가계부</a></li>
             <li class="bottom-nav-stock" style="width: 20%; height:100%; text-align:center;"><a
                     href="{% url 'accounts:stock' %}"><i class="fas fa-chart-area"></i><br>주식</a></li>
             <li class="bottom-nav-addlist" style="width: 20%; height:100%; text-align:center;"><a

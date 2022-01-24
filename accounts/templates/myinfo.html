@@ -2,7 +2,7 @@
 {% load humanize %}
 {% block title %}레몬::내정보{% endblock title %}
 {% block container %}
-
+{% load humanize %}
 <style>
     .bottom-nav-myinfo,.bottom-nav-myinfo a{
         color: #FFD859;
@@ -21,8 +21,7 @@
         box-shadow: 1px 4px 5px 0px rgb(202, 202, 202);
     }
 </style>
-<body>
-    <a>내정보</a><br>
+<a>내정보</a><br>
     <div class="profile-wrap">
         {% if user.is_authenticated %}
             <a>{{user.uid}} 님 안녕하세요.<br>(최근로그인 :{{user.last_login|date:"M d일 D H:i"}})</a><br>
@@ -45,6 +44,4 @@
     {% if message %}
         <script>alert('{{ message }}');</script>
     {% endif %}
-</body>
-
 {% endblock %}

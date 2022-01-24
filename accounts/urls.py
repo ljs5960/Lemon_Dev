@@ -18,6 +18,8 @@ urlpatterns = [
     path('login', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('user_delete/<int:user_id>', views.user_delete, name='user_delete'), #회원탈퇴
+    path('authaccounts/kakao/login', views.KakaoSignInView, name='KakaoSignInView'),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

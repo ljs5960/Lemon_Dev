@@ -13,5 +13,4 @@ urlpatterns = [
     path('myinfo/update', views.edit_myinfo, name='edit_myinfo'), # 내 정보 변경
     path('pin/input', views.input_pin, name='input_pin'), # pin번호 변경
 ]
-
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 
