@@ -69,7 +69,7 @@
   <ul>
     <li id="pagenation_recom"><a href="{% url 'calendars:recom' %}">추천</a></li>
     <li id="pagenation_summary"><a href="{% url 'calendars:summary' %}">요약</a></li>
-    <li id="pagenation_list"><a href="{% url 'calendars:listview' %}">내역</a></li>
+    <li id="pagenation_list"><a href="{% url 'calendars:history' %}">내역</a></li>
     <li id="pagenation_calendar"><a href="{% url 'calendars:top5' %}">TOP 5</a></li>
   </ul>
 </div>
@@ -245,11 +245,11 @@
 
   // listen to events...
   mc.on("swipeleft", function(ev) {
-      window.location.href="/listview";
+      window.location.href="/history";
   });
 
   mc.on("swiperight", function(ev) {
-      window.location.href="/recom";
+      //window.location.href="/recom";
 });
 </script>
 <link rel = "stylesheet" href="{% static 'css/main.css' %}">
