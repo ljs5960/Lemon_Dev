@@ -1,3 +1,4 @@
+{% load static %}
 <style>
     @media screen and (max-width: 1023px) {
         .main_wrap2{
@@ -48,21 +49,503 @@
     display:none !important;
     }
 </style>
-<div class="main_wrap">
-    <div style="text-align: center; padding-top:3rem; margin-bottom:2rem; width:100%;">
-        <a class="titletxt">가계부와 주식을 관리해보세요.</a><br>
-        <a class="sub-titletxt">나의 소비패턴을 기반으로 주식도 관리할수있습니다.</a>
-    </div>
-    <div style="text-align: center;  margin-bottom:2rem">
-    <button style="margin-bottom: 1rem;" class="download-btn" type="button">
-        <img src="https://visualbank.io/wp-content/themes/qlip/imgs/google_play.png" alt="구글 플레이" width=15" scale="0">
-        <a style="margin-left:5px;">Download</a></button><br>
-    <button class="login1-btn" type="button"><a href="{% url 'accounts:login' %}">로그인하러가기</a></button>
-    </div>
-</div>
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title>레몬</title>
+        <meta property="og:type" content="website"/>
+        <meta property="og:title" content="레몬 - 가계부와 가상투자를 결합한 재테크 앱'"/>
+        <meta property="og:site_name" content="레몬 - 가계부와 가상투자를 결합한 재테크 앱'"/>
+        <meta property="og:url" content="http://www.lemon-bs.com"/>
+        <meta name="description" content="레몬 - 가계부와 가상투자를 결합한 재테크 앱.">
+        <meta property="og:image:width" content="700"/>
+        <meta property="og:image:height" content="300"/>
+        <link rel="icon" href="{% static 'main/assets/img/favicon-16x16.png'%}">
+        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+        <link rel="stylesheet" href="{% static 'main/assets/css/bootstrap.min.css'%}">
+        <link rel="stylesheet" href="{% static 'main/style.css'%}">
+        <link rel="stylesheet" href="https://unpkg.com/fullpage.js/dist/fullpage.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.3.3/css/swiper.min.css"/>
+        <link href="https://owlcarousel2.github.io/OwlCarousel2/assets/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+        <link href="https://owlcarousel2.github.io/OwlCarousel2/assets/owlcarousel/assets/owl.theme.default.min.css" rel="stylesheet">
+        <script src="https://owlcarousel2.github.io/OwlCarousel2/assets/vendors/jquery.min.js"></script>
+        <script src="https://owlcarousel2.github.io/OwlCarousel2/assets/owlcarousel/owl.carousel.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-B4N4YHQJML"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-<div class="main_wrap2">
-    <h1>이 화면이 보인다면, 모바일환경이 아닌 PC 화면으로 접속했을때 나타나는 화면입니다.</h1>
-    <h1>화면을 모바일 사이즈로 변경해주세요.</h1>
-    <h1>width -> 1024px 이상인 디스플레이에서 접속시 나타나는 이 페이지를 곧 꾸밀 예정입니다.</h1>
-</div>
+  gtag('config', 'G-B4N4YHQJML');
+</script>
+
+    </head>
+    <body>
+        <div id="app">
+            <div class="logo">
+                <a href="#page1"><img src="{% static 'main/assets/img/레몬 가로.png'%}" alt=""></a>
+            </div>
+            <full-page ref="fullpage" :options="options" id="fullpage">
+                <div class="section">
+                    <div id="s0" class="header background-bs">
+                        <div class="container">
+                            <div class="row">
+                                <div class="header-wrapper">
+                                    <div class="hero-text-inner">
+                                        <div class="hero-text">
+                                        <div class="page_loge" style="width:100%;text-align:center;"><img src="{% static 'main/assets/img/android-chrome-192x192.png'%}"></div>
+                                         <h1>오늘의 당신을 신뢰하세요</h1>
+                                            <div class="heroimg">
+                                                <div class="hero-text-img">
+                                                    <a onclick="goto_market()"><img src="{% static 'main/assets/img/googleplay.png'%}" alt=""></a>
+                                                    <a onclick="goto_store()"><img src="{% static 'main/assets/img/appstore.png'%}" alt=""></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="move_page">
+                                  <a href="#page2"><i class="fas fa-angle-double-down" style="color:lightgrey;"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div id="s1" class="header background-bs">
+                        <div class="container">
+                            <div class="row">
+                                <div class="choose-wrapper">
+                                    <div class="hero-text-inner">
+                                        <div class="hero-text">
+                                         <h2>소비와 투자를 연계하다</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="choose-wrapper2">
+                                    <div class="hero-text-inner">
+                                        <div class="hero-text">
+                                             <h3>(- And +)</h3>
+                                            <h3>=</h3>
+                                         <h3>Positive Or Negative?</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="position-left">
+                                    <div>
+                                        <img src="{% static 'main/assets/img/목업이미지1.png'%}">
+                                    </div>
+                                </div>
+                                <div class="position-right">
+                                    <div>
+                                        <img src="{% static 'main/assets/img/목업이미지4.png'%}">
+                                    </div>
+                                </div>
+                                <div class="move_page">
+                                  <a href="#page3"><i class="fas fa-angle-double-down" style="color:lightgrey;"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div id="s2" class="header background-bs">
+                        <div class="container">
+                            <div class="row">
+                                <div class="position-left-text">
+                                    <div class="hero-text-inner">
+                                        <div class="hero-text" style="text-align:left;">
+                                         <h2>나의 소비는 오늘의 나!</h2>
+                                         <h4>내 라이프를 기록해 보세요</h4>
+                                         <h4>나를 토대로 투자할 수 있어요</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="position-right">
+                                    <div>
+                                        <img src="{% static 'main/assets/img/목업이미지3.png'%}">
+                                    </div>
+                                </div>
+                                <div class="move_page">
+                                  <a href="#page4"><i class="fas fa-angle-double-down" style="color:lightgrey;"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div id="s3" class="header background-bs">
+                        <div class="container">
+                            <div class="row">
+                                <div class="choose-wrapper">
+                                    <div class="hero-text-inner">
+                                        <div class="hero-text">
+                                         <h2>가상투자를 시작해보세요</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="position-center">
+                                    <div>
+                                        <img src="{% static 'main/assets/img/목업이미지2.png'%}">
+                                    </div>
+                                </div>
+                                <div class="position-center-text">
+                                    <div class="hero-text-inner">
+                                        <div class="hero-text">
+                                         <h4>가상 자본을 설정하고</h4>
+                                            <h4>나와 밀접한 기업에 자유롭게 투자해보세요</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="move_page">
+                                  <a href="#page5"><i class="fas fa-angle-double-down" style="color:lightgrey;"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div id="s4" class="header background-bs">
+                        <div class="container">
+                            <div class="row">
+                                <div class="choose-wrapper">
+                                    <div class="hero-text-inner">
+                                        <div class="hero-text">
+                                         <h2>자유롭고 가벼운 자산관리</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="position-center">
+                                    <div>
+                                        <img src="{% static 'main/assets/img/목업이미지2.png'%}">
+                                    </div>
+                                </div>
+                                <div class="position-center-text">
+                                    <div class="hero-text-inner">
+                                        <div class="hero-text">
+                                         <h4>소비내역을 토대로 제공받은 주식을</h4>
+                                            <h4>가상구매해 포트폴리오를 완성하세요</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="move_page">
+                                  <a href="#page6"><i class="fas fa-angle-double-down" style="color:lightgrey;"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <div class="section">
+                    <div id="s1" class="header background-bs">
+                        <div class="container">
+                            <div class="row">
+                                <div class="position-left-text">
+                                    <div class="hero-text-inner">
+                                        <div class="hero-text" style="text-align:left;">
+                                         <h2>나의 다양한 기업 소개</h2>
+                                             <h4>머신러닝을 활용하여 여러분의 포토폴리오를 분석하고</h4>
+                                            <h4>코스닥, 나스닥의 구분 없이 예상 밖 다양한 주식을 추천합니다.</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="position-right">
+                                    <div>
+                                        <img src="{% static 'main/assets/img/목업이미지4.png'%}">
+                                    </div>
+                                </div>
+                                <div class="move_page">
+                                  <a href="#page7"><i class="fas fa-angle-double-down" style="color:lightgrey;"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div id="s5" class="header background-bs">
+                        <div class="container">
+                            <div class="row">
+                                         <div class="position-left-text">
+                                    <div class="hero-text-inner">
+                                        <div class="hero-text" style="text-align:left;">
+                                         <h2>가상 투자를 시작해보세요</h2>
+                                             <h4>여러분의 현명했떤 오늘의 소비</h4>
+                                            <h4>내일도 모레도 계속 유호할 수 있도록, <span style="color:#f5d05c"> 레몬</span>을 시작해보세요.</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                        <div class="position-right">
+                                            </div>
+                                </div>
+                            <div class="move_page">
+                                  <a href="#page8"><i class="fas fa-angle-double-down" style="color:lightgrey;"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <div class="section">
+                    <div id="s5" class="header background-bs">
+                        <div class="container">
+                            <div class="row">
+                                        <div class="position-center">
+                                                <h2>
+                                                    <strong>(주)바숲텐서</strong>
+                                                </h2>
+                                                <h5>대표자 : 김선희
+                                                    <br>
+                                                    주소 : 광주광역시 서구 천변좌로 318, 3층
+                                                    <br>
+                                                    대표메일 : basoup.t@gmail.com
+                                                    <br>
+                                                    사업자번호 : 883-87-02312
+                                                    <br>
+                                                    <strong>Copyright @BasoupTensor Corp. All Rights Reserved</strong>
+                                                </h5>
+                                            <div class="heroimg1">
+                                                <div class="hero-text-img1">
+                                                        <a href="https://play.google.com/store/apps/details?id=kr.co.mycampus.android" target="blank"><img src="{% static 'main/assets/img/googleplay.png'%}" alt=""></a>
+                                                        <a href="https://apps.apple.com/app/id1533306020" target="blank"><img src="{% static 'main/assets/img/appstore.png'%}" alt=""></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </full-page>
+            </div>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+            <script src="{% static 'main/assets/js/vue-fullpage.min.js'%}"></script>
+            <script src="{% static 'main/index.js'%}"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.6/css/swiper.css"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.6/js/swiper.min.js"></script>
+            <script>
+                var galleryTop = new Swiper('.gallery-top', {
+                    spaceBetween: 10,
+                    allowTouchMove: false,
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev'
+                    },
+                    loop: true,
+                    loopedSlides: 5
+                });
+                var galleryThumbs = new Swiper('.gallery-thumbs', {
+                    spaceBetween: 10,
+                    centeredSlides: true,
+                    slidesPerView: 5,
+                    touchRatio: 0.2,
+                    slideToClickedSlide: true,
+                    loop: true,
+                    loopedSlides: 5
+
+                });
+                galleryTop.controller.control = galleryThumbs;
+                galleryThumbs.controller.control = galleryTop;
+            </script>
+            <script>
+                var galleryTop = new Swiper('.gallery-top1', {
+                    spaceBetween: 10,
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev'
+                    },
+                    loop: true,
+                    loopedSlides: 5
+                });
+                var galleryThumbs = new Swiper('.gallery-thumbs1', {
+                    spaceBetween: 10,
+                    centeredSlides: true,
+                    slidesPerView: 1,
+                    touchRatio: 0.2,
+                    slideToClickedSlide: true,
+                    loop: true,
+                    loopedSlides: 5
+                });
+                var galleryThumbs = new Swiper('.club_images', {
+                    spaceBetween: 10,
+                    centeredSlides: true,
+                    slidesPerView: 1,
+                    touchRatio: 0.2,
+                    slideToClickedSlide: true,
+                    loop: true,
+                    pagination : {
+                    el : '.swiper-pagination2',
+                    clickable : true,
+                    },
+                });
+                galleryTop.controller.control = galleryThumbs;
+                galleryThumbs.controller.control = galleryTop;
+            </script>
+            <script>
+                var Slider = function (id, _web, _tab, _mobile, spacing) {
+                    var containerWidth = 0;
+                    var sliderItemWidth = 0;
+                    var totalCount = 0;
+                    var spacing = spacing || 10;
+                    var display = _web;
+                    var left = 0;
+                    var interval;
+                    var DOM = {
+                        container: function (id) {
+                            var dom = document.querySelector('#' + id);
+                            dom.className = 's-container';
+                            dom.style.position = 'relative';
+                            dom.style.overflow = 'hidden';
+                            return dom;
+                        },
+                        slider: function (container) {
+                            totalCount = container.children.length;
+                            var dom = document.createElement('div');
+                            dom.className = 'slider'
+                            dom.style.position = 'relative';
+                            dom.style.overflow = 'hidden';
+                            dom.style.height = '100%';
+                            dom.style.left = 0;
+                            dom.style.transition = 'left .5s';
+                            return dom;
+                        }
+                    }
+                    // DOM 만들기
+                    var container = DOM.container(id);
+                    var slider = DOM.slider(container);
+                    var temp = container.innerHTML;
+                    container.innerHTML = '';
+                    slider.innerHTML = temp;
+                    container.appendChild(slider);
+                    var items = document.querySelector('#' + id + ' .slider').children;
+                    for (var i = 0; i < items.length; i++) {
+                        items[i].style.float = 'left';
+                        items[i].style.height = '100%';
+                        items[i].style.width = (sliderItemWidth - spacing) + 'px';
+                        items[i].style['margin-right'] = spacing + 'px'; // 간격
+                    }
+                    // 화면 사이즈 수정시 발생하는 이벤트
+                    function resize() {
+                        left = 0;
+                        document
+                            .querySelector('#' + id + ' .slider')
+                            .style
+                            .left = left + 'px';
+                        var innerWidth = window.innerWidth;
+                        if (innerWidth >= 1000) {
+                            setDisplayCount(_mobile);
+                        } else if (innerWidth < 1000 && innerWidth >= 768) {
+                            setDisplayCount(_mobile);
+                        } else if (innerWidth < 768) {
+                            setDisplayCount(_mobile);
+                        }
+                        if (display === 1) {
+                            spacing = 0;
+                            var items = document.querySelector('#' + id + ' .slider').children;
+                            for (var i = 0; i < items.length; i++) {
+                                items[i].style.width = sliderItemWidth + 'px';
+                                items[i].style['margin-right'] = 0 + 'px'; // 간격
+                            }
+                        }
+                    }
+                    // 디스플레이 갯수 설정 함수
+                    function setDisplayCount(count) {
+                        display = count;
+                        containerWidth = container.offsetWidth + spacing;
+                        sliderItemWidth = containerWidth / display;
+                        document
+                            .querySelector('#' + id + ' .slider')
+                            .style
+                            .width = totalCount * sliderItemWidth + spacing * totalCount + 'px';
+                        var items = document.querySelector('#' + id + ' .slider').children;
+                        for (var i = 0; i < items.length; i++) {
+                            items[i].style.width = (sliderItemWidth - spacing) + 'px';
+                        }
+                    }
+                    // 반응형 디스플레이 갯수 조절
+                    var isResponsive = _tab != undefined && _mobile != undefined;
+                    if (isResponsive) {
+                        window.onresize = resize;
+                    }
+                    resize();
+                    return {
+                        setDisplayCount: setDisplayCount,
+                        move: function (index) {
+                            left = (-1) * sliderItemWidth * index;
+                            document
+                                .querySelector('#' + id + ' .slider')
+                                .style
+                                .left = left + 'px';
+                        },
+                        prev: function () {
+                            left += sliderItemWidth;
+                            var limit = 0;
+                            if (left > limit) {
+                                left = limit;
+                            }
+                            document
+                                .querySelector('#' + id + ' .slider')
+                                .style
+                                .left = left + 'px';
+                        },
+                        next: function () {
+                            left -= sliderItemWidth;
+                            var limit = (-1) * sliderItemWidth * (totalCount - display);
+                            if (left < limit) {
+                                left = limit;
+                            }
+                            document
+                                .querySelector('#' + id + ' .slider')
+                                .style
+                                .left = left + 'px';
+                        },
+                        auto: function () {
+                            clearInterval(interval);
+                            interval = setInterval(function () {
+                                left -= sliderItemWidth;
+                                var limit = (-1) * sliderItemWidth * (totalCount - display);
+                                if (left < limit) {
+                                    left = 0;
+                                }
+                                document
+                                    .querySelector('#' + id + ' .slider')
+                                    .style
+                                    .left = left + 'px';
+                            }, 2000)
+                        },
+                        stop: function () {
+                            clearInterval(interval);
+                        }
+                    }
+                }
+                var slider = new Slider('slider', 4, 3, 1, 20);
+                slider.auto();
+            </script>
+    <script>
+        function goto_market() {
+        var visitedAt = (new Date()).getTime();
+        setTimeout(function () {
+            if ((new Date()).getTime() - visitedAt < 2000) {
+                location.href = "Intent://open?url=" + url + "#Intent;scheme=mycampus;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=kr.co.mycampus.android;end";
+            }
+        }, 500);
+        setTimeout(function () {
+            location.href = "https://play.google.com/store/apps/details?id=kr.co.mycampus.android";
+        }, 0);
+    }
+    function goto_store() {
+        var visitedAt = (new Date()).getTime();
+        setTimeout(function () {
+            if ((new Date()).getTime() - visitedAt < 2000) {
+                location.href = "mycampus://" ;
+            }
+        }, 500);
+        setTimeout(function () {
+            location.href = "https://itunes.apple.com/app/id1533306020";
+        }, 0);
+    }
+    </script>
+    <style>
+        .swiper-pagination-bullet-active {
+        background:white;
+        }
+    </style>
+        </body>
+    </html>

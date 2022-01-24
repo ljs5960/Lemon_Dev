@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.utils import timezone
-from ckeditor_uploader.fields import RichTextUploadingField
 
 # Create your models here.
 class LemonUserManager(BaseUserManager):
@@ -63,7 +62,7 @@ class user(AbstractBaseUser):
     uid = models.CharField(unique=True, max_length=30, db_collation='utf8_general_ci', verbose_name= "유저아이디")
     password = models.CharField(max_length=30, db_collation='utf8_general_ci')
     email = models.CharField(unique=True, max_length=100, db_collation='utf8_general_ci', verbose_name= "이메일")
-    phonenumber = models.CharField(unique=True, max_length=15, db_collation='utf8_general_ci', blank=True, null=True,verbose_name= "전화번호")
+    phonenumber = models.CharField(unique=True, max_length=24, db_collation='utf8_general_ci', blank=True, null=True,verbose_name= "전화번호")
     invest = models.IntegerField(verbose_name="모의투자금",blank=True, null=True)
     invest_date = models.DateTimeField(verbose_name="투자금액설정일",blank=True, null=True)
     u_chk = models.BooleanField(verbose_name="개인정보 동의체크",blank=True, null=True, default = 0)
@@ -77,6 +76,11 @@ class user(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
+    pin = models.IntegerField(verbose_name="pin번호", blank=True, null=True)
+    gender = models.CharField(max_length=10, db_collation='utf8_general_ci', verbose_name= "성별")
+    job = models.IntegerField(verbose_name="직업",blank=True, null=True)
+    birthday = models.IntegerField(verbose_name="생년월일",blank=True, null=True)
+
 
     USERNAME_FIELD = 'uid'
     REQUIRED_FIELDS = ['email','username','phonenumber','invest']
@@ -99,16 +103,3 @@ class user(AbstractBaseUser):
 
     def has_module_perms(self, app_label):
         return self.is_admin
-    
-class Notice(models.Model):
-    notice_id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=45, null=False, verbose_name = '제목')
-    content = RichTextUploadingField(blank=True, null=True, verbose_name = '내용')
-    date = models.DateTimeField(default=timezone.now, verbose_name = '날짜')
-    
-    def __str__(self):
-        return self.title
-
-    class Meta:
-        managed = False
-        db_table = 'notice'
