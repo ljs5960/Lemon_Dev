@@ -65,3 +65,11 @@ def input_pin(request):
         user_db.save()
         return redirect('/myinfo')
     return render(request, 'input_pin.html') 
+
+# 회원탈퇴
+def user_delete(request, user_id):
+    user2 = user_id
+    user1 = get_user_model().objects.get(user_id = user2)
+    user1.delete()
+    return redirect('/')
+    return render(request, 'user_delete.html')

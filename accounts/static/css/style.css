@@ -253,7 +253,7 @@ font-family: 'Noto Sans KR', sans-serif;
 	/* 로그인페이지 관련 CSS */
 
 	.logo-wrap{
-		margin-top: 180px;
+		margin-top: 100px;
 		width: 100%;
 	}
 	.logo-logo{
@@ -847,4 +847,42 @@ font-family: 'Noto Sans KR', sans-serif;
       .fc-day-sat a{ color:blue; }
   
     /*End Fullcalendar CSS*/
+
+	/* 공지사항 페이지 */
+	.notice-contents{
+			background-color: #fff;
+			margin: 10px 0;
+			padding: 10px;
+			border: 1px solid #8e8e8e;
+			border-radius: 5px;
+			width:100%;
+		}
+	.notice-title{
+			font-size:16px;
+			color:#2a2a2a;
+			font-weight: 500;
+		}
+	.notice-date{
+			font-size:10px;
+			color:gray;
+			font-weight: 400;
+		}
+	.notice-detail-titlewrap{
+			padding:10px;
+			border-bottom:1px solid #ddd;
+		}
+	
+		.notice-detail-title{
+			font-size:16px;
+			color:#2a2a2a;
+			font-weight: 500;
+		}
+		.notice-detail-date{
+			font-size:12px;
+			color:gray;
+			font-weight: 400;
+		}
+		.notice-detail-content{
+			padding:10px 10px 20px 10px;
+		}
 }

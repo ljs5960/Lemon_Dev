@@ -6,7 +6,6 @@ from django.contrib import auth
 from django.contrib.auth import login, authenticate, get_user_model
 from django.contrib.auth.models import User
 from .models import user
-from .forms import LemonSignupForm#, SpendForm, IncomeForm
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
@@ -26,18 +25,6 @@ URL_LOGIN = '/login'
 def main(request):
     return render(request, 'main.html')
 
-
-def search_stock(request):
-    return render(request, 'search_stock.html')
-
-@login_required(login_url=URL_LOGIN)
-def stock(request):
-    return render(request, 'stock.html')
-
-@login_required(login_url=URL_LOGIN)
-def addlist(request):
-    return render(request, 'addlist.html')
-
 @login_required(login_url=URL_LOGIN)
 def myinfo(request):
     return render(request, 'myinfo.html')
@@ -49,12 +36,6 @@ def signup(request):
                                             uid=request.POST['uid'],
                                             password=request.POST['password'],
                                             email=request.POST['email'],
-                                            username=request.POST['username'],
-                                            phonenumber=request.POST['phonenumber'],
-                                            invest=request.POST['invest'],
-                                            u_chk=request.POST['u_chk'],
-                                            e_chk=request.POST['e_chk'],
-
                                             )
             auth.login(request, user)
             return redirect('/')

@@ -43,7 +43,7 @@
 </style>
   <div class="signup-wrap">
     <div class="alert alert-danger" role="alert">
-        <a>소셜로그인을 통한 최초 로그인시, <strong>레몬서비스 이용약관</strong> 및 <strong>개인정보 수집 동의 </strong>와 
+        <a>최초 로그인시, <strong>레몬서비스 이용약관</strong> 및 <strong>개인정보 수집 동의 </strong>와 
         <strong>추가정보 입력</strong> 후 서비스 사용가능합니다.</a>
     </div>
     <div class="input-form col-md-12 mx-auto" style="height:100%; padding:0 20px; text-align:left;">
@@ -286,7 +286,7 @@ $('input[id="require_chk"]').change(function () {
         </div>
 
         <div class="home-spand-buttons">
-            <button onclick="location.href='{% url 'calendars:listview' %}'" style="margin-right:15px;" class="home-spand-button">소비 내역</button>
+            <button onclick="location.href='{% url 'calendars:history' %}'" style="margin-right:15px;" class="home-spand-button">소비 내역</button>
             <button onclick="location.href='{% url 'calendars:top5' %}'" style="margin-left:15px;" class="home-spand-button">소비 분석</button>
         </div>
     </div>
