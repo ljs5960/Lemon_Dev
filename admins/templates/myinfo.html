@@ -50,6 +50,8 @@
     border-radius:10px;
     padding:10px;
     display:inline-block;
+        width: 50%;
+    text-align: right
     }
     .order{
     display:inline-flex;
@@ -73,9 +75,10 @@
     <div class="invest_money"><a href="{% url 'admins:edit_invest' %}">가상자산을 설정해주세요.</a></div>
     {% else %}
     <a style="padding-right:5px;">보유 가상 자산</a>
-    <div class="invest_money"><a>{{ user.invest|default_if_none:'0'|intcomma }}원</a>
-        {% endif %}
+    <div class="invest_money"><span style="color:black;">{{ user.invest|default_if_none:'0'|intcomma }}원</span>
     </div>
+    {% endif %}
+</div>
     <div class="menu1-wrap">
         <div style="list-style: none;">
             <li>
@@ -130,16 +133,17 @@
                     class="fas fa-chevron-right"></i></div></a></li>
         </div>
     </div>
-    {% if message %}
-    <script>alert('{{ message }}');</script>
-    <script>
+</div>
+<script>
         function ask_out(){
         if (confirm('정말로 탈퇴하시겠습니까?') == true){
-        window.location.href = {% url 'admins:user_delete' user.user_id %};
-        } else{
+        window.location.href = "{% url 'admins:user_delete' user.user_id %}";
+        } else {
         return;
         }
         }
-    </script>
-    {% endif %}
+</script>
+<!--    {% if message %}-->
+<!--    <script>alert('{{ message }}');</script>-->
+<!--    {% endif %}-->
     {% endblock %}
