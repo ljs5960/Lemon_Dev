@@ -48,10 +48,10 @@ class Stocksector(models.Model):
 
 class Stockclass(models.Model):
     sc_id = models.AutoField(primary_key=True)
-    sc_marketcode = models.CharField(max_length=5)
-    sc_idxindmidclsscd = models.CharField(db_column='sc_idxIndMidclssCd', max_length=5)  # Field name made lowercase.
-    sc_class = models.CharField(max_length=10)
-    sc_date = models.DateTimeField(auto_now=True)
+    sc_marketcode = models.CharField(max_length=8)
+    sc_idxindmidclsscd = models.CharField(db_column='sc_idxIndMidclssCd', max_length=8)
+    sc_class = models.CharField(max_length=20)
+    sc_date = models.DateTimeField()
 
     class Meta:
         managed = False
