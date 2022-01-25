@@ -95,7 +95,7 @@
     <form method="post" action="{% url 'accounts:login' %}">
     {% csrf_token %}
 
-    <div id="loginwrap" class="login-wrap" style="display:none;">
+    <div id="loginwrap" class="login-wrap">
         <div class="id-input-wrap">
             <input class="id-input" type="text" placeholder="아이디" name="username" id="uid">
         </div>
@@ -115,7 +115,7 @@
         <button class="kakao-login-btn" onclick="location.href='{% provider_login_url 'kakao' %}'"><img class="logo" src="/media/kakao.png">카카오계정으로 로그인</button>
         <button class="naver-login-btn" onclick="location.href='{% provider_login_url 'naver' %}'"><img class="logo" src="/media/naverbtn1.png">네이버계정으로 로그인</button>
         <button class="google-login-btn" onclick="location.href='{% provider_login_url 'google' %}'"><img class="logo" src="/media/google.png">Google계정으로 로그인</button>
-        <button class="apple-login-btn" onclick="location.href='{% provider_login_url 'google' %}'"><img class="logo" src="/media/apple.png">Apple계정으로 로그인</button>
+        {% comment %} <button class="apple-login-btn" onclick="location.href='{% provider_login_url 'google' %}'"><img class="logo" src="/media/apple.png">Apple계정으로 로그인</button> {% endcomment %}
     </div>
 
 <script>

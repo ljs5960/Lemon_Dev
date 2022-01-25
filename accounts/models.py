@@ -11,8 +11,6 @@ class LemonUserManager(BaseUserManager):
             raise ValueError("아이디를 입력해주세요!")
         if not username:
             raise ValueError("이름을 입력해주세요!")
-        # if not balance:
-        #     raise ValueError("월급을 입력해주세요!")
         if not invest:
             raise ValueError("모의자산을 입력해주세요!")
         if not phonenumber:
@@ -29,7 +27,6 @@ class LemonUserManager(BaseUserManager):
             username = username,
             u_chk= u_chk,
             e_chk=e_chk,
-            # balance = balance,
             invest = invest,
         )
         user.set_password(password)

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}레몬::공지사항{% endblock title %}
+{% block container %}
+<style>
+  .bottom-nav-myinfo,.bottom-nav-myinfo a{
+        color: #FFD859;
+    }
+  #container, body{
+    background-color: #fff;
+  }
+  nav {
+    padding-top:10px;
+    padding-bottom:10px;
+    display: flex;
+    justify-content: space-between;
+    align-items : center;
+    border-bottom: 1px solid #ddd;
+  }
+  .fa-chevron-left{
+    padding-top: 3px;
+    float: right;
+    padding-left:10px;
+    font-size:20px;
+    width:30px;
+    height:30px;
+  }
+</style>
+  <nav>
+    <a href="javascript:history.back();"><i class="fas fa-chevron-left"></i></a>
+    <h5 style="padding-right:20px;">공지사항</h5>
+    <span></span>
+  </nav>
+
+  <div class="notice-detail-wrap">
+    <div class="notice-detail-titlewrap">
+      <a class="notice-detail-title">{{ notice.title }}</a><br>
+      <a class="notice-detail-date">{{ notice.date | date:'Y.m.d' }}</a>
+    </div>
+
+    <div class="notice-detail-content">
+      {{ notice.content|safe }}
+    </div>
+  </div>
+
+
+
+{% endblock %}

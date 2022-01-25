@@ -190,7 +190,7 @@ def detail_search(request):
     return render(request, 'detail_search.html' , {'total_date':total_date})
 
 
-
+# 알리고 관련 기능
 @csrf_exempt
 def ajax_sendSMS(request):
     if request.method == "POST":
