@@ -15,3 +15,18 @@ def find_income_money(queryset, day):
   for item in queryset:
     if day == item['income_date__day']:
       return item['amount']
+
+
+@register.filter
+def sub(value, arg):
+  return value - arg
+
+
+@register.filter
+def rounds(value, arg):
+  return round(value, arg)
+
+
+@register.filter
+def yields(value, arg):
+  return (value - arg) / arg
