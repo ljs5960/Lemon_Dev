@@ -43,7 +43,7 @@
 </style>
   <div class="signup-wrap">
     <div class="alert alert-danger" role="alert">
-        <a>최초 로그인시, <strong>레몬서비스 이용약관</strong> 및 <strong>개인정보 수집 동의 </strong>와 
+        <a>최초 로그인시, <strong>레몬서비스 이용약관</strong> 및 <strong>개인정보 수집 동의 </strong>와
         <strong>추가정보 입력</strong> 후 서비스 사용가능합니다.</a>
     </div>
     <div class="input-form col-md-12 mx-auto" style="height:100%; padding:0 20px; text-align:left;">
@@ -113,6 +113,12 @@
 </div>
 <script>
 
+  document.addEventListener('keydown', function(event) {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+  };
+}, true);
+
 $('#all_chk').change(function () {
     var checked = $(this).prop('checked');
     $('input[id="require_chk"]').prop('checked', checked);
@@ -146,7 +152,7 @@ $('input[id="require_chk"]').change(function () {
             alert('휴대전화번호 11자리를 입력하세요.');
             return false;
         }
-        
+
         if((phoneInput.value != '' || phoneInput.value != null) && phoneInput.value.length == 11 ){
             alert('입력하신 휴대번호로 인증번호를 전송하였습니다.');
             $('#inputCode').removeAttr('disabled');
@@ -159,7 +165,7 @@ $('input[id="require_chk"]').change(function () {
             }else{
                 startTimer(leftSec, display);
             };
-        
+
             $.ajax({
                 type: "POST",
                 url: "{% url 'calendars:ajax_sendSMS' %}",
@@ -228,7 +234,7 @@ $('input[id="require_chk"]').change(function () {
             isRunning = true;
     }
 
-    
+
 </script>
 
 

@@ -5,6 +5,7 @@ from django.urls import reverse
 from accounts.models import user
 from .models import Notice
 from datetime import datetime
+from django.contrib.auth import login, authenticate, get_user_model
 
 # Create your views here.
 
@@ -64,7 +65,7 @@ def input_pin(request):
         user_db.pin = request.POST['pin']
         user_db.save()
         return redirect('/myinfo')
-    return render(request, 'input_pin.html') 
+    return render(request, 'input_pin.html')
 
 # 회원탈퇴
 def user_delete(request, user_id):
