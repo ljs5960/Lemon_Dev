@@ -3,11 +3,15 @@
 {% block title %}레몬::추가하기{% endblock title %}
 
 {% block nav %}
-        <div id="nav">
+      <div id="nav" style="border-bottom: 1px solid #f1f1f1;">
             <div>
-            <div style="margin-left:15px; float:left; width:35%;">
-                <a style="color: #fff;" href="javascript:history.back();"<i class="fas fa-arrow-left"></i></a><!--<img style="position: absolute; margin-left:15px;" onclick="location.href='calendar'" src="../../media/lemonlogo_white.png" width="200px"> -->
-            </div>
+            <div style="text-align:center;">
+                <a style="color: #fff;" href="javascript:history.back();"><i class="fa fa-angle-left" style="position: absolute;
+    left: 5px;
+    padding: 14px 15px;
+    top: 0;
+    font-size: 25px;
+    font-weight: 600;color:black;"></i></a>가게부 작성</div>
         </div>
         </div>
         {% endblock %}
@@ -224,7 +228,7 @@
             <table min-width="300" class="span_table">
                 <tr> <!-- 행선언 -->
                     <th width="200" height="60"><a class="span_list_title">금액</a></th>
-                    <th width="240" style="text-align: end;"><input class="input_span" type="number" name="amount" value="{{form.amount.value|default_if_none:''}}"></th>
+                    <th width="240" style="text-align: end;"><input class="input_span" type="number" name="amount" pattern="\\d*" value="{{form.amount.value|default_if_none:''}}"></th>
                 </tr>
                 <tr> <!-- 행선언 -->
                     <th width="200" height="60"><a class="span_list_title">소비처(주식명) 리스트검색이 되게?</a></th>

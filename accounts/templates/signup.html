@@ -10,6 +10,7 @@
     <!-- <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/> -->
     <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
     <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://kit.fontawesome.com/51db22a717.js" crossorigin="anonymous"></script>
 
     <title>레몬::회원가입</title>
 </head>
@@ -118,11 +119,21 @@ textarea{
 </style>
 
 <body>
+<div id="nav" style="border-bottom: 1px solid #f1f1f1;">
+            <div>
+            <div style="text-align:center;">
+                <a style="color: #black;" href="javascript:history.back();"><i class="fa fa-angle-left" style="position: absolute;
+    left: 5px;
+    padding: 14px 15px;
+    top: 0;
+    font-size: 25px;
+    font-weight: 600;color:black;"></i></a>회원가입</div>
+        </div>
+        </div>
     <div class="signup-wrap" style="background-color: #fff;">
 
         <div class="input-form col-md-12 mx-auto" style="height:100%; padding:20px; text-align:left;">
             <div style="width: 100%; text-align:center; margin-bottom:20px; margin-top:30px;">
-                <img src="media/LEMON_LOGO_146x40.png" style="width: 146px; height:40px;">
             </div>
             <form class="validation-form" method="POST" action="" id="signup-form">
                 {% csrf_token %}

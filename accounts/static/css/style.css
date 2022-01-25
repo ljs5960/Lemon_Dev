@@ -198,7 +198,9 @@ font-family: 'Noto Sans KR', sans-serif;
         max-width: 768px;
         height: 50px;
         background: -webkit-linear-gradient(to right, #31BC8A, #4C8AE5);  /* Chrome 10-25, Safari 5.1-6 */
-        background: linear-gradient(to right, #31BC8A, #4C8AE5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */    
+        /*background: linear-gradient(to right, #31BC8A, #4C8AE5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background:white;
+        line-height:50px;
         position: fixed;
         top: 0;
         left: 0;
@@ -280,8 +282,8 @@ font-family: 'Noto Sans KR', sans-serif;
 		color: #8e8e8e;
 		/*margin-top: 0.5rem;*/
 		margin-bottom: 1rem;
-		border-radius: 40px;
-		border: 1px solid #31BC8A;
+		border:none;
+		border-bottom: 1px solid #31BC8A;
 		background-color: #F5F5F5;
 		padding-left: 10px;
 	}
@@ -290,8 +292,8 @@ font-family: 'Noto Sans KR', sans-serif;
 		height: 50px;
 		color: #8e8e8e;
 		margin-bottom: 1rem;
-		border-radius: 40px;
-		border: 0.8px solid #31BC8A;
+		border:none;
+		border-bottom: 0.8px solid #31BC8A;
 		background-color: #F5F5F5;
 		padding-left: 10px;
 	}
@@ -300,12 +302,12 @@ font-family: 'Noto Sans KR', sans-serif;
 		font-size: 2rem;
 		font-weight: bold;
 		color: #fff;
-		margin: 1rem auto 4rem auto;
+		margin: 10px auto 10px auto;
 		width: 100%;
 		height: 50px;
-		background: #4C8AE5;  /* fallback for old browsers */
-		border-radius: 50px;
-		border: 1px solid #fff;
+		background: #31bc8a;  /* fallback for old browsers */
+		border-radius: 10px;
+		border: none;
 		outline: none;
 	}
 	.sns-login-wrap{
@@ -390,20 +392,22 @@ font-family: 'Noto Sans KR', sans-serif;
 		padding-left: 10px;
 		border: 1px solid #D1D6DA;
 		font-family: 'Noto Sans KR', sans-serif;
-		font-size: 18px;
+		font-size: 14px;
 		font-weight: 400;
 		width: 100%;
 		height: 35px;
+		border-radius:10px;
 }
 .add_info_phone{
 		margin-bottom: 10px;
 		padding-left: 10px;
 		border: 1px solid #D1D6DA;
 		font-family: 'Noto Sans KR', sans-serif;
-		font-size: 18px;
+		font-size: 14px;
 		font-weight: 400;
 		width: 70%;
 		height: 35px;
+		border-radius:10px;
 }
 .phone_code_btn{
 		width: 29%;
@@ -417,24 +421,28 @@ font-family: 'Noto Sans KR', sans-serif;
 		border:0px;
 		border-radius:1px;
 		color:white;
+		border-radius:10px;
 }
 .phone_code_btn:disabled{
 		background:#a0a0a0;
+		border-radius:10px;
 }
 .add_info_phonecode{
 		margin-bottom: 10px;
 		padding-left: 10px;
 		border: 1px solid #D1D6DA;
 		font-family: 'Noto Sans KR', sans-serif;
-		font-size: 18px;
+		font-size: 14px;
 		font-weight: 400;
-		width: 50%;
+		width: 70%;
 		height: 35px;
+		border-radius:10px;
 }
 .count{
-		margin-left: 15px;
-		position: relative;
-
+		right: 140px;
+    padding-top: 5px;
+    position: absolute;
+    width: 30px;
 }
 .add_info_select{
 		margin-bottom: 10px;
@@ -442,19 +450,22 @@ font-family: 'Noto Sans KR', sans-serif;
 		background-color: #fff;
 		border: 1px solid #D1D6DA;
 		font-family: 'Noto Sans KR', sans-serif;
-		font-size: 16px;
+		font-size: 14px;
 		font-weight: 500;
 		width: 100%;
 		height: 35px;
+		border-radius:10px;
+		color:#a0a0a0;
 }
 .add_info_year{
 		padding-left: 10px;
 		border: 1px solid #D1D6DA;
 		font-family: 'Noto Sans KR', sans-serif;
-		font-size: 18px;
+		font-size: 14px;
 		font-weight: 400;
 		width: 100%;
 		height: 35px;
+		border-radius:10px;
 }
 .access_btn{
 		font-family: 'Noto Sans KR', sans-serif;
@@ -469,6 +480,7 @@ font-family: 'Noto Sans KR', sans-serif;
 		border:0px;
 		border-radius:10px;
 		color:white;
+		border-radius:10px;
 }
 .access_btn:disabled{
 		background:#a0a0a0;
