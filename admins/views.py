@@ -65,7 +65,7 @@ def input_pin(request):
         user_db.pin = request.POST['pin']
         user_db.save()
         return redirect('/myinfo')
-    return render(request, 'input_pin.html') 
+    return render(request, 'input_pin.html')
 
 # 회원탈퇴
 def user_delete(request, user_id):

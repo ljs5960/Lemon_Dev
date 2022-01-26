@@ -33,6 +33,13 @@
         font-size: 0.8rem;
         color: #D1D6DA !important;
     }
+    input::placeholder {
+    color: #a0a0a0;
+    font-size:14px;
+    line-height:16px;
+    padding-bottom:3px;
+    }
+
 
 </style>
 {% if user.e_chk == 0 %}
@@ -41,25 +48,37 @@
         display:none;
     }
 </style>
+<div id="nav" style="border-bottom: 1px solid #f1f1f1;">
+            <div>
+            <div style="text-align:center;">회원가입</div>
+<!--                <a style="color: #black;" href="javascript:history.back();"><i class="fa fa-angle-left" style="position: absolute;-->
+<!--    left: 5px;-->
+<!--    padding: 14px 15px;-->
+<!--    top: 0;-->
+<!--    font-size: 25px;-->
+<!--    font-weight: 600;color:black;"></i></a>-->
+        </div>
+        </div>
+    <div class="signup-wrap" style="background-color: #fff;">
   <div class="signup-wrap">
     <div class="alert alert-danger" role="alert">
-        <a>최초 로그인시, <strong>레몬서비스 이용약관</strong> 및 <strong>개인정보 수집 동의 </strong>와 
+        <a>최초 로그인시, <strong>레몬서비스 이용약관</strong> 및 <strong>개인정보 수집 동의 </strong>와
         <strong>추가정보 입력</strong> 후 서비스 사용가능합니다.</a>
     </div>
     <div class="input-form col-md-12 mx-auto" style="height:100%; padding:0 20px; text-align:left;">
 
         <div style="width: 100%; text-align:center; margin-top:10px;">
-            <img src="media/LEMON_LOGO_146x40.png" style="width: 146px; height:40px;">
+<!--            <img src="media/LEMON_LOGO_146x40.png" style="width: 146px; height:40px;">-->
         </div>
         <form class="validation-form" method="POST" action="{% url 'calendars:home' %}" id="signup-form">
             {% csrf_token %}
             <div class="service_access">
-                <div class="all_chk-wrap">
-                <label style="text-align:end;">
+                <div class="all_chk-wrap" style="text-align:left;">
+                <label style="text-align:left;">
                     <input type="checkbox" name="all_chk" value ="0" id="all_chk">
-                    <a class="all_chk_font">레몬서비스 이용약관, 개인정보 수집에 모두 동의 합니다.</a>
+                    <a class="all_chk_font">레몬 서비스 이용약관, 개인정보 수집에 모두 동의 합니다.</a>
                 </div>
-                <div class="require_chk_wrap">
+                <div class="require_chk_wrap" style="padding-top:10px;">
                     </label>
                     <a>레몬서비스 이용약관 동의(필수)</a><br>
                     <textarea cols="30" rows="5" style="width:100%;" disabled="disabled">이부분은 이용약관관련된 내용이 들어갈 예정입니다.</textarea><br>
@@ -70,7 +89,7 @@
                 </div>
             </div>
 
-            <div class="persnal_info_access">
+            <div class="persnal_info_access" style="padding-top:10px;">
                 <div class="require_chk_wrap" style="margin-top: 15px;">
                     <a>개인정보 수집 동의(필수)</a><br>
                     <textarea cols="30" rows="5" style="width:100%;" disabled="disabled">이부분은 개인정보 수집에 대한 내용이 들어갈 예정입니다.</textarea><br>
@@ -79,17 +98,14 @@
                         <span>이용약관에 동의합니다.</span>
                     </label>
                 </div>
-
-            <div class="add_info">
-                <a class="add_info_title">이름</a><br>
-                <input id="name" name="username" type="text" class="add_info_input" value=""> <br>
-                <a class="add_info_title">성별</a><br>
+             <div class="add_info" style="padding-top:40px;">
+                 <a class="add_info_title" style="padding-top:40px;">추가 정보</a><br>
+                <input id="name" name="username" type="text" class="add_info_input" value="" placeholder="이름"> <br>
                 <select name="gender" class="add_info_select">
                     <option value=""> 성별 </option>
                     <option value="M"> 남자 </option>
                     <option value="F"> 여자 </option>
                 </select> <br>
-                <a class="add_info_title">직업군</a><br>
                 <select name = job class="add_info_select">
                     <option value=""> 직업군 </option>
                     <option value="1">학생</option>
@@ -97,12 +113,12 @@
                     <option value="3">회사원</option>
                     <option value="4">의사</option>
                 </select> <br>
-                <a class="add_info_title">휴대전화</a><br>
+                <a class="add_info_title" style="padding-top:40px;">연락처</a><br>
                 <input class="add_info_phone" id="phonenumber" name="phonenumber" type="text" placeholder="- 를 제외하고 입력하세요">
                 <button type="button" id="codeBtn" class="phone_code_btn">인증번호 받기</button><br>
                 <input id="inputCode" class="add_info_phonecode" type="number" placeholder="인증번호 입력" disabled> <a id="count" class="count"></a>
                 <button style="float: right;" type="button" id="certBtn" onclick="certfun();" class="phone_code_btn" disabled >인증번호 확인</button><br>
-                <a class="add_info_title">생년월일</a><br>
+                <a class="add_info_title" style="padding-top:40px;">생년월일</a><br>
                     <input class="add_info_year" name = birthday type="integrity" id="year" maxlength="8" placeholder="예시)19801210">
             </div>
 
@@ -116,6 +132,12 @@ document.addEventListener('keydown', function(event) {
     if (event.keyCode === 13) {
         event.preventDefault();
     };
+}, true);
+
+  document.addEventListener('keydown', function(event) {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+  };
 }, true);
 
 $('#all_chk').change(function () {
@@ -151,7 +173,7 @@ $('input[id="require_chk"]').change(function () {
             alert('휴대전화번호 11자리를 입력하세요.');
             return false;
         }
-        
+
         if((phoneInput.value != '' || phoneInput.value != null) && phoneInput.value.length == 11 ){
             alert('입력하신 휴대번호로 인증번호를 전송하였습니다.');
             $('#inputCode').removeAttr('disabled');
@@ -164,7 +186,7 @@ $('input[id="require_chk"]').change(function () {
             }else{
                 startTimer(leftSec, display);
             };
-        
+
             $.ajax({
                 type: "POST",
                 url: "{% url 'calendars:ajax_sendSMS' %}",
@@ -233,7 +255,7 @@ $('input[id="require_chk"]').change(function () {
             isRunning = true;
     }
 
-    
+
 </script>
 
 
@@ -283,7 +305,7 @@ $('input[id="require_chk"]').change(function () {
     <div class="home-spand-div">
         <div class="home-spand-title">
             <a>{{month}}월 소비</a>
-            <a class="home-spand-dateView" id="date_view"></a>
+            <b class="home-spand-dateView" id="date_view"></b>
         </div>
 
         <div class="home-spand-input">

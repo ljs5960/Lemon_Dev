@@ -4,7 +4,21 @@
 {% block title %}레몬::자산설정{% endblock title %}
 {% block container %}
 <body>
-  <h1>대충 금액 입력하라는 내용</h1>
+
+<div id="nav" style="border-bottom: 1px solid #f1f1f1;">
+            <div>
+            <div style="text-align:center;">
+                <a style="color: #fff;" href="javascript:history.back();"><i class="fa fa-angle-left" style="position: absolute;
+    left: 5px;
+    padding: 14px 15px;
+    top: 0;
+    font-size: 25px;
+    font-weight: 600;color:black;"></i></a>가상투자 금액 설정</div>
+        </div>
+        </div>
+
+<div class="wrap">
+  <h1>가상투자 금액 설정</h1>
   {% if user.invest %}
     이전 금액 : {{ user.invest|intcomma }}<br>
     이전 날짜 : {{ user.invest_date|date:"Y-m-d" }}
@@ -16,5 +30,13 @@
     <input type="text" name="invest" required>
     <button type="submit">변경</button>
   </form>
+</div>
 </body>
-{% endblock %} 
+<style>
+  .wrap{
+  padding:20px;
+  margin:20px;
+  text-align:center;
+  }
+</style>
+{% endblock %}
