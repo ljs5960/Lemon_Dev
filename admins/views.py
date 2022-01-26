@@ -29,21 +29,21 @@ def invest_change(request):
     user_db = user.objects.get(user_id=user_id)
     previous_date = user_db.invest_date
     now_date = datetime.now()
-    try:
-        if((previous_date.strftime('%Y %m')) == (now_date.strftime('%Y %m'))): # 당월 중복변경의 경우 myinfo로 이동
-            return render(request, 'myinfo.html', {'message': '변경불가'})
-        else: # 당월 첫변경의 경우 invest로 이동
-            if request.method == 'POST':
-                user_db.invest_date = now_date
-                user_db.invest = request.POST['invest']
-                user_db.save()
-                return redirect('/myinfo')
-    except AttributeError:
-        if request.method == 'POST':
+    # try:
+    #     if((previous_date.strftime('%Y %m')) == (now_date.strftime('%Y %m'))): # 당월 중복변경의 경우 myinfo로 이동
+    #         return render(request, 'myinfo.html', {'message': '변경불가'})
+    #     else: # 당월 첫변경의 경우 invest로 이동
+    #         if request.method == 'POST':
+    #             user_db.invest_date = now_date
+    #             user_db.invest = request.POST['invest']
+    #             user_db.save()
+    #             return redirect('/myinfo')
+    # except AttributeError:
+    if request.method == 'POST':
             user_db.invest_date = now_date
             user_db.invest = request.POST['invest']
             user_db.save()
-            return redirect('/myinfo')
+            return redirect('/invest/update')
     return render(request, 'invest.html', {'user': user_db})
 
 # 내 정보 변경
