@@ -794,6 +794,7 @@ font-family: 'Noto Sans KR', sans-serif;
       display: flex;
     }
 .cal-container{
+	pointer-events: none;
 	background-color:#fff;
 	border-radius: 20px !important;
 	min-height: 465px;

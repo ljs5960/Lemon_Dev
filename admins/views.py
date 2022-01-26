@@ -5,6 +5,7 @@ from django.urls import reverse
 from accounts.models import user
 from .models import Notice
 from datetime import datetime
+from django.contrib.auth import login, authenticate, get_user_model
 
 # Create your views here.
 

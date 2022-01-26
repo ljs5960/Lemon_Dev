@@ -42,9 +42,3 @@ def signup(request):
         return render(request, 'signup.html')
     return render(request, 'signup.html')
 
-def user_delete(request, user_id):
-    user2 = user_id
-    user1 = get_user_model().objects.get(user_id = user2)
-    user1.delete()
-    return redirect('/')
-    return render(request, 'user_delete.html')
