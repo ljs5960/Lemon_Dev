@@ -96,7 +96,7 @@ def summary(request):
 
         })
 
-def listview(request):
+def history(request):
 
     input_year = request.POST.get('input_year', None)
     input_month = request.POST.get("input_month", None)
@@ -124,7 +124,7 @@ def listview(request):
 
     #detail_day = income_day_sum.union(spend_day_sum)
 
-    return render(request, 'listview.html',
+    return render(request, 'history.html',
     {'year':year,
     'month':month,
     'Spend_day':spend_day_sum,
@@ -190,7 +190,7 @@ def detail_search(request):
     return render(request, 'detail_search.html' , {'total_date':total_date})
 
 
-
+# 알리고 관련 기능
 @csrf_exempt
 def ajax_sendSMS(request):
     if request.method == "POST":
@@ -236,7 +236,7 @@ def add_calendar(request):
                 card = sform.cleaned_data['card'],
                 memo = sform.cleaned_data['memo']
                 sform.save()
-                return redirect('/listview')
+                return redirect('/history')
 
         elif 'incomebtn' in request.POST:
             iform = IncomeForm(request.POST)
@@ -248,7 +248,7 @@ def add_calendar(request):
                 income_way = iform.cleaned_data['income_way'],
                 memo = iform.cleaned_data['memo']
                 iform.save()
-                return redirect('/listview')
+                return redirect('/history')
     else:
         sform = SpendForm()
         iform = IncomeForm()
@@ -274,7 +274,7 @@ def sedit_calendar(request, spend_id):
         category = request.POST['category'],
         card = request.POST['card'],
         memo = request.POST['memo'])
-        return redirect('/listview')
+        return redirect('/history')
 
 def iedit_calendar(request,spend_id):
     if request.method == "POST":
@@ -285,7 +285,7 @@ def iedit_calendar(request,spend_id):
         income_date =request.POST['income_date'],
         income_way = request.POST['income_way'],
         memo = request.POST['memo'],)
-        return redirect('/listview')
+        return redirect('/history')
 
 @csrf_exempt
 def ajax_pushdate(request):

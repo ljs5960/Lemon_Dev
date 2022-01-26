@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}레몬::공지사항{% endblock title %}
+{% block container %}
+
+<style>
+    .bottom-nav-myinfo,.bottom-nav-myinfo a{
+        color: #FFD859;
+    }
+  #container, body{
+    background-color: #fff;
+  }
+  nav {
+    padding-top:10px;
+    padding-bottom:10px;
+    display: flex;
+    justify-content: space-between;
+    align-items : center;
+    border-bottom: 1px solid #ddd;
+  }
+  .fa-chevron-left{
+    padding-top: 3px;
+    float: right;
+    padding-left:10px;
+    font-size:20px;
+    width:30px;
+    height:30px;
+  }
+  section {
+    padding: 5px;
+  }
+</style>
+<div id="nav" style="border-bottom: 1px solid #f1f1f1;">
+            <div>
+            <div style="text-align:center;">
+                <a style="color: #fff;" href="javascript:history.back();"><i class="fa fa-angle-left" style="position: absolute;
+    left: 5px;
+    padding: 14px 15px;
+    top: 0;
+    font-size: 25px;
+    font-weight: 600;color:black;"></i></a>공지사항</div>
+        </div>
+        </div>
+
+  <section>
+    <div class="notice-wrap">
+      {% for notice in notices %}
+      <div class="notice-contents" onclick="location.href='{% url 'admins:notice_detail' notice.notice_id %}'">
+        <div>
+            <a class="notice-title">{{ notice.title }}</a>
+          <i style="margin-top:10px; float: right;" class="fas fa-chevron-right"></i>
+        </div>
+        <div>
+          <a class="notice-date">{{ notice.date | date:'Y.m.d' }}</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+  </section>
+
+{% endblock %}

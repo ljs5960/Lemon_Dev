@@ -12,8 +12,8 @@
         {% endfor %}
     {% endfor %}
     {% for error in form.non_field_errors %}   <!-- 넌필드 오류를 출력한다. -->
-        <div class="alert alert-danger">
-            <strong>{{ error }}</strong>
+        <div style="text-align:left;">
+            <div style="font-size:13px;">올바른 유저 아이디와 비밀번호를 입력 하십시오.</div>
         </div>
     {% endfor %}
 {% endif %}

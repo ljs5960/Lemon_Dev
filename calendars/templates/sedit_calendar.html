@@ -1,6 +1,6 @@
-]{% extends 'base.html' %}
+{% extends 'base.html' %}
 {% load static %}
-{% block title %}레몬::수입내역수정페이지{% endblock title %}
+{% block title %}레몬::지출내역수정페이지{% endblock title %}
 
 {% block nav %}
         <div id="nav">
@@ -55,7 +55,7 @@
       ::-webkit-scrollbar-thumb{
         width: 30px;
       }
-    .span_div{
+    .income_div{
         display: none;
     }
     .addEvent-wrap{
@@ -224,54 +224,94 @@
 
 <div class="addEvent-wrap">
     <div class="list">
-        <input type="radio" name="jtags" value="수입" id="income" checked>
-        <label for="span">수입내역 수정하기</label>
+        <input type="radio" name="jtags" value="지출" id="span" checked>
+        <label for="span">지출내역 수정하기</label>
     </div>
-    {% for i in income %}
-    <form action="{% url 'calendars:iedit_calendar' i.income_id %}" method = "POST">
+    {% for i in spe %}
+    <form action="{%url 'calendars:sedit_calendar' i.spend_id %}" method="POST">
         {% csrf_token %}
-    <div class="income_div" id="income_div">
-        <div class="income_list">
-
-                <input type="text" style="display: none;" readonly name="kind" id="kind" value="수입">
-                <input type="number" style="display: none;" readonly name="user" id="user_id" value="{{user.user_id}}">
-
-            <table min-width="300">
+    <div class="span_div" id="span_div">
+        <div class="span_list">
+                <input type="text" style="display: none;" readonly name="user" value="{{user.user_id}}"/>
+                <input type="text" style="display: none;" readonly name="kind" value="지출"/>
+            <table min-width="300" class="span_table">
                 <tr> <!-- 행선언 -->
-                    <th width="200" height="60"><a class="span_list_title">수입수단</a></th>
-                    <th width="240" style="text-align: end;"><select class="span_list_select" name="income_way">
-                      <option value="1" {% if i.income_way == 1 %} selected {% endif %}>급여</option>
-                      <option value="2" {% if i.income_way == 2 %} selected {% endif %}>용돈</option>
-                      <option value="1" {% if i.income_way == 3 %} selected {% endif %}>금융수입</option>
-                      <option value="2" {% if i.income_way == 4 %} selected {% endif %}>사업수입</option>
-                      <option value="1" {% if i.income_way == 5 %} selected {% endif %}>기타</option>                    
-                    </select>
-                    </th>
+                    <th width="200" height="60"><a class="span_list_title">금액</a></th>
+                    <th width="240" style="text-align: end;"><input class="input_span" type="number" name="amount" pattern="\\d*" value="{{i.amount}}"></th>
+                </tr>
+                <tr> <!-- 행선언 -->
+                    <th width="200" height="60"><a class="span_list_title">소비처</a></th>
+                    <th width="240" style="text-align: end;"><input class="input_span" type="text" name="place" value="{{i.place}}"></th>
                 </tr>
                 <tr> <!-- 행선언 -->
                     <th width="200" height="60"><a class="span_list_title">날짜</a></th>
-                    <th width="240" style="text-align: end;"><input class="input_span" type="date" id="datepicker4" min="1900-01-01" max="2099-12-31" autocomplete="off" name="income_date" value="{{i.income_date|date:'Y-m-d'}}"></th>
+                    <th width="240" style="text-align: end;"><input class="input_span" type="date" id="datepicker3" min="1900-01-01" max="2099-12-31" autocomplete="off" name="spend_date" value="{{i.spend_date|date:'Y-m-d'}}"></th>
                 </tr>
                 <tr> <!-- 행선언 -->
-                    <th width="200" height="60"><a class="span_list_title">금액</a></th>
-                    <th width="240" style="text-align: end;"><input class="input_span" id="amount" name="amount" type="number" value="{{i.amount}}"/></th>
-                </tr>
-                <tr> <!-- 행선언 -->
-                <th width="200" height="60"><a class="span_list_title">메모</a></th>
-                <th width="240" style="text-align: end;"><textarea class="input_textarea" rows="1" name="memo" >{{i.memo}}</textarea></th>
-            </tr>
+                    <th width="200" height="60"><a class="span_list_title">결제수단 </a></th>
+                    <th width="240" style="text-align: end;">
+                      <select class="span_list_select" name="way" id="spendlist_select">
 
+                        <option value="1" {% if i.way == 1 %} selected {% endif %}>현금</option>
+                        <option value="2" {% if i.way == 2 %} selected {% endif %}>카드</option>
+                        </select></th>
+                </tr>
+                <tr> <!-- 행선언 -->
+                    <th width="200" height="60"><a class="span_list_title">카테고리</a></th>
+
+                    <th width="240" style="text-align: end;"><select class="span_list_select" name="category">
+                        <option value='1' {% if i.category.category_id == 1 %} selected {% endif %}>식비</option>
+                        <option value='2' {% if i.category.category_id == 2 %} selected {% endif %}>카페/간식</option>
+                        <option value='3' {% if i.category.category_id == 3 %} selected {% endif %}>술/유흥</option>
+                        <option value='4' disabled>생활</option>
+                        <option value='5' disabled>쇼핑</option>
+                        <option value='6' disabled>뷰티/미용</option>
+                        <option value='7' disabled>교통</option>
+                        <option value='8' disabled>자동차</option>
+                        <option value='9' disabled>주거/통신</option>
+                        <option value='10' disabled>의료/건강</option>
+                        <option value='11' disabled>문화/여가</option>
+                        <option value='12' disabled>여행/숙박</option>
+                        <option value='13' disabled>교육/학습</option>
+                        <option value='14' disabled>반려동물</option>
+                        <option value='15' disabled>경조/선물</option>
+                        <option value='16' disabled>기타</option>
+                        </select>
+                    </th>
+                </tr>
+                <tr> <!-- 행선언 -->
+                    <th width="200" height="60"><a class="span_list_title">카드사</a></th>
+                    <th width="240" style="text-align: end;">
+                        <select class="span_list_select" name="card">
+                            <option value='1' {% if i.card.card_id == 1 %} selected {% endif %}>국민카드</option>
+                            <option value='2' {% if i.card.card_id == 2 %} selected {% endif %}>롯데카드</option>
+                            <option value='3' {% if i.card.card_id == 3 %} selected {% endif %}>BC카드</option>
+                            <option value='4' {% if i.card.card_id == 4 %} selected {% endif %}>삼성카드</option>
+                            <option value='6' {% if i.card.card_id == 6 %} selected {% endif %}>신한카드</option>
+                            <option value='7' {% if i.card.card_id == 7 %} selected {% endif %}>하나카드</option>
+                            <option value='8' {% if i.card.card_id == 8 %} selected {% endif %}>현대카드</option>
+                            <option value='9' {% if i.card.card_id == 9 %} selected {% endif %}>농협카드</option>
+                            <option value='10' {% if i.card.card_id == 10 %} selected {% endif %} >시티카드</option>
+                            <option value='11' {% if i.card.card_id == 11 %} selected {% endif %}>카카오뱅크카드</option>
+                        </select>
+                    </th>
+                </tr>
+                <tr> <!-- 행선언 -->
+                    <th width="200" height="60"><a class="span_list_title">메모</a></th>
+                    <th width="240" style="text-align: end;"><textarea class="input_textarea" rows="1" name="memo">{{i.memo}}</textarea></th>
+                </tr>
             </table>
         </div>
 
         <div style="text-align:center; margin-top:15px;">
-            <button class="addBtn" value="incomebtn" name="incomebtn" type="submit">수정하기</button>
-            <button class="delBtn" value="delbtn" name="delbtn" type="button" onclick="return confirm('정말로 내역을 삭제하실건가요?')">내역삭제</button>
+        <button class="addBtn" name="spendbtn" value="spendbtn" type="submit">수정하기</button>
+        <button class="delBtn" value="delbtn" name="delbtn" type="button" onclick="return confirm('정말로 내역을 삭제하실건가요?')">내역삭제</button>
         </div>
-    </div>
+          {% endfor %}
     </form>
+    </div>
 </div>
- {% endfor %}
+
 <script>
 
     //textarea auto height increaze...

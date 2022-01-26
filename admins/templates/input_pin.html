@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}레몬::정보변경{% endblock title %}
+{% block container %}
+<body>
+<div id="nav" style="border-bottom: 1px solid #f1f1f1;">
+            <div>
+            <div style="text-align:center;">
+                <a style="color: #fff;" href="javascript:history.back();"><i class="fa fa-angle-left" style="position: absolute;
+    left: 5px;
+    padding: 14px 15px;
+    top: 0;
+    font-size: 25px;
+    font-weight: 600;color:black;"></i></a>Pin 번호 변경</div>
+        </div>
+        </div>
+  <div><h1>비밀번호 입력창</h1></div>
+  <form action="" method="POST">
+    {% csrf_token %}
+    <input type="password" name="pin">
+    <button type="submit">설정</button>
+  </form>
+</body>
+{% endblock %} 
