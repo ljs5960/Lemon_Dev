@@ -38,7 +38,7 @@
             <li><a href="{% url 'admins:qna' %}"><i class="fas fa-envelope-open"></i> 문의하기</a></li>
             <li><a href="{% url 'admins:edit_myinfo' %}"><i class="fas fa-user-alt"></i> 정보변경</a></li>
             <li><a href="{% url 'admins:input_pin' %}"><i class="fas fa-unlock-alt"></i> pin번호변경</a></li>
-            <a style="color: #FF4444;" href="{% url 'accounts:user_delete' user.user_id %}"><i class="fas fa-sign-out-alt"></i> 회원탈퇴</a>
+            <a style="color: #FF4444;" href="{% url 'admins:user_delete' user.user_id %}"><i class="fas fa-sign-out-alt"></i> 회원탈퇴</a>
         </ul>
     </div>
     {% if message %}
