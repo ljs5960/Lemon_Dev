@@ -108,7 +108,6 @@ def stockheld_insert(user_id, data, master):
 
 def stocktrading_insert(user_id, data, master, kind):
     try:
-        print(data['share'])
         if kind == 'S':
             data['current_price'] = -int(data['current_price'])
         Stocktrading(
