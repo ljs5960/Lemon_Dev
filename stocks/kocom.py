@@ -120,5 +120,5 @@ class api:
             else:
                 return False
         except Exception as e:
-            print('Error in get_stock_master: \n', e)
+            print('Error in get_stock_history: \n', e)
             return False

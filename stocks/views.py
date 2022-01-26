@@ -36,6 +36,9 @@ def portfolio(request):
     if total_investment_amount and total_current_price:
         data['total_investment_amount'] = total_investment_amount
         data['total_current_price'] = total_current_price
+    else:
+        data['total_investment_amount'] = 0
+        data['total_current_price'] = 0
     return render(request, 'portfolio.html', data)
 
 
@@ -99,12 +102,13 @@ def stockheld_insert(user_id, data, master):
         ).save()
         return True
     except Exception as e:
-        print('Error in set_stockheld: \n', e)
+        print('Error in stockheld_insert: \n', e)
         return False
 
 
 def stocktrading_insert(user_id, data, master, kind):
     try:
+        print(data['share'])
         if kind == 'S':
             data['current_price'] = -int(data['current_price'])
         Stocktrading(
@@ -116,7 +120,7 @@ def stocktrading_insert(user_id, data, master, kind):
         ).save()
         return True
     except Exception as e:
-        print('Error in set_stocktrading: \n', e)
+        print('Error in stocktrading_insert: \n', e)
         return False
 
 

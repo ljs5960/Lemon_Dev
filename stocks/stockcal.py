@@ -66,11 +66,14 @@ class calculator:
             rest_total = Stocktrading.objects.filter(st_userid=user_id,
                                                      st_isusrtcd=isusrtcd).aggregate(
                 rest_total=Sum(F('st_price') * F('st_share')))['rest_total']
-            return rest_total
+            if rest_total:
+                return rest_total
+            else:
+                return 0
         except Exception as e:
             print('Error in total_rest_investment_amount: \n', e)
             return False
 
     # 주식 수익률
     def stock_yield(self, know_price, compare_price):
-        return round((know_price - compare_price) / compare_price, 2)
+        return round((know_price - compare_price) * 100 / compare_price, 2)

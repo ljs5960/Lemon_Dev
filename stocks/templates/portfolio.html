@@ -10,7 +10,7 @@
 {% load mytag %}
 <p>총 투자금액</p>
 {{user.uid}} &nbsp;&nbsp;&nbsp;
-{{total_investment_amount}} &nbsp;&nbsp; {{total_current_price|yields:total_investment_amount|rounds:2}} %증가
+{{total_investment_amount}} &nbsp;&nbsp; {{total_current_price|yields:total_investment_amount|rounds:2}}%
 <br/>
 손익 : {{total_current_price|sub:total_investment_amount}}
 
