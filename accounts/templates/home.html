@@ -39,6 +39,11 @@
     line-height:16px;
     padding-bottom:3px;
     }
+    canvas{
+    margin: 15px auto;
+    width:250px !important;
+    height:250px !important;
+  }
 
 
 </style>
@@ -114,10 +119,12 @@
                     <option value="4">의사</option>
                 </select> <br>
                 <a class="add_info_title" style="padding-top:40px;">연락처</a><br>
+                <div style="width:100%;">
                 <input class="add_info_phone" id="phonenumber" name="phonenumber" type="text" placeholder="- 를 제외하고 입력하세요">
-                <button type="button" id="codeBtn" class="phone_code_btn">인증번호 받기</button><br>
+                <button type="button" id="codeBtn" class="phone_code_btn">발송</button><br>
                 <input id="inputCode" class="add_info_phonecode" type="number" placeholder="인증번호 입력" disabled> <a id="count" class="count"></a>
-                <button style="float: right;" type="button" id="certBtn" onclick="certfun();" class="phone_code_btn" disabled >인증번호 확인</button><br>
+                <button style="float: right;" type="button" id="certBtn" onclick="certfun();" class="phone_code_btn" disabled >확인</button><br>
+                </div>
                 <a class="add_info_title" style="padding-top:40px;">생년월일</a><br>
                     <input class="add_info_year" name = birthday type="integrity" id="year" maxlength="8" placeholder="예시)19801210">
             </div>
@@ -274,8 +281,8 @@ $('input[id="require_chk"]').change(function () {
             data: {
                 labels: ['가계부지출','가계부수입','모의투자금액','주식수입'],
                 datasets: [{
-                    label: '# of Votes',
-                    data: [30, 20, 40, 10],
+                    label: ['가계부지출','가계부수입','모의투자금액','주식수입'],
+                    data: [1000000, 2000000, 400000, 100000],
                     backgroundColor: [
                         '#5989DD',
                         '#D46A84',
@@ -294,9 +301,9 @@ $('input[id="require_chk"]').change(function () {
                 }]
             },
             options: {
-              rotation: -90,
-              circumference: 180,
-              cutout: 120,
+                //legend: { display: false },
+                rotation: 1 * Math.PI,
+                circumference: 1 * Math.PI
             }
         });
         </script>

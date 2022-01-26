@@ -405,12 +405,12 @@ font-family: 'Noto Sans KR', sans-serif;
 		font-family: 'Noto Sans KR', sans-serif;
 		font-size: 14px;
 		font-weight: 400;
-		width: 70%;
+		width: 84%;
 		height: 35px;
 		border-radius:10px;
 }
 .phone_code_btn{
-		width: 29%;
+		width: 55px;
 		height: 35px;
 		background:#31BC89;
 		font-family: 'Noto Sans KR', sans-serif;
@@ -434,12 +434,12 @@ font-family: 'Noto Sans KR', sans-serif;
 		font-family: 'Noto Sans KR', sans-serif;
 		font-size: 14px;
 		font-weight: 400;
-		width: 70%;
+		width: 84%;
 		height: 35px;
 		border-radius:10px;
 }
 .count{
-		right: 140px;
+		right: 150px;
     padding-top: 5px;
     position: absolute;
     width: 30px;
@@ -503,9 +503,6 @@ font-family: 'Noto Sans KR', sans-serif;
 		background-color: #fff;
 		box-shadow: 2px 2px 1px rgb(202 202 202);
 		margin-bottom: 25px;
-	}
-	#myChart2{
-		padding: 20px;
 	}
 
 	.home-spand-div{

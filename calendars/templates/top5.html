@@ -141,6 +141,11 @@
   #pagenation_recom{
     display: none;
   }
+  canvas{
+    margin: 15px auto;
+    width:200px !important;
+    height:200px !important;
+  }
   </style>
 
   <!-- pagenation -->
@@ -154,40 +159,93 @@
 </div>
 
 <div class="swiper-slide">
-  <!-- 카테고리차트 탑5 -->
-  <div style="background-color:#fff; margin:20px 5% 0 5%; padding: 10px; border-radius:15px; box-shadow:1px 1px 5px 1px rgb(202 202 202);"><!-- 소비 탑5 카드사 div 시작-->
+  <!-- 카테고리 탑5 div 시작-->
+  <div style="background-color:#fff; margin:20px 5% 0 5%; padding: 10px; border-radius:15px; box-shadow:1px 1px 5px 1px rgb(202 202 202);">
     <div style="text-align:center; font-weight: bold; border-bottom:1px solid #c8c8c8; font-size:16px;">
       <img style="margin-right:5px; vertical-align:bottom; width: 30px; height: 30px;" src="media/trophy.png">
-      <a style="font-weight: bold; font-size:16pt;">카테고리 Top5</a>
-      <a href = "{% url 'calendars:category_detail' "1" %}"> 식비</a>
-    </div>
-    <canvas id="myChart" width="100" height="100"></canvas>
+      <a style="font-weight: bold; font-size:16pt;">소비 Top5 카테고리</a></div>
+  <div>
+  <canvas id="myChart" width="100" height="100"></canvas>
+    <ol style="padding-left: 1rem !important;">
+      <table border="0" style="width: 100%; margin-top:10px; border-collapse:inherit;">
+        {% for category in Category_sum %}
+        {% ifchanged category.category %}
+        <tr>
+          <td width='10'><li style="font-weight: bold; color:#8e8e8e;"></li></td>
+          <td style="text-align: left;" width='60'>
+
+            {% if category.category == 1 %}
+            <a style="font-weight:bold; color:#3a3a3a">식비</a>
+            {% elif category.category == 2 %}
+            <a style="font-weight:bold; color:#3a3a3a">카페/간식</a>
+            {% elif category.category == 3 %}
+            <a style="font-weight:bold; color:#3a3a3a">술/유흥</a>
+            {% elif category.category == 4 %}
+            <a style="font-weight:bold; color:#3a3a3a">생활</a>
+            {% elif category.category == 5 %}
+            <a style="font-weight:bold; color:#3a3a3a">쇼핑</a>
+            {% endif %}
+          </td>
+          <td style="text-align: right;" width='150'>
+            <a style="font-weight:400; color:#3a3a3a">{{ category.amount|truncatechars:16|intcomma }}원</a>
+          </td>
+        </tr>
+        {% endifchanged %}
+        {% empty %}
+        <div class="summary-nodata-wrap">
+          <a>소비내역 및 지출내역이 없습니다.</a>
+        </div>
+        {% endfor %}
+      </table>
+    </ol>
+  </div><!-- 카테고리 탑5 div 끝-->
+    
 <script>
-const ctx = document.getElementById('myChart').getContext('2d');
-const myChart = new Chart(ctx, {
-    type: 'pie',
-    data: {
-        labels: ['쇼핑', '생활', '컨텐츠', '여행', '교통비'],
-        datasets: [{
-            label: '# of Votes',
-            data: [30, 30, 5, 2, 15],
-            backgroundColor: [
-                '#fd7c78',
-                '#70dafc',
-                '#fed085',
-                '#b9e88b',
-                '#82a5fc',
-            ],
-            borderColor: [
-                '#fd7c78',
-                '#70dafc',
-                '#fed085',
-                '#b9e88b',
-                '#82a5fc',
-            ],
-            borderWidth: 1,
+var ctx = document.getElementById("myChart").getContext('2d');
+var myChart = new Chart(ctx, {
+type: 'pie',
+data: {
+    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+    datasets: [{
+        label: {{ Category_count_label }},
+        data: {{ Category_count_data }},
+        backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)'
+        ],
+        borderColor: [
+            'rgba(255,99,132,1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1
+    }]
+},
+options: {
+  //legend: { display: false },
+    scales: {
+        yAxes: [{
+          display:false,
+            ticks: {
+                beginAtZero:true
+            }
         }]
     },
+onClick:function(e){
+    var activePoints = myChart.getElementsAtEvent(e);
+    var selectedIndex = activePoints[0]._index;
+    //console.log(this.data.datasets[0].data[selectedIndex]);
+    //console.log(this.data.datasets[0].label[selectedIndex]);
+    window.location.href="/category_detail/"+this.data.datasets[0].label[selectedIndex];
+}
+}
 });
 </script>
     </div><!-- 카테고리차트 탑5 div 끝-->
@@ -200,7 +258,7 @@ const myChart = new Chart(ctx, {
     <div>
       <ol style="padding-left: 1rem !important;">
       <table border="0" style="width: 100%; margin-top:10px; border-collapse:inherit;">
-        {% for method in TOP %}
+        {% for method in category_card %}
         <tr>
           <td width='10'><li style="font-weight: bold; color:#8e8e8e;"></li></td>
           <td style="text-align: center;" width='50'>
@@ -268,7 +326,7 @@ const myChart = new Chart(ctx, {
     <div>
       <ol style="padding-left: 1rem !important;">
         <table border="0" style="width: 100%; margin-top:10px; border-collapse:inherit;">
-          {% for area in TOP %}
+          {% for area in category_place %}
           <tr>
             <td width='10'><li style="font-weight: bold; color:#8e8e8e;"></li></td>
             <td style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:50px; text-align: left;" width='50'>
@@ -296,44 +354,6 @@ const myChart = new Chart(ctx, {
       </ol>
     </div>
   </div><!-- 소비 탑5 기업명 div 끝-->
-
-  <!-- 카테고리 탑5 div 시작-->
-  <div style="background-color:#fff; margin:20px 5% 0 5%; padding: 10px; border-radius:15px; box-shadow:1px 1px 5px 1px rgb(202 202 202);">
-    <div style="text-align:center; font-weight: bold; border-bottom:1px solid #c8c8c8; font-size:16px;">
-      <img style="margin-right:5px; vertical-align:bottom; width: 30px; height: 30px;" src="media/trophy.png">
-      <a style="font-weight: bold; font-size:16pt;">소비 Top5 카테고리</a></div>
-  <div>
-    <ol style="padding-left: 1rem !important;">
-      <table border="0" style="width: 100%; margin-top:10px; border-collapse:inherit;">
-        {% for category in TOP %}
-        <tr>
-          <td width='10'><li style="font-weight: bold; color:#8e8e8e;"></li></td>
-          <td style="text-align: left;" width='60'>
-            {% if category.category == 1 %}
-            <a style="font-weight:bold; color:#3a3a3a">식비</a>
-            {% elif category.category == 2 %}
-            <a style="font-weight:bold; color:#3a3a3a">카페/간식</a>
-            {% elif category.category == 3 %}
-            <a style="font-weight:bold; color:#3a3a3a">술/유흥</a>
-            {% elif category.category == 4 %}
-            <a style="font-weight:bold; color:#3a3a3a">생활</a>
-            {% elif category.category == 5 %}
-            <a style="font-weight:bold; color:#3a3a3a">쇼핑</a>
-            {% endif %}
-          </td>
-          <td style="text-align: right;" width='150'>
-            <a style="font-weight:400; color:#3a3a3a">{{ category.amount|truncatechars:16|intcomma }}원</a>
-          </td>
-        </tr>
-        {% empty %}
-        <div class="summary-nodata-wrap">
-          <a>소비내역 및 지출내역이 없습니다.</a>
-        </div>
-        {% endfor %}
-      </table>
-    </ol>
-  </div>
-  </div> <!-- 카테고리 탑5 div 끝-->
 
     <!-- 건수 탑5 div 시작-->
   <div style="background-color:#fff; margin:20px 5% 80px 5%; padding: 10px; border-radius:15px; box-shadow:1px 1px 5px 1px rgb(202 202 202);">

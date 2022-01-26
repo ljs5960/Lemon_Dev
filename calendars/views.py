@@ -47,8 +47,8 @@ def home(request):
     income_month_filter2 = Income.objects.filter(user_id = user, income_date__month=month).values('income_id','kind','income_date','amount','income_way', 'income_way')
 
     # 월 총 수입, 지출
-    spend_sum = spend_month_filter2.aggregate(Sum('amount'))
-    income_sum = income_month_filter2.aggregate(Sum('amount'))
+    spend_sum = spend_month_filter2.values('amount').aggregate(Sum('amount'))
+    income_sum= income_month_filter2.values('amount').aggregate(Sum('amount'))
 
     return render(request, 'home.html', {'month':month,'Expenditure': spend_sum, 'Income': income_sum})
 
@@ -147,6 +147,13 @@ def top5(request):
     income_month_filter = Income.objects.filter(user_id = user, income_date__month=month).values('income_id','kind','income_date','amount','income_way', 'income_way')
     # 소비 TOP5 카테고리 , 카드, 거래처
     category_amount = spend_month_filter.values('category','card','place').annotate(amount=Sum('amount')).order_by('-amount')[:5]
+
+    # 소비 TOP5 카테고리 금액 합계
+    category_sum = spend_month_filter.values('category').annotate(amount=Sum('amount')).order_by('-amount')[:5]
+    category_card = spend_month_filter.values('card').annotate(amount=Sum('amount')).order_by('-amount')[:5]
+    category_place = spend_month_filter.values('place').annotate(amount=Sum('amount')).order_by('-amount')[:5]
+    category_category = spend_month_filter.values('category').annotate(amount=Sum('amount')).order_by('-amount')[:5]
+
     # 요약 페이지_카테고리 건수별 TOP5
     category_amount_count = spend_month_filter.values('category').annotate(count=Count('category')).order_by('-count')[:5]
 
@@ -160,21 +167,25 @@ def top5(request):
     for item in category_amount_count:
         category_count_data.append(item['count'])
         category_count_label.append(item['category'])
+    
+    print(category_count_label)
 
     return render(request, 'top5.html',
             {'month':month,
-            'TOP': category_amount,
             'Category_amount_data': category_amount_data,
             'Category_amount_labels': category_amount_label,
             'Category_count_data': category_count_data,
             'Category_count_label': category_count_label,
-            'Category_count': category_amount_count,})
+            'Category_count': category_amount_count,
+            'Category_sum':category_sum,
+            'category_card':category_card,
+            'category_place':category_place})
 
 def category_detail(request, int):
     now = datetime.datetime.now()
     user = request.user.user_id
     three_months_ago = now - relativedelta(months=1)
-    category = Spend.objects.filter(user_id = user, category = int, spend_date__range=(three_months_ago, now))
+    category = Spend.objects.filter(user_id = user, category = int, spend_date__range=(three_months_ago, now)).order_by('spend_date')
     print('categorycategorycategorycategory--->', str(category))
 
     return render(request, 'category_detail.html' , {'category':category})
