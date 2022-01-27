@@ -7,10 +7,11 @@ from . import kocom
 from . import stockcal as cal
 from .models import *
 from accounts import models as acc_models
-
+from stocks.models import Stocksector
 
 def search_stock(request):
-    return render(request, 'search_stock.html')
+    wntlr = Stocksector.objects.all().values('ss_isusrtcd', 'ss_isukorabbrv')
+    return render(request, 'search_stock.html', {'wntlr': wntlr})
 
 
 def stock(request):

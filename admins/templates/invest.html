@@ -4,7 +4,7 @@
 {% block title %}레몬::자산설정{% endblock title %}
 {% block container %}
 <body>
-
+{% block nav %}
 <div id="nav" style="border-bottom: 1px solid #f1f1f1;">
             <div>
             <div style="text-align:center;">
@@ -16,7 +16,7 @@
     font-weight: 600;color:black;"></i></a>가상투자 금액 추가</div>
         </div>
         </div>
-
+{% endblock nav %}
 <div class="wrap">
 
   {% if user.invest %}
