@@ -2,6 +2,7 @@
 {% block title %}레몬::정보변경{% endblock title %}
 {% block container %}
 <body>
+{% block nav %}
 <div id="nav" style="border-bottom: 1px solid #f1f1f1;">
             <div>
             <div style="text-align:center;">
@@ -13,6 +14,8 @@
     font-weight: 600;color:black;"></i></a>Pin 번호 변경</div>
         </div>
         </div>
+{% endblock nav %}
+
   <div><h1>비밀번호 입력창</h1></div>
   <form action="" method="POST">
     {% csrf_token %}

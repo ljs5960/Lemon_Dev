@@ -5,6 +5,11 @@
 
 {% block title %}레몬::가계부{% endblock title %}
 {% block container %}
+<script>
+  $(document).ready(function(){
+      document.getElementById('footer_calendar').src = "/media/calendar_active.png";
+  });
+</script>
 <style>
   #container{
     padding-top: 50px !important;
@@ -108,14 +113,14 @@
   }
   .pagenation{
     background-color: #f5f5f5;
-    z-index: 99;
+    z-index: 10;
     padding:0;
     bottom: 70px;
-    left: 28px;
+    left: 58px;
     position: fixed;
     vertical-align: middle;
     text-align: center;
-    width: 90%;
+    width: 70%;
     height: 30px;
     border-radius: 20px;
     margin: 0 auto;
@@ -124,7 +129,7 @@
     padding-top: 2px;
     font-weight: 500;
     border-radius: 20px;
-    width : 24%;
+    width : 32%;
     height: 30px;
     display:inline-block;
   }
@@ -229,7 +234,7 @@ data: {
     }]
 },
 options: {
-  //legend: { display: false },
+  legend: { display: false },
     scales: {
         yAxes: [{
           display:false,
@@ -398,6 +403,7 @@ onClick:function(e){
 
 
   <script>
+  
     var myElement = document.getElementById('container');
 
     // create a simple instance

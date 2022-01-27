@@ -4,6 +4,8 @@
 {% block container %}
 {% load humanize %}
 {% load mytag %}
+
+{% block nav %}
 <div id="nav" style="border-bottom: 1px solid #f1f1f1;">
             <div>
             <div style="text-align:center;">
@@ -18,7 +20,9 @@
                 {% endif %} 상세</div>
         </div>
         </div>
-
+{% endblock nav %}
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <div>
   <table class="list-table" id="list-table" style="background-color:#fff; border-radius:10px; margin: 15px 10px 60px 10px; padding:0 20px 60px 20px; border-collapse:separate; border-spacing:0 20px; "width="95%">
    <colgroup>

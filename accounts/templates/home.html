@@ -17,9 +17,6 @@
         background-color: #F3F4F6;
     }
     /* FOOTER에서 사용하는 CSS */
-    .bottom-nav-home{
-        color: #FFD859 !important;
-    }
 
     .bottom-nav-home a{
         color: #FFD859 !important;
@@ -86,7 +83,9 @@
                 <div class="require_chk_wrap" style="padding-top:10px;">
                     </label>
                     <a>레몬서비스 이용약관 동의(필수)</a><br>
-                    <textarea cols="30" rows="5" style="width:100%;" disabled="disabled">이부분은 이용약관관련된 내용이 들어갈 예정입니다.</textarea><br>
+                    <textarea cols="30" rows="5" style="width:100%;" disabled="disabled">
+                    
+                    </textarea><br>
                     <label style="text-align:end;">
                         <input type="checkbox" name="u_chk" value ="1" id="require_chk">
                         <span>이용약관에 동의합니다.</span>
@@ -97,7 +96,7 @@
             <div class="persnal_info_access" style="padding-top:10px;">
                 <div class="require_chk_wrap" style="margin-top: 15px;">
                     <a>개인정보 수집 동의(필수)</a><br>
-                    <textarea cols="30" rows="5" style="width:100%;" disabled="disabled">이부분은 개인정보 수집에 대한 내용이 들어갈 예정입니다.</textarea><br>
+                    <textarea cols="30" rows="5" style="width:100%;" disabled="disabled">{% include "persnal.html" %}</textarea><br>
                     <label style="text-align:end;">
                         <input type="checkbox" name="e_chk" value ="1" id="require_chk">
                         <span>이용약관에 동의합니다.</span>
@@ -272,17 +271,20 @@ $('input[id="require_chk"]').change(function () {
         <a>{{user.username}}님의 <br> 소비와 투자 현황입니다.</a>
     </div>
 
-    <div class="home-chart">
+    <div class="home-chart" id="home-chart">
         <canvas id="myChart2" width="100" height="100"></canvas>
         <script>
         const ctx = document.getElementById('myChart2').getContext('2d');
         const myChart = new Chart(ctx, {
+            if(data=['0','0']){
+                console.log('데이터가 0');
+            },
             type: 'doughnut',
             data: {
                 labels: ['가계부지출','가계부수입','모의투자금액','주식수입'],
                 datasets: [{
                     label: ['가계부지출','가계부수입','모의투자금액','주식수입'],
-                    data: [1000000, 2000000, 400000, 100000],
+                    data: {{ Home_chartjs_data }},
                     backgroundColor: [
                         '#5989DD',
                         '#D46A84',
@@ -361,6 +363,12 @@ $('input[id="require_chk"]').change(function () {
     console.log(today);
     $('#date_view').html(today);
     $('#date_view2').html(today);
+</script>
+
+<script>
+    $(document).ready(function(){
+        document.getElementById('footer_home').src = "/media/home_active.png";
+    });
 </script>
 
 {% endif %}
