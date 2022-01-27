@@ -91,15 +91,14 @@
             a.appendChild(nbsp);
             a.appendChild(document.createTextNode(isukorabbrv+'\u00A0\u00A0'));
             a.appendChild(document.createTextNode(issuecode+'\u00A0\u00A0'));
-            a.href='javascript:void(0)'
-            a.onclick=(e) => test(issuecode, marketcode);
+            a.href='javascript:info("'+issuecode+'", "'+marketcode+'")'
             li.appendChild(a)
             result_position.append(li);
         }
     }
 
-    function test(issuecode, marketcode) {
-        console.log(issuecode, marketcode);
+    function info(issuecode, marketcode) {
+        alert(issuecode, marketcode);
         document.getElementById('issuecode').value = issuecode;
         document.getElementById('marketcode').value = marketcode;
         const form = document.getElementById('form');
