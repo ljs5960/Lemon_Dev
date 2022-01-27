@@ -44,10 +44,40 @@ def portfolio(request):
     return render(request, 'portfolio.html', data)
 
 
+def stock_info(request):
+    result = False
+    if request.method == 'POST':
+        result = kocom.api().get_stock_master(request.POST['marketcode'], request.POST['issuecode'])
+        if result:
+            result['curPrice'] = kocom.api().get_current_price(request.POST['marketcode'], request.POST['issuecode'])
+            result['marketcode'] = request.POST['marketcode']
+    return render(request, 'stock_info.html', {'result': result})
+
+
 def current_stock(request):
     data = json.loads(request.body)
+    result = False
     if request.method == 'POST':
         result = kocom.api().get_current_stock(data['marketcode'], data['issuecode'])
+    return JsonResponse({'result': result}, content_type='application/json')
+
+
+def stock_search_result(request):
+    data = json.loads(request.body)
+    result = False
+    if request.method == 'POST':
+        try:
+            stocksector = Stocksector.objects.filter(ss_isukorabbrv__icontains=data)
+            result = []
+            for elements in stocksector:
+                result.append({
+                    'logo': elements.ss_logo,
+                    'isukorabbrv': elements.ss_isukorabbrv,
+                    'issuecode': elements.ss_isusrtcd,
+                    'marketcode': elements.ss_marketcode
+                })
+        except Exception as e:
+            print('Error in stock_search_result: \n', e)
     return JsonResponse({'result': result}, content_type='application/json')
 
 
@@ -127,6 +157,7 @@ def stocktrading_insert(user_id, data, master, kind):
 
 def get_selectivemaster(request):
     data = json.loads(request.body)
+    result = False
     if request.method == 'POST':
         result = kocom.api().get_selectivemaster(data['marketcode'], data['issuecode'])
     return JsonResponse({'result': result}, content_type='application/json')
