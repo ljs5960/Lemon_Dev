@@ -18,6 +18,7 @@ from django.conf import settings
 from django.views.generic import View
 from django.contrib.auth.hashers import check_password
 from dateutil.relativedelta import relativedelta
+from stocks.models import Stocksector
 
 
 # Create your views here.
@@ -188,7 +189,7 @@ def category_detail(request, int):
     category = Spend.objects.filter(user_id = user, category = int, spend_date__range=(three_months_ago, now)).order_by('spend_date')
     print('categorycategorycategorycategory--->', str(category))
 
-    return render(request, 'category_detail.html' , {'category':category})
+    return render(request, 'category_detail.html' , {'category':category, 'int':int})
 
 def detail_search(request):
     user = request.user.user_id
@@ -263,7 +264,8 @@ def add_calendar(request):
     else:
         sform = SpendForm()
         iform = IncomeForm()
-    return render(request, 'add_calendar.html')
+    wntlr = Stocksector.objects.all().values('ss_isusrtcd', 'ss_isukorabbrv')
+    return render(request, 'add_calendar.html', {'wntlr': wntlr})
 
 def edit_calendar(request, spend_id, kind):
     user = request.user.user_id
