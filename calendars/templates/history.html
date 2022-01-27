@@ -246,7 +246,7 @@
       <tr onclick="location.href='{% url 'calendars:edit_calendar' detail.kind detail.spend_id %}'">
           {% endif %}
       <td style="vertical-align:top;">
-        <div style="text-align:left;padding-left:30px;">
+        <div style="text-align:left;">
           {% if detail.kind == "지출" %}
         <a id= "place" style="font-family: 'Noto Sans KR', sans-serif; font-weight:400; font-size:12pt; color: #3a3a3a; display:block;">{{ detail.place }}</a>
           {% elif detail.kind == "수입" %}

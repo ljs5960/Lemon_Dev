@@ -246,7 +246,8 @@ def add_calendar(request):
                 way = sform.cleaned_data['way'],
                 category = sform.cleaned_data['category'],
                 card = sform.cleaned_data['card'],
-                memo = sform.cleaned_data['memo']
+                memo = sform.cleaned_data['memo'],
+                stock = sform.cleaned_data['place']
                 sform.save()
                 return redirect('/history')
 
@@ -271,7 +272,8 @@ def edit_calendar(request, spend_id, kind):
     user = request.user.user_id
     if kind == '지출':
         spe = Spend.objects.filter(spend_id=spend_id, user_id = user)
-        return render(request, 'sedit_calendar.html', {'spe':spe})
+        wntlr = Stocksector.objects.all().values('ss_isusrtcd', 'ss_isukorabbrv')
+        return render(request, 'sedit_calendar.html', {'spe':spe, 'wntlr': wntlr})
     if kind == "수입":
         income = Income.objects.filter(income_id=spend_id, user_id = user)
         return render(request, 'iedit_calendar.html', {'income':income})
@@ -286,7 +288,8 @@ def sedit_calendar(request, spend_id):
         way = request.POST['way'],
         category = request.POST['category'],
         card = request.POST['card'],
-        memo = request.POST['memo'])
+        memo = request.POST['memo'],
+        stock = request.POST['stock'])
         return redirect('/history')
 
 def iedit_calendar(request,spend_id):
