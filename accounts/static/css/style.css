@@ -808,7 +808,7 @@ font-family: 'Noto Sans KR', sans-serif;
 	border-radius: 20px !important;
 	min-height: 465px;
 	box-shadow: 1px 1px 5px 1px rgb(202, 202, 202);
-	margin: 20px 20px 0 20px !important;
+	margin: 20px 20px 50px 20px !important;
 }
     .fc-prev-button.fc-button.fc-button-primary,
     .fc-next-button.fc-button.fc-button-primary{
