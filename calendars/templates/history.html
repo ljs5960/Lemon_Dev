@@ -4,25 +4,7 @@
 {% block container %}
 {% load humanize %}
 {% load mytag %}
-
 <style>
-   /* FOOTER에서 사용하는 CSS */
-   .bottom-nav-calendar{
-    color: #FFD859 !important;
-  }
-
-  .bottom-nav-calendar a{
-    color: #FFD859 !important;
-  }
-
-  .bottom-nav-search-stock a,.bottom-nav-home a,
-  .bottom-nav-stock a,.bottom-nav-addlist a,
-  .bottom-nav-myinfo a{
-    font-family: 'Noto Sans KR', sans-serif;
-    font-weight: 500;
-    font-size: 0.8rem;
-    color: #D1D6DA !important;
-  }
   ul{
     list-style: none;
     margin:0;
@@ -33,11 +15,11 @@
     z-index: 10;
     padding:0;
     bottom: 70px;
-    left: 28px;
+    left: 58px;
     position: fixed;
     vertical-align: middle;
     text-align: center;
-    width: 90%;
+    width: 70%;
     height: 30px;
     border-radius: 20px;
     margin: 0 auto;
@@ -46,7 +28,7 @@
     padding-top: 2px;
     font-weight: 500;
     border-radius: 20px;
-    width : 24%;
+    width : 32%;
     height: 30px;
     display:inline-block;
   }
@@ -283,6 +265,11 @@
 </div>
 </div>
 <!--- 내역 SWIPER div영역 끝 --->
+<script>
+  $(document).ready(function(){
+      document.getElementById('footer_calendar').src = "/media/calendar_active.png";
+  });
+</script>
 <script>
   var myElement = document.getElementById('container');
 

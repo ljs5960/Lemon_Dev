@@ -32,6 +32,7 @@ def portfolio(request):
 
     stock_cal = cal.calculator()
     total_investment_amount = stock_cal.total_investment_amount(request.user.user_id)
+    print( total_investment_amount)
     total_current_price = stock_cal.total_current_price(request.user.user_id)
     if total_investment_amount and total_current_price:
         data['total_investment_amount'] = total_investment_amount

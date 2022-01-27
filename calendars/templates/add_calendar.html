@@ -410,7 +410,7 @@
 
 
     $(function() {
-        var cardlist_Tags = [{% for i in wntlr %}'{{i.ss_isukorabbrv}} : {{i.ss_isusrtcd}}',{% endfor %}];
+        var cardlist_Tags = [{% for i in wntlr %}'{{i.ss_isusrtcd}}: {{i.ss_isukorabbrv}}',{% endfor %}];
         $('#stock').autocomplete({
             source: cardlist_Tags,
             max:10

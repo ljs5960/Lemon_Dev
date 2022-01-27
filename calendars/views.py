@@ -49,9 +49,23 @@ def home(request):
 
     # 월 총 수입, 지출
     spend_sum = spend_month_filter2.values('amount').aggregate(Sum('amount'))
+    spend_sum_value = list(spend_sum.values())
     income_sum= income_month_filter2.values('amount').aggregate(Sum('amount'))
+    income_sum_value = list(income_sum.values())
 
-    return render(request, 'home.html', {'month':month,'Expenditure': spend_sum, 'Income': income_sum})
+    home_chartjs_data = []
+    for spend_sum_value in spend_sum_value:
+        if spend_sum_value == None:
+            home_chartjs_data.append(0)
+        else:
+            home_chartjs_data.append(spend_sum_value)
+    for income_sum_value in income_sum_value:
+        if income_sum_value == None:
+            home_chartjs_data.append(0)
+        else:
+            home_chartjs_data.append(income_sum_value)
+
+    return render(request, 'home.html', {'month':month,'Expenditure': spend_sum, 'Income': income_sum, 'Home_chartjs_data':home_chartjs_data})
 
 def recom(request):
     return render(request, 'recom.html')
@@ -169,7 +183,6 @@ def top5(request):
         category_count_data.append(item['count'])
         category_count_label.append(item['category'])
     
-    print(category_count_label)
 
     return render(request, 'top5.html',
             {'month':month,
