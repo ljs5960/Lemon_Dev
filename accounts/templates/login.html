@@ -93,7 +93,7 @@
     <form method="post" action="{% url 'accounts:login' %}">
     {% csrf_token %}
 
-    <div id="loginwrap" class="login-wrap">
+    <div id="loginwrap" class="login-wrap" style="padding-top:25px;">
         <div class="id-input-wrap">
             <input class="id-input" type="text" placeholder="아이디" name="username" id="uid">
         </div>

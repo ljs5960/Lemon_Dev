@@ -268,7 +268,7 @@ $('input[id="require_chk"]').change(function () {
 {% else %}
 <div class="home-wrap">
     <div class="home-title">
-        <a>{{user.username}}님의 <br> 소비와 투자 현황입니다.</a>
+        <a><strong>{{user.username}}</strong>님의 <br><strong>소비</strong>와 <strong>투자 현황</strong></a>
     </div>
 
     <div class="home-chart" id="home-chart">
@@ -313,7 +313,7 @@ $('input[id="require_chk"]').change(function () {
 
     <div class="home-spand-div">
         <div class="home-spand-title">
-            <a>{{month}}월 소비</a>
+            <a><strong>{{month}}월</strong> 소비</a>
             <b class="home-spand-dateView" id="date_view"></b>
         </div>
 

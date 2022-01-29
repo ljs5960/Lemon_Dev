@@ -11,7 +11,7 @@
     padding: 14px 15px;
     top: 0;
     font-size: 25px;
-    font-weight: 600;color:black;"></i></a>가게부 작성</div>
+    font-weight: 600;color:black;"></i></a>지출 작성</div>
         </div>
         </div>
         {% endblock %}
@@ -165,6 +165,7 @@
     }
     .input_textarea{
         width: 230px;
+                height:150px;
         overflow:visible;
         font-size: 15px;
         font-family: 'Noto Sans KR', sans-serif;
@@ -192,9 +193,9 @@
         border: 1px solid transparent;
         border-radius: 10px;
         width: 100%;
-        height: 60px;
+        height: 50px;
         font-weight: bold;
-        font-size: 1.3rem;
+        font-size: 18px;
         color: #fff;
         background: #31bc8a;
         margin-top: 20px;
@@ -229,14 +230,7 @@
 </style>
 
 <div class="addEvent-wrap">
-    <div class="list">
-        <input type="radio" name="jtags" value="지출" id="span" checked>
-        <label for="span">지출</label>
-        <input type="radio" name="jtags" value="수입" id="income">
-        <label for="income">수입</label>
-    </div>
-
-    <form action="{%url 'calendars:add_calendar' %}" method="POST">
+    <form action="{%url 'calendars:add_spend_calendar' %}" method="POST">
         {% csrf_token %}
     <div class="span_div" id="span_div">
         <div class="span_list">
@@ -310,7 +304,7 @@
                 </tr>
                 <tr> <!-- 행선언 -->
                     <th width="200" height="60"><a class="span_list_title">메모</a></th>
-                    <th width="240" style="text-align: end;"><textarea class="input_textarea" rows="1" name="memo"></textarea></th>
+                    <th width="240" style="text-align: end;"><textarea class="input_textarea" rows="1" name="memo" placeholder="메모"></textarea></th>
                 </tr>
             </table>
         </div>
@@ -320,74 +314,20 @@
         </div>
     </form>
     </div>
-
-    <form action="{% url 'calendars:add_calendar' %}" method = "POST">
-        {% csrf_token %}
-    <div class="income_div" id="income_div">
-        <div class="income_list">
-
-                <input type="text" style="display: none;" readonly name="kind" id="kind" value="수입">
-                <input type="number" style="display: none;" readonly name="user" id="user_id" value="{{user.user_id}}">
-
-            <table min-width="300">
-                <tr> <!-- 행선언 -->
-                    <th width="200" height="60"><a class="span_list_title">수입수단</a></th>
-                    <th width="240" style="text-align: end;"><select class="span_list_select" name="income_way">
-                        <option style="text-align: center;" value='' selected>선택</option>
-                        <option value='1'>급여</option>
-                        <option value='2'>용돈</option>
-                        <option value='3'>금융수입</option>
-                        <option value='4'>사업수입</option>
-                        <option value='5'>기타</option>
-                    </select>
-                    </th>
-                </tr>
-                <tr> <!-- 행선언 -->
-                    <th width="200" height="60"><a class="span_list_title">날짜</a></th>
-                    <th width="240" style="text-align: end;"><input class="input_span" type="date" id="datepicker4" min="1900-01-01" max="2099-12-31" autocomplete="off" name="income_date" value="{{form.income_date.value|default_if_none:''}}"></th>
-                </tr>
-                <tr> <!-- 행선언 -->
-                    <th width="200" height="60"><a class="span_list_title">금액</a></th>
-                    <th width="240" style="text-align: end;"><input class="input_span" id="amount" name="amount" type="number" value="{{form.amount.value|default_if_none:''}}"/></th>
-                </tr>
-                <tr> <!-- 행선언 -->
-                <th width="200" height="60"><a class="span_list_title">메모</a></th>
-                <th width="240" style="text-align: end;"><textarea class="input_textarea" rows="1" name="memo"></textarea></th>
-            </tr>
-
-            </table>
-        </div>
-
-        <div style="text-align:center; margin-top:15px;">
-            <button class="addBtn" value="incomebtn" name="incomebtn" type="submit">추가하기</button>
-        </div>
-    </div>
-    </form>
 </div>
 
 <script>
-    $(function (){
-        $('input[type="radio"][id="span"]').on('click', function(){
-            var chkValue = $('input[type=radio][id="span"]:checked').val();
-            if(chkValue){
-                $('#span_div').css('display','block');
-                $('#income_div').css('display','none');
-            }            
-        });
-        $('input[type="radio"][id="income"]').on('click', function(){
-            var chkValue = $('input[type=radio][id="income"]:checked').val();
-            if(chkValue){
-                $('#income_div').css('display','block');
-                $('#span_div').css('display','none');
-            }            
-        });
-        
-    });
 
-    //textarea auto height increaze...
-    $("textarea.input_textarea").on('keydown keyup', function () {
-        $(this).height(1).height( $(this).prop('scrollHeight')+12 );	
-      });
+var str = $('#place').val();
+var stockcode = str.slice(-6);
+var stockname = str.replace(":"+stockcode,"");
+console.log(stockcode);
+console.log(stockname);
+
+<!--    //textarea auto height increaze...-->
+<!--    $("textarea.input_textarea").on('keydown keyup', function () {-->
+<!--        $(this).height(1).height( $(this).prop('scrollHeight')+12 );	-->
+<!--      });-->
 
 
     $(function() {
@@ -396,7 +336,6 @@
         {% endfor %}];
         $('#place').autocomplete({
             source: cardlist_Tags,
-            max:10
         });
      });
 /*

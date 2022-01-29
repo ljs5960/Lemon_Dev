@@ -2,23 +2,108 @@
 {% load static %}
 {% block title %}레몬::주식{% endblock title %}
 {% block container %}
+{% load humanize %}
+{% load mathfilters %}
 <style>
     .bottom-nav-stock,.bottom-nav-stock a{
       color: #FFD859;
     }
+    .title{
+    margin-left:20px;
+    margin-right:20px;
+    padding-bottom:10px;
+    padding-top:20px;
+    border-bottom:1px solid #31bc8a;
+    }
+    .stock-name{
+    display:inline-block;
+    font-size:18px;
+    font-weight:bold;
+    }
+    .code{
+    display:inline-block;
+    color:grey;
+    }
+    .marketcode{
+    display:inline-block;
+    color:white;
+    background:lightgrey;
+    border-radius:10px;
+    padding:5px 10px 5px 10px;
+    font-size:11px;
+    float:right;
+    margin-right:10px;
+    }
+    .curprice{
+    font-size:40px;
+    font-weight:bold;
+    }
+    .blue{
+    color:#6289e2;
+    }
+    .red{
+    color:#dd4930;
+    }
+    .pick{
+    float:right;
+    color:lightgrey;
+    }
+    .picked{
+    color:gold;
+    }
 </style>
-
-    {% if result %}
-        종목코드 : {{ result.isuSrtCd }} </br>
-        종목명 : {{ result.isuKorAbbrv }} </br>
-        시장코드 : {{ result.marketcode }}</br>
-        현재가 : {{ result.curPrice }}</br></br></br></br>
-
+{% block nav %}
+<div id="nav" style="border-bottom: 1px solid #f1f1f1;">
+            <div>
+            <div style="text-align:center;">
+                <a style="color: #fff;" href="javascript:history.back();"><i class="fa fa-angle-left" style="position: absolute;
+    left: 5px;
+    padding: 14px 15px;
+    top: 0;
+    font-size: 25px;
+    font-weight: 600;color:black;"></i></a>주식 상세</div>
+        </div>
+        </div>
+{% endblock nav %}
+{% if result %}
+<div class="title">
+        <div class="stock-name">{{ result.isuKorAbbrv }} </div>
+        <div class="code">{{ result.isuSrtCd }} </div>
+    <div class="pick" onclick="pick('{{ result.isuSrtCd }}')"><i class="fas fa-star"></i></div>
+    <div class="marketcode"> {{ result.marketcode }}</div>
+        <div class="curprice">{{ result.curPrice|intcomma }}원</div>
+        <div class="lastprice"> 종가 : {{ result.prevddClsprc|intcomma }}원</div>
+    <i class="fas fa-angle-up red"></i>
+    <i class="fas fa-angle-down blue"></i>
+        <div class="howup" style="display:inline-block;"> {{  result.curPrice|sub:result.prevddClsprc|intcomma }}원</div>
+         <div id="howup" style="display:none;"> {{  result.curPrice|sub:result.prevddClsprc }}</div>
+         <div class="percent" style="display:inline-block;">({{  result.curPrice|div:result.prevddClsprc|floatformat:2 }}%)</div>
+</div>
         전체 가져온 값들</br>
         {{ result }}
     {% else %}
         상세정보가 없습니다.
     {% endif %}
 
+<script>
+    $( document ).ready(function() {
+      var element = document.getElementById('howup');
+      var int = element.innerHTML;
+      var number = Number(int)
+      if (number >= 0) {
+      $('.howup').addClass('red');
+      $('.percent').addClass('red');
+      $('.fa-angle-down').hide();
+      } else {
+      $('.howup').addClass('blue');
+      $('.percent').addClass('blue');
+      $('.fa-angle-up').hide();
+      }
+    });
 
+    function pick(id){
+    alert(id);
+    }
+</script>
 {% endblock %}
+

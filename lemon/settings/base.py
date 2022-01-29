@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.kakao',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.naver',
+    'mathfilters',
 ]
 
 LOGIN_REDIRECT_URL = '/' # 로그인 후 리디렉션할 페이지

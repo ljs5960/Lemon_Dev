@@ -13,7 +13,7 @@
 {{total_investment_amount}} &nbsp;&nbsp; {{total_current_price|yields:total_investment_amount|rounds:2}}%
 <br/>
 손익 : {{total_current_price|sub:total_investment_amount}}
-
+<div style="display:none">
 <br/><br/><br/><br/>
 <span>구매하기</span><button onclick="get_current_price('{{marketcode}}', '{{issuecode}}', 'current_price')">구매하기 팝업</button>
 <br/>
@@ -47,7 +47,7 @@
 <div id="stocksector_update_alert">업종분류 결과위치</div>
 <button onclick="fn_get_selectivemaster()">PER, PBR (PBR = PER * ROE)</button>
 <Button onclick="fn_stocksector_update()">업종분류 업데이트</Button>
-
+</div>
 <script>
     var csrftoken = getCookie('csrftoken');
     function getCookie(cname) {

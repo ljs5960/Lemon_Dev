@@ -2,26 +2,56 @@
 {% load static %}
 {% block title %}레몬::주식{% endblock title %}
 {% block container %}
+{% load humanize %}
+{% load mathfilters %}
 <style>
     #footer_sotck{
         background: url(..media/stock_active.png);
     }
+    .stock{
+    padding:20px;
+    }
+    .stocks{
+    padding-bottom:10px;
+    border-bottom: 1px solid #ebebeb
+    }
+     .stock_name{
+    display:inline-block;
+    }
+    .stock_current_price{
+    float:right;
+    }
+    .buy_price{
+     display:inline-block;
+     }
+     .refresh{
+     float:right;
+     color:#31bc8a;
+     }
 </style>
 
 {% load mytag %}
-- 내가 구매한 주식
-<br/>
+<div class="stock">
+<div>
+    <a class="refresh" onclick="fn_koscom_history()"><i class="fa fa-refresh" aria-hidden="true"></i></a>
+    <strong>{{user.username}}</strong>님의<br>
+   <strong>보유 주식</strong>
+</div>
+    <div style="padding-top:20px;">
 {% for ele in stock_data %}
-    {{ele.0}}&nbsp;&nbsp;
-    {{ele.2}} (현재가)<br/>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    (구매가) {{ele.1}} &nbsp;&nbsp; {{ele.2|yields:ele.1|rounds:2}}%<br/><br/>
-
+    <div class="stocks">
+    <div class="stock_name">{{ele.0}}&nbsp;&nbsp;</div>
+    <div class="stock_current_price">{{ele.2|intcomma}}원</div>
+        <div>
+    <div class="buy_price">구매가격 {{ele.1|intcomma }}원</div>
+        <div style="float:right;">{{ele.2|yields:ele.1|rounds:2}}%</div>
+    </div></div>
 {% empty %}
     <span>구매한 주식이 없습니다</span>
 {% endfor %}
+</div></div>
 
-<button onclick="fn_koscom_history()">주식history가져오기</button>
+
 
 <script>
     var csrftoken = getCookie('csrftoken');
