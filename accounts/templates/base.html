@@ -81,7 +81,7 @@
     }
     	/* footer 관련 css */
 	.bottom-nav-calendar,.bottom-nav-search-stock,
-    .bottom-nav-stock,.bottom-nav-addlist,
+    .bottom-nav-stock,.bottom-nav-portfolio,
     .bottom-nav-myinfo,.bottom-nav-home{
         vertical-align: middle;
         list-style: none;
@@ -91,13 +91,14 @@
         align-items: center;
         justify-content: center;
     }
-    .bottom-nav-calendar i,.bottom-nav-search-stock i,
-    .bottom-nav-stock i,.bottom-nav-addlist i,
-    .bottom-nav-myinfo i,.bottom-nav-home i{
-        font-size: 18px;
+    .bottom-nav-calendar img,.bottom-nav-search-stock img,
+    .bottom-nav-stock img,.bottom-nav-portfolio img,
+    .bottom-nav-myinfo img,.bottom-nav-home img{
+        width: 18px;
+        height: 18px;
     }
     .bottom-nav-calendar a,.bottom-nav-search-stock a,
-    .bottom-nav-stock a,.bottom-nav-addlist a,
+    .bottom-nav-stock a,.bottom-nav-portfolio a,
     .bottom-nav-myinfo a, .bottom-nav-home a{
         font-weight: 500;
         font-size: 14px;
@@ -139,7 +140,7 @@ $( document ).ready(function() {
                 <img onclick="location.href='{% url 'calendars:home' %}'" src="{% static 'main/assets/img/레몬 가로.png'%}" width="100px">
             </div>
             <div style="margin-right:15px; float:right;">
-                <i class ="fa fa-search" style="color:#31bc8a"></i>
+                <a href="{% url 'stocks:search_stock' %}"><i class ="fa fa-search" style="color:#31bc8a"></i></a>
             </div>
         </div>
     </div>

@@ -32,11 +32,11 @@
     z-index: 10;
     padding:0;
     bottom: 70px;
-    left: 28px;
+    left: 58px;
     position: fixed;
     vertical-align: middle;
     text-align: center;
-    width: 90%;
+    width: 70%;
     height: 30px;
     border-radius: 20px;
     margin: 0 auto;
@@ -45,7 +45,7 @@
     padding-top: 2px;
     font-weight: 500;
     border-radius: 20px;
-    width : 24%;
+    width : 32%;
     height: 30px;
     display:inline-block;
   }
@@ -237,6 +237,11 @@
 
 </div><!--- 요약 SWIPER div영역 끝 --->
 <script>
+  $(document).ready(function(){
+      document.getElementById('footer_calendar').src = "/media/calendar_active.png";
+  });
+</script>
+<script>
   var myElement = document.getElementById('container');
 
   // create a simple instance
@@ -252,6 +257,7 @@
       //window.location.href="/recom";
 });
 </script>
+
 <link rel = "stylesheet" href="{% static 'css/main.css' %}">
 <link rel = "stylesheet" href="{% static 'css/style.css' %}">
 <script src="{% static 'js/main.js' %}"></script>

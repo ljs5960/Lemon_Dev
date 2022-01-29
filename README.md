@@ -8,6 +8,11 @@
 > 4. 기존방식인 ``` python.manage.py runserver ``` 명령어를 사용 하고싶으면, 명령어창에 ```  set DJANGO_SETTINGS_MODULE=lemon.settings.local ``` 입력후, 동일한 방법으로 로컬 서버를 실행하면 됩니다.
 -------
 ### Changelog
+#### 2022.01.27
+[홈]
+
+1. Chart.js 에서 데이터 연동기능 구현(현재는 지출,수입만 연동)
+
 #### 2022.01.26
 [CSS]
 

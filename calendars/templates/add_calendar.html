@@ -251,6 +251,11 @@
                     <th width="200" height="60"><a class="span_list_title">날짜</a></th>
                     <th width="240" style="text-align: end;"><input style="text-align:center;" class="input_span" type="date" id="datepicker3" min="1900-01-01" max="2099-12-31" autocomplete="off" name="spend_date" value="{{form.spend_date.value|default_if_none:''}}"></th>
                 </tr>
+                <tr>
+                    <th width="200" height="60"><a class="span_list_title">소비처</a></th>
+                    <th width="240" style="text-align: end;"><input class="input_span stock" type="text" id="place" name="place" autocomplete="on" value="">
+                </tr>
+                </tr>
                 <tr> <!-- 행선언 -->
                     <th width="200" height="60"><a class="span_list_title">결제수단</a></th>
                     <th width="240" style="text-align: end;">
@@ -307,19 +312,6 @@
                     <th width="200" height="60"><a class="span_list_title">메모</a></th>
                     <th width="240" style="text-align: end;"><textarea class="input_textarea" rows="1" name="memo"></textarea></th>
                 </tr>
-                <tr>
-                    <th>
-                    <div class="fas fa-chart-area" style="padding-right:10px;color:#31bc8a"></div><a>추가 정보</a>
-                                             </th>
-                    <th>
-                        <a style="float: right; display:none;" onclick="hideBtn()" id="hide-btn"><i style="margin-right: 5px;" class="fas fa-chevron-up"></i></a>
-                    <a style="float: right;" onclick="showBtn()" id="show-btn"><i style="margin-right: 5px;" class="fas fa-chevron-down"></i></a>
-                     </th>
-                </tr>
-                <tr class="stock" style="display:none;"> <!-- 행선언 -->
-                    <th width="200" height="60"><a class="span_list_title">주식</a></th>
-                    <th width="240" style="text-align: end;"><input class="input_span stock" type="text" id="stock" name="stock" autocomplete="on" value=""></th>
-                </tr>
             </table>
         </div>
 
@@ -372,18 +364,7 @@
     </div>
     </form>
 </div>
- <script>
-      function hideBtn() {
-        $('.stock').fadeOut();
-        document.getElementById('hide-btn').style.display="none";
-        document.getElementById('show-btn').style.display="";
-      }
-      function showBtn() {
-        $('.stock').fadeIn();
-        document.getElementById('hide-btn').style.display="";
-        document.getElementById('show-btn').style.display="none";
-      }
-    </script>
+
 <script>
     $(function (){
         $('input[type="radio"][id="span"]').on('click', function(){
@@ -410,18 +391,15 @@
 
 
     $(function() {
-        var cardlist_Tags = [{% for i in wntlr %}'{{i.ss_isukorabbrv}} : {{i.ss_isusrtcd}}',{% endfor %}];
-        $('#stock').autocomplete({
+        var cardlist_Tags = [{% for i in wntlr %}
+        '{{i.ss_isukorabbrv}} :{{i.ss_isusrtcd}}',
+        {% endfor %}];
+        $('#place').autocomplete({
             source: cardlist_Tags,
             max:10
         });
-    });
-    /*
-        {% for i in wntlr %}
-        '{{i.ss_isukorabbrv}}',{{i.ss_isusrtcd}} "
-        {% endfor %}
-        */
-    /*
+     });
+/*
     $(document).ready(function(){
         //키를 누르거나 떼었을때 이벤트 발생
         $("#numcomma").bind('keyup keydown',function(){

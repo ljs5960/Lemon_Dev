@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}레몬::주식{% endblock title %}
+{% block container %}
+<style>
+    .bottom-nav-stock,.bottom-nav-stock a{
+      color: #FFD859;
+    }
+</style>
+
+    {% if result %}
+        종목코드 : {{ result.isuSrtCd }} </br>
+        종목명 : {{ result.isuKorAbbrv }} </br>
+        시장코드 : {{ result.marketcode }}</br>
+        현재가 : {{ result.curPrice }}</br></br></br></br>
+
+        전체 가져온 값들</br>
+        {{ result }}
+    {% else %}
+        상세정보가 없습니다.
+    {% endif %}
+
+
+{% endblock %}
