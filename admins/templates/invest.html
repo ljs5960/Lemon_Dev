@@ -57,7 +57,11 @@
   <form action="" method="POST">
     {% csrf_token %}
        <div style="text-align:center;margin-top:35px;position:fixed;bottom:15px;width:100%;left:0px;">
-    <button class="btn" type="submit">변경</button>
+           {% if can_date|date:"Y-m-d" <= now_date|date:"Y-m-d" %}
+           <button class="btn" type="submit">변경</button>
+             {% else %}
+               <div class="btn" onclick="alert('30일 동안 변경을 하실수 없습니다.')">변경</div>
+            {% endif %}
        </div>
   </form>
 </div>
