@@ -12,8 +12,8 @@
     padding:20px;
     }
     .stocks{
-    padding-bottom:10px;
-    border-bottom: 1px solid #ebebeb
+    padding-bottom:30px;
+    border-bottom: 1px solid #ebebeb;
     }
      .stock_name{
     display:inline-block;
@@ -23,36 +23,88 @@
     }
     .buy_price{
      display:inline-block;
+     float:right;
      }
      .refresh{
      float:right;
      color:#31bc8a;
      }
+
 </style>
 
 {% load mytag %}
-<div class="stock">
-<div>
-    <a class="refresh" onclick="fn_koscom_history()"><i class="fa fa-refresh" aria-hidden="true"></i></a>
-    <strong>{{user.username}}</strong>님의<br>
-   <strong>보유 주식</strong>
+<table>
+    <tr>
+        <td style="width:50%;text-align:center;" onclick="move_page(0)">보유 주식</td>
+        <td style="width:50%;text-align:center;" onclick="move_page(1)">관심 주식<td/>
+    </tr>
+</table>
+<div style="width:100%;height:100%">
+<div class="swiper">
+    <div class="swiper-scrollbar" style="top:10px;height:3px;"></div>
+    <div class="swiper-wrapper">
+        <div class="swiper-slide">
+            <div class="stock">
+<!--                <div>-->
+<!--                    &lt;!&ndash;    <b class="refresh" onclick="fn_koscom_history()"><i class="fa fa-refresh" aria-hidden="true"></i></b>&ndash;&gt;-->
+<!--                    <strong>{{user.username}}</strong>님의<br>-->
+<!--                    <strong>보유 주식</strong>-->
+<!--                </div>-->
+                <div style="padding-top:20px;margin-bottom:20px;">
+                    {% for ele in stock_data %}
+                    <div class="stocks" onclick="info('{{ele.3}}','{{ele.4}}')">
+                        <div class="stock_name">{{ele.0}}</div>
+                        <div class="stock_current_price">{{ele.2|intcomma}}원</div>
+                        <div>
+                            <div style="float:right;">{{ele.2|yields:ele.1|rounds:2}}%</div>
+                            <div class="buy_price">{{ele.1|intcomma }}원</div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <span>구매한 주식이 없습니다</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="swiper-slide">
+        </div>
+    </div>
 </div>
-    <div style="padding-top:20px;">
-{% for ele in stock_data %}
-    <div class="stocks">
-    <div class="stock_name">{{ele.0}}&nbsp;&nbsp;</div>
-    <div class="stock_current_price">{{ele.2|intcomma}}원</div>
-        <div>
-    <div class="buy_price">구매가격 {{ele.1|intcomma }}원</div>
-        <div style="float:right;">{{ele.2|yields:ele.1|rounds:2}}%</div>
-    </div></div>
-{% empty %}
-    <span>구매한 주식이 없습니다</span>
-{% endfor %}
-</div></div>
-
-
-
+</div>
+<form id="form" method="post">
+    {% csrf_token %}
+    <input type="hidden" id="issuecode" name="issuecode">
+    <input type="hidden" id="marketcode" name="marketcode">
+</form>
+<link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
+<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+<script>
+    var swiper = new Swiper('.swiper', {
+  scrollbar: {
+    el: '.swiper-scrollbar',
+  },
+});
+    function move_page(index){
+    swiper.slideTo(index)
+    swiper.update();
+    }
+    function info(issuecode, marketcode) {
+        document.getElementById('issuecode').value = issuecode;
+        document.getElementById('marketcode').value = marketcode;
+        const form = document.getElementById('form');
+        form.action="/stock_info"
+        form.submit();
+    }
+</script>
+<Style>
+    .swiper{
+    width:100%;;
+    height:100%;
+    }
+    .swiper-scrollbar-drag{
+    background:#31bc8a;
+    }
+</Style>
 <script>
     var csrftoken = getCookie('csrftoken');
     function getCookie(cname) {
@@ -99,5 +151,6 @@
             console.log(err)
         })
     }
+
 </script>
 {% endblock %}

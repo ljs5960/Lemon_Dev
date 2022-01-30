@@ -386,11 +386,12 @@ When it's NOT activated, the fc-button classes won't even be in the DOM.
 .fc .fc-scrollgrid-section-body table,
   .fc .fc-scrollgrid-section-footer table {
     border-bottom-style: hidden; /* head keeps its bottom border tho */
+    border:none;
   }
 .fc {
 
   /* stickiness */
-
+.fc table{border-collapse: collapse;} to .fc table{border-collapse: separate !important;}
 }
 .fc .fc-scrollgrid-section-sticky > * {
     background: #fff;

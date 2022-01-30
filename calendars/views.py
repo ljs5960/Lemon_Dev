@@ -19,6 +19,7 @@ from django.views.generic import View
 from django.contrib.auth.hashers import check_password
 from dateutil.relativedelta import relativedelta
 from stocks.models import Stocksector
+from django.http import JsonResponse
 
 # Create your views here.
 URL_LOGIN = '/login'
@@ -179,7 +180,6 @@ def top5(request):
     now = datetime.datetime.now()
     month = now.strftime('%m')
     year = now.strftime('%Y')
-
     # 월별 기간 필터링
     spend_month_filter = Spend.objects.filter(user_id=user, spend_date__month=month).values('spend_id', 'kind',
                                                                                             'spend_date', 'amount',
