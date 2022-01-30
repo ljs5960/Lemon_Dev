@@ -35,8 +35,15 @@
         justify-content: space-between;
     padding: 10px;"><div style="width:40%;display:inline-block">설정 날짜</div>{{ user.invest_date|date:"Y-m-d" }}</div>
        </div>
+    <div style="width:100%;display: flex;
+        justify-content: space-between;
+    padding: 10px;"><div style="width:40%;display:inline-block">변경 가능 날짜</div>{{can_date|date:"Y-m-d"}}</div>
         <div>
-      <input class="invest" type="text" name="invest" required>
+            {% if can_date|date:"Y-m-d" <= now_date|date:"Y-m-d" %}
+      <input class="invest" type="text" name="invest" value="{{ user.invest|intcomma }}" required>
+            {% else %}
+        <input class="invest" type="text" name="invest" value="{{ user.invest|intcomma }}" disabled>
+            {% endif %}
     </div>
         </div>
   {% else %}
@@ -80,6 +87,7 @@
   padding:10px;
   width:80%;
   border:1px solid #31bc8a;
+    text-align:center;
   }
   .setup{
   width:100%;
