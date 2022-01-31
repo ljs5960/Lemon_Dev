@@ -76,6 +76,7 @@
     border-bottom:1px solid #f1f1f1;
     width:69%;
     margin-bottom:10px;
+    text-align:center;
     }
 </style>
 {% block nav %}
@@ -89,61 +90,61 @@
     font-size: 25px;
     font-weight: 600;color:black;"></i></a>주식 상세</div>
         </div>
-        </div>
+ </div>
 {% endblock nav %}
-{% if result %}
-<div class="title">
-        <div class="stock-name">{{ result.isuKorAbbrv }} </div>
-        <div class="code">{{ result.isuSrtCd }} </div>
-    <div class="pick" onclick="pick('{{ result.isuSrtCd }}')"><i class="fas fa-star"></i></div>
-    <div class="marketcode"> {{ result.marketcode }}</div>
-        <div class="curprice">{{ result.curPrice|intcomma }}원</div>
-        <div class="lastprice"> 종가 : {{ result.prevddClsprc|intcomma }}원</div>
-    <i class="fas fa-angle-up red"></i>
-    <i class="fas fa-angle-down blue"></i>
-    <i class="fas fa-minus"></i>
-        <div id="howup" style="display:inline-block;"> {{  result.curPrice|sub:result.prevddClsprc|intcomma }}</div>원
-         <div class="percent" style="display:inline-block;">({{ result.curPrice|div:result.prevddClsprc|floatformat:2 }}%)</div>
-<!--  종가와 현재 값이 값으면 0% 가 나와야되지 않을까요? 1% 로 나오고 있습니다. -->
-</div>
-       여기에 차트 나오기</br>
+        {% if result %}
+        <div class="title">
+                <div class="stock-name">{{ result.isuKorAbbrv }} </div>
+                <div class="code">{{ result.isuSrtCd }} </div>
+            <div class="pick" onclick="pick('{{ result.isuSrtCd }}')"><i class="fas fa-star"></i></div>
+            <div class="marketcode"> {{ result.marketcode }}</div>
+                <div class="curprice">{{ result.curPrice|intcomma }}원</div>
+                <div class="lastprice"> 종가 : {{ result.prevddClsprc|intcomma }}원</div>
+            <i class="fas fa-angle-up red"></i>
+            <i class="fas fa-angle-down blue"></i>
+            <i class="fas fa-minus"></i>
+                <div id="howup" style="display:inline-block;"> {{  result.curPrice|sub:result.prevddClsprc|intcomma }}</div>원
+                 <div class="percent" style="display:inline-block;">({{ result.curPrice|div:result.prevddClsprc|floatformat:2 }}%)</div>
+        <!--  종가와 현재 값이 값으면 0% 가 나와야되지 않을까요? 1% 로 나오고 있습니다. -->
+        </div>
+               여기에 차트 나오기</br>
         {{ result }}
     {% else %}
         상세정보가 없습니다.
     {% endif %}
 <div>
     <div style="padding:20px;">
-    <table style="width:100%;">
+        <table style="width:100%;">
         <tr style="height:50px">
             <td style="text-align:center;width:50%;" class="buy-btn act" onclick="buy()">구매</td>
             <td style="text-align:center;width:50%;" class="sell-btn" onclick="sell()">판매</td>
         </tr>
     </table>
-<div class="buy">
-<input type="hidden" id="buy_marketcode" name="buy_marketcode" value="{{ result.marketcode }}">
-<input type="hidden" id="buy_issuecode" name="buy_issuecode" value="{{ result.isuSrtCd }}">
-<div class="title_1">현재가</div><input type="text" id="buy_price" name="price" value="{{ result.curPrice}}"/>
-<div class="title_1">주</div><input type="number" id="buy_share" name="buy_share" value=""/>
-<div class="btn" onclick="fn_buy_stock()">구매</div>
-<!--    구매 가능한 주 보이기 / 구매 가능한 주 넘어가면 alert 나오기-->
-    </div>
+                <div class="buy">
+                <input type="hidden" id="buy_marketcode" name="buy_marketcode" value="{{ result.marketcode }}">
+                <input type="hidden" id="buy_issuecode" name="buy_issuecode" value="{{ result.isuSrtCd }}">
+                <div class="title_1">현재가</div><input type="text" id="buy_price" name="price" value="{{ result.curPrice}}"/>
+                <div class="title_1">주</div><input type="number" id="buy_share" name="buy_share" value=""/>
+                <div class="btn" onclick="fn_buy_stock()">구매</div>
+                <!--    구매 가능한 주 보이기 / 구매 가능한 주 넘어가면 alert 나오기-->
+                </div>
 
-<div class="sell" style="display:none;">
-<input type="hidden" id="sold_marketcode" name="sold_marketcode" value="{{ result.marketcode }}">
-<input type="hidden" id="sold_issuecode" name="sold_issuecode" value="{{ result.isuSrtCd }}">
-<div class="title_1">현재가</div><input type="text" id="sold_price" name="price" value="{{ result.curPrice}}"/>
-<div class="title_1">주</div><input type="number" id="sold_share" name="sold_share" value=""/>
-<div class="btn red_btn" onclick="fn_sold_stock()">판매</div>
-<!--    판매 가능한 주 보이기/ 판매 가능한 주 넘어가면 alert 나오기-->
-        </div>
+                <div class="sell" style="display:none;">
+                <input type="hidden" id="sold_marketcode" name="sold_marketcode" value="{{ result.marketcode }}">
+                <input type="hidden" id="sold_issuecode" name="sold_issuecode" value="{{ result.isuSrtCd }}">
+                <div class="title_1">현재가</div><input type="text" id="sold_price" name="price" value="{{ result.curPrice}}"/>
+                <div class="title_1">주</div><input type="number" id="sold_share" name="sold_share" value=""/>
+                <div class="btn red_btn" onclick="fn_sold_stock()">판매</div>
+                <!--    판매 가능한 주 보이기/ 판매 가능한 주 넘어가면 alert 나오기-->
+                 </div>
+</div>
 </div>
 
-
     <div style="display:none;">
-<div id="stocksector_update_alert">업종분류 결과위치</div>
-<button onclick="fn_get_selectivemaster()">PER, PBR (PBR = PER * ROE)</button>
-<Button onclick="fn_stocksector_update()">업종분류 업데이트</Button>
-</div></div>
+        <div id="stocksector_update_alert">업종분류 결과위치</div>
+        <button onclick="fn_get_selectivemaster()">PER, PBR (PBR = PER * ROE)</button>
+        <Button onclick="fn_stocksector_update()">업종분류 업데이트</Button>
+    </div>
 
 <script>
     function sell(){

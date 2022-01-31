@@ -206,6 +206,7 @@ font-family: 'Noto Sans KR', sans-serif;
         left: 0;
         right: 0;
         z-index: 100;
+        border-bottom:1px solid #f1f1f1;
     }
 
 	/* nav 관련 */

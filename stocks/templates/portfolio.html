@@ -51,7 +51,7 @@
 
 <div class="home-chart" id="home-chart" style="padding:20px;">
     <div class="title" style="color:black;margin-bottom:20px;">주식 정보</div>
-    <div style="text-align:center;font-size:14px;text-align:left;">모의투자 금액 원에서 {{total_current_price|yields:total_investment_amount|rounds:2}}% 증가</div>
+    <div style="text-align:center;font-size:14px;text-align:left;">가상 자산 {금액} 원에서 {{total_current_price|yields:total_investment_amount|rounds:2}}% 증가</div>
     <div style="text-align:center;font-size:14px;text-align:left;">손익 : {{total_current_price|sub:total_investment_amount|intcomma}}</div>
         <canvas id="myChart2" width="100" height="100"></canvas>
         <script>
