@@ -45,7 +45,7 @@ def invest_change(request):
             user_db.invest = request.POST['invest']
             user_db.save()
             return redirect('/invest/update')
-    return render(request, 'invest.html', {'user': user_db,'can_date':can_date,'now_date':now_date})
+    return render(request, 'invest.html', {'user': user_db, 'can_date': can_date, 'now_date': now_date})
 
 # 내 정보 변경
 def edit_myinfo(request):

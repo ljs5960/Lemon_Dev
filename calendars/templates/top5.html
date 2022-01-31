@@ -141,7 +141,7 @@
     color: #fff;
   }
   #pagenation_recom a, #pagenation_summary a, #pagenation_list a{
-    color: #adadad;
+     color: white;
   }
   #pagenation_recom{
     display: none;
@@ -329,7 +329,7 @@ onClick:function(e){
       <ol style="padding-left: 1rem !important;">
         <table border="0" style="width: 100%; margin-top:10px; border-collapse:inherit;">
           {% for area in category_place %}
-          <tr>
+          <tr onclick="info('주식코드','시장 kospi')">
             <td width='10'><li style="font-weight: bold; color:#8e8e8e;"></li></td>
             <td style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:50px; text-align: left;" width='50'>
               <a style="font-weight:bold; color:#3a3a3a">{{ area.place }}</a>
@@ -364,7 +364,7 @@ onClick:function(e){
     </div>
   <div>
   <ol style="padding-left: 1rem !important;">
-    <table border="0" style="width: 100%; margin-top:10px; border-collapse:inherit;">
+    <table border="0" style="width: 100%; margin-top:10px; border-collapse:inherit;" >
       {% for category in Category_count %}
       <tr>
         <td width='10'><li style="font-weight: bold; color:#8e8e8e;"></li></td>
@@ -395,9 +395,11 @@ onClick:function(e){
   </div>
   </div><!-- 건수 탑5 div 끝-->
 </div>
-
-
-
+<form id="form" method="post">
+    {% csrf_token %}
+    <input type="hidden" id="issuecode" name="issuecode">
+    <input type="hidden" id="marketcode" name="marketcode">
+</form>
   <script>
   
     var myElement = document.getElementById('container');
@@ -414,6 +416,14 @@ onClick:function(e){
     mc.on("swiperight", function(ev) {
         window.location.href="/history";
   });
+
+  function info(issuecode, marketcode) {
+        document.getElementById('issuecode').value = issuecode;
+        document.getElementById('marketcode').value = marketcode;
+        const form = document.getElementById('form');
+        form.action="/stock_info"
+        form.submit();
+    }
   </script>
 
 {% endblock container %}

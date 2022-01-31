@@ -9,7 +9,9 @@
         background: url(..media/stock_active.png);
     }
     .stock{
-    padding:20px;
+    padding-left:20px;
+        padding-right:20px;
+        padding-bottom:30px;
     }
     .stocks{
     padding-bottom:30px;
@@ -29,19 +31,21 @@
      float:right;
      color:#31bc8a;
      }
-
+    ::-webkit-scrollbar {
+    display: none;
+}
 </style>
 
 {% load mytag %}
-<table>
+<table style="position:fixed;background-color:white;hegith:35px;">
     <tr>
         <td style="width:50%;text-align:center;" onclick="move_page(0)">보유 주식</td>
         <td style="width:50%;text-align:center;" onclick="move_page(1)">관심 주식<td/>
     </tr>
 </table>
-<div style="width:100%;height:100%">
+<div style="padding-top:35px;">
 <div class="swiper">
-    <div class="swiper-scrollbar" style="top:10px;height:3px;"></div>
+    <div class="swiper-scrollbar" style="top:0px;height:3px;"></div>
     <div class="swiper-wrapper">
         <div class="swiper-slide">
             <div class="stock">
@@ -95,14 +99,22 @@
         form.action="/stock_info"
         form.submit();
     }
+    var body_height = document.documentElement.clientHeight - 145;
+    $('.swiper-wrapper').height(body_height)
+    $('.swiper').height(body_height)
+    swiper.update();
 </script>
 <Style>
-    .swiper{
-    width:100%;;
-    height:100%;
-    }
     .swiper-scrollbar-drag{
     background:#31bc8a;
+    }
+    .swiper {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+    }
+    .swiper-slide {
+        overflow-y: scroll;
     }
 </Style>
 <script>
@@ -125,12 +137,12 @@
 
     function fn_koscom_history() {
         var data = {
-                'marketcode': 'kospi',
-                'issuecode': '005930',
-                'trnsmCycleTpCd': 'D',
-                'inqStrtDd': '20170101',
-                'inqEndDd': '20170331',
-                'reqCnt': '20'
+<!--                'marketcode': 'kospi',-->
+<!--                'issuecode': '005930',-->
+<!--                'trnsmCycleTpCd': 'D',-->
+<!--                'inqStrtDd': '20170101',-->
+<!--                'inqEndDd': '20170331',-->
+<!--                'reqCnt': '20'-->
             }
             headers = new Headers();
         headers.append('Content-Type', 'application/json')
