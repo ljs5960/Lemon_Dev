@@ -108,7 +108,7 @@ overflow:hidden !important;
       <b class="money-info-title">
         <strong>{{month}}월</strong> 누적 금액
       </b>
-      <div class="amountMoney">
+      <div class="amountMoney" style="padding-top:10px;">
         <a id="amount-money1" style="display: none;">{{Expenditure.amount__sum|default_if_none:'0'|intcomma}}</a>
         <div class="money-wrap"><b id="amount-money" class="amount-money"></b><b class="amount-won">won</b></div>
       </div>
@@ -126,7 +126,7 @@ overflow:hidden !important;
         cn1element.innerHTML = cn1;
       </script>
 
-      <div style="text-align:initial; padding-left:1rem;">
+      <div style="text-align:initial; padding-top:10px;padding-left:16px;">
         <div style="margin-top:10px; margin-bottom:10px;">
           <a style="color:#FFF; font-weight: bold;">지출</a> <a style="margin-left: 10px; margin-right:10px; font-weight:400; color:#FFF;">{{Expenditure.amount__sum|default_if_none:'0'|intcomma}} won</a>
         </div>

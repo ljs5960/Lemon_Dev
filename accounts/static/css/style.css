@@ -667,7 +667,7 @@ font-family: 'Noto Sans KR', sans-serif;
 
 		}
 		.amountMoney{
-		text-align:left;
+		text-align:center;
 		padding-left:15px;
 		margin-top:7px;
 		}
@@ -863,8 +863,7 @@ font-family: 'Noto Sans KR', sans-serif;
 			background-color: #fff;
 			margin: 10px 0;
 			padding: 10px;
-			border: 1px solid #8e8e8e;
-			border-radius: 5px;
+			border-bottom: 1px solid #f1f1f1;
 			width:100%;
 		}
 	.notice-title{

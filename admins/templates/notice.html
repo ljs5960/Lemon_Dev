@@ -16,7 +16,6 @@
     display: flex;
     justify-content: space-between;
     align-items : center;
-    border-bottom: 1px solid #ddd;
   }
   .fa-chevron-left{
     padding-top: 3px;
@@ -48,7 +47,7 @@
       {% for notice in notices %}
       <div class="notice-contents" onclick="location.href='{% url 'admins:notice_detail' notice.notice_id %}'">
         <div>
-            <a class="notice-title">{{ notice.title }}</a>
+      <a class="notice-title">{{ notice.title }}</a>
           <i style="margin-top:10px; float: right;" class="fas fa-chevron-right"></i>
         </div>
         <div>
