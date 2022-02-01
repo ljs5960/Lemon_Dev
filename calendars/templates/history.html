@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}레몬::추천{% endblock title %}
+{% block title %}레몬::내역{% endblock title %}
 {% block container %}
 {% load humanize %}
 {% load mytag %}
@@ -78,6 +78,11 @@
     border-radius: 5px;
     color: #fff;
   }
+.footer-line-calendar{
+    width:50px;
+    padding: 12px 0 10px 0;
+    border-bottom: 2px solid #FFF;
+    }
 </style>
 <!-- pagenation -->
 <div class="pagenation">
@@ -279,7 +284,8 @@
 <!--- 내역 SWIPER div영역 끝 --->
 <script>
   $(document).ready(function(){
-      document.getElementById('footer_calendar').src = "/media/calendar_active.png";
+    //$('.footer-selector').fadeIn(550);
+      //document.getElementById('footer_calendar').src = "/media/calendar_active.png";
   });
 </script>
 <script>

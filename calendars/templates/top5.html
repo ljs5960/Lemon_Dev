@@ -3,11 +3,12 @@
 {% load humanize %}
 {% load static %}
 
-{% block title %}레몬::가계부{% endblock title %}
+{% block title %}레몬::TOP5{% endblock title %}
 {% block container %}
 <script>
   $(document).ready(function(){
-      document.getElementById('footer_calendar').src = "/media/calendar_active.png";
+    $('.footer-selector').fadeIn(550);
+      //document.getElementById('footer_calendar').src = "/media/calendar_active.png";
   });
 </script>
 <style>
@@ -151,8 +152,12 @@
     width:200px !important;
     height:200px !important;
   }
+.footer-line-calendar{
+    width:50px;
+    padding: 12px 0 10px 0;
+    border-bottom: 2px solid #FFF;
+    }
   </style>
-
   <!-- pagenation -->
 <div class="pagenation">
   <ul>

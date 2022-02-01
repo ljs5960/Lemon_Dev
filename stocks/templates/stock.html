@@ -34,8 +34,12 @@
     ::-webkit-scrollbar {
     display: none;
 }
+.footer-line-stock{
+    width:50px;
+    padding: 12px 0 10px 0;
+    border-bottom: 2px solid #FFF;
+    }
 </style>
-
 {% load mytag %}
 <table style="position:fixed;background-color:white;hegith:35px;">
     <tr>
@@ -164,5 +168,11 @@
         })
     }
 
+</script>
+
+<script>
+$(document).ready(function(){
+   // $('.footer-selector').fadeIn(550);
+});
 </script>
 {% endblock %}

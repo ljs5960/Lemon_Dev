@@ -32,8 +32,12 @@
     justify-content: center;
     padding-top:20px;
     }
+.footer-line-portfolio{
+    width:50px;
+    padding: 12px 0 10px 0;
+    border-bottom: 2px solid #FFF;
+    }
 </style>
-
 {% load mytag %}
 <div class="wrapper">
     <div><strong>{{user.uid}}</strong>님의</div>
@@ -111,4 +115,10 @@
   </ol>
   </div>
   </div><!-- 건수 탑5 div 끝-->
+
+<script>
+$(document).ready(function(){
+    //$('.footer-selector').fadeIn(550);
+});
+</script>
 {% endblock %}
