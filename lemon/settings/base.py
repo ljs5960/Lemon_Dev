@@ -140,20 +140,21 @@ USE_TZ = False
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/login'
-SIGNUP_REDIRECT_URL = '/signup2'
+SIGNUP_REDIRECT_URL = '/signup'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'accounts', 'static'),
+)
+'''
 STATIC_DIR = [
-    os.path.join(BASE_DIR,'static')
+    os.path.join(BASE_DIR, '' 'static')
 ]
-
-STATIC_DIR = [
-    os.path.join(BASE_DIR,'static')
-]
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+'''
+# 배포서버에서 static 파일을 모아서 관리하는 폴더명
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_ROOT = 'media/'
 MEDIA_URL = '/media/'
