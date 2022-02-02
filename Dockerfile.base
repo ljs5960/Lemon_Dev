@@ -2,10 +2,10 @@
 FROM ubuntu:16.04
 
 RUN apt-get -y update
-RUN  apt-get -y dist-upgrade
-# RUN  apt-get install -y python-pip git vim
-RUN apt-get install -y gcc
-RUN apt-get install -y default-libmysqlclient-dev
+RUN apt-get -y dist-upgrade
+RUN  apt-get install -y python-pip git vim
+# RUN apt-get install -y gcc
+# RUN apt-get install -y default-libmysqlclient-dev
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 WORKDIR /usr/src/app
