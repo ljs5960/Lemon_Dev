@@ -61,10 +61,6 @@ ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
 ACCOUNT_USER_MODEL_EMAIL_FIELD: None
 ACCOUNT_EMAIL_REQUIRED: False 
 SOCIALACCOUNT_AUTO_SIGNUP = True # 디폴트 값은 True이며 SNS 공급자에서 넘겨받은 정보를 가지고 바로 회원가입시킨다. 부가정보를 입력 받기 위해 False로 설정할 수 있다.
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',  # <- 디폴트 모델 백엔드
-    'allauth.account.auth_backends.AuthenticationBackend', # <- 추가
-)
 
 
 SITE_ID = 1

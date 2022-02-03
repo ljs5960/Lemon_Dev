@@ -20,7 +20,7 @@
 
   body{
     position: relative !important;
-    background-color: #F7F7F7;
+    background-color: #FFF;
   }
 
   a {
@@ -258,8 +258,8 @@ onClick:function(e){
 });
 </script>
     </div><!-- 카테고리차트 탑5 div 끝-->
-
-       <div style="background-color:#fff; margin:20px 5% 40px 5%; padding: 10px;"><!-- 소비 탑5 카드사 div 시작-->
+  <!-- 소비 탑5 카드사 div 시작-->
+       <div style="background-color:#fff; margin:20px 5% 40px 5%; padding: 10px; display:none;">
     <div style="text-align:left; font-weight: bold; font-size:16px;">
       <a style="font-weight: bold; font-size:16pt;">카드사 Top5</a>
     </div>
@@ -400,11 +400,6 @@ onClick:function(e){
   </div>
   </div><!-- 건수 탑5 div 끝-->
 </div>
-<form id="form" method="post">
-    {% csrf_token %}
-    <input type="hidden" id="issuecode" name="issuecode">
-    <input type="hidden" id="marketcode" name="marketcode">
-</form>
   <script>
   
     var myElement = document.getElementById('container');

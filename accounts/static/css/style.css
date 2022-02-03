@@ -718,6 +718,31 @@ font-family: 'Noto Sans KR', sans-serif;
 			font-size: 20px;
 			font-weight: 500;
 		}
+		.list-empty-wrap2{
+			margin: 50px auto;
+			padding: 30px 0;
+			width: 90%;
+			height:150px;
+			border-radius: 10px;
+			border: 1px solid #3edc84;
+			color: #2a2a2a;
+			text-align: center;
+			vertical-align: middle;
+			font-size: 20px;
+			font-weight: 400;
+		}
+		.summary-nodata-btn{
+			margin-top: 20px;
+			font-family: 'Noto Sans KR', sans-serif;
+			font-size: 16px;
+			color: #fff;
+			font-weight: 400;
+			width:80%;
+			height:45px;
+			border: none;
+			border-radius: 10px;
+			background-color: #3edc84;
+		}
 		.recom-empty-wrap{
 			margin: 50px auto;
 			padding: 30px 0;

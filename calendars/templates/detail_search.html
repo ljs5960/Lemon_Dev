@@ -193,11 +193,20 @@
         {% if filter.kind == "지출" %}
         <a style="font-family: 'Noto Sans KR', sans-serif; font-weight:400; font-size:12pt; color: #3a3a3a; display:block;">{{ filter.place }}</a>
         {% elif filter.kind == "수입" %}
-        <a style="font-weight:400; font-size:12pt; color: #3a3a3a;display:block;">{% if filter.place == '1' %} 급여 {% endif %}</a>
-        <a style="font-weight:400; font-size:12pt; color: #3a3a3a;display:block;">{% if filter.place == '2' %} 용돈 {% endif %}</a>
-        <a style="font-weight:400; font-size:12pt; color: #3a3a3a;display:block;">{% if filter.place == '3' %} 금융수입 {% endif %}</a>
-        <a style="font-weight:400; font-size:12pt; color: #3a3a3a;display:block;">{% if filter.place == '4' %} 사업수입 {% endif %}</a>
-        <a style="font-weight:400; font-size:12pt; color: #3a3a3a;display:block;">{% if filter.place == '5' %} 기타 {% endif %}</a>
+          <a style="font-weight:400; font-size:12pt; color: #3a3a3a;display:block;">{% if filter.place == '0' %} 선택안함 {% endif %}</a>
+          <a style="font-weight:400; font-size:12pt; color: #3a3a3a;display:block;">{% if filter.place == '1' %} 금융/보험 {% endif %}</a>
+          <a style="font-weight:400; font-size:12pt; color: #3a3a3a;display:block;">{% if filter.place == '2' %} 저축 {% endif %}</a>
+          <a style="font-weight:400; font-size:12pt; color: #3a3a3a;display:block;">{% if filter.place == '3' %} 온라인쇼핑 {% endif %}</a>
+          <a style="font-weight:400; font-size:12pt; color: #3a3a3a;display:block;">{% if filter.place == '4' %} 출금 {% endif %}</a>
+          <a style="font-weight:400; font-size:12pt; color: #3a3a3a;display:block;">{% if filter.place == '5' %} 생활/마트 {% endif %}</a>
+          <a style="font-weight:400; font-size:12pt; color: #3a3a3a;display:block;">{% if filter.place == '6' %} 카페/간식 {% endif %}</a>
+          <a style="font-weight:400; font-size:12pt; color: #3a3a3a;display:block;">{% if filter.place == '7' %} 기타지출(사회생활비) {% endif %}</a>
+          <a style="font-weight:400; font-size:12pt; color: #3a3a3a;display:block;">{% if filter.place == '8' %} 교통/차량유지 {% endif %}</a>
+          <a style="font-weight:400; font-size:12pt; color: #3a3a3a;display:block;">{% if filter.place == '9' %} 주거생활/통신 {% endif %}</a>
+          <a style="font-weight:400; font-size:12pt; color: #3a3a3a;display:block;">{% if filter.place == '10' %} 식사 {% endif %}</a>
+          <a style="font-weight:400; font-size:12pt; color: #3a3a3a;display:block;">{% if filter.place == '11' %} 의료/건강 {% endif %}</a>
+          <a style="font-weight:400; font-size:12pt; color: #3a3a3a;display:block;">{% if filter.place == '12' %} 문화/예술 {% endif %}</a>
+          <a style="font-weight:400; font-size:12pt; color: #3a3a3a;display:block;">{% if filter.place == '13' %} 교육비 {% endif %}</a>
         {% endif %}
         <!--<a style="text-align:left;font-size: 13px; color:gray;display:block;">{{ detail.spend_date | date:'h:m' }}</a>-->
       </div>

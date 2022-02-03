@@ -143,14 +143,12 @@
 <div class="signup-wrapper" style="min-width:378px; padding:70px 20px 40px 20px;">
     <form class="validation-form" method="POST" action="{% url 'accounts:signup' %}" id="signup-form">
         {% csrf_token %}
-        <input style="display: none;" type="checkbox" name="u_chk" value ="1" id="require_chk" checked>
-
         <div class="persnal_info_access" style="padding-bottom: 20px;">
             <div class="require_chk_wrap">
                 <a>개인정보 수집 동의(필수)</a><br>
                 <textarea cols="30" rows="10" style="width:100%;" disabled="disabled">{% include 'persnal.html' %}</textarea><br>
                 <label style="text-align:end;">
-                    <input type="checkbox" name="e_chk" value ="1" id="require_chk2">
+                    <input type="checkbox" name="u_chk" value ="1" id="require_chk2">
                     <span>이용약관에 동의합니다.</span>
                 </label>
             </div>
@@ -210,13 +208,16 @@
             </div>
             <!-- 생년월일 입력 input -->
             <div class="signup-form">
-                <a class="add_info_title" style="padding-top:40px;">생년월일</a><br>
-                <input class="add_info_select_signup" name = birthday type="integrity" id="year" maxlength="8" placeholder="예시)19801210">
+                <input class="add_info_select_signup" name = birthday type="integrity" id="year" maxlength="8" placeholder="생년월일을 입력해주세요. 예시)19801210">
             </div>
             <!-- 모의투자금액 입력 input -->
             <div class="signup-form">
-                <a class="add_info_title" style="padding-top:40px;">모의투자금액</a><br>
                 <input type="number" class="add_info_select_signup" id="invest" name="invest" placeholder="모의 투자금액을 입력하세요." value="">
+            </div>
+            <!-- 핀번호 입력 input -->
+            <div class="signup-form">
+                <input type="text" class="add_info_select_signup"
+                    id="pin" name="pin" placeholder="핀번호 입력해주세요." value="">
             </div>
 
             <button class="btn btn-primary btn-lg btn-block" id="signupBtn" type="submit" value="signup" disabled style="width:100%">회원가입</button>

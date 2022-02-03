@@ -31,15 +31,17 @@ def home(request):
         user = request.user.user_id
         user = get_user_model().objects.filter(user_id=user).update(
             u_chk=request.POST['u_chk'],
-            e_chk=request.POST['e_chk'],
             username=request.POST['username'],
             gender=request.POST.get("gender"),
             job=request.POST.get("job"),
             phonenumber=request.POST.get('phonenumber'),
             birthday=request.POST['birthday'],
+            pin=request.POST['pin'],
+            invest=request.POST['invest'],
         )
         return redirect('/')
 
+    invest = request.user.invest
     user = request.user.user_id
     now = datetime.datetime.now()
     month = now.strftime('%m').replace('0', '')
@@ -52,14 +54,13 @@ def home(request):
                                                                                                 'income_date', 'amount',
                                                                                                 'income_way',
                                                                                                 'income_way')
-
     # 월 총 수입, 지출
     spend_sum = spend_month_filter2.values('amount').aggregate(Sum('amount'))
     spend_sum_value = list(spend_sum.values())
     income_sum = income_month_filter2.values('amount').aggregate(Sum('amount'))
     income_sum_value = list(income_sum.values())
 
-    home_chartjs_data = []
+    home_chartjs_data = [invest]
     for spend_sum_value in spend_sum_value:
         if spend_sum_value == None:
             home_chartjs_data.append(0)
@@ -196,6 +197,7 @@ def top5(request):
     category_sum = spend_month_filter.values('category').annotate(amount=Sum('amount')).order_by('-amount')[:5]
     category_card = spend_month_filter.values('card').annotate(amount=Sum('amount')).order_by('-amount')[:5]
     category_place = spend_month_filter.values('place').annotate(amount=Sum('amount')).order_by('-amount')[:5]
+    print(category_place)
     category_category = spend_month_filter.values('category').annotate(amount=Sum('amount')).order_by('-amount')[:5]
 
     # 요약 페이지_카테고리 건수별 TOP5
@@ -238,19 +240,25 @@ def category_detail(request, int):
 
 def detail_search(request):
     user = request.user.user_id
-    start_date = request.POST.get('start_date', None)
-    end_date = request.POST.get("end_date", None)
-    spend_date = Spend.objects.filter(user_id=user, spend_date__range=(start_date, end_date)).values('spend_id', 'kind',
+    start_date = request.POST.get('start_date', None )
+    end_date = request.POST.get("end_date",None)
+
+    if not start_date :
+        return redirect('/history')
+    else:
+        spend_date = Spend.objects.filter(user_id=user, spend_date__range=(start_date, end_date)).values('spend_id', 'kind',
                                                                                                      'spend_date',
                                                                                                      'amount', 'place',
                                                                                                      'category')
-    income_date = Income.objects.filter(user_id=user, income_date__range=(start_date, end_date)).values('income_id',
+        income_date = Income.objects.filter(user_id=user, income_date__range=(start_date, end_date)).values('income_id',
                                                                                                         'kind',
                                                                                                         'income_date',
                                                                                                         'amount',
                                                                                                         'income_way',
                                                                                                         'income_way')
-    total_date = spend_date.union(income_date).order_by('-spend_date')
+        total_date = spend_date.union(income_date).order_by('-spend_date')
+
+
 
     return render(request, 'detail_search.html', {'total_date': total_date})
 
@@ -324,39 +332,24 @@ def add_income_calendar(request):
 
 def add_spend_calendar(request):
     if request.method == "POST":
-        if 'spendbtn' in request.POST:
-            sform = SpendForm(request.POST)
-            if sform.is_valid():
-                user_id = request.POST['user'],
-                kind = sform.cleaned_data['kind'],
-                amount = sform.cleaned_data['amount'],
-                place = sform.cleaned_data['place'],
-                spend_date = sform.cleaned_data['spend_date'],
-                way = sform.cleaned_data['way'],
-                category = sform.cleaned_data['category'],
-                card = sform.cleaned_data['card'],
-                memo = sform.cleaned_data['memo'],
-                stock = sform.cleaned_data['place']
-                sform.save()
-                return redirect('/history')
-
-        elif 'incomebtn' in request.POST:
-            iform = IncomeForm(request.POST)
-            if iform.is_valid():
-                user_id = request.POST['user'],
-                kind = iform.cleaned_data['kind'],
-                amount = iform.cleaned_data['amount'],
-                income_date = iform.cleaned_data['income_date'],
-                income_way = iform.cleaned_data['income_way'],
-                memo = iform.cleaned_data['memo']
-                iform.save()
-                return redirect('/history')
+        sform = SpendForm(request.POST)
+        if sform.is_valid():
+            user_id = request.POST['user'],
+            kind = sform.cleaned_data['kind'],
+            amount = sform.cleaned_data['amount'],
+            place = sform.cleaned_data['place'],
+            spend_date = sform.cleaned_data['spend_date'],
+            way = sform.cleaned_data['way'],
+            category = sform.cleaned_data['category'],
+            card = sform.cleaned_data['card'],
+            memo = sform.cleaned_data['memo'],
+            stock = sform.cleaned_data['stock']
+            sform.save()
+            return redirect('/history')
     else:
         sform = SpendForm()
-        iform = IncomeForm()
     wntlr = Stocksector.objects.all().values('ss_isusrtcd', 'ss_isukorabbrv')
     return render(request, 'add_spend_calendar.html', {'wntlr': wntlr})
-
 
 def edit_calendar(request, spend_id, kind):
     user = request.user.user_id
@@ -370,6 +363,9 @@ def edit_calendar(request, spend_id, kind):
 
 
 def sedit_calendar(request, spend_id):
+    spend = Spend.objects.get(spend_id = spend_id)
+    spend.delete()
+
     if request.method == "POST":
         user = request.user.user_id
         spe = Spend.objects.filter(spend_id=spend_id, user_id=user).update(
@@ -384,10 +380,13 @@ def sedit_calendar(request, spend_id):
         return redirect('/history')
 
 
-def iedit_calendar(request, spend_id):
+def iedit_calendar(request, income_id):
+    income = Income.objects.get(income_id = income_id)
+    income.delete()
+
     if request.method == "POST":
         user = request.user.user_id
-        spe = Income.objects.filter(income_id=spend_id, user_id=user).update(
+        spe = Income.objects.filter(income_id=income_id, user_id=user).update(
             kind=request.POST['kind'],
             amount=request.POST['amount'],
             income_date=request.POST['income_date'],

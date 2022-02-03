@@ -110,7 +110,7 @@
         border-top: none;
         border-left: none;
         border-right: none;
-        border-bottom: 1px solid #767676;
+        border-bottom: 1px solid rgb(202, 202, 202);
         /* ios 기능 */
         appearance: none;
         -moz-appearance: none;
@@ -119,7 +119,6 @@
         -webkit-border-radius: 0;
         -moz-border-radius: 0;
         background-color: #fff;
-        text-align:center;
     }
     .span_list_select{
         border-top: none;
@@ -137,7 +136,7 @@
         -webkit-border-radius: 0;
         -moz-border-radius: 0;
         background-color: #fff;
-        text-align:center;
+        border-bottom: 1px solid rgb(202, 202, 202);
     }
     .income_list_title{
         float: left;
@@ -150,14 +149,15 @@
     }
     .input_textarea{
         width: 230px;
+                height:150px;
         overflow:visible;
-        font-size: 1.3rem;
+        font-size: 15px;
         font-family: 'Noto Sans KR', sans-serif;
         font-weight: 400;
         border-top: none;
         border-left: none;
         border-right: none;
-        border-bottom: 1px solid #767676;
+        border-bottom: 1px solid rgb(202, 202, 202);
         resize: none;
         /* ios 기능 */
         appearance: none;
@@ -174,20 +174,21 @@
 
     }
     .addBtn{
-        margin-bottom: 20px;
         border: 1px solid transparent;
         border-radius: 10px;
-        width: 100%;
+        width: 50%;
         height: 40px;
         font-weight: bold;
-        font-size: 1rem;
+        font-size: 18px;
         color: #fff;
-        background: #31bc8a
+        background: #31bc8a;
+        margin-left:5px;
     }
     .delBtn{
+        margin-right:5px;
         border: 1px solid #FC615D;
         border-radius: 10px;
-        width: 100%;
+        width: 50%;
         height: 40px;
         font-weight: bold;
         font-size: 1rem;
@@ -227,7 +228,7 @@
         <label for="span">지출내역 수정하기</label>
     </div>
     {% for i in spe %}
-    <form action="{%url 'calendars:sedit_calendar' i.spend_id %}" method="POST">
+    <form id="seidt_form" action="{%url 'calendars:sedit_calendar' i.spend_id %}" method="POST">
         {% csrf_token %}
     <div class="span_div" id="span_div">
         <div class="span_list">
@@ -245,12 +246,15 @@
                 </tr>
                 <tr> <!-- 행선언 -->
                     <th width="200" height="60"><a class="span_list_title">소비처</a></th>
-                    <th width="240" style="text-align: end;"><input class="input_span stock" type="text" id="place" name="place" autocomplete="on" value=""></th>
+                    <th width="240" style="text-align: end;"><input class="input_span stock" type="text" id="where" name="where" autocomplete="on" value="{{i.place}}:{{i.stock}}">
+                    <input type="hidden" id="place" name="place">
+                     <input type="hidden" id="stock" name="stock">
                 </tr>
                 <tr> <!-- 행선언 -->
                     <th width="200" height="60"><a class="span_list_title">결제수단 </a></th>
                     <th width="240" style="text-align: end;">
-                      <select class="span_list_select" name="way" id="spendlist_select">
+                    <select class="span_list_select" name="way" style="text-align:center;">
+                        <option value="0" {% if i.way == 1 %} selected {% endif %}>선택안함</option>
                         <option value="1" {% if i.way == 1 %} selected {% endif %}>현금</option>
                         <option value="2" {% if i.way == 2 %} selected {% endif %}>카드</option>
                         </select></th>
@@ -258,7 +262,9 @@
                 <tr> <!-- 행선언 -->
                     <th width="200" height="60"><a class="span_list_title">카테고리</a></th>
 
-                    <th width="240" style="text-align: end;"><select class="span_list_select" name="category">
+                    <th width="240" style="text-align: end;">
+                    <select class="span_list_select" name="category" style="text-align:center;">
+                        <option value="0" {% if i.category.category_id == 0 %} selected {% endif %}>선택안함</option>
                         <option value='1' {% if i.category.category_id == 1 %} selected {% endif %}>식비</option>
                         <option value='2' {% if i.category.category_id == 2 %} selected {% endif %}>카페/간식</option>
                         <option value='3' {% if i.category.category_id == 3 %} selected {% endif %}>술/유흥</option>
@@ -281,7 +287,8 @@
                 <tr> <!-- 행선언 -->
                     <th width="200" height="60"><a class="span_list_title">카드사</a></th>
                     <th width="240" style="text-align: end;">
-                        <select class="span_list_select" name="card">
+                        <select class="span_list_select" name="card" style="text-align:center;">
+                            <option value='0' {% if i.card.card_id == 0 %} selected {% endif %}>선택안함</option>
                             <option value='1' {% if i.card.card_id == 1 %} selected {% endif %}>국민카드</option>
                             <option value='2' {% if i.card.card_id == 2 %} selected {% endif %}>롯데카드</option>
                             <option value='3' {% if i.card.card_id == 3 %} selected {% endif %}>BC카드</option>
@@ -295,20 +302,47 @@
                         </select>
                     </th>
                 </tr>
+                <tr> <!-- 행선언 -->
+                    <th width="200" height="60"><a class="span_list_title">메모</a></th>
+                    <th width="240" style="text-align: end;"><textarea class="input_textarea" rows="1" name="memo" placeholder="메모">{{i.memo}}</textarea></th>
+                </tr>
+
             </table>
         </div>
 
         <div style="display:flex;text-align:center; margin-top:15px;justify-content: space-between;">
-            <button class="delBtn" value="delbtn" name="delbtn" type="button" onclick="return confirm('정말로 내역을 삭제하실건가요?')" style="width:45%">삭제</button>
-        <button class="addBtn" name="spendbtn" value="spendbtn" type="submit" style="width:45%">수정</button>
-
+        <input class="delBtn"  type = "submit" value = "내역삭제">
+        <div type="button" class="addBtn" value="spendbtn" onclick="submit()" style="line-height:37px;"/>수정</div>
+        
         </div>
-          {% endfor %}
+        <script>
+            function submit(){
+            var str = $('#where').val();
+            var stockcode = str.slice(-6);
+            var stockname = str.replace(":"+stockcode,"");
+            document.getElementById('place').value = stockname;
+            document.getElementById('stock').value = stockcode;
+            const form = document.getElementById('seidt_form');
+            form.action="{%url 'calendars:sedit_calendar' i.spend_id %}"
+            form.submit();
+            }
+        </script>
+          
     </form>
+    {% endfor %}
     </div>
 </div>
 
 <script>
+
+    $(function() {
+        var cardlist_Tags = [{% for i in wntlr %}
+        '{{i.ss_isukorabbrv}} :{{i.ss_isusrtcd}}',
+        {% endfor %}];
+        $('#where').autocomplete({
+            source: cardlist_Tags,
+        });
+     });
 
     //textarea auto height increaze...
     $("textarea.input_textarea").on('keydown keyup', function () {

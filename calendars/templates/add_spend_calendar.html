@@ -28,6 +28,9 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <style>
+    #footer{
+        display: none;
+    }
     #container{
         margin: 0 20px !important;
     }
@@ -226,11 +229,10 @@
             border-bottom: 1px solid rgb(202, 202, 202);
         }
     }
-
 </style>
 
 <div class="addEvent-wrap">
-    <form action="{%url 'calendars:add_spend_calendar' %}" method="POST">
+    <form id="spend_form" action="{%url 'calendars:add_spend_calendar' %}" method="POST">
         {% csrf_token %}
     <div class="span_div" id="span_div">
         <div class="span_list">
@@ -247,14 +249,16 @@
                 </tr>
                 <tr>
                     <th width="200" height="60"><a class="span_list_title">소비처</a></th>
-                    <th width="240" style="text-align: end;"><input class="input_span stock" type="text" id="place" name="place" autocomplete="on" value="">
+                    <th width="240" style="text-align: end;"><input class="input_span stock" type="text" id="where" name="where" autocomplete="on" value="">
+                    <input type="hidden" id="place" name="place">
+                     <input type="hidden" id="stock" name="stock">
                 </tr>
                 </tr>
                 <tr> <!-- 행선언 -->
                     <th width="200" height="60"><a class="span_list_title">결제수단</a></th>
                     <th width="240" style="text-align: end;">
                         <select class="span_list_select" name="way" style="text-align:center;">
-                            <option style="text-align: center;" value='' selected>선택</option>
+                            <option style="text-align: center;" value='0' selected>선택</option>
                             <option value='1'>현금</option>
                             <option value='2'>카드</option>    
                         </select></th>
@@ -264,23 +268,20 @@
                     <th width="200" height="60"><a class="span_list_title">카테고리</a></th>
                     <th width="240" style="text-align: end;">
                         <select class="span_list_select" name="category" style="text-align:center;">
-                        <option style="text-align: center;" value='' selected>선택</option>
-                        <option value='1'>식비</option>
-                        <option value='2'>카페/간식</option>
-                        <option value='3'>술/유흥</option>
-                        <option value='4' disabled>생활</option>
-                        <option value='5' disabled>쇼핑</option>
-                        <option value='6' disabled>뷰티/미용</option>
-                        <option value='7' disabled>교통</option>
-                        <option value='8' disabled>자동차</option>
-                        <option value='9' disabled>주거/통신</option>
-                        <option value='10' disabled>의료/건강</option>
-                        <option value='11' disabled>문화/여가</option>
-                        <option value='12' disabled>여행/숙박</option>
-                        <option value='13' disabled>교육/학습</option>
-                        <option value='14' disabled>반려동물</option>
-                        <option value='15' disabled>경조/선물</option>
-                        <option value='16' disabled>기타</option>
+                        <option style="text-align: center;" value='0' selected>선택</option>
+                        <option value='1'>금융/보험</option>
+                        <option value='2'>저축</option>
+                        <option value='3'>온라인쇼핑</option>
+                        <option value='4'>출금</option>
+                        <option value='5'>생활/마트</option>
+                        <option value='6' >카페/간식</option>
+                        <option value='7'>기타지출(사회생활비)</option>
+                        <option value='8'>교통/차량유지</option>
+                        <option value='9'>주거생활/통신</option>
+                        <option value='10'>식사</option>
+                        <option value='11'>의료/건강</option>
+                        <option value='12'>문화/예술</option>
+                        <option value='13'>교육비</option>
                         </select>
                     </th>
                 </tr>
@@ -288,7 +289,7 @@
                     <th width="200" height="60"><a class="span_list_title">카드사</a></th>
                     <th width="240" style="text-align: end;">
                         <select class="span_list_select" name="card" style="text-align:center;">
-                            <option style="text-align: center;" value='' selected>선택</option>
+                            <option style="text-align: center;" value='0' selected>선택</option>
                             <option value='1'>국민카드</option>
                             <option value='2'>롯데카드</option>
                             <option value='3'>BC카드</option>
@@ -310,31 +311,32 @@
         </div>
 
         <div style="text-align:center; margin-top:15px;">
-        <button class="addBtn" name="spendbtn" value="spendbtn" type="submit">추가하기</button>
+        <div type="button" class="addBtn" value="spendbtn" onclick="submit()" style="line-height:47px;"/>추가하기</div>
         </div>
     </form>
     </div>
 </div>
 
 <script>
-
-var str = $('#place').val();
+function submit(){
+var str = $('#where').val();
 var stockcode = str.slice(-6);
 var stockname = str.replace(":"+stockcode,"");
-console.log(stockcode);
-console.log(stockname);
+document.getElementById('place').value = stockname;
+document.getElementById('stock').value = stockcode;
+const form = document.getElementById('spend_form');
+form.action="{%url 'calendars:add_spend_calendar' %}"
+form.submit();
+}
 
-<!--    //textarea auto height increaze...-->
-<!--    $("textarea.input_textarea").on('keydown keyup', function () {-->
-<!--        $(this).height(1).height( $(this).prop('scrollHeight')+12 );	-->
-<!--      });-->
+
 
 
     $(function() {
         var cardlist_Tags = [{% for i in wntlr %}
         '{{i.ss_isukorabbrv}} :{{i.ss_isusrtcd}}',
         {% endfor %}];
-        $('#place').autocomplete({
+        $('#where').autocomplete({
             source: cardlist_Tags,
         });
      });
