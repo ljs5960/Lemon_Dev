@@ -1,4 +1,0 @@
-docker build --tag lemon .
-docker run --publish 8000:8000 lemon
-
-docker build . -f Dockerfile.base -t lemon/base
