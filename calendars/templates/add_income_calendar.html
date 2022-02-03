@@ -11,7 +11,7 @@
     padding: 14px 15px;
     top: 0;
     font-size: 25px;
-    font-weight: 600;color:black;"></i></a>가게부 작성</div>
+    font-weight: 600;color:black;"></i></a>수입 작성</div>
         </div>
         </div>
         {% endblock %}
@@ -56,9 +56,6 @@
       ::-webkit-scrollbar-thumb{
         width: 30px;
       }
-    .income_div{
-        display: none;
-    }
     .addEvent-wrap{
         background-color: #fff;
         position: relative;
@@ -165,6 +162,7 @@
     }
     .input_textarea{
         width: 230px;
+        height:150px;
         overflow:visible;
         font-size: 15px;
         font-family: 'Noto Sans KR', sans-serif;
@@ -186,15 +184,16 @@
         -webkit-user-select: auto;
         -ms-user-select: auto;
         user-select: auto;
-
     }
+
+
     .addBtn{
         border: 1px solid transparent;
         border-radius: 10px;
         width: 100%;
-        height: 60px;
+        height: 50px;
         font-weight: bold;
-        font-size: 1.3rem;
+        font-size: 18px;
         color: #fff;
         background: #31bc8a;
         margin-top: 20px;
@@ -229,99 +228,8 @@
 </style>
 
 <div class="addEvent-wrap">
-    <div class="list">
-        <input type="radio" name="jtags" value="지출" id="span" checked>
-        <label for="span">지출</label>
-        <input type="radio" name="jtags" value="수입" id="income">
-        <label for="income">수입</label>
-    </div>
 
-    <form action="{%url 'calendars:add_calendar' %}" method="POST">
-        {% csrf_token %}
-    <div class="span_div" id="span_div">
-        <div class="span_list">
-                <input type="text" style="display: none;" readonly name="user" value="{{user.user_id}}"/>
-                <input type="text" style="display: none;" readonly name="kind" value="지출"/>
-            <table min-width="300" class="span_table">
-                <tr> <!-- 행선언 -->
-                    <th width="200" height="60"><a class="span_list_title">금액</a></th>
-                    <th width="240" style="text-align: end;"><input class="input_span" type="number" name="amount" pattern="\\d*" value="{{form.amount.value|default_if_none:''}}"></th>
-                </tr>
-                <tr> <!-- 행선언 -->
-                    <th width="200" height="60"><a class="span_list_title">날짜</a></th>
-                    <th width="240" style="text-align: end;"><input style="text-align:center;" class="input_span" type="date" id="datepicker3" min="1900-01-01" max="2099-12-31" autocomplete="off" name="spend_date" value="{{form.spend_date.value|default_if_none:''}}"></th>
-                </tr>
-                <tr>
-                    <th width="200" height="60"><a class="span_list_title">소비처</a></th>
-                    <th width="240" style="text-align: end;"><input class="input_span stock" type="text" id="place" name="place" autocomplete="on" value="">
-                </tr>
-                </tr>
-                <tr> <!-- 행선언 -->
-                    <th width="200" height="60"><a class="span_list_title">결제수단</a></th>
-                    <th width="240" style="text-align: end;">
-                        <select class="span_list_select" name="way" style="text-align:center;">
-                            <option style="text-align: center;" value='' selected>선택</option>
-                            <option value='1'>현금</option>
-                            <option value='2'>카드</option>    
-                        </select></th>
-                </tr>
-                <tr> <!-- 행선언 -->
-                    
-                    <th width="200" height="60"><a class="span_list_title">카테고리</a></th>
-                    <th width="240" style="text-align: end;">
-                        <select class="span_list_select" name="category" style="text-align:center;">
-                        <option style="text-align: center;" value='' selected>선택</option>
-                        <option value='1'>식비</option>
-                        <option value='2'>카페/간식</option>
-                        <option value='3'>술/유흥</option>
-                        <option value='4' disabled>생활</option>
-                        <option value='5' disabled>쇼핑</option>
-                        <option value='6' disabled>뷰티/미용</option>
-                        <option value='7' disabled>교통</option>
-                        <option value='8' disabled>자동차</option>
-                        <option value='9' disabled>주거/통신</option>
-                        <option value='10' disabled>의료/건강</option>
-                        <option value='11' disabled>문화/여가</option>
-                        <option value='12' disabled>여행/숙박</option>
-                        <option value='13' disabled>교육/학습</option>
-                        <option value='14' disabled>반려동물</option>
-                        <option value='15' disabled>경조/선물</option>
-                        <option value='16' disabled>기타</option>
-                        </select>
-                    </th>
-                </tr>
-                <tr> <!-- 행선언 -->
-                    <th width="200" height="60"><a class="span_list_title">카드사</a></th>
-                    <th width="240" style="text-align: end;">
-                        <select class="span_list_select" name="card" style="text-align:center;">
-                            <option style="text-align: center;" value='' selected>선택</option>
-                            <option value='1'>국민카드</option>
-                            <option value='2'>롯데카드</option>
-                            <option value='3'>BC카드</option>
-                            <option value='4'>삼성카드</option>
-                            <option value='6'>신한카드</option>
-                            <option value='7'>하나카드</option>
-                            <option value='8'>현대카드</option>
-                            <option value='9'>농협카드</option>
-                            <option value='10'>시티카드</option>
-                            <option value='11'>카카오뱅크카드</option>
-                        </select>
-                    </th>
-                </tr>
-                <tr> <!-- 행선언 -->
-                    <th width="200" height="60"><a class="span_list_title">메모</a></th>
-                    <th width="240" style="text-align: end;"><textarea class="input_textarea" rows="1" name="memo"></textarea></th>
-                </tr>
-            </table>
-        </div>
-
-        <div style="text-align:center; margin-top:15px;">
-        <button class="addBtn" name="spendbtn" value="spendbtn" type="submit">추가하기</button>
-        </div>
-    </form>
-    </div>
-
-    <form action="{% url 'calendars:add_calendar' %}" method = "POST">
+    <form action="{% url 'calendars:add_income_calendar' %}" method = "POST">
         {% csrf_token %}
     <div class="income_div" id="income_div">
         <div class="income_list">
@@ -331,14 +239,22 @@
 
             <table min-width="300">
                 <tr> <!-- 행선언 -->
-                    <th width="200" height="60"><a class="span_list_title">수입수단</a></th>
+                    <th width="200" height="60"><a class="span_list_title">카테고리</a></th>
                     <th width="240" style="text-align: end;"><select class="span_list_select" name="income_way">
-                        <option style="text-align: center;" value='' selected>선택</option>
-                        <option value='1'>급여</option>
-                        <option value='2'>용돈</option>
-                        <option value='3'>금융수입</option>
-                        <option value='4'>사업수입</option>
-                        <option value='5'>기타</option>
+                        <option style="text-align: center;" value='0' selected>선택</option>
+                        <option value='1'>금융/보험</option>
+                        <option value='2'>저축</option>
+                        <option value='3'>온라인쇼핑</option>
+                        <option value='4'>출금</option>
+                        <option value='5'>생활/마트</option>
+                        <option value='6' >카페/간식</option>
+                        <option value='7'>기타지출(사회생활비)</option>
+                        <option value='8'>교통/차량유지</option>
+                        <option value='9'>주거생활/통신</option>
+                        <option value='10'>식사</option>
+                        <option value='11'>의료/건강</option>
+                        <option value='12'>문화/예술</option>
+                        <option value='13'>교육비</option>
                     </select>
                     </th>
                 </tr>
@@ -352,7 +268,7 @@
                 </tr>
                 <tr> <!-- 행선언 -->
                 <th width="200" height="60"><a class="span_list_title">메모</a></th>
-                <th width="240" style="text-align: end;"><textarea class="input_textarea" rows="1" name="memo"></textarea></th>
+                <th width="240" style="text-align: end;"><textarea class="input_textarea" rows="1" name="memo" placeholder="메모"></textarea></th>
             </tr>
 
             </table>
@@ -366,28 +282,10 @@
 </div>
 
 <script>
-    $(function (){
-        $('input[type="radio"][id="span"]').on('click', function(){
-            var chkValue = $('input[type=radio][id="span"]:checked').val();
-            if(chkValue){
-                $('#span_div').css('display','block');
-                $('#income_div').css('display','none');
-            }            
-        });
-        $('input[type="radio"][id="income"]').on('click', function(){
-            var chkValue = $('input[type=radio][id="income"]:checked').val();
-            if(chkValue){
-                $('#income_div').css('display','block');
-                $('#span_div').css('display','none');
-            }            
-        });
-        
-    });
-
     //textarea auto height increaze...
-    $("textarea.input_textarea").on('keydown keyup', function () {
-        $(this).height(1).height( $(this).prop('scrollHeight')+12 );	
-      });
+<!--    $("textarea.input_textarea").on('keydown keyup', function () {-->
+<!--        $(this).height(1).height( $(this).prop('scrollHeight')+12 );	-->
+<!--      });-->
 
 
     $(function() {

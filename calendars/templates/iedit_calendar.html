@@ -177,20 +177,20 @@
 
     }
     .addBtn{
-        margin-bottom: 20px;
         border: 1px solid transparent;
         border-radius: 10px;
-        width: 100%;
+        width: 50%;
         height: 40px;
         font-weight: bold;
-        font-size: 1rem;
+        font-size: 18px;
         color: #fff;
-        background: 31bc8a
+        background: #31bc8a;
+        margin-left:5px;
     }
     .delBtn{
         border: 1px solid #FC615D;
         border-radius: 10px;
-        width: 100%;
+        width: 50%;
         height: 40px;
         font-weight: bold;
         font-size: 1rem;
@@ -268,12 +268,15 @@
         </div>
 
         <div style="display:flex;text-align:center; margin-top:15px;justify-content: space-between;">
-            <button class="delBtn" value="delbtn" name="delbtn" type="button" onclick="return confirm('정말로 내역을 삭제하실건가요?')" style="width:45%">삭제</button>
+            <input class="delBtn" type = "submit" value = "내역삭제">
             <button class="addBtn" value="incomebtn" name="incomebtn" type="submit" style="width:45%">수정</button>
+            
         </div>
     </div>
     </form>
 </div>
+
+
  {% endfor %}
 <script>
 
