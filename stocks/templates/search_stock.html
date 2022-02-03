@@ -5,14 +5,50 @@
     .bottom-nav-search-stock,.bottom-nav-search-stock a{
         color: #FFD859;
     }
+    .search-logo{
+    position:relative;
+    top:34px;
+    left:10px;
+    }
+    #search_window{
+    width:100%;
+    padding-left:35px;
+    border:0px;
+    padding-top:10px;
+    padding-bottom:10px;
+    border-bottom: 2px solid #31bc8a;
+    }
+    li{
+    padding-bottom:5px;
+    padding-top:5px
+    }
+    .searchbox{
+    position:fixed;
+    top:28px;
+    width:100%
+    }
 </style>
-<div>주식 검색창</div>
-<input type="text" id="search_window" name="search_window" >
-<br/><br/><br/>
-결과위치
-<div id="search_result" style="height: auto; width: 400px; border:1px solid black;">
+{% block nav %}
+<div id="nav" style="border-bottom: 1px solid #f1f1f1;">
+            <div>
+            <div style="text-align:center;">
+                <a style="color: #fff;" href="javascript:history.back();"><i class="fa fa-angle-left" style="position: absolute;
+    left: 5px;
+    padding: 14px 15px;
+    top: 0;
+    font-size: 25px;
+    font-weight: 600;color:black;"></i></a>주식 검색</div>
+        </div>
+        </div>
+{% endblock nav %}
+<div class="searchbox">
+<i class="fa fa-search search-logo" style="color:#31bc8a" aria-hidden="true"></i>
+<input type="text" id="search_window" name="search_window" placeholder="주식 검색">
+</div>
+<div id="search_result" style="height: auto; width:100%;padding-top: 50px;
+">
     <ol id="result_list" style="list-style:none">
-        <li>검색어를 입력해 주세요</li>
+        <li></li>
     </ol>
 </div>
 
@@ -84,11 +120,11 @@
 
             const li = document.createElement('li');
             const a = document.createElement('a');
-            const nbsp = document.createTextNode('\u00A0\u00A0');
-            const img = new Image(28, 28);
-            img.src = 'media/LEMON.png' // If insert logo in DB, change img.src = logo
-            a.appendChild(img);
-            a.appendChild(nbsp);
+            // const nbsp = document.createTextNode('\u00A0\u00A0');
+            // const img = new Image(28, 28);
+            //img.src = 'media/LEMON.png' // If insert logo in DB, change img.src = logo
+            // a.appendChild(img);
+            // a.appendChild(nbsp);
             a.appendChild(document.createTextNode(isukorabbrv+'\u00A0\u00A0'));
             a.appendChild(document.createTextNode(issuecode+'\u00A0\u00A0'));
             a.href='javascript:info("'+issuecode+'", "'+marketcode+'")'
