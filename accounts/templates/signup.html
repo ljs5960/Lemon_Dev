@@ -4,179 +4,354 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <link rel="stylesheet" href="{% static 'css/style.css'%}">
-    <link rel="stylesheet" href="{% static 'css/swiper.css'%}">
-    <!-- <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/> -->
-    <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
     <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://kit.fontawesome.com/51db22a717.js" crossorigin="anonymous"></script>
 
     <title>레몬::회원가입</title>
 </head>
 <style>
-    .signup-wrap::-webkit-scrollbar {
-        display: none; /* Chrome, Safari, Opera*/
+    body,html{
+        width: 100%;
+        margin: 0;
+        padding: 0;
     }
-.form-control{
-    padding-left: 10px;
-    margin-bottom: 15px;
-    width:98%;
-    height: 40px;
-    border-bottom: 1px solid #31BC89;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    /* ios 기능 */
-    -webkit-user-select:none;
-    appearance: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    border-radius: 0;
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
-    background-color: #fff;
+    .add_info_select_signup{
+		margin-bottom: 10px;
+		padding-left: 10px;
+		background-color: #fff;
+		border: 1px solid #D1D6DA;
+		font-family: 'Noto Sans KR', sans-serif;
+		font-size: 14px;
+		font-weight: 500;
+		width: 96%;
+		height: 35px;
+		border-radius:10px;
+		color:#a0a0a0;
     }
-.sms_btn{
-    width: 40px;
-    height: 30px;
-    padding-top: 6px;
-    text-align: center;
-    vertical-align: middle;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 10pt;
-    font-weight: bold;
-    float:right;
-    color:white !important;
-    background:#31BC89;
-    border-radius:10px;
-    position:relative;
-}
-
-table{
-width:100%;
-height:40px;
-text-align:center;
-position: sticky;
-top: 0px;
-z-index: 2;
-background: white;
-}
-body{
-margin:0px;}
-
-button{
+    .add_info_phone_signup{
+        margin-bottom: 10px;
+        padding-left: 10px;
+        border: 1px solid #D1D6DA;
+        font-family: 'Noto Sans KR', sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+        width: 75%;
+        height: 35px;
+        border-radius: 10px;
+    }
+.phone_code_btn_signup{
+    margin-top: 1px;
+    width: 73px;
+    height: 35px;
+    background: #31BC89;
     font-family: 'Noto Sans KR', sans-serif;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 14px;
     text-align: center;
-    vertical-align: middle;
-    width:100%;
-    height: 50px;
-    margin-top:20px;
-    background:#31BC89;
-    border:0px;
-    border-radius:50px;
-    color:white;
-}
-
-button:disabled{
-    font-family: 'Noto Sans KR', sans-serif;
-    font-weight: bold;
-    font-size: 16px;
-    text-align: center;
-    vertical-align: middle;
-width:100%;
-height: 50px;
-/*margin-top:20px;*/
-    background:#a0a0a0;
-    border:0px;
-    border-radius:50px;
-    color:white;
-}
-textarea{
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 12px;
-    border: 1px solid #CACACA;
+    vertical-align: top;
+    border: 0px;
+    border-radius: 1px;
+    color: white;
     border-radius: 10px;
-    background-color: #fff;
-    resize: none;
-    padding-left: 5px;
-    padding-top: 5px;
 }
-
-.all_chk_wrap{
-    margin-bottom: 15px;
-}
-
-.all_chk_font{
+.phone_code_btn_signup:disabled{
+    margin-top: 1px;
+    width: 73px;
+    height: 35px;
+    background:#a0a0a0;
     font-family: 'Noto Sans KR', sans-serif;
-    font-weight: 400;
-    color: #3a3a3a;
-    font-size: 12pt; /*16px*/
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+    vertical-align: top;
+    border: 0px;
+    border-radius: 1px;
+    color: white;
+    border-radius: 10px;
+}
+    button{
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: bold;
+        font-size: 16px;
+        text-align: center;
+        vertical-align: middle;
+        width:100%;
+        height: 50px;
+        margin-top:40px;
+        background:#31BC89;
+        border:0px;
+        border-radius:10px;
+        color:white;
+    }
+
+    button:disabled{
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: bold;
+        font-size: 16px;
+        text-align: center;
+        vertical-align: middle;
+        width:100%;
+        height: 50px;
+        /*margin-top:20px;*/
+        background:#a0a0a0;
+        border:0px;
+        border-radius:10px;
+        color:white;
+    }
+
+    textarea{
+        font-family: 'Noto Sans KR', sans-serif;
+        font-size: 12px;
+        border: 1px solid #CACACA;
+        border-radius: 10px;
+        background-color: #fff;
+        resize: none;
+        padding-left: 5px;
+        padding-top: 5px;
+    }
+
+.count-signup{
+    right: 92px;
+    padding-top: 9px;
+    position: absolute;
+    width: 30px;
 }
 
+    .all_chk_wrap{
+        margin-bottom: 15px;
+    }
+
+    .all_chk_font{
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: 400;
+        color: #3a3a3a;
+        font-size: 12pt; /*16px*/
+    }
 </style>
 
 <body>
+<!-- 회원가입 navbar -->
 <div id="nav" style="border-bottom: 1px solid #f1f1f1;">
-            <div>
-            <div style="text-align:center;">
-                <a style="color: #black;" href="javascript:history.back();"><i class="fa fa-angle-left" style="position: absolute;
-    left: 5px;
-    padding: 14px 15px;
-    top: 0;
-    font-size: 25px;
-    font-weight: 600;color:black;"></i></a>회원가입</div>
-        </div>
-        </div>
-    <div class="signup-wrap" style="background-color: #fff;">
-
-        <div class="input-form col-md-12 mx-auto" style="height:100%; padding:20px; text-align:left;">
-            <div style="width: 100%; text-align:center; margin-bottom:20px; margin-top:30px;">
-            </div>
-            <form class="validation-form" method="POST" action="" id="signup-form">
-                {% csrf_token %}
-
-                <div class="signup-form-wrap">
-                    <div class="signup-form">
-                        <input type="text" class="form-control" style="margin-top: 15px;"
-                                id="uid" name="uid" placeholder="아이디를 입력해주세요." value="">
-                    </div>
-                    <div class="signup-form">
-                        <input type="password" class="form-control"
-                                id="password" name="password" placeholder="비밀번호를 입력해주세요." value="">
-                    </div>
-                    <div class="signup-form">
-                        <input type="password" class="form-control"
-                                id="password1" name="password1" placeholder="한번 더 비밀번호를 입력해주세요."
-                                value="">
-                    </div>
-                    <div class="signup-form">
-                        <input type="email" class="form-control" id="email" name="email" placeholder="이메일을 입력해주세요." value="">
-                    </div>
-
-                    <button class="btn btn-primary btn-lg btn-block" id="signupBtn" type="submit" value="signup" style="width:100%">회원가입</button>
-                </div>
-            </form>
-        </div>
+    <div>
+        <div style="text-align:center;">회원가입</div>
     </div>
+</div>
+<!-- 회원가입 navbar 끝 -->
+
+<!-- 회원가입 Wrapper -->
+<div class="signup-wrapper" style="min-width:378px; padding:70px 20px 40px 20px;">
+    <form class="validation-form" method="POST" action="{% url 'accounts:signup' %}" id="signup-form">
+        {% csrf_token %}
+        <div class="persnal_info_access" style="padding-bottom: 20px;">
+            <div class="require_chk_wrap">
+                <a>개인정보 수집 동의(필수)</a><br>
+                <textarea cols="30" rows="10" style="width:100%;" disabled="disabled">{% include 'persnal.html' %}</textarea><br>
+                <label style="text-align:end;">
+                    <input type="checkbox" name="u_chk" value ="1" id="require_chk2">
+                    <span>이용약관에 동의합니다.</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="signup-form-wrap">
+            <!-- 아이디 입력 input -->
+            <div class="signup-form">
+                <input type="text" class="add_info_select_signup" style="margin-top: 15px;"
+                    id="uid" name="uid" placeholder="아이디를 입력해주세요." value="">
+            </div>
+            <!-- 비밀번호 입력 input -->
+            <div class="signup-form">
+                <input type="password" class="add_info_select_signup"
+                    id="password" name="password" placeholder="비밀번호를 입력해주세요." value="">
+            </div>
+            <!-- 비밀번호 입력2 input -->
+            <div class="signup-form">
+                <input type="password" class="add_info_select_signup"
+                    id="password1" name="password1" placeholder="한번 더 비밀번호를 입력해주세요." value="">
+            </div>
+            <!-- 이름 입력 input -->
+            <div class="signup-form">
+                <input type="text" class="add_info_select_signup"
+                    id="name" name="username" placeholder="이름을 입력해주세요." value="">
+            </div>
+            <!-- 성별 입력 input -->
+            <div class="signup-form">
+                <select name="gender" class="add_info_select">
+                    <option value=""> 성별 </option>
+                    <option value="M"> 남자 </option>
+                    <option value="F"> 여자 </option>
+                </select>
+            </div>
+            <!-- 직업군 입력 input -->
+            <div class="signup-form">
+                <select name = job class="add_info_select">
+                    <option value=""> 직업군 </option>
+                    <option value="1">학생</option>
+                    <option value="2">자영업자</option>
+                    <option value="3">회사원</option>
+                    <option value="4">의사</option>
+                </select>
+            </div>
+            <!-- 이메일 입력 input -->
+            <div class="signup-form">
+                <input type="email" class="add_info_select_signup" id="email" name="email" placeholder="이메일을 입력해주세요." value="">
+            </div>
+            <!-- 연락처 입력 input -->
+            <div class="signup-form">
+                <div style="width:100%; min-width:373px;">
+                    <input class="add_info_phone_signup" id="phonenumber" name="phonenumber" type="text" placeholder="- 를 제외하고 입력하세요">
+                    <button type="button" id="codeBtn" class="phone_code_btn_signup">발송</button><br>
+                    <input id="inputCode" class="add_info_phone_signup" type="number" placeholder="인증번호 입력" disabled> <a id="count" class="count-signup"></a>
+                    <button type="button" id="certBtn" onclick="certfun();" class="phone_code_btn_signup" disabled >확인</button><br>
+                </div>
+            </div>
+            <!-- 생년월일 입력 input -->
+            <div class="signup-form">
+                <input class="add_info_select_signup" name = birthday type="integrity" id="year" maxlength="8" placeholder="생년월일을 입력해주세요. 예시)19801210">
+            </div>
+            <!-- 모의투자금액 입력 input -->
+            <div class="signup-form">
+                <input type="number" class="add_info_select_signup" id="invest" name="invest" placeholder="모의 투자금액을 입력하세요." value="">
+            </div>
+            <!-- 핀번호 입력 input -->
+            <div class="signup-form">
+                <input type="text" class="add_info_select_signup"
+                    id="pin" name="pin" placeholder="핀번호 입력해주세요." value="">
+            </div>
+
+            <button class="btn btn-primary btn-lg btn-block" id="signupBtn" type="submit" value="signup" disabled style="width:100%">회원가입</button>
+        </div>
+    </form>
+</div><!-- 회원가입 Wrapper 끝 -->
+
 </body>
 
 <script>
-    
-    $('#all_chk').change(function () {
-        var checked = $(this).prop('checked');
-        $('input[id="require_chk"]').prop('checked', checked);
-        $('#signupBtn').removeAttr('disabled');
-    });
+/* 체크버튼 동의시 회원가입 버튼 활성화 스크립트 */
+$('#require_chk2').change(function () {
+    var checked = $(this).prop('checked');
+    $('input[id="require_chk2"]').prop('checked', checked);
+    //$('#signupBtn').removeAttr('disabled');
+    checked ? $('#signupBtn').removeAttr('disabled'):$('#signupBtn').attr('disabled','true');
+});
 
-    $('input[id="require_chk"]').change(function () {
-        var tmpLength = $('input[id="require_chk"]').length;
-        var checkedLength = $('input[id="require_chk"]:checked').length;
-        var selectAll = (tmpLength == checkedLength);
-        $('#all_chk').prop('checked', selectAll);
-        selectAll ? $('#signupBtn').removeAttr('disabled'):$('#signupBtn').attr('disabled','true');});
+/* 전화번호 길이 검증 스크립트 */
+document.addEventListener('keydown', function(event) {
+    if (event.keyCode === 13) {
+        event.preventDefault();
+    };
+}, true);
+
+  document.addEventListener('keydown', function(event) {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+  };
+}, true);
+</script>
+
+<script>
+    document.getElementById('codeBtn').addEventListener('click', codebtn);
+
+    KEY = undefined;
+    function codebtn(){
+        KEY = makeRandomNum(4);
+        var timer = null;
+        var isRunning = false;
+        var display = $('#count');
+        var leftSec = 180;
+        var phoneInput = document.getElementById('phonenumber');
+        if(phoneInput.value == '' || phoneInput.value == null){
+            alert('휴대전화번호를 입력하세요.');
+            return false;
+        }
+        if(phoneInput.value.length != 11){
+            alert('휴대전화번호 11자리를 입력하세요.');
+            return false;
+        }
+
+        if((phoneInput.value != '' || phoneInput.value != null) && phoneInput.value.length == 11 ){
+            alert('입력하신 휴대번호로 인증번호를 전송하였습니다.');
+            $('#inputCode').removeAttr('disabled');
+            $('#certBtn').removeAttr('disabled');
+            $('#codeBtn').attr('disabled',true);
+            if (isRunning){
+                clearInterval(timer);
+                display.html("");
+                startTimer(leftSec, display);
+            }else{
+                startTimer(leftSec, display);
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "{% url 'calendars:ajax_sendSMS' %}",
+                data: {
+                    NUM: $('#phonenumber').val(),
+                    KEY: KEY,
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    dataType: "json",
+                },
+                success: function(data){
+                    console.log('성공');
+                },
+                fail: function(data) {
+                    console('실패');
+                },
+            });
+            return 0;
+        }
+        else{
+
+        }
+        // 난수 설정
+        function makeRandomNum(n) {
+            let value = '';
+            for(let i = 0; i < n; i++) {
+                value += Math.floor(Math.random() * 10);
+            }
+            return value;
+        }
+    }
+
+    function certfun() {
+        if(document.querySelector("#inputCode").value == KEY){
+            alert('확인되었습니다.');
+            clearInterval(timer);
+            $('#phonenumber').attr('disabled', true);
+            $('#inputCode').attr('disabled', true);
+            $('#codeBtn').attr('disabled', true);
+            $('#certBtn').attr('disabled', true);
+            document.querySelector("#count").style.display = "none";
+        }
+        else{
+            alert('알수없는 오류가 발생하였습니다. 다시 진행해주세요.');
+        }
+    }
+
+    function startTimer(count, display) {
+        var minutes, seconds;
+        timer = setInterval(function () {
+            minutes = parseInt(count / 60, 10);
+            seconds = parseInt(count % 60, 10);
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+            display.html(minutes + ":" + seconds);
+        // 타이머 끝
+        if (--count < 0) {
+            clearInterval(timer);
+            alert("입력시간이 초과되었습니다.");
+            display.html("00:00");
+            $('#certBtn').attr('disabled', true);
+            $('#codeBtn').removeAttr('disabled');
+            $('.btn_chk').attr("disabled","disabled");
+            isRunning = false;
+            }
+        }, 1000);
+            isRunning = true;
+    }
+
+
 </script>
 
 </html>

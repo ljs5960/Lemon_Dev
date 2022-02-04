@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.kakao',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.naver',
+    'mathfilters',
 ]
 
 LOGIN_REDIRECT_URL = '/' # 로그인 후 리디렉션할 페이지
@@ -60,10 +61,6 @@ ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
 ACCOUNT_USER_MODEL_EMAIL_FIELD: None
 ACCOUNT_EMAIL_REQUIRED: False 
 SOCIALACCOUNT_AUTO_SIGNUP = True # 디폴트 값은 True이며 SNS 공급자에서 넘겨받은 정보를 가지고 바로 회원가입시킨다. 부가정보를 입력 받기 위해 False로 설정할 수 있다.
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',  # <- 디폴트 모델 백엔드
-    'allauth.account.auth_backends.AuthenticationBackend', # <- 추가
-)
 
 
 SITE_ID = 1
@@ -140,18 +137,21 @@ USE_TZ = False
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/login'
+SIGNUP_REDIRECT_URL = '/signup'
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'accounts', 'static'),
+)
+'''
 STATIC_DIR = [
-    os.path.join(BASE_DIR,'static')
+    os.path.join(BASE_DIR, '' 'static')
 ]
-
-STATIC_DIR = [
-    os.path.join(BASE_DIR,'static')
-]
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+'''
+# 배포서버에서 static 파일을 모아서 관리하는 폴더명
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_ROOT = 'media/'
 MEDIA_URL = '/media/'

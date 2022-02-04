@@ -1,3 +1,84 @@
-{% for i in category%}
-{{i}}
-{% endfor %}
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}레몬::검색결과{% endblock title %}
+{% block container %}
+{% load humanize %}
+{% load mytag %}
+
+{% block nav %}
+<div id="nav" style="border-bottom: 1px solid #f1f1f1;">
+            <div>
+            <div style="text-align:center;">
+                <a style="color: #fff;" href="javascript:history.back();"><i class="fa fa-angle-left" style="position: absolute;
+    left: 5px;
+    padding: 14px 15px;
+    top: 0;
+    font-size: 25px;
+    font-weight: 600;color:black;"></i></a>
+                카테고리 상세</div>
+        </div>
+        </div>
+{% endblock nav %}
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<div>
+  <table class="list-table" id="list-table" style="background-color:#fff; border-radius:10px; margin: 15px 10px 60px 10px; padding:0 20px 60px 20px; border-collapse:separate; border-spacing:0 20px; "width="95%">
+   <colgroup>
+      <col width="*"/>
+      <col width="*"/>
+    </colgroup>
+      {% for i in category%}
+    <tbody id="list-table-tbody">
+    {% ifchanged i.spend_date.day %}
+    <tr style="vertical-align:top;" id="date_title">
+    <th style="text-align:left;padding-left:5px; border-bottom:1px solid #dddddd;">
+      <img src="/media/date.png" style="margin-right: 5px; width:20px; height:20px; vertical-align:middle;">
+      <a style="font-weight: 100; color:#3a3a3a;font-size:20px; vertical-align: inherit;">{{ i.spend_date | date:'d 일' }}</a>
+    </th>
+    <th style="text-align:right;font-size:13px; border-bottom:1px solid #dddddd; vertical-align: middle;">
+     <!-- <div style="display:flex;flex-direction:column;align-items:flex-end;"> -->
+      <div>
+<!--        <a style="font-weight: bold; font-size:10pt; margin-right:5px; color: #ff5d51">-원</a>-->
+        </div>
+    </th>
+    {% endifchanged %}
+</tr>
+
+    <tr onclick="location.href='{% url 'calendars:edit_calendar'  i.kind i.spend_id %}'">
+
+      <tr onclick="location.href='{% url 'calendars:edit_calendar' i.kind i.spend_id %}'">
+
+      <td style="vertical-align:top;">
+        <div style="text-align:left;padding-left:30px;">
+
+        <a id= "place" style="font-family: 'Noto Sans KR', sans-serif; font-weight:400; font-size:12pt; color: #3a3a3a; display:block;">{{ i.place }}</a>
+
+<!--          <a style="font-weight:400; font-size:12pt; color: #3a3a3a;display:block;">{% if i.place == '1' %} 급여 {% endif %}</a>-->
+<!--          <a style="font-weight:400; font-size:12pt; color: #3a3a3a;display:block;">{% if i.place == '2' %} 용돈 {% endif %}</a>-->
+<!--          <a style="font-weight:400; font-size:12pt; color: #3a3a3a;display:block;">{% if i.place == '3' %} 금융수입 {% endif %}</a>-->
+<!--          <a style="font-weight:400; font-size:12pt; color: #3a3a3a;display:block;">{% if i.place == '4' %} 사업수입 {% endif %}</a>-->
+<!--          <a style="font-weight:400; font-size:12pt; color: #3a3a3a;display:block;">{% if i.place == '5' %} 기타 {% endif %}</a>-->
+
+
+          </div>
+      </td>
+      <td style="vertical-align: top;">
+        <div style="text-align:right;">
+
+        <a class="amount" style="color: #2a2a2a">-{{ i.amount|intcomma }}원</a>
+        </div>
+      </td>
+    </tr>
+    {% empty %}
+    <style>
+      .list-table{display: none;}
+    </style>
+    <div class="list-empty-wrap">
+      <i class="fas fa-exclamation"></i><br>
+      <a>소비 내역 및 지출 내역이 없습니다.</a>
+    </div>
+  </tbody>
+      {% endfor %}
+  </table>
+</div>
+{% endblock %}
