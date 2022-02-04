@@ -112,19 +112,6 @@
     text-align: left;
     color: #0a9fd3;
 }
-.looktext1 h3 {
-    font-size: 1.2rem;
-    text-align: left;
-    color: #ffffff;
-    margin-left: 5px;
-    margin-top: 1.3rem;
-    line-height: 1.8rem;
-}
-.looktext1 h4 {
-    font-size: 1.5rem;
-    text-align: left;
-    color: #ffffff;
-}
 .gallery-thumbs .swiper-slide {
     width: 10%;
     height: 20%;
@@ -198,11 +185,10 @@ body {
 .logo {
     position: fixed;
     z-index: 1;
-    width: 55px;
-    height: 55px;
     background-color: none;
     top: 20px;
     left: 13%;
+    width:140px;
 }
 
 
@@ -264,17 +250,39 @@ body {
 }
 /*배경화면*/
 .section {
-    background-color: #0bb589;
-    background-image: url('assets/img/header-bg.png');
     background-size: cover;
     background-position: right;
     background-repeat: no-repeat;
-    background-color: #0bb589;
+    background-color: white;
  }
+ .container{
+    max-width: 80%;
+    background: white;
+    height: 100%;
+    padding-left:10%;
+    padding-right:10%
 
+ }
+.page_loge{
+width:100%;
+text-align:center;
+padding:20px;
+}
+.move_page{
+position:absolute;
+bottom:3%;
+left:50%;
+transform: translate(-50%, 0);
+width: 30px;
+    text-align: center;
+    font-size: 30px;
+}
+.background-bs{
+background: linear-gradient(to right,#36b284,#4d81c2);
+height:100vh;
+
+}
 .choose-us {
-    background-color: #0bb589;
-    background-image: url('assets/img/about1080.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -283,8 +291,6 @@ body {
     z-index: 1;
 }
 .choose-us1 {
-    background-color: #0bb589;
-    background-image: url('assets/img/choose1080.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -293,8 +299,6 @@ body {
     z-index: 1;
 }
 .adv {
-    background-color: #0bb589;
-    background-image: url(' ');
     background-position: right;
     width: 100vw;
     height: 100vh;
@@ -303,7 +307,6 @@ body {
     z-index: 1;
 }
 .lookup {
-    background-color: #0bb589;
     background-position: center;
     background-repeat: no-repeat;
     width: 100vw;
@@ -313,8 +316,6 @@ body {
     z-index: 1;
 }
 .mou {
-    background-color: #0bb589;
-
     background-position: center;
     width: 100vw;
     height: 100vh;
@@ -323,33 +324,44 @@ body {
     z-index: 1;
 }
 .notice {
-    background-color: #0bb589;
-    background-image: url('assets/img/header-bg.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     width: 100vw;
     height: 100vh;
     z-index: 1;
-    background-color: #0bb589;
 }
-.img-size{
-    max-width:40%;
-        padding-top:20px;
+    .img-size{
+        max-width:40%;
+      padding-top:20px;
+        }
+    .noticeinner {
+        position: absolute;
+        width: 100%;
+        top: 50%;
+        left: 50%;
+        margin-right: auto;
+        margin-left: auto;
+        transform:translate(-50%,-50%);
+        padding: 20;
+        text-align:center;
+    }
+    .choose-wrapper2 {
+        position: absolute;
+        left: 50%;
+        top: 55%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        z-index:2;
     }
 @media(max-width: 1024px) {
     .section {
-        background-color: #0bb589;
-        background-image: url('assets/img/header-bg760.png');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        background-color: #0bb589;
     }
 
     .choose-us {
-        background-color: #0bb589;
-        background-image: url('assets/img/about1080.png');
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
@@ -358,8 +370,6 @@ body {
         z-index: 1;
     }
     .choose-us1 {
-        background-color: #0bb589;
-        background-image: url('assets/img/choose1080.png');
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
@@ -368,7 +378,6 @@ body {
         z-index: 1;
     }
     .adv {
-        background-image: url('');
         background-position: center;
         width: 100vw;
         height: 100vh;
@@ -377,7 +386,6 @@ body {
         z-index: 1;
     }
     .lookup {
-        background-color: #0bb589;
         background-position: center;
         background-repeat: no-repeat;
         width: 100vw;
@@ -387,7 +395,6 @@ body {
         z-index: 1;
     }
     .mou {
-        background-color: #0bb589;
         background-position: center;
         width: 100vw;
         height: 100vh;
@@ -402,8 +409,6 @@ body {
 }
 @media(max-width: 768px) {
     .section {
-        background-color: #0bb589;
-        background-image: url('assets/img/header-bg760.png');
         background-size: cover;
         background-repeat: no-repeat;
         background-position-x: 70%;
@@ -411,8 +416,6 @@ body {
         z-index: 0;
     }
     .choose-us {
-        background-color: #0bb589;
-        background-image: url('assets/img/about760.png');
         background-size: cover;
         background-repeat: no-repeat;
         background-position: bottom;
@@ -421,8 +424,6 @@ body {
         z-index: 1;
     }
     .choose-us1 {
-        background-color: #0bb589;
-        background-image: url('assets/img/choose760.png');
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
@@ -431,7 +432,6 @@ body {
         z-index: 1;
     }
     .adv {
-        background-image: url('');
         background-position: center;
         width: 100vw;
         height: 100vh;
@@ -440,7 +440,6 @@ body {
         z-index: 1;
     }
     .lookup {
-        background-color: #0bb589;
         background-position: center;
         background-repeat: no-repeat;
         width: 100vw;
@@ -450,7 +449,6 @@ body {
         z-index: 1;
     }
     .mou {
-        background-color: #0bb589;
         background-position: center;
         width: 100vw;
         height: 100vh;
@@ -460,9 +458,6 @@ body {
         z-index: 1;
     }
     .notice {
-        background-color: #0bb589;
-        background-image: url('assets/img/header-bg760.png');
-        background-color: #0bb589;
         }
 
 .mouimg{
@@ -476,8 +471,6 @@ body {
 }
 @media(max-width: 480px) {
     .choose-us {
-        background-color: #0bb589;
-        background-image: url('assets/img/about760.png');
         background-size: cover;
         background-repeat: no-repeat;
         background-position: bottom;
@@ -486,8 +479,6 @@ body {
         z-index: 1;
     }
     .choose-us1 {
-        background-color: #0bb589;
-        background-image: url('assets/img/choose760.png');
         background-size: cover;
         background-repeat: no-repeat;
         background-position: bottom;
@@ -496,7 +487,6 @@ body {
         z-index: 1;
     }
     .adv {
-        background-image: url('');
         background-position: center;
         width: 100vw;
         height: 100vh;
@@ -505,7 +495,6 @@ body {
         z-index: 1;
     }
     .lookup {
-        background-color: #0bb589;
         background-position: center;
         background-repeat: no-repeat;
         width: 100vw;
@@ -515,7 +504,6 @@ body {
         z-index: 1;
     }
     .mou {
-        background-color: #0bb589;
         background-position: center;
         width: 100vw;
         height: 100vh;
@@ -528,7 +516,7 @@ body {
         position: absolute;
         left: 50%;
         top: 50%;
-        transform: translate(-60%, -80%);
+
         height: auto;
         width: auto;
         max-width: 770px;
@@ -545,20 +533,21 @@ body {
 /*폰트*/
 .header-wrapper {
     position: absolute;
-    left: 18%;
-    top: 40%;
-    transform: translate(0%, -50%);
+    left: 50%;
+    top: 45%;
+    transform: translate(-50%, -50%);
 }
 .hero-text {
     display: grid;
     width: 100%;
     margin-right: auto;
     margin-left: auto;
+    text-align:center;
 }
 .header h1 {
     font-family: 'S-CoreDream-9Black', sans-serif;
-    color: #fff;
-    font-size: 7.15rem;
+    color: #3a3a3a;
+    font-size: 5.15rem;
     margin-top: 40px;
     margin-bottom: 50px;
     line-height: 1.39px;
@@ -567,11 +556,31 @@ body {
 .header h2 {
     font-family: 'S-CoreDream-5medium', sans-serif;
     color: rgb(56, 56, 56);
-    font-size: 1.55rem;
+    font-size: 3.55rem;
     font-weight: 500;
-    margin-left: 7px;
     margin-bottom: 15px;
     line-height: 2;
+    white-space: nowrap;
+    text-decoration: underline #36b284;
+text-underline-position: under;
+
+}
+.header h3 {
+    font-family: 'S-CoreDream-5medium', sans-serif;
+    color: rgb(56, 56, 56);
+    font-size: 3.55rem;
+    font-weight: 500;
+    margin-bottom: 15px;
+    line-height: 1;
+    white-space: nowrap;
+}
+.header h4 {
+    font-family: 'S-CoreDream-5medium', sans-serif;
+    color: rgb(56, 56, 56);
+    font-size: 1.55rem;
+    font-weight: 500;
+    margin-bottom: 15px;
+    line-height: 1;
     white-space: nowrap;
 }
 .hero-text-img > a > img {
@@ -587,7 +596,55 @@ body {
 .choose-wrapper {
     position: absolute;
     left: 50%;
-    top: 66%;
+    top: 15%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+.position-center{
+position: absolute;
+        width:40%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+.position-center-text{
+position: absolute;
+        width:45%;
+    left: 50%;
+    top: 85%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+.position-left{
+position: absolute;
+width:40%;
+    left: 30%;
+    top: 55%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+.position-left-up{
+position: absolute;
+width:45%;
+    left: 40%;
+    top: 45%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+.position-left-text{
+position: absolute;
+width:45%;
+    left: 40%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+.position-right{
+width:40%;
+position: absolute;
+    left: 70%;
+    top: 55%;
     transform: translate(-50%, -50%);
     text-align: center;
 }
@@ -760,44 +817,8 @@ body {
     /* padding-right: 10px; */
 }
 /*푸터*/
-.noticeinner {
-    position: absolute;
-    width: 100%;
-    top: 15%;
-    left: 18%;
-}
-.notice h2 {
-    font-family: 'S-CoreDream-9Black', sans-serif;
-    display: block;
-    font-size: 3.2rem;
-    color: #ffffff;
-    padding-bottom: 2px;
-    display: inline-block;
-}
-.notice h3 {
-    font-family: 'NanumBarunGothic' sans-serif;
-    display: block;
-    font-size: 2rem;
-    color: #212121;
-    display: inline-block;
-}
-.notice h1 {
-    font-family: 'NanumBarunGothic' sans-serif;
-    display: block;
-    font-size: 1rem;
-    line-height: 1.1rem;
-    color: #212121;
-    padding-bottom: 5px;
-}
-.notice h6 {
-    width: 100%;
-    display: block;
-    font-size: 1.3rem;
-    color: #212121;
-    padding-top: 40px;
-    padding-bottom: 10px;
-}
-.notice h5 {
+
+.header h5 {
     width: 100%;
     display: block;
     font-size: 1.1rem;
@@ -841,9 +862,7 @@ iframe {
         z-index: 1;
         background-color: none;
         top: 20px;
-        width: 55px;
-        height: 55px;
-        left: 0;
+        left: 40px;
         padding-left: 15px;
     }
     .header-wrapper {
@@ -864,8 +883,8 @@ iframe {
     }
     .header h1 {
         font-family: 'S-CoreDream-9Black', sans-serif;
-        color: #fff;
-        font-size: 7.5rem;
+        color: #3a3a3a;
+        font-size: 4.5rem;
         margin-top: 40px;
         margin-bottom: 1rem;
         line-height: 60px;
@@ -876,7 +895,6 @@ iframe {
         font-family: 'S-CoreDream-9Black', sans-serif;
         color: rgb(56, 56, 56);
         font-size: 1.2em;
-        margin-left: 5px;
         margin-bottom: 5px;
         line-height: 20px;
         white-space: nowrap;
@@ -895,7 +913,7 @@ iframe {
     .choose-wrapper {
         position: absolute;
         left: 50%;
-        top: 70%;
+        top: 20%;
         transform: translate(-50%, -50%);
         text-align: center;
     }
@@ -941,11 +959,13 @@ iframe {
     .noticeinner {
         position: absolute;
         width: 100%;
-        top: 10%;
-        left: 8%;
+        top: 50%;
+        left: 50%;
         margin-right: auto;
         margin-left: auto;
-        padding: 0;
+        transform:translate(-50%,-50%);
+        padding: 20;
+        text-align:center;
     }
 
     .lookcontainer {
@@ -998,9 +1018,7 @@ iframe {
         z-index: 1;
         background-color: none;
         top: 20px;
-        width: 55px;
-        height: 55px;
-        left: 0;
+        left: 40px;
         padding-left: 15px;
     }
     .moucontainer {
@@ -1016,7 +1034,7 @@ iframe {
     .choose-wrapper {
         position: absolute;
         left: 50%;
-        top: 66%;
+        top: 20%;
         transform: translate(-50%, -50%);
         text-align: center;
     }
@@ -1052,14 +1070,14 @@ iframe {
     }
     .header-wrapper {
         position: absolute;
-        left: 50;
-        top: 0%;
-        transform: translate(-50%, 0%);
+        left: 50%;
+        top: 40%;
+        transform: translate(-50%, -50%);
     }
     .header h1 {
         font-family: 'S-CoreDream-9Black', sans-serif;
-        color: #fff;
-        font-size: 7.5rem;
+        color: #3a3a3a;
+        font-size: 3.5rem;
         margin-top: 1.0rem;
         margin-bottom: 1.5rem;
         line-height: 60px;
@@ -1071,7 +1089,6 @@ iframe {
         color: rgb(56, 56, 56);
         font-size: 2rem;
         margin-top: 150px;
-        margin-left: 0;
         margin-bottom: 1.5rem;
         line-height: 1.8rem;
         white-space: nowrap;
@@ -1136,15 +1153,7 @@ iframe {
         top: 10%;
         text-align:center;
     }
-    .noticeinner {
-        position: absolute;
-        width: 100%;
-        top: 20%;
-        left: 10%;
-        margin-right: auto;
-        margin-left: auto;
-        padding: 15px;
-    }
+
     .lookcontainer {
         width: 100%;
         position: absolute;
@@ -1216,34 +1225,11 @@ iframe {
         z-index: 1;
         background-color: none;
         top: 20px;
-        width: 45px;
-        height: 45px;
-        left: 0;
+        width: 140px;
+        left: 30px;
         padding-left: 15px;
     }
 
-    .moucontainer {
-        display: grid;
-        width: 95%;
-        position: absolute;
-        left: 50%;
-        top: 70%;
-        transform: translate(-50%, -50%);
-        margin-right: auto;
-        margin-left: auto;
-    }
-    .lookcontainer {
-        display: grid;
-        width: 95%;
-        margin-right: auto;
-        margin-left: auto;
-    }
-    .lookinner {
-        width: 100%;
-        position: absolute;
-        left: 0;
-        top: 10%;
-    }
     .hero-text-inner {
         display: grid;
         width: 100%;
@@ -1252,18 +1238,18 @@ iframe {
     }
     .header-wrapper {
         position: absolute;
-        left: 0;
-        top: 20%;
-        transform: translate(0%, 0%);
+        left: 50%;
+        top: 40%;
+        transform: translate(-50%, -50%);
         padding: 15px
     }
     .header h1 {
         font-family: 'S-CoreDream-9Black', sans-serif;
-        color: #fff;
-        font-size: 6.3rem;
+        color: #3a3a3a;
+        font-size: 2.3rem;
         margin-top: 1.0rem;
         margin-bottom: 1.0rem;
-        line-height: 60px;
+        line-height: 15px;
         white-space: nowrap;
         text-align: center;
     }
@@ -1277,7 +1263,26 @@ iframe {
         line-height: 1.5rem;
         white-space: nowrap;
         text-align: center;
+        z-index:2;
     }
+    .position-left{
+position: absolute;
+width:45%;
+    left: 30%;
+    top: 60%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index:1;
+}
+.position-right{
+width:45%;
+position: absolute;
+    left: 70%;
+    top: 60%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+     z-index:1;
+}
     .heroimg {
         width: 100%;
         margin-right: auto;
@@ -1285,15 +1290,24 @@ iframe {
         text-align: center;
     }
     .hero-text-img > a > img {
-        width: 40%;
+        width: 45%;
         margin-top: 5px;
     }
     .choose-wrapper {
         position: absolute;
         left: 50%;
-        top: 70%;
+        top: 20%;
         transform: translate(-50%, -50%);
         text-align: center;
+        z-index:2;
+    }
+    .choose-wrapper2 {
+        position: absolute;
+        left: 50%;
+        top: 55%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        z-index:2;
     }
     .choose-text h3 {
         display: inline-block;
@@ -1322,40 +1336,6 @@ iframe {
         font-size: 2rem;
         margin-left: 2px;
     }
-    .adv_text h3 {
-        display: inline-block;
-        font-family: 'S-CoreDream-9Black', sans-serif;
-        color: rgb(255, 255, 255);
-        font-size: 3rem;
-        margin-bottom: 3px;
-    }
-    .adv_text h1 {
-        font-family: 'NanumBarunGothic' sans-serif;
-        color: rgb(33, 33, 33);
-        font-size: 3.23rem;
-        margin-bottom: 3px;
-        line-height: 3.23rem;
-        white-space: nowrap;
-        text-align: left;
-        white-space: nowrap;
-    }
-    .adv_text h2 {
-        display: inline-block;
-        font-family: 'NanumBarunGothic' sans-serif;
-        color: rgb(33, 33, 33);
-        font-size: 2rem;
-        margin-left: 5px;
-        white-space: nowrap;
-    }
-    .adv_text h4 {
-        font-family: 'NanumBarunGothic' sans-serif;
-        color: rgb(33, 33, 33);
-        font-size: 1rem;
-        margin-top: 3px;
-        margin-bottom: 0x;
-        line-height: 1.8rem;
-        white-space: normal;
-    }
     .mouinner {
         width: 100%;
         position: absolute;
@@ -1374,20 +1354,11 @@ iframe {
         padding-left: 0;
         z-index: 1;
     }
-    .noticeinner {
-        position: absolute;
-        width: 100%;
-        top: 15%;
-        left: 0;
-        margin-right: auto;
-        margin-left: auto;
-        padding: 15px;
-    }
     .heroimg1 {
         width: 100%;
         margin-right: auto;
         margin-left: auto;
-        text-align: left;
+        text-align: center;
     }
     .hero-text-img1 > a > img {
         width: 40%;
@@ -1443,25 +1414,5 @@ iframe {
         display: flex;
         opacity: 1;
     }
-    .looktext1 h1 {
-        font-size: 2rem;
-        text-align: center;
-        color: #59615d;
-        line-height: 2.4rem;
-    }
-    .looktext1 h2 {
-        font-size: 4rem;
-        text-align: center;
-        line-height: 4.2rem;
-        color: #0a9fd3;
-    }
-    .looktext1 h3 {
-        font-family: 'yg-jalnan', sans-serif;
-        font-size: 1.2rem;
-        text-align: center;
-        color: #ffffff;
-        margin-top: 10px;
-        line-height: 1.8rem;
-        white-space: normal;
-    }
+
 }
