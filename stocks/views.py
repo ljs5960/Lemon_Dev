@@ -109,10 +109,10 @@ def sold_stock(request):
     data = json.loads(request.body)
     result = False
     if request.method == 'POST':
-        rest_investment = cal.calculator().total_rest_investment_amount(request.user.user_id, data['issuecode'])
-        sold_price = int(data['share']) * int(data['current_price'])
-        if rest_investment - sold_price < 0:
-            return JsonResponse({'result': '투자잔액이 부족합니다'}, content_type='application/json')
+        get_share = cal.calculator().get_shares(request.user.user_id, data['issuecode'])
+        sold_price = int(data['share'])
+        if get_share - sold_price < 0:
+            return JsonResponse({'result': '보유 주가 부족합니다'}, content_type='application/json')
 
         stock_master = kocom.api().get_stock_master(data['marketcode'], data['issuecode'])
         stockheld_check = Stockheld.objects.filter(sh_userid=request.user.user_id,

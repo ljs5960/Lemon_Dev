@@ -74,6 +74,26 @@ class calculator:
             print('Error in total_rest_investment_amount: \n', e)
             return False
 
+    def get_shares(self, user_id, isusrtcd):
+        try:
+            get_buy_shares = Stocktrading.objects.filter(st_userid=user_id,
+                                                         st_isusrtcd=isusrtcd,
+                                                         st_kind='B').aggregate(
+                                    share_total=Sum('st_share'))['share_total']
+            get_sold_shares = Stocktrading.objects.filter(st_userid=user_id,
+                                                          st_isusrtcd=isusrtcd,
+                                                          st_kind='S').aggregate(
+                                    share_total=Sum('st_share'))['share_total']
+            if get_buy_shares and get_sold_shares:
+                return get_buy_shares - get_sold_shares
+            elif get_buy_shares and not get_sold_shares:
+                return get_buy_shares
+            else:
+                return 0
+        except Exception as e:
+            print('Error in get_shares: \n', e)
+            return False
+
     # 주식 수익률
     def stock_yield(self, know_price, compare_price):
         return round((know_price - compare_price) * 100 / compare_price, 2)
