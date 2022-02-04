@@ -98,7 +98,7 @@
 <div class="stock" style="margin-top:20px;">
     <span class="side">금일 기준</span>
     <div class="title">주문 가능 금액</div>
-    <div style="text-align:center;font-size:22px;">현재 금액 보이기</div>
+    <div style="text-align:center;font-size:22px;">{{user.invest|add:total_use_investment_amount|intcomma}}</div>
     <div class="my_stock"><a href="{% url 'admins:edit_invest' %}" style="width:40%;color:#31bc8a; padding:10px 20px 10px 20px; border-radius: 10px; background-color:white;">변경</a></div>
     </div>
 </div>

@@ -107,11 +107,19 @@
                  <div class="percent" style="display:inline-block;">({{ result.curPrice|div:result.prevddClsprc|floatformat:2 }}%)</div>
         <!--  종가와 현재 값이 값으면 0% 가 나와야되지 않을까요? 1% 로 나오고 있습니다. -->
         </div>
-               여기에 차트 나오기</br>
-        {{ result }}
-    {% else %}
-        상세정보가 없습니다.
-    {% endif %}
+        {% else %}
+            상세정보가 없습니다.
+        {% endif %}
+
+<br/><br/><br/>
+<div>
+    여기에 차트 나오기(양이 많을 때가 있어 console에서 확인)<br/>
+    <button onclick="get_history('{{result.marketcode}}', '{{result.isuSrtCd}}', 'D')">일봉</button>
+    <button onclick="get_history('{{result.marketcode}}', '{{result.isuSrtCd}}', 'W')">주봉</button>
+    <button onclick="get_history('{{result.marketcode}}', '{{result.isuSrtCd}}', 'M')">월봉</button>
+    <button onclick="get_history('{{result.marketcode}}', '{{result.isuSrtCd}}', 'Y')">연봉</button>
+</div>
+
 <div>
     <div style="padding:20px;">
         <table style="width:100%;">
@@ -146,6 +154,8 @@
         <Button onclick="fn_stocksector_update()">업종분류 업데이트</Button>
     </div>
 
+    {{ result }}
+    <!-- result.history : 차트 데이터 -->
 <script>
     function sell(){
     $('.buy').hide();
@@ -206,6 +216,64 @@
         .catch(err => {
             console.log(err);
         })
+    }
+
+    async function get_history(marketcode, issuecode, trnsmCycleTpCd) {
+        let today = new Date();
+        let year = today.getFullYear().toString().padStart(2, '0');
+        let month = (today.getMonth() + 1).toString().padStart(2, '0');
+        let date = today.getDate().toString().padStart(2, '0');
+
+        let c_trnsmCycleTpCd = 'D'
+        if(trnsmCycleTpCd == 'Y')
+            c_trnsmCycleTpCd = 'M';
+        else
+            c_trnsmCycleTpCd = trnsmCycleTpCd;
+
+        let history_result = await fn_koscom_history(marketcode, issuecode, c_trnsmCycleTpCd, year+month+date)
+        if(history_result.result && trnsmCycleTpCd == 'Y')
+            history_result = cal_year_history(history_result.result)
+        console.log(history_result.result)
+    }
+
+    function fn_koscom_history(marketcode, issuecode, trnsmCycleTpCd, today) {
+        let data = {
+            'marketcode': marketcode,
+            'issuecode': issuecode,
+            'trnsmCycleTpCd': trnsmCycleTpCd,
+            'inqStrtDd': '19800101',    //의미없는 최대값
+            'inqEndDd': today,          //오늘 날짜
+            'reqCnt': '500'             //의미없는 최대값
+        }
+        headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('X-CSRFToken', csrftoken);
+        let response = fetch('/get_history', {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(data)
+        })
+        return response.then(res => {
+            if(res.status === 200) return res.json();
+            else console.log(res.statusText);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
+
+    function cal_year_history(result) {
+        let temp_year = ''
+        let year_trdPrc = new Array();
+        let array_num = 0
+        for (let num in result) {
+            let cur_year = result[num].trdDd.toString().substring(0, 4)
+            if (cur_year != temp_year) {
+                temp_year = cur_year
+                year_trdPrc[array_num++] = result[num]
+            }
+        }
+        return {result: year_trdPrc}
     }
 
     function fn_buy_stock() {

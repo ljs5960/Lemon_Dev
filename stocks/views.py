@@ -3,11 +3,13 @@ from django.shortcuts import render
 # Create your views here.
 import json
 from django.http import JsonResponse
+from datetime import datetime
 from . import kocom
 from . import stockcal as cal
 from .models import *
 from accounts import models as acc_models
 from stocks.models import Stocksector
+
 
 def search_stock(request):
     wntlr = Stocksector.objects.all().values('ss_isusrtcd', 'ss_isukorabbrv')
@@ -23,25 +25,26 @@ def stock(request):
     for element in stockheld:
         average_price = stock_cal.average_price(request.user.user_id, element.sh_isusrtcd)
         current_price = koscom_api.get_current_price(element.sh_marketcode, element.sh_isusrtcd)
-        stock_data.append([element.sh_isukorabbrv, average_price, current_price, element.sh_isusrtcd, element.sh_marketcode])
+        stock_data.append(
+            [element.sh_isukorabbrv, average_price, current_price, element.sh_isusrtcd, element.sh_marketcode])
     return render(request, 'stock.html', {'stock_data': stock_data})
 
 
 def portfolio(request):
-    # 구매하기가 같은 페이지에 있어서 임시로 넣어둔 값
-    data = {'marketcode': 'kospi', 'issuecode': '035420'}
-
+    result = {}
     stock_cal = cal.calculator()
     total_investment_amount = stock_cal.total_investment_amount(request.user.user_id)
-    print( total_investment_amount)
     total_current_price = stock_cal.total_current_price(request.user.user_id)
-    if total_investment_amount and total_current_price:
-        data['total_investment_amount'] = total_investment_amount
-        data['total_current_price'] = total_current_price
+    total_use_investment_amount = stock_cal.total_use_investment_amount(request.user.user_id)
+    if total_investment_amount is False or total_current_price is False or total_use_investment_amount is False:
+        result['total_investment_amount'] = 0
+        result['total_current_price'] = 0
+        result['total_use_investment_amount'] = 0
     else:
-        data['total_investment_amount'] = 0
-        data['total_current_price'] = 0
-    return render(request, 'portfolio.html', data)
+        result['total_investment_amount'] = total_investment_amount
+        result['total_current_price'] = total_current_price
+        result['total_use_investment_amount'] = total_use_investment_amount
+    return render(request, 'portfolio.html', result)
 
 
 def stock_info(request):
@@ -51,6 +54,9 @@ def stock_info(request):
         if result:
             result['curPrice'] = kocom.api().get_current_price(request.POST['marketcode'], request.POST['issuecode'])
             result['marketcode'] = request.POST['marketcode']
+        if result:
+            result['history'] = kocom.api().get_stock_history(request.POST['marketcode'], request.POST['issuecode'],
+                                                              'D', '19800101', datetime.today().strftime('%Y%m%d'), 30)
     return render(request, 'stock_info.html', {'result': result})
 
 
@@ -85,9 +91,9 @@ def buy_stock(request):
     data = json.loads(request.body)
     result = False
     if request.method == 'POST':
-        rest_investment = cal.calculator().total_rest_investment_amount(request.user.user_id, data['issuecode'])
+        total_rest_investment = cal.calculator().total_use_investment_amount(request.user.user_id)
         buy_price = int(data['share']) * int(data['current_price'])
-        if (request.user.invest - rest_investment) - buy_price < 0:
+        if (request.user.invest + total_rest_investment) - buy_price < 0:
             return JsonResponse({'result': '가상잔액이 부족합니다'}, content_type='application/json')
 
         stock_master = kocom.api().get_stock_master(data['marketcode'], data['issuecode'])
@@ -140,7 +146,7 @@ def stockheld_insert(user_id, data, master):
 
 def stocktrading_insert(user_id, data, master, kind):
     try:
-        if kind == 'S':
+        if kind == 'B':
             data['current_price'] = -int(data['current_price'])
         Stocktrading(
             st_userid=acc_models.user.objects.get(user_id=user_id),
