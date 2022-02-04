@@ -110,8 +110,8 @@ def sold_stock(request):
     result = False
     if request.method == 'POST':
         get_share = cal.calculator().get_shares(request.user.user_id, data['issuecode'])
-        sold_price = int(data['share'])
-        if get_share - sold_price < 0:
+        sold_share = int(data['share'])
+        if get_share - sold_share < 0:
             return JsonResponse({'result': '보유 주가 부족합니다'}, content_type='application/json')
 
         stock_master = kocom.api().get_stock_master(data['marketcode'], data['issuecode'])
