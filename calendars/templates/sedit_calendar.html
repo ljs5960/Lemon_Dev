@@ -254,7 +254,7 @@
                     <th width="200" height="60"><a class="span_list_title">결제수단 </a></th>
                     <th width="240" style="text-align: end;">
                     <select class="span_list_select" name="way" style="text-align:center;">
-                        <option value="0" {% if i.way == 1 %} selected {% endif %}>선택안함</option>
+                        <option value="0" {% if i.way == 0 %} selected {% endif %}>선택안함</option>
                         <option value="1" {% if i.way == 1 %} selected {% endif %}>현금</option>
                         <option value="2" {% if i.way == 2 %} selected {% endif %}>카드</option>
                         </select></th>
@@ -265,22 +265,19 @@
                     <th width="240" style="text-align: end;">
                     <select class="span_list_select" name="category" style="text-align:center;">
                         <option value="0" {% if i.category.category_id == 0 %} selected {% endif %}>선택안함</option>
-                        <option value='1' {% if i.category.category_id == 1 %} selected {% endif %}>식비</option>
-                        <option value='2' {% if i.category.category_id == 2 %} selected {% endif %}>카페/간식</option>
-                        <option value='3' {% if i.category.category_id == 3 %} selected {% endif %}>술/유흥</option>
-                        <option value='4' disabled>생활</option>
-                        <option value='5' disabled>쇼핑</option>
-                        <option value='6' disabled>뷰티/미용</option>
-                        <option value='7' disabled>교통</option>
-                        <option value='8' disabled>자동차</option>
-                        <option value='9' disabled>주거/통신</option>
-                        <option value='10' disabled>의료/건강</option>
-                        <option value='11' disabled>문화/여가</option>
-                        <option value='12' disabled>여행/숙박</option>
-                        <option value='13' disabled>교육/학습</option>
-                        <option value='14' disabled>반려동물</option>
-                        <option value='15' disabled>경조/선물</option>
-                        <option value='16' disabled>기타</option>
+                        <option value='1'  {% if i.category.category_id == 1 %} selected {% endif %}>금융/보험</option>
+                        <option value='2'  {% if i.category.category_id == 2 %} selected {% endif %}>저축</option>
+                        <option value='3'  {% if i.category.category_id == 3 %} selected {% endif %}>온라인쇼핑</option>
+                        <option value='4'  {% if i.category.category_id == 4 %} selected {% endif %}>출금</option>
+                        <option value='5'  {% if i.category.category_id == 5 %} selected {% endif %}>생활/마트</option>
+                        <option value='6'  {% if i.category.category_id == 6 %} selected {% endif %} >카페/간식</option>
+                        <option value='7'  {% if i.category.category_id == 7 %} selected {% endif %}>기타지출(사회생활비)</option>
+                        <option value='8'  {% if i.category.category_id == 8 %} selected {% endif %}>교통/차량유지</option>
+                        <option value='9'  {% if i.category.category_id == 9 %} selected {% endif %}>주거생활/통신</option>
+                        <option value='10' {% if i.category.category_id == 10 %} selected {% endif %}>식사</option>
+                        <option value='11' {% if i.category.category_id == 11 %} selected {% endif %}>의료/건강</option>
+                        <option value='12' {% if i.category.category_id == 12 %} selected {% endif %}>문화/예술</option>
+                        <option value='13' {% if i.category.category_id == 13 %} selected {% endif %}>교육비</option>
                         </select>
                     </th>
                 </tr>
@@ -311,10 +308,10 @@
         </div>
 
         <div style="display:flex;text-align:center; margin-top:15px;justify-content: space-between;">
-        <input class="delBtn"  type = "submit" value = "내역삭제">
-        <div type="button" class="addBtn" value="spendbtn" onclick="submit()" style="line-height:37px;"/>수정</div>
-        
+            <input class="delBtn"  type = "submit" value = "내역삭제">
+            <div type="button" class="addBtn" value="spendbtn" onclick="submit()" style="line-height:37px;"/>수정</div>
         </div>
+        
         <script>
             function submit(){
             var str = $('#where').val();
