@@ -326,14 +326,14 @@ $('input[id="require_chk"]').change(function () {
         </div>
     </div>
 
-    <div class="home-stock-div" style="display:none;">
+    <div class="home-stock-div" style="">
         <div class="home-stock-title">
-            <a>주식</a>
+            <a>내 주식</a>
             <a class="home-spand-dateView" id="date_view2"></a>
         </div>
 
         <div class="home-stock-input">
-            <a>50,500원</a>
+            <a>{{Total_investment_amount|default_if_none:'0'|intcomma}}원</a>
         </div>
 
         <div class="home-stock-input2">
@@ -342,8 +342,8 @@ $('input[id="require_chk"]').change(function () {
 
 
         <div class="home-stock-buttons">
-            <button style="margin-right:15px;" class="home-stock-button">보유 주식</button>
-            <button style="margin-left:15px;" class="home-stock-button">포트폴리오</button>
+            <button style="margin-right:15px;" class="home-stock-button" onclick="location.href='{% url 'stocks:stock' %}'">보유 주식</button>
+            <button style="margin-left:15px;" class="home-stock-button" onclick="location.href='{% url 'stocks:portfolio' %}'">포트폴리오</button>
         </div>
 
     </div>

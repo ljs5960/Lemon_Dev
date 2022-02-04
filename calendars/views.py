@@ -1,7 +1,7 @@
 from mysettings import ALIGO_SECRET_KEY, ALIGO_USERID, ALIGO_SENDER
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
-from django.contrib import auth
+from django.contrib import auth, messages
 from django.core import serializers
 from django.contrib.auth import login, authenticate, get_user_model
 from django.contrib.auth.models import User
@@ -20,6 +20,7 @@ from django.contrib.auth.hashers import check_password
 from dateutil.relativedelta import relativedelta
 from stocks.models import Stocksector
 from django.http import JsonResponse
+from stocks import stockcal as cal
 
 # Create your views here.
 URL_LOGIN = '/login'
@@ -72,8 +73,13 @@ def home(request):
         else:
             home_chartjs_data.append(income_sum_value)
 
+    stock_cal = cal.calculator()
+    total_investment_amount = stock_cal.total_investment_amount(request.user.user_id)
+    print( total_investment_amount)
+    total_current_price = stock_cal.total_current_price(request.user.user_id)
+
     return render(request, 'home.html', {'month': month, 'Expenditure': spend_sum, 'Income': income_sum,
-                                         'Home_chartjs_data': home_chartjs_data})
+                                         'Home_chartjs_data': home_chartjs_data, 'Total_investment_amount':total_investment_amount})
 
 
 def recom(request):
@@ -245,6 +251,9 @@ def detail_search(request):
 
     if not start_date :
         return redirect('/history')
+    elif not end_date >= start_date:
+        messages.warning(request, "종료날짜보다 시작날짜가 작아야합니다.")
+        return redirect('/history')
     else:
         spend_date = Spend.objects.filter(user_id=user, spend_date__range=(start_date, end_date)).values('spend_id', 'kind',
                                                                                                      'spend_date',
@@ -276,12 +285,12 @@ def ajax_sendSMS(request):
     # API key, userid, sender, receiver, msg
     # API키, 알리고 사이트 아이디, 발신번호, 수신번호, 문자내용
     sms_data = {
-        'key': '',  # api key
-        'userid': '',  # 알리고 사이트 아이디
-        'sender': '',  # 발신번호
+        'key': ALIGO_SECRET_KEY,  # api key
+        'userid': ALIGO_USERID,  # 알리고 사이트 아이디
+        'sender': ALIGO_SENDER,  # 발신번호
         'receiver': NUM,  # 수신번호 (,활용하여 1000명까지 추가 가능)
         'msg': f'[LEMON]인증번호 [{KEY}]를 입력해주세요.',  # 문자 내용
-        'testmode_yn': 'Y'  # 테스트모드 적용 여부 Y/N
+        #'testmode_yn': 'Y'  # 테스트모드 적용 여부 Y/N
         # 'msg_type' : 'SMS', #메세지 타입 (SMS, LMS)
         # 'title' : 'testTitle', #메세지 제목 (장문에 적용)
         # 'destination' : '01000000000|고객명', # %고객명% 치환용 입력
