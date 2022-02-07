@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}레몬::FAQ{% endblock title %}
+{% block container %}
+<style>
+  .bottom-nav-myinfo,.bottom-nav-myinfo a {
+      color: #FFD859;
+  }
+  #container, body {
+    background-color: #fff;
+  }
+  nav {
+    padding-top:10px;
+    padding-bottom:10px;
+    display: flex;
+    justify-content: space-between;
+    align-items : center;
+  }
+  .fa-chevron-left {
+    padding-top: 3px;
+    float: right;
+    padding-left:10px;
+    font-size:20px;
+    width:30px;
+    height:30px;
+  }
+  section {
+    padding: 5px;
+  }
+  .footer-line-myinfo {
+    width:50px;
+    padding: 12px 0 10px 0;
+    border-bottom: 2px solid #FFF;
+  }
+</style>
+{% block nav %}
+<div id="nav" style="border-bottom: 1px solid #f1f1f1;">
+  <div>
+    <div style="text-align:center;">
+      <a style="color: #fff;" href="javascript:history.back();">
+        <i class="fa fa-angle-left" style="position: absolute;
+        left: 5px;
+        padding: 14px 15px;
+        top: 0;
+        font-size: 25px;
+        font-weight: 600;
+        color:black;"></i></a>FAQ
+    </div>
+  </div>
+</div>
+{% endblock nav %}
+<section>
+  <div class="notice-wrap">
+    {% for faq in faqs %}
+      <div class="notice-contents" onclick="location.href='{% url 'admins:faq_detail' faq.faq_id %}'">
+        <div>
+          <a class="notice-title">{{ faq.title }}</a>
+          <i style="margin-top:10px; float: right;" class="fas fa-chevron-right"></i>
+        </div>
+        <div>
+          {% if faq.category == 1 %}
+            <a class="notice-date">운영정책</a>
+          {% elif faq.category == 2 %}
+            <a class="notice-date">계정/인증</a>
+          {% elif faq.category == 3 %}
+            <a class="notice-date">이벤트</a>
+          {% elif faq.category == 4 %}
+            <a class="notice-date">이용 제재</a>
+          {% elif faq.category == 5 %}
+            <a class="notice-date">기타</a>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

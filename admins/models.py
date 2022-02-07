@@ -16,4 +16,25 @@ class Notice(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'notice' 
+        db_table = 'notice'
+
+
+# FAQ
+class Faq(models.Model):
+    faq_category = (
+        (1, '운영정책'),
+        (2, '계정/인증'),
+        (3, '이벤트'),
+        (4, '이용 제재'),
+        (5, '기타'),
+    )
+    faq_id = models.AutoField(primary_key=True)
+    category = models.IntegerField(choices=faq_category, null=False, verbose_name='카테고리')
+    title = models.CharField(max_length=45, null=False, verbose_name='제목')
+    content = RichTextUploadingField(null=False, verbose_name='내용')
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        managed = False
+        db_table = 'faq'

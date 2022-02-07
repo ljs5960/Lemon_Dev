@@ -3,11 +3,16 @@ from django.contrib.auth.models import User
 from django.contrib import auth
 from django.urls import reverse
 from accounts.models import user
-from .models import Notice
+from .models import Notice, Faq
 from datetime import timedelta
 from datetime import datetime
 from django.contrib.auth import login, authenticate, get_user_model
 # Create your views here.
+
+
+def myinfo(request):
+    return render(request, 'myinfo.html')
+
 
 #  문의하기
 def qna(request):
@@ -75,3 +80,15 @@ def user_delete(request, user_id):
     user1.delete()
     return redirect('/')
     return render(request, 'user_delete.html')
+
+
+# FAQ(자주 묻는 질문)
+def faq(request):
+    faq = Faq.objects.all().order_by('-faq_id')
+    return render(request, 'faq.html', {'faqs': faq})
+
+
+# FAQ 상세보기
+def faq_detail(request, pk):
+    faq = Faq.objects.get(faq_id = pk)
+    return render(request, 'faq_detail.html', {'faq': faq})
