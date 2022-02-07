@@ -16,7 +16,6 @@
     margin-right:20px;
     padding-bottom:10px;
     padding-top:20px;
-    border-bottom:1px solid #31bc8a;
     }
     .title_1{
     width:30%;
@@ -110,15 +109,37 @@
         {% else %}
             상세정보가 없습니다.
         {% endif %}
-
-<br/><br/><br/>
-<div>
-    여기에 차트 나오기(양이 많을 때가 있어 console에서 확인)<br/>
-    <button onclick="get_history('{{result.marketcode}}', '{{result.isuSrtCd}}', 'D')">일봉</button>
-    <button onclick="get_history('{{result.marketcode}}', '{{result.isuSrtCd}}', 'W')">주봉</button>
-    <button onclick="get_history('{{result.marketcode}}', '{{result.isuSrtCd}}', 'M')">월봉</button>
-    <button onclick="get_history('{{result.marketcode}}', '{{result.isuSrtCd}}', 'Y')">연봉</button>
+<table style="background-color:white;height:35px;width: 100%;">
+    <tr>
+        <td style="width:25%;text-align:center;" onclick="move_page(0)">일</td>
+        <td style="width:25%;text-align:center;" onclick="move_page(1)">주</td>
+        <td style="width:25%;text-align:center;" onclick="move_page(2)">월</td>
+        <td style="width:25%;text-align:center;" onclick="move_page(3)">년</td>
+    </tr>
+</table>
+<div class="swiper">
+    <div class="swiper-scrollbar" style="top:0px;height:3px;"></div>
+    <div class="swiper-wrapper">
+        <div class="swiper-slide">
+              <div class="myChartDiv">
+              <canvas id="myChart" width="600" height="400"></canvas>
+            </div>
+        </div>
+        <div class="swiper-slide">
+        </div>
+        <div class="swiper-slide">
+        </div>
+        <div class="swiper-slide">
+        </div>
+    </div>
 </div>
+<!--<div>-->
+<!--    여기에 차트 나오기(양이 많을 때가 있어 console에서 확인)<br/>-->
+<!--    <button onclick="get_history('{{result.marketcode}}', '{{result.isuSrtCd}}', 'D')">일봉</button>-->
+<!--    <button onclick="get_history('{{result.marketcode}}', '{{result.isuSrtCd}}', 'W')">주봉</button>-->
+<!--    <button onclick="get_history('{{result.marketcode}}', '{{result.isuSrtCd}}', 'M')">월봉</button>-->
+<!--    <button onclick="get_history('{{result.marketcode}}', '{{result.isuSrtCd}}', 'Y')">연봉</button>-->
+<!--</div>-->
 
 <div>
     <div style="padding:20px;">
@@ -154,7 +175,7 @@
         <Button onclick="fn_stocksector_update()">업종분류 업데이트</Button>
     </div>
 
-    {{ result }}
+<!--    {{ result }}-->
     <!-- result.history : 차트 데이터 -->
 <script>
     function sell(){
@@ -170,7 +191,51 @@
     $('.buy-btn').addClass('act');
     }
 </script>
+<script>
+    var ctx = document.getElementById("myChart");
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        datasets: [{
+            label: '# of Votes',
+            data: [12, 19, 3, 5, 2, 3]
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        },
+        plugins: {
+            zoom: {
+                // Container for pan options
+                pan: {
+                    // Boolean to enable panning
+                    enabled: true,
 
+                    // Panning directions. Remove the appropriate direction to disable
+                    // Eg. 'y' would only allow panning in the y direction
+                    mode: 'xy'
+                },
+
+                // Container for zoom options
+                zoom: {
+                    // Boolean to enable zooming
+                    enabled: true,
+
+                    // Zooming directions. Remove the appropriate direction to disable
+                    // Eg. 'y' would only allow zooming in the y direction
+                    mode: 'xy',
+                }
+            }
+        }
+    }
+});
+</script>
 <script>
     var csrftoken = getCookie('csrftoken');
     function getCookie(cname) {
@@ -414,5 +479,42 @@
     alert(id);
     }
 </script>
+<link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
+<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+<script>
+    var swiper = new Swiper('.swiper', {
+  scrollbar: {
+    el: '.swiper-scrollbar',
+  },
+});
+    function move_page(index){
+    swiper.slideTo(index)
+    swiper.update();
+    }
+    function info(issuecode, marketcode) {
+        document.getElementById('issuecode').value = issuecode;
+        document.getElementById('marketcode').value = marketcode;
+        const form = document.getElementById('form');
+        form.action="/stock_info"
+        form.submit();
+    }
+    var body_height = document.documentElement.clientHeight - 555;
+    $('.swiper-wrapper').height(body_height)
+    $('.swiper').height(body_height)
+    swiper.update();
+</script>
+<Style>
+    .swiper-scrollbar-drag{
+    background:#31bc8a;
+    }
+    .swiper {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+    }
+    .swiper-slide {
+        overflow-y: scroll;
+    }
+</Style>
 {% endblock %}
 
