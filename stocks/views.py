@@ -50,11 +50,13 @@ def portfolio(request):
 def stock_info(request):
     result = False
     kos_api = kocom.api()
+    stock_cal = cal.calculator()
     if request.method == 'POST':
         result = kos_api.get_stock_master(request.POST['marketcode'], request.POST['issuecode'])
         if result:
             result['curPrice'] = kos_api.get_current_price(request.POST['marketcode'], request.POST['issuecode'])
             result['marketcode'] = request.POST['marketcode']
+            result['total_allow_invest'] = request.user.invest - stock_cal.total_use_investment_amount(request.user.user_id)
 
             result['year_history'] = day_trdDd_matching(cal_year_history(kos_api.get_stock_history(request.POST['marketcode'], request.POST['issuecode'],
                                                                                                    'M', '19800101', datetime.today().strftime('%Y%m%d'), 500)))
@@ -73,7 +75,6 @@ def cal_year_history(history):
         year_trdPrc = []
         for element in history:
             cur_year = str(element['trdDd'])[0:4]
-            print(cur_year != temp_year)
             if cur_year != temp_year:
                 temp_year = cur_year
                 year_trdPrc.append(element)
