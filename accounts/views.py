@@ -22,7 +22,6 @@ from .socialviews import KakaoSignInView, KakaoSignInCallbackView
 
 URL_LOGIN = '/login'
 
-@login_required(login_url=URL_LOGIN)
 def main(request):
     return render(request, 'main.html')
 
