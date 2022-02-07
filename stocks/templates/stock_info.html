@@ -102,9 +102,8 @@
             <i class="fas fa-angle-up red"></i>
             <i class="fas fa-angle-down blue"></i>
             <i class="fas fa-minus"></i>
-                <div id="howup" style="display:inline-block;"> {{  result.curPrice|sub:result.prevddClsprc|intcomma }}</div>원
-                 <div class="percent" style="display:inline-block;">({{ result.curPrice|div:result.prevddClsprc|floatformat:2 }}%)</div>
-        <!--  종가와 현재 값이 값으면 0% 가 나와야되지 않을까요? 1% 로 나오고 있습니다. -->
+                <div id="howup" style="display:inline-block;"> {{  result.curPrice|sub:result.prevddClsprc|intcomma }}</div><div class="percent" style="display:inline-block">원</div>
+                 <div class="percent" style="display:inline-block;">({{ result.curPrice|sub:result.prevddClsprc|div:result.prevddClsprc|mul:100|floatformat:2 }}%)</div>
         </div>
         {% else %}
             상세정보가 없습니다.
@@ -458,7 +457,7 @@ var myChart = new Chart(ctx, {
       var int = element.innerHTML;
       var number = Number(int);
       if (number > 0) {
-      $('.howup').addClass('red');
+      $('#howup').addClass('red');
       $('.percent').addClass('red');
       $('.fa-angle-down').hide();
       $('.fa-minus').hide();
@@ -468,7 +467,7 @@ var myChart = new Chart(ctx, {
       $('.fa-angle-up').hide();
       }
       else {
-      $('.howup').addClass('blue');
+      $('#howup').addClass('blue');
       $('.percent').addClass('blue');
       $('.fa-angle-up').hide();
       $('.fa-minus').hide();
