@@ -22,6 +22,7 @@
         </div>
         </div>
 {% endblock nav %}
+  <form action="" method="POST">
 <div class="wrap">
 
   {% if user.invest %}
@@ -47,14 +48,13 @@
     </div>
         </div>
   {% else %}
-
-    <h1 style="color:white;">가상투자 금액 설정</h1>
-        <div>
-      <input class="invest" type="text" name="invest" required>
+        <div class="setup">
+            <h1 style="color:white;">가상투자 금액 설정</h1>
+                <div>
+              <input class="invest" type="text" name="invest" required>
     </div>
         </div>
   {% endif %}
-  <form action="" method="POST">
     {% csrf_token %}
        <div style="text-align:center;margin-top:35px;position:fixed;bottom:15px;width:100%;left:0px;">
            {% if can_date|date:"Y-m-d" <= now_date|date:"Y-m-d" %}
@@ -63,8 +63,9 @@
                <div class="btn" onclick="alert('30일 동안 변경을 하실수 없습니다.')">변경</div>
             {% endif %}
        </div>
-  </form>
+
 </div>
+  </form>
 </body>
 <style>
   .wrap{

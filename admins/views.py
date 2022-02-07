@@ -29,7 +29,7 @@ def invest_change(request):
     user_db = user.objects.get(user_id=user_id)
     previous_date = user_db.invest_date
     now_date = datetime.now()
-    can_date = user_db.invest_date + timedelta(days=30)
+    can_date = user_db.invest_date + timedelta(days=30) if user_db.invest_date else 0000-00-00
     # try:
     #     if((previous_date.strftime('%Y %m')) == (now_date.strftime('%Y %m'))): # 당월 중복변경의 경우 myinfo로 이동
     #         return render(request, 'myinfo.html', {'message': '변경불가'})
