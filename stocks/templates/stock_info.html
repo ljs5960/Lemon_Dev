@@ -125,10 +125,19 @@
             </div>
         </div>
         <div class="swiper-slide">
+             <div class="myChartDiv">
+              <canvas id="myChart1" width="600" height="400"></canvas>
+            </div>
         </div>
         <div class="swiper-slide">
+             <div class="myChartDiv">
+              <canvas id="myChart2" width="600" height="400"></canvas>
+            </div>
         </div>
         <div class="swiper-slide">
+             <div class="myChartDiv">
+              <canvas id="myChart3" width="600" height="400"></canvas>
+            </div>
         </div>
     </div>
 </div>
@@ -174,8 +183,11 @@
         <Button onclick="fn_stocksector_update()">업종분류 업데이트</Button>
     </div>
 
-<!--    {{ result }}-->
+
+
     <!-- result.history : 차트 데이터 -->
+
+
 <script>
     function sell(){
     $('.buy').hide();
@@ -195,17 +207,146 @@
 var myChart = new Chart(ctx, {
     type: 'line',
     data: {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        labels: [{% for r in result.day_history %} '{{r.trdDd}}', {% endfor %}],
         datasets: [{
             label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3]
+            data: [{% for r in result.day_history %} '{{r.trdPrc}}', {% endfor %}]
         }]
     },
     options: {
         scales: {
             yAxes: [{
                 ticks: {
-                    beginAtZero:true
+                    beginAtZero:false
+                }
+            }]
+        },
+        plugins: {
+            zoom: {
+                // Container for pan options
+                pan: {
+                    // Boolean to enable panning
+                    enabled: true,
+
+                    // Panning directions. Remove the appropriate direction to disable
+                    // Eg. 'y' would only allow panning in the y direction
+                    mode: 'xy'
+                },
+
+                // Container for zoom options
+                zoom: {
+                    // Boolean to enable zooming
+                    enabled: true,
+
+                    // Zooming directions. Remove the appropriate direction to disable
+                    // Eg. 'y' would only allow zooming in the y direction
+                    mode: 'xy',
+                }
+            }
+        }
+    }
+});
+  var ctx = document.getElementById("myChart3");
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: [{% for r in result.year_history %} '{{r.trdDd}}', {% endfor %}],
+        datasets: [{
+            label: '# of Votes',
+            data: [{% for r in result.year_historyy %} '{{r.trdPrc}}', {% endfor %}]
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:false
+                }
+            }]
+        },
+        plugins: {
+            zoom: {
+                // Container for pan options
+                pan: {
+                    // Boolean to enable panning
+                    enabled: true,
+
+                    // Panning directions. Remove the appropriate direction to disable
+                    // Eg. 'y' would only allow panning in the y direction
+                    mode: 'xy'
+                },
+
+                // Container for zoom options
+                zoom: {
+                    // Boolean to enable zooming
+                    enabled: true,
+
+                    // Zooming directions. Remove the appropriate direction to disable
+                    // Eg. 'y' would only allow zooming in the y direction
+                    mode: 'xy',
+                }
+            }
+        }
+    }
+});
+  var ctx = document.getElementById("myChart1");
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: [{% for r in result.week_history %} '{{r.trdDd}}', {% endfor %}],
+        datasets: [{
+            label: '# of Votes',
+            data: [{% for r in result.week_history %} '{{r.trdPrc}}', {% endfor %}]
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:false
+                }
+            }]
+        },
+        plugins: {
+            zoom: {
+                // Container for pan options
+                pan: {
+                    // Boolean to enable panning
+                    enabled: true,
+
+                    // Panning directions. Remove the appropriate direction to disable
+                    // Eg. 'y' would only allow panning in the y direction
+                    mode: 'xy'
+                },
+
+                // Container for zoom options
+                zoom: {
+                    // Boolean to enable zooming
+                    enabled: true,
+
+                    // Zooming directions. Remove the appropriate direction to disable
+                    // Eg. 'y' would only allow zooming in the y direction
+                    mode: 'xy',
+                }
+            }
+        }
+    }
+});
+  var ctx = document.getElementById("myChart2");
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: [{% for r in result.month_history %} '{{r.trdDd}}', {% endfor %}],
+        datasets: [{
+            label: '# of Votes',
+            data: [{% for r in result.month_history %} '{{r.trdPrc}}', {% endfor %}]
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:false
                 }
             }]
         },
@@ -514,6 +655,10 @@ var myChart = new Chart(ctx, {
     .swiper-slide {
         overflow-y: scroll;
     }
+    .myChartDiv {
+  max-width: 100%;
+  max-height: 100%;
+}
 </Style>
 {% endblock %}
 
