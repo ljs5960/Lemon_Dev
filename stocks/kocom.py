@@ -4,14 +4,14 @@ from mysettings import KOSCOM_KEY
 
 
 class api:
-    def __self__(self):
-        pass
+    def __init__(self):
+        self.timeout = 3
 
     def get_current_stock(self, marketcode, issuecode):
         try:
             url = f'https://sandbox-apigw.koscom.co.kr/v2/market/stocks/{marketcode}/{issuecode}/price'
             headers = {'apikey': KOSCOM_KEY}
-            response = requests.get(url, headers=headers)
+            response = requests.get(url, headers=headers, timeout=self.timeout)
             if response.status_code == 200:
                 return json.loads(response.text)['result']
             else:
@@ -24,7 +24,7 @@ class api:
         try:
             url = f'https://sandbox-apigw.koscom.co.kr/v2/market/stocks/{marketcode}/{issuecode}/price'
             headers = {'apikey': KOSCOM_KEY}
-            response = requests.get(url, headers=headers)
+            response = requests.get(url, headers=headers, timeout=self.timeout)
             if response.status_code == 200:
                 return json.loads(response.text)['result']['trdPrc']
             else:
@@ -37,7 +37,7 @@ class api:
         try:
             url = f'https://sandbox-apigw.koscom.co.kr/v2/market/stocks/{marketcode}/{issuecode}/master'
             headers = {'apikey': KOSCOM_KEY}
-            response = requests.get(url, headers=headers)
+            response = requests.get(url, headers=headers, timeout=self.timeout)
             if response.status_code == 200:
                 return json.loads(response.text)['result']
             else:
@@ -50,7 +50,7 @@ class api:
         try:
             url = f'https://sandbox-apigw.koscom.co.kr/v2/market/stocks/{marketcode}/{issuecode}/selectivemaster?per&pbr'
             headers = {'apikey': KOSCOM_KEY}
-            response = requests.get(url, headers=headers)
+            response = requests.get(url, headers=headers, timeout=self.timeout)
             if response.status_code == 200:
                 return json.loads(response.text)['result']
             else:
@@ -87,7 +87,7 @@ class api:
         try:
             url = f'https://sandbox-apigw.koscom.co.kr/v2/market/stocks/{marketcode}/lists'
             headers = {'apikey': KOSCOM_KEY}
-            response = requests.get(url, headers=headers)
+            response = requests.get(url, headers=headers, timeout=self.timeout)
             if response.status_code == 200:
                 return json.loads(response.text)['isuLists']
             else:
@@ -100,7 +100,7 @@ class api:
         try:
             url = f'https://sandbox-apigw.koscom.co.kr/v2/market/stocks/{marketcode}/{issucode}/master'
             headers = {'apikey': KOSCOM_KEY}
-            response = requests.get(url, headers=headers)
+            response = requests.get(url, headers=headers, timeout=self.timeout)
             if response.status_code == 200:
                 return json.loads(response.text)['result']
             else:
@@ -114,7 +114,7 @@ class api:
             url = f'https://sandbox-apigw.koscom.co.kr/v2/market/stocks/{marketcode}/{issuecode}/history' \
                   f'?trnsmCycleTpCd={trnsmCycleTpCd}&inqStrtDd={inqStrtDd}&inqEndDd={inqEndDd}&reqCnt={reqCnt}'
             headers = {'apikey': KOSCOM_KEY}
-            response = requests.get(url, headers=headers)
+            response = requests.get(url, headers=headers, timeout=self.timeout)
             if response.status_code == 200:
                 return json.loads(response.text)['result']['hisLists']
             else:
