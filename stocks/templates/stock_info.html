@@ -141,14 +141,6 @@
         </div>
     </div>
 </div>
-<!--<div>-->
-<!--    여기에 차트 나오기(양이 많을 때가 있어 console에서 확인)<br/>-->
-<!--    <button onclick="get_history('{{result.marketcode}}', '{{result.isuSrtCd}}', 'D')">일봉</button>-->
-<!--    <button onclick="get_history('{{result.marketcode}}', '{{result.isuSrtCd}}', 'W')">주봉</button>-->
-<!--    <button onclick="get_history('{{result.marketcode}}', '{{result.isuSrtCd}}', 'M')">월봉</button>-->
-<!--    <button onclick="get_history('{{result.marketcode}}', '{{result.isuSrtCd}}', 'Y')">연봉</button>-->
-<!--</div>-->
-
 <div>
     <div style="padding:20px;">
         <table style="width:100%;">
@@ -289,7 +281,7 @@ var myChart = new Chart(ctx, {
         }
     }
 });
-  var ctx = document.getElementById("myChart1");
+var ctx = document.getElementById("myChart1");
 var myChart = new Chart(ctx, {
     type: 'line',
     data: {
