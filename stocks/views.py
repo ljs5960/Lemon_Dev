@@ -49,15 +49,49 @@ def portfolio(request):
 
 def stock_info(request):
     result = False
+    kos_api = kocom.api()
     if request.method == 'POST':
-        result = kocom.api().get_stock_master(request.POST['marketcode'], request.POST['issuecode'])
+        result = kos_api.get_stock_master(request.POST['marketcode'], request.POST['issuecode'])
         if result:
-            result['curPrice'] = kocom.api().get_current_price(request.POST['marketcode'], request.POST['issuecode'])
+            result['curPrice'] = kos_api.get_current_price(request.POST['marketcode'], request.POST['issuecode'])
             result['marketcode'] = request.POST['marketcode']
-        if result:
-            result['history'] = kocom.api().get_stock_history(request.POST['marketcode'], request.POST['issuecode'],
-                                                              'D', '19800101', datetime.today().strftime('%Y%m%d'), 30)
+
+            result['year_history'] = day_trdDd_matching(cal_year_history(kos_api.get_stock_history(request.POST['marketcode'], request.POST['issuecode'],
+                                                                                                   'M', '19800101', datetime.today().strftime('%Y%m%d'), 500)))
+            result['month_history'] = day_trdDd_matching(kos_api.get_stock_history(request.POST['marketcode'], request.POST['issuecode'],
+                                                                                   'M', '19800101', datetime.today().strftime('%Y%m%d'), 500))
+            result['week_history'] = day_trdDd_matching(kos_api.get_stock_history(request.POST['marketcode'], request.POST['issuecode'],
+                                                                                  'W', '19800101', datetime.today().strftime('%Y%m%d'), 500))
+            result['day_history'] = day_trdDd_matching(kos_api.get_stock_history(request.POST['marketcode'], request.POST['issuecode'],
+                                                                                 'D', '19800101', datetime.today().strftime('%Y%m%d'), 500))
     return render(request, 'stock_info.html', {'result': result})
+
+
+def cal_year_history(history):
+    try:
+        temp_year = ''
+        year_trdPrc = []
+        for element in history:
+            cur_year = str(element['trdDd'])[0:4]
+            print(cur_year != temp_year)
+            if cur_year != temp_year:
+                temp_year = cur_year
+                year_trdPrc.append(element)
+        return year_trdPrc
+    except Exception as e:
+        print('Error in cal_year_history: \n', e)
+        return False
+
+
+def day_trdDd_matching(history):
+    day_trdDd_array = []
+    try:
+        for element in history:
+            day_trdDd_array.append({'trdDd': element['trdDd'], 'trdPrc': element['trdPrc']})
+        return day_trdDd_array
+    except Exception as e:
+        print('Error in day_trdDd_matching: \n', e)
+        return False
 
 
 def current_stock(request):
