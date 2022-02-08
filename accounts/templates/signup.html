@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <link rel="stylesheet" href="{% static 'css/style.css'%}">
     <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 
@@ -16,6 +17,26 @@
         margin: 0;
         padding: 0;
     }
+    select {
+        border-radius:0; /* 아이폰 사파리 보더 없애기 */
+        -webkit-appearance:none; /* 화살표 없애기 for chrome*/
+        -moz-appearance:none; /* 화살표 없애기 for firefox*/
+        appearance:none /* 화살표 없애기 공통*/
+    }
+
+    /* input number  */
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+    -moz-appearance: textfield;
+    }
+
     .add_info_select_signup{
 		margin-bottom: 10px;
 		padding-left: 10px;
@@ -171,36 +192,42 @@
         <div class="signup-form-wrap">
             <!-- 아이디 입력 input -->
             <div class="signup-form">
-                <input type="text" class="add_info_select_signup" style="margin-top: 15px;"
-                    id="uid" name="uid" placeholder="아이디를 입력해주세요." value="">
+            <a>아이디 <strong>(필수)</strong></a>
+                <input type="text" class="add_info_select_signup" style="margin-top: 10px; margin-bottom:10px;"
+                    id="uid" name="uid" placeholder="" value="">
             </div>
             <!-- 비밀번호 입력 input -->
             <div class="signup-form">
-                <input type="password" class="add_info_select_signup"
-                    id="password" name="password" placeholder="비밀번호를 입력해주세요." value="">
+            <a>비밀번호 <strong>(필수)</strong></a>
+                <input type="password" class="add_info_select_signup" style="margin-top: 10px; margin-bottom:10px;"
+                    id="password" name="password" placeholder="" value="">
             </div>
             <!-- 비밀번호 입력2 input -->
             <div class="signup-form">
-                <input type="password" class="add_info_select_signup"
-                    id="password1" name="password1" placeholder="한번 더 비밀번호를 입력해주세요." value="">
+            <a>비밀번호 확인 <strong>(필수)</strong></a>
+                <input type="password" class="add_info_select_signup" style="margin-top: 10px; margin-bottom:10px;"
+                    id="password1" name="password1" placeholder="" value="">
             </div>
             <!-- 이름 입력 input -->
             <div class="signup-form">
-                <input type="text" class="add_info_select_signup"
-                    id="name" name="username" placeholder="이름을 입력해주세요." value="">
+            <a>이름 <strong>(필수)</strong></a>
+                <input type="text" class="add_info_select_signup" style="margin-top: 10px; margin-bottom:10px;"
+                    id="name" name="username" placeholder="" value="">
             </div>
             <!-- 성별 입력 input -->
             <div class="signup-form">
-                <select name="gender" class="add_info_select">
-                    <option value=""> 성별 </option>
+            <a>성별</a>
+                <select name="gender" class="add_info_select" style="margin-top: 10px; margin-bottom:10px;">
+                    <option value="0"> -- 선택 -- </option>
                     <option value="M"> 남자 </option>
                     <option value="F"> 여자 </option>
                 </select>
             </div>
             <!-- 직업군 입력 input -->
             <div class="signup-form">
-                <select name = job class="add_info_select">
-                    <option value="0">직업군</option>
+            <a>직업군</a>
+                <select name = job class="add_info_select" style="margin-top: 10px; margin-bottom:10px;">
+                    <option value="0"> -- 선택 -- </option>
                     <option value="1">학생</option>
                     <option value="2">직장인</option>
                     <option value="3">사업자</option>
@@ -211,29 +238,36 @@
             </div>
             <!-- 이메일 입력 input -->
             <div class="signup-form">
-                <input type="email" class="add_info_select_signup" id="email" name="email" placeholder="이메일을 입력해주세요." value="">
+            <a>이메일 <strong>(필수)</strong></a>
+                <input type="email" class="add_info_select_signup" style="margin-top: 10px; margin-bottom:10px;" id="email" name="email" placeholder="" value="">
             </div>
             <!-- 연락처 입력 input -->
             <div class="signup-form">
+            <a>전화번호 <strong>(필수)</strong></a>
                 <div style="width:100%; min-width:373px;">
-                    <input class="add_info_phone_signup" id="phonenumber" name="phonenumber" type="text" placeholder="- 를 제외하고 입력하세요">
+                    <input class="add_info_phone_signup" id="phonenumber" name="phonenumber" type="text" placeholder="- 를 제외하고 입력하세요" style="margin-top: 10px; margin-bottom:5px;">
                     <button type="button" id="codeBtn" class="phone_code_btn_signup">발송</button><br>
-                    <input id="inputCode" class="add_info_phonecode_signup" type="number" placeholder="인증번호 입력" disabled> <a id="count" class="count-signup"></a>
+                    <input id="inputCode" class="add_info_phonecode_signup" type="number" placeholder="인증번호 입력" disabled> <a id="count" class="count-signup" style="margin-top: 5px; margin-bottom:10px;"></a>
                     <button type="button" id="certBtn" onclick="certfun();" class="phone_code_btn_signup" disabled >확인</button><br>
                 </div>
             </div>
             <!-- 생년월일 입력 input -->
             <div class="signup-form">
-                <input class="add_info_select_signup" name = birthday type="integrity" id="year" maxlength="8" placeholder="생년월일을 입력해주세요. 예시)19801210">
+            <a>생년월일 <strong>(필수)</strong> </a>
+                <input class="add_info_select_signup" name = birthday type="integrity" id="year" maxlength="8" placeholder="생년월일을 입력해주세요. 예시)19801210" style="margin-top: 10px; margin-bottom:25px;">
             </div>
             <!-- 모의투자금액 입력 input -->
             <div class="signup-form">
-                <input type="number" class="add_info_select_signup" id="invest" name="invest" placeholder="모의 투자금액을 입력하세요." value="">
+            <a>모의투자 금액 </a>
+                <input type="number" class="add_info_select_signup" id="invest" name="invest" placeholder="모의 투자금액을 입력하세요." value="0" style="margin-top: 10px; margin-bottom:25px;"><br>
+                <input style="display: none;" type="date" class="add_info_select_signup" id="invest_date" name="invest_date" value="">
+
             </div>
             <!-- 핀번호 입력 input -->
             <div class="signup-form">
+            <a>핀번호 </a>
                 <input type="text" class="add_info_select_signup"
-                    id="pin" name="pin" placeholder="핀번호 입력해주세요." value="">
+                    id="pin" name="pin" placeholder="미입력시 초기 번호는 0000 입니다." value="">
             </div>
 
             <button class="btn btn-primary btn-lg btn-block" id="signupBtn" type="submit" value="signup" disabled style="width:100%">회원가입</button>
@@ -242,6 +276,32 @@
 </div><!-- 회원가입 Wrapper 끝 -->
 
 </body>
+
+<script>
+    // 투자금액 입력시 날짜도 같이 입력
+    const today = moment();
+    const date = today.format('YYYY-MM-DD');
+
+    let invest_input = document.getElementById('invest');
+    let invest_date = document.getElementById('invest_date');
+
+    invest_input.addEventListener('keyup', e=>{
+        if(!!e.target.value) {
+            $('input[name=invest_date]').attr('value',date);
+        }
+        else{
+            $('input[name=invest_date]').attr('value',"");
+        }
+    })
+
+    $( document ).ready(function() {
+        let temp_date = document.getElementById('invest').value;
+        if (temp_date == 0) {
+            $('input[name=invest_date]').attr('value',date);
+        }
+    });
+
+</script>
 
 <script>
 /* 체크버튼 동의시 회원가입 버튼 활성화 스크립트 */
@@ -339,6 +399,9 @@ document.addEventListener('keydown', function(event) {
             $('#codeBtn').attr('disabled', true);
             $('#certBtn').attr('disabled', true);
             document.querySelector("#count").style.display = "none";
+        }
+        else if(document.querySelector("#inputCode").value != KEY) {
+            alert('인증번호가 일치하지 않습니다. 다시 확인해주세요.');
         }
         else{
             alert('알수없는 오류가 발생하였습니다. 다시 진행해주세요.');
