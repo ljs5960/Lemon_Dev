@@ -4,9 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 app_name='admins'
-
 urlpatterns = [
-    path('myinfo', views.myinfo, name='myinfo'),
     path('qna', views.qna, name='qna'), # 문의하기
     path('notice', views.notice, name='notice'), # 공지사항
     path('notice/<int:pk>', views.notice_detail, name='notice_detail'), # 공지사항 상세보기
@@ -16,5 +14,6 @@ urlpatterns = [
     path('user_delete/<int:user_id>', views.user_delete, name='user_delete'), #회원탈퇴
     path('faq', views.faq, name='faq'), # FAQ
     path('faq/<int:pk>', views.faq_detail, name='faq_detail'), # FAQ 상세보기
+    path('sms_read', views.sms_read, name='sms_read'), # FAQ
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 

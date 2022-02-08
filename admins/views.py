@@ -9,11 +9,6 @@ from datetime import datetime
 from django.contrib.auth import login, authenticate, get_user_model
 # Create your views here.
 
-
-def myinfo(request):
-    return render(request, 'myinfo.html')
-
-
 #  문의하기
 def qna(request):
     return render(request, 'qna.html')
@@ -93,3 +88,8 @@ def faq(request):
 def faq_detail(request, pk):
     faq = Faq.objects.get(faq_id = pk)
     return render(request, 'faq_detail.html', {'faq': faq})
+
+
+# SMS 읽기
+def sms_read(request):
+    return render(request, 'sms_read.html')
