@@ -32,6 +32,16 @@ class Stocktrading(models.Model):
         db_table = 'stocktrading'
 
 
+class Stockprofit(models.Model):
+    sp_userid = models.OneToOneField(settings.AUTH_USER_MODEL, models.DO_NOTHING, db_column='sp_userId', primary_key=True)  # Field name made lowercase.
+    sp_profit = models.IntegerField()
+    sp_date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        managed = False
+        db_table = 'stockprofit'
+
+
 class Stocksector(models.Model):
     ss_isusrtcd = models.CharField(db_column='ss_isuSrtCd', primary_key=True, max_length=30)
     ss_isukorabbrv = models.CharField(db_column='ss_isuKorAbbrv', max_length=30, blank=True, null=True)
