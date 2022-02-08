@@ -117,12 +117,8 @@
   <form action="" method="POST">
     {% csrf_token %}
     <div class="input_design"><div class="input_title">ID</div><input type="text" value="{{ user.uid }}" disabled></div>
-<!--                    {% if socialaccount_socialaccount.provider %}-->
-<!--                      <div>{{ socialaccount_socialaccount.provider }}</div>-->
-<!--                    {% else %}-->
-<!--                      <div>일반 로그인</div>-->
-<!--                    {% endif %}-->
-   <div class="input_design"><div class="input_title">이름</div><input type="text" value="{{ user.username }}"></div>
+
+   <div class="input_design"><div class="input_title">이름</div><input name="username" type="text" value="{{ user.username }}"></div>
     <div class="input_design"><div class="input_title">성별</div>
         <select id="gender" name="gender">
         <option value="1">남</option>
@@ -130,13 +126,16 @@
       </select>
     </div>
      <div class="input_design"><div class="input_title">직업</div>
-    <select>
-      <option value="학생">학생</option>
-      <option value="백수">백수</option>
-      <option value="군인">군인</option>
+    <select id="job" name="job">
+      <option value="1" {% if user.job == 1 %} selected {% endif %}>학생</option>
+      <option value="2" {% if user.job == 2 %} selected {% endif %}>직장인</option>
+      <option value="3" {% if user.job == 3 %} selected {% endif %}>사업자</option>
+      <option value="4" {% if user.job == 4 %} selected {% endif %}>공무원</option>
+      <option value="5" {% if user.job == 5 %} selected {% endif %}>기타(프리랜서)</option>
+      <option value="6" {% if user.job == 6 %} selected {% endif %}>무직</option>
     </select></div>
-    <div class="input_design"><div class="input_title">생년월일</div><input type="date" value=""></div>
-      <div class="input_design"><div class="input_title">연락처</div><input type="tel" id="phonenumber" value="{{ user.phonenumber }}" placeholder="- 을 제외한 번호을 입력하세요" name="phonenumber" pattern="[0-9]{11}"></div>
+    <div class="input_design"><div class="input_title">생년월일</div><input type="text" name="birthday" value="{{ user.birthday }}" placeholder="예)19990102 형식으로 입력하세요." ></div>
+      <div class="input_design"><div class="input_title">연락처</div><input type="text" id="phonenumber" value="{{ user.phonenumber }}" placeholder="- 을 제외한 번호을 입력하세요" name="phonenumber" pattern="[0-9]{11}"></div>
 
       <div style="text-align:center;margin-top:35px;position:fixed;bottom:15px;width:100%;left:0px;"><button class="btn" type="submit">정보 수정</button></div>
   </form>

@@ -5,6 +5,10 @@
 {% load humanize %}
 {% load mytag %}
 <style>
+  a:active, a:visited{
+    text-decoration: none;
+    color:#8E8E8E;
+  }
   ul{
     list-style: none;
     margin:0;
@@ -132,6 +136,7 @@
   </form>    
   </div>
 
+
   <script>
     // 1. list 페이지 로딩완료시, year_atag, month_atag의 값을 변수에 저장
     $( document ).ready(function() {
@@ -203,11 +208,28 @@
       <div style="text-align: center;">
       <input class="search-date" type="date" id="start_date" min="1900-01-01" max="2099-12-31" autocomplete="off" name="start_date" value=""> ~
       <input class="search-date" type="date" id="end_date" min="1900-01-01" max="2099-12-31" autocomplete="off" name="end_date" value=""> <br>
-    <button class="search-btn" type=submit>검색</button></form> <br>
+    <button class="search-btn" onclick="check_date()" type=submit>검색</button></form> <br>
       </div>
     </div>
 
   </div>
+
+  {% for message in messages %}
+  <div class="alert-auto-dismissible">
+  <div class="alert alert-{{message.tags}}" role="alert" style="margin: 1.5rem 15px 0 15px;">
+    {{message.message}}
+  </div>
+  </div>
+    
+  {% endfor %}
+    <script>
+      /*Django Message를 통해 alert 메시지를 출력하면 4초 뒤에 메시지 사라짐*/
+      window.setTimeout(function() {
+        $(".alert-auto-dismissible").fadeTo(500, 0).slideUp(500, function(){
+            $(this).remove();
+        });
+    }, 4000);
+    </script>
 
   <div>
   <table class="list-table" id="list-table" style="background-color:#fff; border-radius:10px; margin: 15px 10px 0px 10px; padding:0 20px 60px 20px; border-collapse:separate; border-spacing:0 20px; "width="95%">
@@ -281,9 +303,11 @@
     <style>
       .list-table{display: none;}
     </style>
-    <div class="list-empty-wrap">
-      <i class="fas fa-exclamation"></i><br>
-      <a>소비내역 및 지출내역이 없습니다.</a>
+    <div class="no-top5">
+      <div class="no-history-content">
+        <img style="display:block; margin:0 auto 15px auto;" width="100" src="media/LEMON.png">
+        <b class="no-top5-text">내역이 없습니다</b>
+      </div>
     </div>
     {% endfor %}
   </tbody>
@@ -293,6 +317,11 @@
 <!--- 내역 SWIPER div영역 끝 --->
 <script>
   $(document).ready(function(){
+    function check_date(){
+    if ($("#end-date").val() > $("#start-date").val()) {
+      alert('끝나는 날짜가 앞설 수 없습니다.');
+    return false;
+  }};
     //$('.footer-selector').fadeIn(550);
       //document.getElementById('footer_calendar').src = "/media/calendar_active.png";
   });

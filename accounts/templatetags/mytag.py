@@ -33,4 +33,4 @@ def yields(value, arg):
     if arg:
         return (value - arg) * 100 / arg
     else:
-        return arg
+        return float('inf')

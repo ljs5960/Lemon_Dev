@@ -16,5 +16,9 @@ urlpatterns = [
     path('user_delete/<int:user_id>', views.user_delete, name='user_delete'), #회원탈퇴
     path('faq', views.faq, name='faq'), # FAQ
     path('faq/<int:pk>', views.faq_detail, name='faq_detail'), # FAQ 상세보기
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 

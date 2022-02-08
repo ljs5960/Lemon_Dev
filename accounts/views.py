@@ -41,6 +41,7 @@ def signup(request):
                                             email=request.POST['email'],
                                             phonenumber=request.POST['phonenumber'],
                                             invest=request.POST['invest'],
+                                            invest_date=request.POST['invest_date'],
                                             u_chk=request.POST['u_chk'],
                                             pin=request.POST['pin'],
                                             birthday=request.POST['birthday'],
