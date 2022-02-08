@@ -15,13 +15,11 @@ from storages.backends.s3boto3 import S3Boto3Storage
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = SECRET_KEY
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -160,9 +158,10 @@ if DEBUG: # For Local Server
         os.path.join(BASE_DIR,'accounts','static'), # 우리가 사용하는 css static
         os.path.join(BASE_DIR,'accounts','static','main'), # 홍보페이지 css static
     ]
-    
+
     MEDIA_URL = '/media/'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 else: # For Prod Server
     # AWS
     AWS_ACCESS_KEY_ID = AWS_KEY.get('AWS_ACCESS_KEY_ID')

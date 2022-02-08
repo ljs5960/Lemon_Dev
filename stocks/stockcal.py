@@ -7,15 +7,26 @@ class calculator:
     def __init__(self):
         pass
 
-    # 전체 투자금액
+    # 전체 매수금액
     def total_investment_amount(self, user_id):
         try:
             elements_sum = Stocktrading.objects.filter(st_userid=user_id,
                                                        st_kind='B').aggregate(
                                 sum=Sum(F('st_price') * F('st_share')))['sum']
-            return elements_sum
+            return -elements_sum
         except Exception as e:
             print('Error in total_investment_amount: \n', e)
+            return False
+
+    # 전체 매도금액
+    def total_profit_amount(self, user_id):
+        try:
+            elements_sum = Stocktrading.objects.filter(st_userid=user_id,
+                                                       st_kind='S').aggregate(
+                                sum=Sum(F('st_price') * F('st_share')))['sum']
+            return elements_sum
+        except Exception as e:
+            print('Error in total_profit_amount: \n', e)
             return False
 
     # 전체 현재가
@@ -43,7 +54,7 @@ class calculator:
             element = Stocktrading.objects.filter(st_userid=user_id,
                                                   st_kind='B').aggregate(
                 total=Sum(F('st_price') * F('st_share')), share_total=Sum('st_share'))
-            return round(element['total']/element['share_total'])
+            return round(-element['total']/element['share_total'])
         except Exception as e:
             print('Error in total_average_price: \n', e)
             return False
@@ -55,23 +66,57 @@ class calculator:
                                                        st_isusrtcd=isusrtcd,
                                                        st_kind='B').aggregate(
                 total=Sum(F('st_price') * F('st_share')), share_total=Sum('st_share'))
-            return round(stocktrading['total'] / stocktrading['share_total'])
+            return round(-stocktrading['total'] / stocktrading['share_total'])
         except Exception as e:
             print('Error in average_price: \n', e)
             return False
 
-    # 개별 남은 투자 금액
-    def total_rest_investment_amount(self, user_id, isusrtcd):
+    # 전체 사용한 투자 금액
+    def total_use_investment_amount(self, user_id):
         try:
-            rest_total = Stocktrading.objects.filter(st_userid=user_id,
-                                                     st_isusrtcd=isusrtcd).aggregate(
-                rest_total=Sum(F('st_price') * F('st_share')))['rest_total']
-            if rest_total:
-                return rest_total
+            use_total = Stocktrading.objects.filter(st_userid=user_id).aggregate(
+                use_total=Sum(F('st_price') * F('st_share')))['use_total']
+            if use_total:
+                return use_total
             else:
                 return 0
         except Exception as e:
-            print('Error in total_rest_investment_amount: \n', e)
+            print('Error in total_use_investment_amount: \n', e)
+            return False
+
+    # 개별 사용한 투자 금액
+    def use_investment_amount(self, user_id, isusrtcd):
+        try:
+            use_total = Stocktrading.objects.filter(st_userid=user_id,
+                                                    st_isusrtcd=isusrtcd).aggregate(
+                use_total=Sum(F('st_price') * F('st_share')))['use_total']
+            if use_total:
+                return use_total
+            else:
+                return 0
+        except Exception as e:
+            print('Error in use_investment_amount: \n', e)
+            return False
+
+    # 개별 주식 주
+    def get_shares(self, user_id, isusrtcd):
+        try:
+            get_buy_shares = Stocktrading.objects.filter(st_userid=user_id,
+                                                         st_isusrtcd=isusrtcd,
+                                                         st_kind='B').aggregate(
+                                    share_total=Sum('st_share'))['share_total']
+            get_sold_shares = Stocktrading.objects.filter(st_userid=user_id,
+                                                          st_isusrtcd=isusrtcd,
+                                                          st_kind='S').aggregate(
+                                    share_total=Sum('st_share'))['share_total']
+            if get_buy_shares and get_sold_shares:
+                return get_buy_shares - get_sold_shares
+            elif get_buy_shares and not get_sold_shares:
+                return get_buy_shares
+            else:
+                return 0
+        except Exception as e:
+            print('Error in get_shares: \n', e)
             return False
 
     # 주식 수익률

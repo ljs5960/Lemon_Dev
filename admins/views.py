@@ -34,7 +34,7 @@ def invest_change(request):
     user_db = user.objects.get(user_id=user_id)
     previous_date = user_db.invest_date
     now_date = datetime.now()
-    can_date = user_db.invest_date + timedelta(days=30)
+    can_date = user_db.invest_date + timedelta(days=30) if user_db.invest_date else 0000-00-00
     # try:
     #     if((previous_date.strftime('%Y %m')) == (now_date.strftime('%Y %m'))): # 당월 중복변경의 경우 myinfo로 이동
     #         return render(request, 'myinfo.html', {'message': '변경불가'})
@@ -58,6 +58,9 @@ def edit_myinfo(request):
         user_id = request.user.user_id
         user_db = user.objects.get(user_id=user_id)
         user_db.username = request.POST['username']
+        user_db.gender = request.POST['gender']
+        user_db.job = request.POST['job']
+        user_db.birthday = request.POST['birthday']
         user_db.phonenumber = request.POST['phonenumber']
         user_db.save()
         return redirect('/myinfo/update')
@@ -81,12 +84,10 @@ def user_delete(request, user_id):
     return redirect('/')
     return render(request, 'user_delete.html')
 
-
 # FAQ(자주 묻는 질문)
 def faq(request):
     faq = Faq.objects.all().order_by('-faq_id')
     return render(request, 'faq.html', {'faqs': faq})
-
 
 # FAQ 상세보기
 def faq_detail(request, pk):

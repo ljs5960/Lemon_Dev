@@ -168,12 +168,12 @@
   </ul>
 </div>
 
-<div class="swiper-slide">
+<div class="swiper-slide" id="swiper-slide">
   <!-- 카테고리 탑5 div 시작-->
    <div style="background-color:#fff; margin:20px 5% 40px 5%; padding: 10px;">
     <div style="text-align:left; font-weight: bold; font-size:16px;">
       <a style="font-weight: bold; font-size:16pt;">나의 소비 패턴</a></div>
-  <div>
+  <div id="chart_view">
   <canvas id="myChart" width="100" height="100"></canvas>
     <ol style="padding-left: 1rem !important;">
       <table border="0" style="width: 100%; margin-top:10px; border-collapse:inherit;">
@@ -256,6 +256,25 @@ onClick:function(e){
 }
 }
 });
+$(function(){
+  if (myChart.data.datasets[0].data.length == 0) {
+    const element = document.getElementById('swiper-slide');
+    element.innerHTML = '<div class="no-top5">'
+                        +'<div class="no-top5-content">'
+                        +'<img style="display:block; margin:0 auto 15px auto;" width="100" src="media/LEMON.png">'
+                        +'<b class="no-top5-text">지출 내역이 없습니다.</b>'
+                        +'<b class="no-top5-text">지출 내역을 입력해주세요.</b>'
+                        +'<button onclick="click_evt()" class="no-top5-btn">지출내역 등록</button>'
+                        +'</div>'
+                        +'</div>';
+
+    console.log('데이터가 영이야');
+  };
+});
+
+function click_evt() {
+    window.location.href = 'add_spend_calendar';
+  };
 </script>
     </div><!-- 카테고리차트 탑5 div 끝-->
   <!-- 소비 탑5 카드사 div 시작-->
@@ -425,5 +444,27 @@ onClick:function(e){
         form.submit();
     }
   </script>
+
+<script>
+window.onload=function(){
+  Chart.plugins.register({
+    afterDraw: function(chart) {
+      if (chart.data.datasets.length == 0) {
+        // no data is present
+        var ctx = chart.chart.ctx;
+        var width = chart.chart.width;
+        var height = chart.chart.height;
+        chart.clear();
+        ctx.save();
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.font = "16px normal 'Helvetica Nueue'";
+        ctx.fillText('No data to display', width / 2, height / 2);
+        ctx.restore();
+      }
+    }
+  })
+}
+</script>
 
 {% endblock container %}
