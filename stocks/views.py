@@ -59,13 +59,13 @@ def stock_info(request):
             result['total_allow_invest'] = request.user.invest - stock_cal.total_use_investment_amount(request.user.user_id)
 
             result['year_history'] = day_trdDd_matching(cal_year_history(koscom_api.get_stock_history(request.POST['marketcode'], request.POST['issuecode'],
-                                                                                                      'M', '19800101', datetime.today().strftime('%Y%m%d'), 500)))
+                                                                                                      'M', '19800101', datetime.today().strftime('%Y%m%d'), 50)))
             result['month_history'] = day_trdDd_matching(koscom_api.get_stock_history(request.POST['marketcode'], request.POST['issuecode'],
-                                                                                      'M', '19800101', datetime.today().strftime('%Y%m%d'), 500))
+                                                                                      'M', '19800101', datetime.today().strftime('%Y%m%d'), 50))
             result['week_history'] = day_trdDd_matching(koscom_api.get_stock_history(request.POST['marketcode'], request.POST['issuecode'],
-                                                                                     'W', '19800101', datetime.today().strftime('%Y%m%d'), 500))
+                                                                                     'W', '19800101', datetime.today().strftime('%Y%m%d'), 50))
             result['day_history'] = day_trdDd_matching(koscom_api.get_stock_history(request.POST['marketcode'], request.POST['issuecode'],
-                                                                                    'D', '19800101', datetime.today().strftime('%Y%m%d'), 500))
+                                                                                    'D', '19800101', datetime.today().strftime('%Y%m%d'), 50))
     return render(request, 'stock_info.html', {'result': result})
 
 
@@ -89,7 +89,7 @@ def day_trdDd_matching(history):
     try:
         for element in history:
             day_trdDd_array.append({'trdDd': element['trdDd'], 'trdPrc': element['trdPrc']})
-        return day_trdDd_array
+        return list(reversed(day_trdDd_array))
     except Exception as e:
         print('Error in day_trdDd_matching: \n', e)
         return False
