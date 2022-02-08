@@ -9,7 +9,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os, json
-from mysettings import SECRET_KEY, MY_DATABASES
+from mysettings import SECRET_KEY, MY_DATABASES, AWS_KEY
+from storages.backends.s3boto3 import S3Boto3Storage
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -20,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['52.78.138.222']
 
@@ -50,6 +51,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.naver',
     'mathfilters',
+    'storages',
 ]
 
 LOGIN_REDIRECT_URL = '/' # 로그인 후 리디렉션할 페이지
@@ -139,20 +141,6 @@ SIGNUP_REDIRECT_URL = '/signup'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-STATIC_URL = '/static/'
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'accounts', 'static'),
-)
-'''
-STATIC_DIR = [
-    os.path.join(BASE_DIR, '' 'static')
-]
-'''
-# 배포서버에서 static 파일을 모아서 관리하는 폴더명
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-
-MEDIA_ROOT = 'media/'
-MEDIA_URL = '/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -163,10 +151,44 @@ AUTH_USER_MODEL = 'accounts.user'
 CORS_ORIGIN_ALLOW_ALL = True
 #AUTHENTICATION_BACKENDS = ('accounts.models.LemonUserAuth',)
 
+
+if DEBUG: # For Local Server
+    STATIC_URL = '/static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static') # 배포서버 static
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR,'accounts','static'), # 우리가 사용하는 css static
+        os.path.join(BASE_DIR,'accounts','static','main'), # 홍보페이지 css static
+    ]
+
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+else: # For Prod Server
+    # AWS
+    AWS_ACCESS_KEY_ID = AWS_KEY.get('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = AWS_KEY.get('AWS_SECRET_ACCESS_KEY')
+    AWS_REGION = AWS_KEY.get('AWS_REGION')
+
+    # S3 Storages
+    AWS_STORAGE_BUCKET_NAME = AWS_KEY.get('AWS_STORAGE_BUCKET_NAME')
+    AWS_S3_CUSTOM_DOMAIN = AWS_KEY.get('AWS_S3_CUSTOM_DOMAIN')
+    AWS_S3_SECURE_URLS = False # https 사용 여부
+    AWS_QUERYSTRING_AUTH = False # 요청에 대한 복잡한 인증 관련 쿼리 매개 변수 허용 여부
+    AWS_S3_OBJECT_PARAMETERS = {
+        'CacheControl': 'max-age = 86400',
+    }
+    AWS_DEFAULT_ACL = 'public-read'
+    AWS_LOCATION = 'static'
+    
+    STATIC_URL = 'http://{AWS_S3_CUSTOM_DOMAIN}/static/'
+    STATICFILES_STORAGE = 'config.storages.StaticStorage'
+
+    MEDIA_URL = 'http://{AWS_S3_CUSTOM_DOMAIN}/media/'
+    DEFAULT_FILE_STORAGE = 'config.storages.MediaStorage'
+
+
 # CKEDITOR Settings
-CKEDITOR_UPLOAD_PATH = 'notices/'
-CKEDITOR_RESTRICT_BY_USER = True
-CKEDITOR_IMAGE_BACKEND = 'pillow'
+CKEDITOR_UPLOAD_PATH = 'uploads/'
 CKEDITOR_CONFIGS = {
     'default': {
         'autoParagraph': False,

@@ -16,7 +16,6 @@
     margin-right:20px;
     padding-bottom:10px;
     padding-top:20px;
-    border-bottom:1px solid #31bc8a;
     }
     .title_1{
     width:30%;
@@ -103,23 +102,45 @@
             <i class="fas fa-angle-up red"></i>
             <i class="fas fa-angle-down blue"></i>
             <i class="fas fa-minus"></i>
-                <div id="howup" style="display:inline-block;"> {{  result.curPrice|sub:result.prevddClsprc|intcomma }}</div>원
-                 <div class="percent" style="display:inline-block;">({{ result.curPrice|div:result.prevddClsprc|floatformat:2 }}%)</div>
-        <!--  종가와 현재 값이 값으면 0% 가 나와야되지 않을까요? 1% 로 나오고 있습니다. -->
+                <div id="howup" style="display:inline-block;"> {{  result.curPrice|sub:result.prevddClsprc|intcomma }}</div><div class="percent" style="display:inline-block">원</div>
+                 <div class="percent" style="display:inline-block;">({{ result.curPrice|sub:result.prevddClsprc|div:result.prevddClsprc|mul:100|floatformat:2 }}%)</div>
         </div>
         {% else %}
             상세정보가 없습니다.
         {% endif %}
-
-<br/><br/><br/>
-<div>
-    여기에 차트 나오기(양이 많을 때가 있어 console에서 확인)<br/>
-    <button onclick="get_history('{{result.marketcode}}', '{{result.isuSrtCd}}', 'D')">일봉</button>
-    <button onclick="get_history('{{result.marketcode}}', '{{result.isuSrtCd}}', 'W')">주봉</button>
-    <button onclick="get_history('{{result.marketcode}}', '{{result.isuSrtCd}}', 'M')">월봉</button>
-    <button onclick="get_history('{{result.marketcode}}', '{{result.isuSrtCd}}', 'Y')">연봉</button>
+<table style="background-color:white;height:35px;width: 100%;">
+    <tr>
+        <td style="width:25%;text-align:center;" onclick="move_page(0)">일</td>
+        <td style="width:25%;text-align:center;" onclick="move_page(1)">주</td>
+        <td style="width:25%;text-align:center;" onclick="move_page(2)">월</td>
+        <td style="width:25%;text-align:center;" onclick="move_page(3)">년</td>
+    </tr>
+</table>
+<div class="swiper">
+    <div class="swiper-scrollbar" style="top:0px;height:3px;"></div>
+    <div class="swiper-wrapper">
+        <div class="swiper-slide">
+              <div class="myChartDiv">
+              <canvas id="myChart" width="600" height="400" style="padding-top:15px;"></canvas>
+            </div>
+        </div>
+        <div class="swiper-slide">
+             <div class="myChartDiv">
+              <canvas id="myChart1" width="600" height="400"  style="padding-top:15px;"></canvas>
+            </div>
+        </div>
+        <div class="swiper-slide">
+             <div class="myChartDiv">
+              <canvas id="myChart2" width="600" height="400"  style="padding-top:15px;"></canvas>
+            </div>
+        </div>
+        <div class="swiper-slide">
+             <div class="myChartDiv">
+              <canvas id="myChart3" width="600" height="400"  style="padding-top:15px;"></canvas>
+            </div>
+        </div>
+    </div>
 </div>
-
 <div>
     <div style="padding:20px;">
         <table style="width:100%;">
@@ -154,8 +175,11 @@
         <Button onclick="fn_stocksector_update()">업종분류 업데이트</Button>
     </div>
 
-    {{ result }}
+
+
     <!-- result.history : 차트 데이터 -->
+
+
 <script>
     function sell(){
     $('.buy').hide();
@@ -170,7 +194,275 @@
     $('.buy-btn').addClass('act');
     }
 </script>
+<script>
+<!-- 일봉 차트 -->
+var ctx = document.getElementById("myChart");
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: [{% for r in result.day_history %} '{{r.trdDd}}', {% endfor %}],
+        datasets: [{
+            label: '종가',
+            data: [{% for r in result.day_history %} '{{r.trdPrc}}', {% endfor %}],
+            backgroundColor: [
+                'rgba(49, 188, 138, 0.2)',
+            ],
+            borderColor: [
+                'rgba(49, 188, 138, 0.3)',
+            ],
+        }]
+    },
+    options: {
+        legend: {
+            display: false
+        },
+        elements: {
+            point:{
+                radius: 0
+            }
+        },
+        scales: {
+            xAxes: [{
+                gridLines: {
+                    display:false
+                },
+            }],
+            yAxes: [{
+                gridLines: {
+                    color: "rgba(221, 223, 227, 0.3)"
+                    //display:false
+                },
+                ticks: {
+                    beginAtZero:false
+                }
+            }]
+        },
+        plugins: {
+            zoom: {
+                pan: {
+                    enabled: true,
+                    mode: 'xy',
+                    threshold: 5,
+                },
+                zoom:{
+                    wheel: {
+                        enable: true
+                    },
+                    pinch: {
+                        enable: true
+                    },
+                    mode: 'xy',
+                },
+                zoom: {
+                    enabled: true,
+                    mode: 'xy',
+                },
+            }
+        },
+    }
+});
 
+<!-- 주봉 차트 -->
+var ctx = document.getElementById("myChart1");
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: [{% for r in result.week_history %} '{{r.trdDd}}', {% endfor %}],
+        datasets: [{
+            label: '종가',
+            data: [{% for r in result.week_history %} '{{r.trdPrc}}', {% endfor %}],
+            backgroundColor: [
+                'rgba(49, 188, 138, 0.2)',
+            ],
+            borderColor: [
+                'rgba(49, 188, 138, 0.3)',
+            ],
+        }]
+    },
+    options: {
+        legend: {
+            display: false
+        },
+        elements: {
+            point:{
+                radius: 0
+            }
+        },
+        scales: {
+            xAxes: [{
+                gridLines: {
+                    display:false
+                },
+            }],
+            yAxes: [{
+                gridLines: {
+                    color: "rgba(221, 223, 227, 0.3)"
+                    //display:false
+                },
+                ticks: {
+                    beginAtZero:false
+                }
+            }]
+        },
+        plugins: {
+            zoom: {
+                pan: {
+                    enabled: true,
+                    mode: 'xy',
+                    threshold: 5,
+                },
+                zoom:{
+                    wheel: {
+                        enable: true
+                    },
+                    pinch: {
+                        enable: true
+                    },
+                    mode: 'xy',
+                },
+                zoom: {
+                    enabled: true,
+                    mode: 'xy',
+                },
+            }
+        },
+    }
+});
+
+<!-- 월봉 차트 -->
+var ctx = document.getElementById("myChart2");
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: [{% for r in result.month_history %} '{{r.trdDd}}', {% endfor %}],
+        datasets: [{
+            label: '종가',
+            data: [{% for r in result.month_history %} '{{r.trdPrc}}', {% endfor %}],
+            backgroundColor: [
+                'rgba(49, 188, 138, 0.2)',
+            ],
+            borderColor: [
+                'rgba(49, 188, 138, 0.3)',
+            ],
+        }]
+    },
+    options: {
+        legend: {
+            display: false
+        },
+        elements: {
+            point:{
+                radius: 0
+            }
+        },
+        scales: {
+            xAxes: [{
+                gridLines: {
+                    display:false
+                },
+            }],
+            yAxes: [{
+                gridLines: {
+                    color: "rgba(221, 223, 227, 0.3)"
+                    //display:false
+                },
+                ticks: {
+                    beginAtZero:false
+                }
+            }]
+        },
+        plugins: {
+            zoom: {
+                pan: {
+                    enabled: true,
+                    mode: 'xy',
+                    threshold: 5,
+                },
+                zoom:{
+                    wheel: {
+                        enable: true
+                    },
+                    pinch: {
+                        enable: true
+                    },
+                    mode: 'xy',
+                },
+                zoom: {
+                    enabled: true,
+                    mode: 'xy',
+                },
+            }
+        },
+    }
+});
+
+<!-- 연봉 차트 -->
+var ctx = document.getElementById("myChart3");
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: [{% for r in result.year_history %} '{{r.trdDd}}', {% endfor %}],
+        datasets: [{
+            label: '종가',
+            data: [{% for r in result.year_history %} '{{r.trdPrc}}', {% endfor %}],
+            backgroundColor: [
+                'rgba(49, 188, 138, 0.2)',
+            ],
+            borderColor: [
+                'rgba(49, 188, 138, 0.3)',
+            ],
+        }]
+    },
+    options: {
+        legend: {
+            display: false
+        },
+        elements: {
+            point:{
+                radius: 0
+            }
+        },
+        scales: {
+            xAxes: [{
+                gridLines: {
+                    display:false
+                },
+            }],
+            yAxes: [{
+                gridLines: {
+                    color: "rgba(221, 223, 227, 0.3)"
+                    //display:false
+                },
+                ticks: {
+                    beginAtZero:false
+                }
+            }]
+        },
+        plugins: {
+            zoom: {
+                pan: {
+                    enabled: true,
+                    mode: 'xy',
+                    threshold: 5,
+                },
+                zoom:{
+                    wheel: {
+                        enable: true
+                    },
+                    pinch: {
+                        enable: true
+                    },
+                    mode: 'xy',
+                },
+                zoom: {
+                    enabled: true,
+                    mode: 'xy',
+                },
+            }
+        },
+    }
+});
+</script>
 <script>
     var csrftoken = getCookie('csrftoken');
     function getCookie(cname) {
@@ -388,31 +680,74 @@
     }
 </script>
 <script>
-    $( document ).ready(function() {
-      var element = document.getElementById('howup');
-      var int = element.innerHTML;
-      var number = Number(int);
-      if (number > 0) {
-      $('.howup').addClass('red');
-      $('.percent').addClass('red');
-      $('.fa-angle-down').hide();
-      $('.fa-minus').hide();
-      }
-      else if (number === 0 ) {
-      $('.fa-angle-down').hide();
-      $('.fa-angle-up').hide();
-      }
-      else {
-      $('.howup').addClass('blue');
-      $('.percent').addClass('blue');
-      $('.fa-angle-up').hide();
-      $('.fa-minus').hide();
-      }
-    });
+// 상한가 하한가에 따른 글자색 스크립트(빨강, 파랑)
+$( document ).ready(function() {
+    var element = document.getElementById('howup');
+    var int = element.innerHTML;
+    var stockprice = int.replace(",",'')
+    var number = Number(stockprice);
+    if (number > 0) {
+    $('#howup').addClass('red');
+    $('.percent').addClass('red');
+    $('.fa-angle-down').hide();
+    $('.fa-minus').hide();
+    }
+    else if (number === 0 ) {
+    $('.fa-angle-down').hide();
+    $('.fa-angle-up').hide();
+    }
+    else {
+    $('#howup').addClass('blue');
+    $('.percent').addClass('blue');
+    $('.fa-angle-up').hide();
+    $('.fa-minus').hide();
+    }
+});
 
     function pick(id){
     alert(id);
     }
 </script>
+<link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
+<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+<script>
+    var swiper = new Swiper('.swiper', {
+  scrollbar: {
+    el: '.swiper-scrollbar',
+  },
+});
+    function move_page(index){
+    swiper.slideTo(index)
+    swiper.update();
+    }
+    function info(issuecode, marketcode) {
+        document.getElementById('issuecode').value = issuecode;
+        document.getElementById('marketcode').value = marketcode;
+        const form = document.getElementById('form');
+        form.action="/stock_info"
+        form.submit();
+    }
+    var body_height = document.documentElement.clientHeight - 555;
+    $('.swiper-wrapper').height(body_height)
+    $('.swiper').height(body_height)
+    swiper.update();
+</script>
+<Style>
+    .swiper-scrollbar-drag{
+    background:#31bc8a;
+    }
+    .swiper {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+    }
+    .swiper-slide {
+        overflow-y: scroll;
+    }
+    .myChartDiv {
+  max-width: 100%;
+  max-height: 100%;
+}
+</Style>
 {% endblock %}
 

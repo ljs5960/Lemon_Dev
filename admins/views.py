@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib import auth
 from django.urls import reverse
 from accounts.models import user
-from .models import Notice
+from .models import Notice, Faq
 from datetime import timedelta
 from datetime import datetime
 from django.contrib.auth import login, authenticate, get_user_model
@@ -29,7 +29,7 @@ def invest_change(request):
     user_db = user.objects.get(user_id=user_id)
     previous_date = user_db.invest_date
     now_date = datetime.now()
-    can_date = user_db.invest_date + timedelta(days=30)
+    can_date = user_db.invest_date + timedelta(days=30) if user_db.invest_date else 0000-00-00
     # try:
     #     if((previous_date.strftime('%Y %m')) == (now_date.strftime('%Y %m'))): # 당월 중복변경의 경우 myinfo로 이동
     #         return render(request, 'myinfo.html', {'message': '변경불가'})
@@ -78,3 +78,13 @@ def user_delete(request, user_id):
     user1.delete()
     return redirect('/')
     return render(request, 'user_delete.html')
+
+# FAQ(자주 묻는 질문)
+def faq(request):
+    faq = Faq.objects.all().order_by('-faq_id')
+    return render(request, 'faq.html', {'faqs': faq})
+
+# FAQ 상세보기
+def faq_detail(request, pk):
+    faq = Faq.objects.get(faq_id = pk)
+    return render(request, 'faq_detail.html', {'faq': faq})
