@@ -102,8 +102,6 @@
             <i class="fas fa-angle-up red"></i>
             <i class="fas fa-angle-down blue"></i>
             <i class="fas fa-minus"></i>
-                <div id="howup" style="display:inline-block;"> {{  result.curPrice|sub:result.prevddClsprc|intcomma }}</div><div class="percent" style="display:inline-block">원</div>
-                 <div class="percent" style="display:inline-block;">({{ result.curPrice|sub:result.prevddClsprc|div:result.prevddClsprc|mul:100|floatformat:2 }}%)</div>
         </div>
         {% else %}
             상세정보가 없습니다.
