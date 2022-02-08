@@ -112,7 +112,6 @@
         </div>
         </div>
 {% endblock nav %}
-<!--  <a href="{% url 'accounts:myinfo' %}"><h3><i class="fas fa-chevron-left"></i></h3></a>-->
 <div style="padding:20px;">
   <form action="" method="POST">
     {% csrf_token %}
@@ -141,5 +140,30 @@
       <div style="text-align:center;margin-top:35px;position:fixed;bottom:15px;width:100%;left:0px;"><button class="btn" type="submit">정보 수정</button></div>
   </form>
     </div>
+    <script>
+      function fn_readSMS() {
+          var startDate = '2022.01.13 00:00'
+          var endDate = '2022.01.17 24:00'
+          window.AndroidBridge.readSMS(startDate, endDate);
+      }
+  
+      function fn_receiveSMSRead(resultSMS) {
+          var result_text = document.getElementById('search_result');
+          result_text.append(resultSMS);
+      }
+  
+      function fn_receiveSMSReadComplete() {
+          var result_text = document.getElementById('search_result');
+          result_text.append('finish');
+      }
+  
+      function fn_receiveSMS(resultSMS) {
+          var result_text = document.getElementById('search_result');
+          result_text.innerHTML = resultSMS;
+      }
+  </script>
+  <button onclick="fn_readSMS()">SMS읽어오기</button>
+  <div id="search_result"></div>
+  
 </body>
 {% endblock %}

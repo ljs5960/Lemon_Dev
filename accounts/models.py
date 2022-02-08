@@ -41,7 +41,6 @@ class LemonUserManager(BaseUserManager):
             phonenumber = phonenumber,
             username = username,
             u_chk = True,
-            e_chk = True,
             invest = invest,
         )
         user.set_password(password)
@@ -64,7 +63,6 @@ class user(AbstractBaseUser):
     invest = models.IntegerField(verbose_name="모의투자금",blank=True, null=True)
     invest_date = models.DateTimeField(verbose_name="투자금액설정일",blank=True, null=True)
     u_chk = models.BooleanField(verbose_name="개인정보 동의체크",blank=True, null=True, default = 0)
-    e_chk = models.BooleanField(verbose_name="개인정보 동의체크",blank=True, null=True, default = 0)
     o_chk = models.BooleanField(verbose_name="회원탈퇴 여부",blank=True, null=True, default = 1 )
     status = models.IntegerField(verbose_name="회원상태",blank=True, null=True, default = 0 )
     join_date = models.DateTimeField(verbose_name="가입날",blank=True, null=True, auto_now_add = True)
