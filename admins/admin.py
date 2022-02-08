@@ -10,10 +10,6 @@ class NoticeAdmin(admin.ModelAdmin):
     ]
     list_per_page = 10
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 # FAQ
 @admin.action(description = "카테고리 변경 - '운영정책'")
 def edit_category_to_1(self, request, queryset):

@@ -84,24 +84,12 @@ def user_delete(request, user_id):
     return redirect('/')
     return render(request, 'user_delete.html')
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 # FAQ(자주 묻는 질문)
 def faq(request):
     faq = Faq.objects.all().order_by('-faq_id')
     return render(request, 'faq.html', {'faqs': faq})
 
-<<<<<<< HEAD
-
 # FAQ 상세보기
 def faq_detail(request, pk):
     faq = Faq.objects.get(faq_id = pk)
     return render(request, 'faq_detail.html', {'faq': faq})
-=======
-# FAQ 상세보기
-def faq_detail(request, pk):
-    faq = Faq.objects.get(faq_id = pk)
-    return render(request, 'faq_detail.html', {'faq': faq})
->>>>>>> main

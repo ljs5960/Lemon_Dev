@@ -56,21 +56,12 @@ class LemonUserManager(BaseUserManager):
 
 class user(AbstractBaseUser):
     user_id = models.AutoField(primary_key=True)
-<<<<<<< HEAD
-    username = models.CharField(max_length=30, verbose_name= "사용자이름")
-    uid = models.CharField(unique=True, max_length=30, verbose_name= "유저아이디")
-    password = models.CharField(max_length=30, )
-    email = models.CharField(unique=True, max_length=100, verbose_name= "이메일")
-    phonenumber = models.CharField(unique=True, max_length=24, blank=True, null=True,verbose_name= "전화번호")
-    invest = models.IntegerField(verbose_name="모의투자금",blank=True, null=True)
-=======
     username = models.CharField(max_length=30, db_collation='utf8_general_ci',verbose_name= "사용자이름")
     uid = models.CharField(unique=True, max_length=30, db_collation='utf8_general_ci', verbose_name= "유저아이디")
     password = models.CharField(max_length=30, db_collation='utf8_general_ci')
     email = models.CharField(unique=True, max_length=100, db_collation='utf8_general_ci', verbose_name= "이메일")
     phonenumber = models.CharField(unique=True, max_length=24, db_collation='utf8_general_ci', blank=True, null=True,verbose_name= "전화번호")
     invest = models.IntegerField(verbose_name="모의투자금",blank=True, null=True, default=0)
->>>>>>> main
     invest_date = models.DateTimeField(verbose_name="투자금액설정일",blank=True, null=True)
     u_chk = models.BooleanField(verbose_name="개인정보 동의체크",blank=True, null=True, default = 0)
     o_chk = models.BooleanField(verbose_name="회원탈퇴 여부",blank=True, null=True, default = 1 )
@@ -82,13 +73,8 @@ class user(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
-<<<<<<< HEAD
-    pin = models.IntegerField(verbose_name="pin번호", blank=True, null=True)
-    gender = models.CharField(max_length=10, verbose_name= "성별")
-=======
     pin = models.CharField(verbose_name="pin번호", blank=True, null=True, max_length=8)
     gender = models.CharField(max_length=10, db_collation='utf8_general_ci', verbose_name= "성별")
->>>>>>> main
     job = models.IntegerField(verbose_name="직업",blank=True, null=True)
     birthday = models.IntegerField(verbose_name="생년월일",blank=True, null=True)
 
