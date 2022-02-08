@@ -151,23 +151,12 @@ AUTH_USER_MODEL = 'accounts.user'
 CORS_ORIGIN_ALLOW_ALL = True
 #AUTHENTICATION_BACKENDS = ('accounts.models.LemonUserAuth',)
 
-
-# if DEBUG: # For Local Server
-#     STATIC_URL = '/static/'
-#     STATIC_ROOT = os.path.join(BASE_DIR, 'static') # 배포서버 static
-#     STATICFILES_DIRS = [
-#         os.path.join(BASE_DIR,'accounts','static'), # 우리가 사용하는 css static
-#         os.path.join(BASE_DIR,'accounts','static','main'), # 홍보페이지 css static
-#     ]
-
-#     MEDIA_URL = '/media/'
-#     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-# else: # For Prod Server
 # AWS
 AWS_ACCESS_KEY_ID = AWS_KEY.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = AWS_KEY.get('AWS_SECRET_ACCESS_KEY')
 AWS_REGION = AWS_KEY.get('AWS_REGION')
+AWS_DEFAULT_ACL = 'public-read'
+AWS_LOCATION = 'static'
 
 # S3 Storages
 AWS_STORAGE_BUCKET_NAME = AWS_KEY.get('AWS_STORAGE_BUCKET_NAME')
@@ -177,14 +166,23 @@ AWS_QUERYSTRING_AUTH = False # 요청에 대한 복잡한 인증 관련 쿼리 �
 AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age = 86400',
 }
-AWS_DEFAULT_ACL = 'public-read'
-AWS_LOCATION = 'static'
 
-STATIC_URL = 'http://{AWS_S3_CUSTOM_DOMAIN}/static/'
-STATICFILES_STORAGE = 'config.storages.StaticStorage'
-
+# Media Files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = 'http://{AWS_S3_CUSTOM_DOMAIN}/media/'
 DEFAULT_FILE_STORAGE = 'config.storages.MediaStorage'
+
+# Static Files
+STATIC_URL = 'http://{AWS_S3_CUSTOM_DOMAIN}/static/'
+STATICFILES_STORAGE = 'config.storages.StaticStorage'
+# STATIC_URL = '/static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static') # 배포서버 static
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR,'accounts','static'), # 우리가 사용하는 css static
+#     os.path.join(BASE_DIR,'accounts','static','main'), # 홍보페이지 css static
+# ]
+
 
 # CKEDITOR Settings
 CKEDITOR_UPLOAD_PATH = 'uploads/'
