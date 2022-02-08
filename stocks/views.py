@@ -89,7 +89,7 @@ def day_trdDd_matching(history):
     try:
         for element in history:
             day_trdDd_array.append({'trdDd': element['trdDd'], 'trdPrc': element['trdPrc']})
-        return day_trdDd_array
+        return list(reversed(day_trdDd_array))
     except Exception as e:
         print('Error in day_trdDd_matching: \n', e)
         return False
