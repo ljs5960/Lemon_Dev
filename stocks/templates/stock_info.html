@@ -121,22 +121,22 @@
     <div class="swiper-wrapper">
         <div class="swiper-slide">
               <div class="myChartDiv">
-              <canvas id="myChart" width="600" height="400"></canvas>
+              <canvas id="myChart" width="600" height="400" style="padding-top:15px;"></canvas>
             </div>
         </div>
         <div class="swiper-slide">
              <div class="myChartDiv">
-              <canvas id="myChart1" width="600" height="400"></canvas>
+              <canvas id="myChart1" width="600" height="400"  style="padding-top:15px;"></canvas>
             </div>
         </div>
         <div class="swiper-slide">
              <div class="myChartDiv">
-              <canvas id="myChart2" width="600" height="400"></canvas>
+              <canvas id="myChart2" width="600" height="400"  style="padding-top:15px;"></canvas>
             </div>
         </div>
         <div class="swiper-slide">
              <div class="myChartDiv">
-              <canvas id="myChart3" width="600" height="400"></canvas>
+              <canvas id="myChart3" width="600" height="400"  style="padding-top:15px;"></canvas>
             </div>
         </div>
     </div>
@@ -195,19 +195,43 @@
     }
 </script>
 <script>
-    var ctx = document.getElementById("myChart");
+<!-- 일봉 차트 -->
+var ctx = document.getElementById("myChart");
 var myChart = new Chart(ctx, {
     type: 'line',
     data: {
         labels: [{% for r in result.day_history %} '{{r.trdDd}}', {% endfor %}],
         datasets: [{
-            label: '# of Votes',
-            data: [{% for r in result.day_history %} '{{r.trdPrc}}', {% endfor %}]
+            label: '종가',
+            data: [{% for r in result.day_history %} '{{r.trdPrc}}', {% endfor %}],
+            backgroundColor: [
+                'rgba(49, 188, 138, 0.2)',
+            ],
+            borderColor: [
+                'rgba(49, 188, 138, 0.3)',
+            ],
         }]
     },
     options: {
+        legend: {
+            display: false
+        },
+        elements: {
+            point:{
+                radius: 0
+            }
+        },
         scales: {
+            xAxes: [{
+                gridLines: {
+                    display:false
+                },
+            }],
             yAxes: [{
+                gridLines: {
+                    color: "rgba(221, 223, 227, 0.3)"
+                    //display:false
+                },
                 ticks: {
                     beginAtZero:false
                 }
@@ -215,85 +239,66 @@ var myChart = new Chart(ctx, {
         },
         plugins: {
             zoom: {
-                // Container for pan options
                 pan: {
-                    // Boolean to enable panning
                     enabled: true,
-
-                    // Panning directions. Remove the appropriate direction to disable
-                    // Eg. 'y' would only allow panning in the y direction
-                    mode: 'xy'
-                },
-
-                // Container for zoom options
-                zoom: {
-                    // Boolean to enable zooming
-                    enabled: true,
-
-                    // Zooming directions. Remove the appropriate direction to disable
-                    // Eg. 'y' would only allow zooming in the y direction
                     mode: 'xy',
-                }
+                    threshold: 5,
+                },
+                zoom:{
+                    wheel: {
+                        enable: true
+                    },
+                    pinch: {
+                        enable: true
+                    },
+                    mode: 'xy',
+                },
+                zoom: {
+                    enabled: true,
+                    mode: 'xy',
+                },
             }
-        }
-    }
-});
-  var ctx = document.getElementById("myChart3");
-var myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: [{% for r in result.year_history %} '{{r.trdDd}}', {% endfor %}],
-        datasets: [{
-            label: '# of Votes',
-            data: [{% for r in result.year_historyy %} '{{r.trdPrc}}', {% endfor %}]
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:false
-                }
-            }]
         },
-        plugins: {
-            zoom: {
-                // Container for pan options
-                pan: {
-                    // Boolean to enable panning
-                    enabled: true,
-
-                    // Panning directions. Remove the appropriate direction to disable
-                    // Eg. 'y' would only allow panning in the y direction
-                    mode: 'xy'
-                },
-
-                // Container for zoom options
-                zoom: {
-                    // Boolean to enable zooming
-                    enabled: true,
-
-                    // Zooming directions. Remove the appropriate direction to disable
-                    // Eg. 'y' would only allow zooming in the y direction
-                    mode: 'xy',
-                }
-            }
-        }
     }
 });
+
+<!-- 주봉 차트 -->
 var ctx = document.getElementById("myChart1");
 var myChart = new Chart(ctx, {
     type: 'line',
     data: {
         labels: [{% for r in result.week_history %} '{{r.trdDd}}', {% endfor %}],
         datasets: [{
-            label: '# of Votes',
-            data: [{% for r in result.week_history %} '{{r.trdPrc}}', {% endfor %}]
+            label: '종가',
+            data: [{% for r in result.week_history %} '{{r.trdPrc}}', {% endfor %}],
+            backgroundColor: [
+                'rgba(49, 188, 138, 0.2)',
+            ],
+            borderColor: [
+                'rgba(49, 188, 138, 0.3)',
+            ],
         }]
     },
     options: {
+        legend: {
+            display: false
+        },
+        elements: {
+            point:{
+                radius: 0
+            }
+        },
         scales: {
+            xAxes: [{
+                gridLines: {
+                    display:false
+                },
+            }],
             yAxes: [{
+                gridLines: {
+                    color: "rgba(221, 223, 227, 0.3)"
+                    //display:false
+                },
                 ticks: {
                     beginAtZero:false
                 }
@@ -301,42 +306,66 @@ var myChart = new Chart(ctx, {
         },
         plugins: {
             zoom: {
-                // Container for pan options
                 pan: {
-                    // Boolean to enable panning
                     enabled: true,
-
-                    // Panning directions. Remove the appropriate direction to disable
-                    // Eg. 'y' would only allow panning in the y direction
-                    mode: 'xy'
-                },
-
-                // Container for zoom options
-                zoom: {
-                    // Boolean to enable zooming
-                    enabled: true,
-
-                    // Zooming directions. Remove the appropriate direction to disable
-                    // Eg. 'y' would only allow zooming in the y direction
                     mode: 'xy',
-                }
+                    threshold: 5,
+                },
+                zoom:{
+                    wheel: {
+                        enable: true
+                    },
+                    pinch: {
+                        enable: true
+                    },
+                    mode: 'xy',
+                },
+                zoom: {
+                    enabled: true,
+                    mode: 'xy',
+                },
             }
-        }
+        },
     }
 });
-  var ctx = document.getElementById("myChart2");
+
+<!-- 월봉 차트 -->
+var ctx = document.getElementById("myChart2");
 var myChart = new Chart(ctx, {
     type: 'line',
     data: {
         labels: [{% for r in result.month_history %} '{{r.trdDd}}', {% endfor %}],
         datasets: [{
-            label: '# of Votes',
-            data: [{% for r in result.month_history %} '{{r.trdPrc}}', {% endfor %}]
+            label: '종가',
+            data: [{% for r in result.month_history %} '{{r.trdPrc}}', {% endfor %}],
+            backgroundColor: [
+                'rgba(49, 188, 138, 0.2)',
+            ],
+            borderColor: [
+                'rgba(49, 188, 138, 0.3)',
+            ],
         }]
     },
     options: {
+        legend: {
+            display: false
+        },
+        elements: {
+            point:{
+                radius: 0
+            }
+        },
         scales: {
+            xAxes: [{
+                gridLines: {
+                    display:false
+                },
+            }],
             yAxes: [{
+                gridLines: {
+                    color: "rgba(221, 223, 227, 0.3)"
+                    //display:false
+                },
                 ticks: {
                     beginAtZero:false
                 }
@@ -344,27 +373,93 @@ var myChart = new Chart(ctx, {
         },
         plugins: {
             zoom: {
-                // Container for pan options
                 pan: {
-                    // Boolean to enable panning
                     enabled: true,
-
-                    // Panning directions. Remove the appropriate direction to disable
-                    // Eg. 'y' would only allow panning in the y direction
-                    mode: 'xy'
-                },
-
-                // Container for zoom options
-                zoom: {
-                    // Boolean to enable zooming
-                    enabled: true,
-
-                    // Zooming directions. Remove the appropriate direction to disable
-                    // Eg. 'y' would only allow zooming in the y direction
                     mode: 'xy',
-                }
+                    threshold: 5,
+                },
+                zoom:{
+                    wheel: {
+                        enable: true
+                    },
+                    pinch: {
+                        enable: true
+                    },
+                    mode: 'xy',
+                },
+                zoom: {
+                    enabled: true,
+                    mode: 'xy',
+                },
             }
-        }
+        },
+    }
+});
+
+<!-- 연봉 차트 -->
+var ctx = document.getElementById("myChart3");
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: [{% for r in result.year_history %} '{{r.trdDd}}', {% endfor %}],
+        datasets: [{
+            label: '종가',
+            data: [{% for r in result.year_history %} '{{r.trdPrc}}', {% endfor %}],
+            backgroundColor: [
+                'rgba(49, 188, 138, 0.2)',
+            ],
+            borderColor: [
+                'rgba(49, 188, 138, 0.3)',
+            ],
+        }]
+    },
+    options: {
+        legend: {
+            display: false
+        },
+        elements: {
+            point:{
+                radius: 0
+            }
+        },
+        scales: {
+            xAxes: [{
+                gridLines: {
+                    display:false
+                },
+            }],
+            yAxes: [{
+                gridLines: {
+                    color: "rgba(221, 223, 227, 0.3)"
+                    //display:false
+                },
+                ticks: {
+                    beginAtZero:false
+                }
+            }]
+        },
+        plugins: {
+            zoom: {
+                pan: {
+                    enabled: true,
+                    mode: 'xy',
+                    threshold: 5,
+                },
+                zoom:{
+                    wheel: {
+                        enable: true
+                    },
+                    pinch: {
+                        enable: true
+                    },
+                    mode: 'xy',
+                },
+                zoom: {
+                    enabled: true,
+                    mode: 'xy',
+                },
+            }
+        },
     }
 });
 </script>
@@ -585,27 +680,29 @@ var myChart = new Chart(ctx, {
     }
 </script>
 <script>
-    $( document ).ready(function() {
-      var element = document.getElementById('howup');
-      var int = element.innerHTML;
-      var number = Number(int);
-      if (number > 0) {
-      $('#howup').addClass('red');
-      $('.percent').addClass('red');
-      $('.fa-angle-down').hide();
-      $('.fa-minus').hide();
-      }
-      else if (number === 0 ) {
-      $('.fa-angle-down').hide();
-      $('.fa-angle-up').hide();
-      }
-      else {
-      $('#howup').addClass('blue');
-      $('.percent').addClass('blue');
-      $('.fa-angle-up').hide();
-      $('.fa-minus').hide();
-      }
-    });
+// 상한가 하한가에 따른 글자색 스크립트(빨강, 파랑)
+$( document ).ready(function() {
+    var element = document.getElementById('howup');
+    var int = element.innerHTML;
+    var stockprice = int.replace(",",'')
+    var number = Number(stockprice);
+    if (number > 0) {
+    $('#howup').addClass('red');
+    $('.percent').addClass('red');
+    $('.fa-angle-down').hide();
+    $('.fa-minus').hide();
+    }
+    else if (number === 0 ) {
+    $('.fa-angle-down').hide();
+    $('.fa-angle-up').hide();
+    }
+    else {
+    $('#howup').addClass('blue');
+    $('.percent').addClass('blue');
+    $('.fa-angle-up').hide();
+    $('.fa-minus').hide();
+    }
+});
 
     function pick(id){
     alert(id);
