@@ -289,9 +289,9 @@ document.addEventListener('keydown', function(event) {
             },
             type: 'doughnut',
             data: {
-                labels: ['모의투자금액','가계부지출','가계부수입','주식수입'],
+                labels: ['모의투자금액','주식수입','가계부지출','가계부수입'],
                 datasets: [{
-                    label: ['모의투자금액','가계부지출','가계부수입','주식수입'],
+                    label: ['모의투자금액','주식수입','가계부지출','가계부수입'],
                     data: {{ Home_chartjs_data }},
                     backgroundColor: [
                         '#4c8ae5',
@@ -311,7 +311,7 @@ document.addEventListener('keydown', function(event) {
                 }]
             },
             options: {
-                legend: { display: false },
+                legend: { display: true },
                 rotation: 1 * Math.PI,
                 circumference: 1 * Math.PI,
                 cutoutPercentage: 90,
@@ -340,7 +340,7 @@ document.addEventListener('keydown', function(event) {
                 },
             },
             },
-            
+
         },
         });
         </script>
@@ -393,7 +393,7 @@ document.addEventListener('keydown', function(event) {
                     <strong><a>지출</a></strong><a>{{Expenditure.amount__sum|default_if_none:'0'|intcomma}}원</a>
                     </div>
                     <div class="home-property-content">
-                    <strong><a>수입</a></strong><a>얼마원</a>
+                    <strong><a>수입</a></strong><a>{{income_sum_value|default_if_none:'0'|intcomma}}원</a>
                     </div>
                     <div class="home-property-content">
                     <strong><a>투자</a></strong><a>{{Total_investment_amount|default_if_none:'0'|intcomma}}원</a>
