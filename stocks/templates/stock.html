@@ -53,11 +53,6 @@
     <div class="swiper-wrapper">
         <div class="swiper-slide">
             <div class="stock">
-<!--                <div>-->
-<!--                    &lt;!&ndash;    <b class="refresh" onclick="fn_koscom_history()"><i class="fa fa-refresh" aria-hidden="true"></i></b>&ndash;&gt;-->
-<!--                    <strong>{{user.username}}</strong>님의<br>-->
-<!--                    <strong>보유 주식</strong>-->
-<!--                </div>-->
                 <div style="padding-top:20px;margin-bottom:20px;">
                     {% for ele in stock_data %}
                     <div class="stocks" onclick="info('{{ele.3}}','{{ele.4}}')">

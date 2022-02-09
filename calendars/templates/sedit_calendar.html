@@ -308,7 +308,7 @@
         </div>
 
         <div style="display:flex;text-align:center; margin-top:15px;justify-content: space-between;">
-            <input class="delBtn"  type = "submit" value = "내역삭제">
+
             <div type="button" class="addBtn" value="spendbtn" onclick="submit()" style="line-height:37px;"/>수정</div>
         </div>
         
@@ -326,6 +326,10 @@
         </script>
           
     </form>
+         <form action = "{% url 'calendars:delete_shistory' i.spend_id %}" method="POST">
+            {% csrf_token %}
+          <input class="delBtn"  type = "submit" value = " 제거 ">
+        </form>
     {% endfor %}
     </div>
 </div>

@@ -4,6 +4,7 @@ from django.shortcuts import render
 import json
 from django.http import JsonResponse
 from datetime import datetime
+from django.db import transaction
 from . import kocom
 from . import stockcal as cal
 from .models import *
@@ -59,13 +60,13 @@ def stock_info(request):
             result['total_allow_invest'] = request.user.invest - stock_cal.total_use_investment_amount(request.user.user_id)
 
             result['year_history'] = day_trdDd_matching(cal_year_history(koscom_api.get_stock_history(request.POST['marketcode'], request.POST['issuecode'],
-                                                                                                      'M', '19800101', datetime.today().strftime('%Y%m%d'), 500)))
+                                                                                                      'M', '19800101', datetime.today().strftime('%Y%m%d'), 50)))
             result['month_history'] = day_trdDd_matching(koscom_api.get_stock_history(request.POST['marketcode'], request.POST['issuecode'],
-                                                                                      'M', '19800101', datetime.today().strftime('%Y%m%d'), 500))
+                                                                                      'M', '19800101', datetime.today().strftime('%Y%m%d'), 50))
             result['week_history'] = day_trdDd_matching(koscom_api.get_stock_history(request.POST['marketcode'], request.POST['issuecode'],
-                                                                                     'W', '19800101', datetime.today().strftime('%Y%m%d'), 500))
+                                                                                     'W', '19800101', datetime.today().strftime('%Y%m%d'), 50))
             result['day_history'] = day_trdDd_matching(koscom_api.get_stock_history(request.POST['marketcode'], request.POST['issuecode'],
-                                                                                    'D', '19800101', datetime.today().strftime('%Y%m%d'), 500))
+                                                                                    'D', '19800101', datetime.today().strftime('%Y%m%d'), 50))
     return render(request, 'stock_info.html', {'result': result})
 
 
@@ -89,7 +90,7 @@ def day_trdDd_matching(history):
     try:
         for element in history:
             day_trdDd_array.append({'trdDd': element['trdDd'], 'trdPrc': element['trdPrc']})
-        return day_trdDd_array
+        return list(reversed(day_trdDd_array))
     except Exception as e:
         print('Error in day_trdDd_matching: \n', e)
         return False
@@ -183,6 +184,7 @@ def stocktrading_insert(user_id, data, master, kind):
     try:
         if kind == 'B':
             data['current_price'] = -int(data['current_price'])
+        print(transaction.savepoint())
         Stocktrading(
             st_userid=acc_models.user.objects.get(user_id=user_id),
             st_isusrtcd=master['isuSrtCd'],
@@ -190,9 +192,31 @@ def stocktrading_insert(user_id, data, master, kind):
             st_share=data['share'],
             st_price=data['current_price']
         ).save()
+        stock_profit_input(user_id, int(data['current_price']))
         return True
     except Exception as e:
         print('Error in stocktrading_insert: \n', e)
+        return False
+
+
+def stock_profit_input(user_id, price):
+    try:
+        stockprofit_check = Stockprofit.objects.filter(sp_userid=user_id).exists()
+        if not stockprofit_check:
+            print(f'Insert: {user_id}, {price}')
+            Stockprofit(
+                sp_userid=user_id,
+                sp_profit=price,
+            ).save()
+        else:
+            print(f'Update: {user_id}, {price}')
+            stockprofit_objects = Stockprofit.objects.get(sp_userid=user_id)
+            stockprofit_objects.sp_userid = acc_models.user.objects.get(user_id=user_id)
+            stockprofit_objects.sp_profit += price
+            stockprofit_objects.save()
+        return True
+    except Exception as e:
+        print('Error in stock_profit_input: \n', e)
         return False
 
 
