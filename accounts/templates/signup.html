@@ -269,8 +269,8 @@
             <!-- 핀번호 입력 input -->
             <div class="signup-form">
             <a>핀번호 </a>
-                <input type="number" class="add_info_select_signup"
-                    id="pin" name="pin" placeholder="미입력시 초기 번호는 0000 입니다." value="">
+                 <input type="password" pattern="[0-9]*" inputmode="numeric" name="pin" maxlength='4' class="add_info_select_signup"
+                    id="pin" placeholder="미입력시 초기 번호는 0000 입니다." value=""/>
             </div>
 
             <button class="btn btn-primary btn-lg btn-block" id="signupBtn" type="submit" value="signup" disabled style="width:100%">회원가입</button>

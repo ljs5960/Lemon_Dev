@@ -42,7 +42,6 @@ def home(request):
             invest=request.POST['invest'],
         )
         return redirect('/')
-
     invest = request.user.invest
     user = request.user.user_id
     now = datetime.datetime.now()
@@ -63,11 +62,15 @@ def home(request):
     income_sum_value = list(income_sum.values())
     stock_cal = cal.calculator()
     total_investment_amount = stock_cal.total_investment_amount(request.user.user_id)
-    print( income_sum_value)
-    total_current_price = stock_cal.total_current_price(request.user.user_id)
     total_use_investment_amount = stock_cal.total_use_investment_amount(request.user.user_id)
+    #son = total_current_price + total_use_investment_amount
+    total_current_price = stock_cal.total_current_price(request.user.user_id)
+    if total_current_price is None:
+        total_current_price = 0
+    else:
+        total_current_price = total_current_price
     son = total_current_price + total_use_investment_amount
-
+    print(total_current_price)
     home_chartjs_data = [invest, son]
     print( home_chartjs_data)
     for spend_sum_value in spend_sum_value:
@@ -80,11 +83,8 @@ def home(request):
             home_chartjs_data.append(0)
         else:
             home_chartjs_data.append(income_sum_value)
-
-
-
     return render(request, 'home.html', {'month': month, 'Expenditure': spend_sum, 'Income': income_sum, 'income_sum_value':income_sum_value,
-                                         'Home_chartjs_data': home_chartjs_data, 'Total_investment_amount':total_investment_amount, 'total_current_price':total_current_price, 'son':son})
+                                         'Home_chartjs_data': home_chartjs_data, 'Total_investment_amount':total_investment_amount, 'son':son})
 
 
 def recom(request):
