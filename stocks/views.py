@@ -10,6 +10,7 @@ from . import stockcal as cal
 from .models import *
 from accounts import models as acc_models
 from stocks.models import Stocksector
+from django.db.models import Sum, Count
 
 
 def search_stock(request):
@@ -270,3 +271,73 @@ def get_history(request):
                                                data['trnsmCycleTpCd'], data['inqStrtDd'],
                                                data['inqEndDd'], data['reqCnt'])
     return JsonResponse({'result': result}, content_type='application/json')
+def top2(request):
+    st =  Stockheld.objects.filter(sh_userid=request.user.user_id).values('sh_idxindmidclsscd').annotate(count=Count('sh_idxindmidclsscd')).order_by('-count')[:3]
+    st2 = list(st.values('sh_idxindmidclsscd'))
+
+    st3 = st2[0:3]
+    print(st2)
+    print(st3)
+
+    st3_arr = []
+    for i in st3:
+        #print(i['sh_idxindmidclsscd'])
+        st3_arr.append(i['sh_idxindmidclsscd'])
+
+    print(st3_arr)
+
+    st4 = TotalMerge.objects.filter(category__in = st3_arr[0:3]).values("id","market_code","name","cetegory") # id = issuecode pbr,per
+
+    # st5 = []
+    #
+    # for element in st4:
+    #     ROA = element['per']/element['pbr']
+    #     st5.append([ROA,element['cetegory'],element['name']
+    #     ])
+    # print(current_price)
+
+
+    #st4_json = serializers.serialize('json', st4)
+    # print('-------------------------------------------------------')
+    # print(st4)
+    # print(list(st4))
+    # #print(st4_json)
+    # st4_json = json.dumps(list(st4))
+    # st4 = TotalMerge.objects.filter(category__in = st3_arr[0:3]).values("id","market_code","name","cetegory").annotate(
+    # ROA='pbr'/'per', FloatField()).order_by('ROA')
+
+
+    st5 = TotalMerge.objects.order_by('name').values('name').annotate(
+    count=Cast(Count('name') / 2.0, FloatField()))
+    '''
+    st4 = TotalMerge.objects.filter(category__in = st3_arr[0:1]).values("id","market_code") # id = issuecode
+    print('-------------------------------------------------------')
+    a = list(st4.values('id'))
+
+    print(a.replace("[","").replace("]",""))
+    '''
+    #marketcode = st4.values('id')[:1]
+    #marketcode = list(st4.values('id')[:1])
+    #marketcode = marketcode['id']
+    # marketcode1 = marketcode.values("id")
+    #print(marketcode)
+
+    # issuecode = list(st4.values("market_code")[:1])
+    # data1 = json.dumps(marketcode)
+    # data2 = json.dumps(issuecode)
+
+    # st5 = st4.market_code
+    #print(marketcode)
+    #print(st6)
+    #result = False
+    # stock_mas = kocom.api().get_stock_master(marketcode, issuecode)
+    # # stockheld_check = Stockheld.objects.filter(sh_userid=request.user.user_id,
+    # #                                            sh_isusrtcd=stock_master['isuSrtCd']).exists()
+    # #
+    # # result = kocom.api().get_stock_master(['data1'],['data2'])
+    # print(stock_mas)
+    # result_per = result['per']
+    # result_pbr = result['pbr']
+    # result_roa = result_per/result_pbr
+
+    return render(request, 'top2.html', {'st2':st4})

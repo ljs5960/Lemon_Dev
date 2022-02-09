@@ -1,7 +1,18 @@
 from django.db import models
 from django.conf import settings
 
+class TotalMerge(models.Model):
+    id = models.CharField(db_column='id', primary_key=True,max_length=30)
+    name = models.CharField(db_column='name', max_length=30)
+    market_code = models.CharField(db_column='market_code', max_length=30, blank=True, null=True)
+    category = models.IntegerField(db_column='category')
+    ss_haltyn = models.CharField(db_column='ss_haltYN', max_length=5)
+    logo = models.CharField(db_column='logo', max_length=20)
+    date = models.DateTimeField(db_column='date',auto_now_add=True)
 
+    class Meta:
+        managed = False
+        db_table = 'TotalMerge'
 # Create your models here.
 class Stockheld(models.Model):
     sh_id = models.AutoField(db_column='sh_Id', primary_key=True)
