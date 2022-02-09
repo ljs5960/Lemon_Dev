@@ -149,7 +149,7 @@
     }
     .input_textarea{
         width: 230px;
-                height:150px;
+        height:150px;
         overflow:visible;
         font-size: 15px;
         font-family: 'Noto Sans KR', sans-serif;
@@ -171,30 +171,33 @@
         -webkit-user-select: auto;
         -ms-user-select: auto;
         user-select: auto;
-
+    }
+    .btn-wrap{
+        padding-top: 30px;
+        margin: 0 auto;
     }
     .addBtn{
+        float: left;
         border: 1px solid transparent;
         border-radius: 10px;
-        width: 50%;
+        width: 45%;
         height: 40px;
         font-weight: bold;
         font-size: 18px;
         color: #fff;
         background: #31bc8a;
-        margin-left:5px;
+        margin-right:33px;
     }
     .delBtn{
-        margin-right:5px;
+        
         border: 1px solid #FC615D;
         border-radius: 10px;
-        width: 50%;
+        width: 45%;
         height: 40px;
         font-weight: bold;
         font-size: 1rem;
         color: #FC615D;
         background: #FFF;  /* Chrome 10-25, Safari 5.1-6 */
-
     }
     @media screen and (max-width: 420px) {
         .span_table a{
@@ -239,7 +242,6 @@
                     <th width="200" height="60"><a class="span_list_title">금액</a></th>
                     <th width="240" style="text-align: end;"><input class="input_span" type="number" name="amount" pattern="\\d*" value="{{i.amount}}"></th>
                 </tr>
-<!--          -->
                 <tr> <!-- 행선언 -->
                     <th width="200" height="60"><a class="span_list_title">날짜</a></th>
                     <th width="240" style="text-align: end;"><input class="input_span" type="date" id="datepicker3" min="1900-01-01" max="2099-12-31" autocomplete="off" name="spend_date" value="{{i.spend_date|date:'Y-m-d'}}"></th>
@@ -307,29 +309,37 @@
             </table>
         </div>
 
-        <div style="display:flex;text-align:center; margin-top:15px;justify-content: space-between;">
-
-            <div type="button" class="addBtn" value="spendbtn" onclick="submit()" style="line-height:37px;"/>수정</div>
-        </div>
-        
-        <script>
-            function submit(){
-            var str = $('#where').val();
-            var stockcode = str.slice(-6);
-            var stockname = str.replace(":"+stockcode,"");
-            document.getElementById('place').value = stockname;
-            document.getElementById('stock').value = stockcode;
-            const form = document.getElementById('seidt_form');
-            form.action="{%url 'calendars:sedit_calendar' i.spend_id %}"
-            form.submit();
-            }
-        </script>
-          
-    </form>
-         <form action = "{% url 'calendars:delete_shistory' i.spend_id %}" method="POST">
+        <!-- 수정 버튼 div 시작 -->
+        <div class="btn-wrap">
+            <button class="addBtn" onclick="update_btn();" style="line-height:37px;">수정</button>
+            <script>
+                // 수정버튼 클릭시 소비처에 입력된, 종목명, 종목코드 분류후 form으로 전달
+                function update_btn(){
+                var str = $('#where').val();
+                var stockcode = str.slice(-6);
+                var stockname = str.replace(":"+stockcode,"");
+                document.getElementById('place').value = stockname;
+                document.getElementById('stock').value = stockcode;
+                const form = document.getElementById('seidt_form');
+                form.action="{%url 'calendars:sedit_calendar' i.spend_id %}"
+                form.submit();
+                }
+            </script>
+    </form><!-- 지출내역 수정하기 form 태그 끝 -->
+        <!-- 지출내역 삭제하기 form 태그 -->
+         <form id="del_form" action = "{% url 'calendars:delete_shistory' i.spend_id %}" method="POST">
             {% csrf_token %}
-          <input class="delBtn"  type = "submit" value = " 제거 ">
+          <button class="delBtn" onclick="del_btn();">삭제</button>
+            <script>
+                function del_btn() {
+                    const form2 = document.getElementById('del_form');
+                    form.action = "{% url 'calendars:delete_shistory' i.spend_id %}"
+                    form.submit();
+                }
+            </script>
         </form>
+        <!-- 지출내역 삭제하기 form 태그 끝 -->
+    </div><!-- 수정 버튼 div 끝 -->
     {% endfor %}
     </div>
 </div>
@@ -365,30 +375,25 @@
         $("#numcomma").bind('keyup keydown',function(){
             inputNumberFormat(this);
         });
-
         //입력한 문자열 전달
         function inputNumberFormat(obj) {
             obj.value = comma(uncomma(obj.value));
         }
-
         //콤마찍기
         function comma(str) {
             str = String(str);
             return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
         }
-
         //콤마풀기
         function uncomma(str) {
             str = String(str);
             return str.replace(/[^\d]+/g, '');
         }
-
         //숫자만 리턴(저장할때)
         //alert(cf_getNumberOnly('1,2./3g')); -> 123 return
         function cf_getNumberOnly (str) {
             var len      = str.length;
             var sReturn  = "";
-
             for (var i=0; i<len; i++){
                 if ( (str.charAt(i) >= "0") && (str.charAt(i) <= "9") ){
                     sReturn += str.charAt(i);

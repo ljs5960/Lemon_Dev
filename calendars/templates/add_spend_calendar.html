@@ -232,7 +232,7 @@
 </style>
 
 <div class="addEvent-wrap">
-    <form id="spend_form" action="{%url 'calendars:add_spend_calendar' %}" method="POST">
+    <form id="spend_form" action="{%url 'calendars:add_spend_calendar' %}" method="POST" id="add_form">
         {% csrf_token %}
     <div class="span_div" id="span_div">
         <div class="span_list">
