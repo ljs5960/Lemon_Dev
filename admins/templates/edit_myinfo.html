@@ -139,7 +139,7 @@
       <option value="5" {% if user.job == 5 %} selected {% endif %}>기타(프리랜서)</option>
       <option value="6" {% if user.job == 6 %} selected {% endif %}>무직</option>
     </select></div>
-    <div class="input_design"><div class="input_title">생년월일</div><input type="text" name="birthday" value="{{ user.birthday }}" placeholder="예)19990102 형식으로 입력하세요." ></div>
+    <div class="input_design"><div class="input_title">생년월일</div><input type="date" name="birthday" value="{{ user.birthday }}" disabled></div>
       <div class="input_design"><div class="input_title">연락처</div><input type="text" id="phonenumber" value="{{ user.phonenumber }}" placeholder="- 을 제외한 번호을 입력하세요" name="phonenumber" pattern="[0-9]{11}"></div>
 
       <div style="text-align:center;margin-top:35px;position:fixed;bottom:15px;width:100%;left:0px;"><button class="btn" type="submit">정보 수정</button></div>
