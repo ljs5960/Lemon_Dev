@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load humanize %}
-
+{% load mytag %}
 {% block title %}레몬::홈{% endblock title %}
 {% block container %}
 <style>
@@ -373,7 +373,7 @@ document.addEventListener('keydown', function(event) {
         </div>
 
         <div class="home-stock-input2">
-            <a>{{son|intcomma}}원</a>
+            <a>{{son|intcomma}}원({{total_current_price|yields:Total_investment_amount|rounds:2}}%)</a>
         </div>
 
 

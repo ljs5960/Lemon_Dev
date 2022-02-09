@@ -19,9 +19,15 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .socialviews import KakaoSignInView, KakaoSignInCallbackView
+from allauth.account.views import PasswordChangeView
 
+
+
+
+def p_change(request, username):
+    
+    return render(request, 'p_change.html')
 URL_LOGIN = '/login'
-
 def main(request):
     return render(request, 'main.html')
 
@@ -50,4 +56,3 @@ def signup(request):
             return redirect('/')
         return render(request, 'signup.html')
     return render(request, 'signup.html')
-

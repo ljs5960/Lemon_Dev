@@ -1,0 +1,16 @@
+
+<form class="validation-form" method="POST" action="{% url 'accounts:p_change' %}" id="signup-form">
+  {% csrf_token %}
+<div class="">
+<a>비밀번호 <strong>(필수)</strong></a>
+    <input type="password" class="" style="margin-top: 10px; margin-bottom:10px;"
+        id="password1" name="password1" placeholder="" value="">
+</div>
+<!-- 비밀번호 입력2 input -->
+<div class="s">
+<a>비밀번호 확인 <strong>(필수)</strong></a>
+    <input type="password" class="" style="margin-top: 10px; margin-bottom:10px;"
+        id="password2" name="password2" placeholder="" value="">
+</div>
+<input class=""  type = "submit">
+  </form>

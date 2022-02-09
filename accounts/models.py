@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.utils import timezone
-
+from datetime import datetime
 # Create your models here.
 class LemonUserManager(BaseUserManager):
     def create_user(self,uid, pin, gender, job, birthday, email, username,u_chk,  invest, invest_date, phonenumber, password=None):
@@ -35,6 +35,10 @@ class LemonUserManager(BaseUserManager):
         user.save(using=self._db)
         if user.pin == '':
             user.pin = '0000'
+        if user.invest == 0:
+            user.invest_date = '1'
+        else:
+            user.invest_date = datetime.now()
         return user
 
     def create_superuser(self,uid, email,username, phonenumber, password=None):
@@ -46,7 +50,7 @@ class LemonUserManager(BaseUserManager):
             u_chk = True,
         )
         user.set_password(password)
-    
+
         user.is_admin = True
         user.is_active = True
         user.is_superuser = True
@@ -63,13 +67,13 @@ class user(AbstractBaseUser):
     email = models.CharField(unique=True, max_length=100, db_collation='utf8_general_ci', verbose_name= "이메일")
     phonenumber = models.CharField(unique=True, max_length=24, db_collation='utf8_general_ci', blank=True, null=True,verbose_name= "전화번호")
     invest = models.IntegerField(verbose_name="모의투자금",blank=True, null=True, default=0)
-    invest_date = models.DateTimeField(verbose_name="투자금액설정일",blank=True, null=True)
+    invest_date = models.DateTimeField(verbose_name="투자금액설정일",blank=True, null=True , auto_now_add = True)
     u_chk = models.BooleanField(verbose_name="개인정보 동의체크",blank=True, null=True, default = 0)
     o_chk = models.BooleanField(verbose_name="회원탈퇴 여부",blank=True, null=True, default = 1 )
     status = models.IntegerField(verbose_name="회원상태",blank=True, null=True, default = 0 )
-    join_date = models.DateTimeField(verbose_name="가입날",blank=True, null=True, auto_now_add = True)
+    join_date = models.DateTimeField(verbose_name="가입날",blank=True, null=True , auto_now_add = True)
     balance = models.IntegerField(verbose_name="잔고",blank=True, null=True)
-    last_login = models.DateTimeField(verbose_name= "최근 로그인 날짜",blank=True, null=True)
+    last_login = models.DateTimeField(verbose_name= "최근 로그인 날짜",blank=True, null=True )
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)

@@ -245,7 +245,7 @@
             <div class="signup-form">
             <a>전화번호 <strong>(필수)</strong></a>
                 <div style="width:100%; min-width:373px;">
-                    <input class="add_info_phone_signup" id="phonenumber" name="phonenumber" type="text" placeholder="- 를 제외하고 입력하세요" style="margin-top: 10px; margin-bottom:5px;">
+                    <input class="add_info_phone_signup" id="phonenumber" name="phonenumber" type="number" placeholder="- 를 제외하고 입력하세요" style="margin-top: 10px; margin-bottom:5px;">
                     <button type="button" id="codeBtn" class="phone_code_btn_signup">발송</button><br>
                     <input id="inputCode" class="add_info_phonecode_signup" type="number" placeholder="인증번호 입력" disabled> <a id="count" class="count-signup" style="margin-top: 5px; margin-bottom:10px;"></a>
                     <button type="button" id="certBtn" onclick="certfun();" class="phone_code_btn_signup" disabled >확인</button><br>
@@ -277,31 +277,7 @@
 
 </body>
 
-<script>
-    // 투자금액 입력시 날짜도 같이 입력
-    const today = moment();
-    const date = today.format('YYYY-MM-DD');
 
-    let invest_input = document.getElementById('invest');
-    let invest_date = document.getElementById('invest_date');
-
-    invest_input.addEventListener('keyup', e=>{
-        if(!!e.target.value) {
-            $('input[name=invest_date]').attr('value',date);
-        }
-        else{
-            $('input[name=invest_date]').attr('value',"");
-        }
-    })
-
-    $( document ).ready(function() {
-        let temp_date = document.getElementById('invest').value;
-        if (temp_date == 0) {
-            $('input[name=invest_date]').attr('value',date);
-        }
-    });
-
-</script>
 
 <script>
 /* 체크버튼 동의시 회원가입 버튼 활성화 스크립트 */
