@@ -135,14 +135,16 @@ def buy_stock(request):
         stock_master = kocom.api().get_stock_master(data['marketcode'], data['issuecode'])
         stockheld_check = Stockheld.objects.filter(sh_userid=request.user.user_id,
                                                    sh_isusrtcd=stock_master['isuSrtCd']).exists()
-        if stock_master and not stockheld_check:
-            if stockheld_insert(request.user.user_id, data, stock_master):
-                result = stocktrading_insert(request.user.user_id, data, stock_master, 'B')
-        elif stock_master and stockheld_check:
-            result = stocktrading_insert(request.user.user_id, data, stock_master, 'B')
-        elif not stock_master and stockheld_check:
-            result = False
-        elif not stock_master and not stockheld_check:
+        try:
+            with transaction.atomic():
+                if stock_master and not stockheld_check:
+                    if stockheld_insert(request.user.user_id, data, stock_master):
+                        stocktrading_insert(request.user.user_id, data, stock_master, 'B')
+                elif stock_master and stockheld_check:
+                    stocktrading_insert(request.user.user_id, data, stock_master, 'B')
+                result = True
+        except Exception as e:
+            print('Error in buy_stock: \n', e)
             result = False
     return JsonResponse({'result': result}, content_type='application/json')
 
@@ -159,65 +161,55 @@ def sold_stock(request):
         stock_master = kocom.api().get_stock_master(data['marketcode'], data['issuecode'])
         stockheld_check = Stockheld.objects.filter(sh_userid=request.user.user_id,
                                                    sh_isusrtcd=stock_master['isuSrtCd']).exists()
-        if stock_master and stockheld_check:
-            result = stocktrading_insert(request.user.user_id, data, stock_master, 'S')
+        try:
+            with transaction.atomic():
+                if stock_master and stockheld_check:
+                    stocktrading_insert(request.user.user_id, data, stock_master, 'S')
+                result = True
+        except Exception as e:
+            print('Error in sold_stock: \n', e)
+            result = False
     return JsonResponse({'result': result}, content_type='application/json')
 
 
 def stockheld_insert(user_id, data, master):
-    try:
-        Stockheld(
-            sh_userid=acc_models.user.objects.get(user_id=user_id),
-            sh_isusrtcd=master['isuSrtCd'],
-            sh_isucd=master['isuCd'],
-            sh_isukorabbrv=master['isuKorAbbrv'],
-            sh_marketcode=data['marketcode'],
-            sh_idxindmidclsscd=master['idxIndMidclssCd']
-        ).save()
-        return True
-    except Exception as e:
-        print('Error in stockheld_insert: \n', e)
-        return False
+    Stockheld(
+        sh_userid=acc_models.user.objects.get(user_id=user_id),
+        sh_isusrtcd=master['isuSrtCd'],
+        sh_isucd=master['isuCd'],
+        sh_isukorabbrv=master['isuKorAbbrv'],
+        sh_marketcode=data['marketcode'],
+        sh_idxindmidclsscd=master['idxIndMidclssCd']
+    ).save()
 
 
 def stocktrading_insert(user_id, data, master, kind):
-    try:
-        if kind == 'B':
-            data['current_price'] = -int(data['current_price'])
-        print(transaction.savepoint())
-        Stocktrading(
-            st_userid=acc_models.user.objects.get(user_id=user_id),
-            st_isusrtcd=master['isuSrtCd'],
-            st_kind=kind,
-            st_share=data['share'],
-            st_price=data['current_price']
-        ).save()
-        stock_profit_input(user_id, int(data['current_price']))
-        return True
-    except Exception as e:
-        print('Error in stocktrading_insert: \n', e)
-        return False
+    if kind == 'B':
+        data['current_price'] = -int(data['current_price'])
+    Stocktrading(
+        st_userid=acc_models.user.objects.get(user_id=user_id),
+        st_isusrtcd=master['isuSrtCd'],
+        st_kind=kind,
+        st_share=data['share'],
+        st_price=data['current_price']
+    ).save()
+    stock_profit_input(user_id, int(data['current_price']))
 
 
 def stock_profit_input(user_id, price):
-    try:
-        stockprofit_check = Stockprofit.objects.filter(sp_userid=user_id).exists()
-        if not stockprofit_check:
-            print(f'Insert: {user_id}, {price}')
-            Stockprofit(
-                sp_userid=user_id,
-                sp_profit=price,
-            ).save()
-        else:
-            print(f'Update: {user_id}, {price}')
-            stockprofit_objects = Stockprofit.objects.get(sp_userid=user_id)
-            stockprofit_objects.sp_userid = acc_models.user.objects.get(user_id=user_id)
-            stockprofit_objects.sp_profit += price
-            stockprofit_objects.save()
-        return True
-    except Exception as e:
-        print('Error in stock_profit_input: \n', e)
-        return False
+    stockprofit_check = Stockprofit.objects.filter(sp_userid=user_id).exists()
+    if not stockprofit_check:
+        print(f'Insert: {user_id}, {price}')
+        Stockprofit(
+            sp_userid=user_id,
+            sp_profit=price,
+        ).save()
+    else:
+        print(f'Update: {user_id}, {price}')
+        stockprofit_objects = Stockprofit.objects.get(sp_userid=user_id)
+        stockprofit_objects.sp_userid = acc_models.user.objects.get(user_id=user_id)
+        stockprofit_objects.sp_profit += price
+        stockprofit_objects.save()
 
 
 def get_selectivemaster(request):
