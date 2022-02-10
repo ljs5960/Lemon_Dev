@@ -89,9 +89,8 @@ class calculator:
     # 개별 사용한 투자 금액
     def use_investment_amount(self, user_id, isusrtcd):
         try:
-            use_total = Stocktrading.objects.filter(st_userid=user_id,
-                                                    st_isusrtcd=isusrtcd).aggregate(
-                use_total=Sum(F('st_price') * F('st_share')))['use_total']
+            use_total = Stockheld.objects.get(sh_userid=user_id,
+                                              sh_isusrtcd=isusrtcd).sh_price
             if use_total:
                 return use_total
             else:
@@ -103,18 +102,10 @@ class calculator:
     # 개별 주식 주
     def get_shares(self, user_id, isusrtcd):
         try:
-            get_buy_shares = Stocktrading.objects.filter(st_userid=user_id,
-                                                         st_isusrtcd=isusrtcd,
-                                                         st_kind='B').aggregate(
-                                    share_total=Sum('st_share'))['share_total']
-            get_sold_shares = Stocktrading.objects.filter(st_userid=user_id,
-                                                          st_isusrtcd=isusrtcd,
-                                                          st_kind='S').aggregate(
-                                    share_total=Sum('st_share'))['share_total']
-            if get_buy_shares and get_sold_shares:
-                return get_buy_shares - get_sold_shares
-            elif get_buy_shares and not get_sold_shares:
-                return get_buy_shares
+            total_share = Stockheld.objects.get(sh_userid=user_id,
+                                                sh_isusrtcd=isusrtcd).sh_share
+            if total_share:
+                return total_share
             else:
                 return 0
         except Exception as e:
