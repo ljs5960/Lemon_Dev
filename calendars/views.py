@@ -319,35 +319,17 @@ def ajax_sendSMS(request):
 
 def add_income_calendar(request):
     if request.method == "POST":
-        if 'spendbtn' in request.POST:
-            sform = SpendForm(request.POST)
-            if sform.is_valid():
-                user_id = request.POST['user'],
-                kind = sform.cleaned_data['kind'],
-                amount = sform.cleaned_data['amount'],
-                place = sform.cleaned_data['place'],
-                spend_date = sform.cleaned_data['spend_date'],
-                way = sform.cleaned_data['way'],
-                category = sform.cleaned_data['category'],
-                card = sform.cleaned_data['card'],
-                memo = sform.cleaned_data['memo'],
-                stock = sform.cleaned_data['place']
-                sform.save()
-                return redirect('/history')
-
-        elif 'incomebtn' in request.POST:
-            iform = IncomeForm(request.POST)
-            if iform.is_valid():
-                user_id = request.POST['user'],
-                kind = iform.cleaned_data['kind'],
-                amount = iform.cleaned_data['amount'],
-                income_date = iform.cleaned_data['income_date'],
-                income_way = iform.cleaned_data['income_way'],
-                memo = iform.cleaned_data['memo']
-                iform.save()
-                return redirect('/history')
+        iform = IncomeForm(request.POST)
+        if iform.is_valid():
+            user_id = request.POST['user'],
+            kind = iform.cleaned_data['kind'],
+            amount = iform.cleaned_data['amount'],
+            income_date = iform.cleaned_data['income_date'],
+            income_way = iform.cleaned_data['income_way'],
+            memo = iform.cleaned_data['memo']
+            iform.save()
+            return redirect('/history')
     else:
-        sform = SpendForm()
         iform = IncomeForm()
     wntlr = Stocksector.objects.all().values('ss_isusrtcd', 'ss_isukorabbrv')
     return render(request, 'add_income_calendar.html', {'wntlr': wntlr})

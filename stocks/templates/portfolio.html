@@ -40,8 +40,9 @@
 </style>
 {% load mytag %}
 <div class="wrapper">
-    <div><strong>{{user.uid}}</strong>님의</div>
-    <div><strong>포트폴리오</strong></div>
+    <div class="home-title">
+    <a><strong>{{user.username}}</strong>님의</a> <br> <a><strong>포트폴리오</strong></a>
+    </div>
 <div>
 <div class="stock">
     <span class="side">현재까지 수익률</span>
@@ -70,17 +71,15 @@
                 datasets: [{
                     data: ['1000000', '1500000', '4000000'],
                     backgroundColor: [
-                        '#5989DD',
-                        '#D46A84',
-                        '#4ACBD7',
-                        '#F3CD55',
+                        '#4c8ae5',
+                        '#ff5d51',
+                        '#ffd85a',
 
                     ],
                     borderColor: [
-                        '#5989DD',
-                        '#D46A84',
-                        '#4ACBD7',
-                        '#F3CD55',
+                        '#4c8ae5',
+                        '#ff5d51',
+                        '#ffd85a',
 
                     ],
                     borderWidth: 0
@@ -89,7 +88,8 @@
             options: {
                 //legend: { display: false },
                 rotation: 1 * Math.PI,
-                circumference: 1 * Math.PI
+                circumference: 1 * Math.PI,
+                cutoutPercentage: 80,
             }
         });
         </script>

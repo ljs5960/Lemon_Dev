@@ -108,7 +108,7 @@
 <div id="nav" style="border-bottom: 1px solid #f1f1f1;">
             <div>
             <div style="text-align:center;">
-                <a style="color: #fff;" href="javascript:history.back();"><i class="fa fa-angle-left" style="position: absolute;
+                <a style="color: #fff;" href="{% url 'accounts:myinfo' %}" ><i class="fa fa-angle-left" style="position: absolute;
     left: 5px;
     padding: 14px 15px;
     top: 0;
@@ -126,8 +126,8 @@
    <div class="input_design"><div class="input_title">이름</div><input name="username" type="text" value="{{ user.username }}"></div>
     <div class="input_design"><div class="input_title">성별</div>
         <select id="gender" name="gender">
-        <option value="1">남</option>
-          <option value="2">여</option>
+        <option value="M" {% if user.gender == 'M' %} selected {% endif %}>남</option>
+          <option value="F" {% if user.gender == 'F' %} selected {% endif %}>여</option>
       </select>
     </div>
      <div class="input_design"><div class="input_title">직업</div>
@@ -139,8 +139,8 @@
       <option value="5" {% if user.job == 5 %} selected {% endif %}>기타(프리랜서)</option>
       <option value="6" {% if user.job == 6 %} selected {% endif %}>무직</option>
     </select></div>
-    <div class="input_design"><div class="input_title">생년월일</div><input type="date" name="birthday" value="{{ user.birthday }}" disabled></div>
-      <div class="input_design"><div class="input_title">연락처</div><input type="text" id="phonenumber" value="{{ user.phonenumber }}" placeholder="- 을 제외한 번호을 입력하세요" name="phonenumber" pattern="[0-9]{11}"></div>
+    <div class="input_design"><div class="input_title">생년월일</div><input type="text" value="{{ user.birthday }}" disabled></div>
+      <div class="input_design"><div class="input_title">연락처</div><input type="text" id="phonenumber" value="{{ user.phonenumber }}" disabled placeholder="- 을 제외한 번호을 입력하세요" name="phonenumber" pattern="[0-9]{11}"></div>
 
       <div style="text-align:center;margin-top:35px;position:fixed;bottom:15px;width:100%;left:0px;"><button class="btn" type="submit">정보 수정</button></div>
   </form>
