@@ -13,7 +13,7 @@ from stocks.models import Stocksector
 
 
 def search_stock(request):
-    wntlr = Stocksector.objects.all().values('ss_isusrtcd', 'ss_isukorabbrv')
+    wntlr = Totalmerge.objects.all().values('id', 'name')
     return render(request, 'search_stock.html', {'wntlr': wntlr})
 
 
