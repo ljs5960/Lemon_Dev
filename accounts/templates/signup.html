@@ -273,12 +273,56 @@
                     id="pin" placeholder="미입력시 초기 번호는 0000 입니다." value=""/>
             </div>
 
-            <button class="btn btn-primary btn-lg btn-block" id="signupBtn" type="submit" value="signup" disabled style="width:100%">회원가입</button>
+            <button class="btn btn-primary btn-lg btn-block" id="signupBtn" onclick="signup_check()" disabled style="width:100%">회원가입</button>
         </div>
     </form>
 </div><!-- 회원가입 Wrapper 끝 -->
 
 </body>
+
+<script>
+    // 회원가입 값 검증
+    function signup_check() {
+        if ($('#uid').val() == '') {
+            alert('아이디를 입력해주세요.');
+            return false;
+        }
+        else if ($('#password').val() == '') {
+            alert('비밀번호를 입력해주세요.');
+            return false;
+        }
+        else if ($('#password1').val() == '') {
+            alert('한번더 비밀번호를 입력해주세요.');
+            return false;
+        }
+        else if ($('#name').val() == '') {
+            alert('이름을 입력해주세요.');
+            return false;
+        }
+        else if ($('#email').val() == '') {
+            alert('이메일을 입력해주세요.');
+            return false;
+        }
+        else if ($('#phonenumber').val() == '') {
+            alert('전화번호를 입력해주세요.');
+            return false;
+        }
+        else if ($('#year').val() == '') {
+            alert('생년월일을 선택해주세요.');
+            return false;
+        }
+        else if ($('#inputCode').val() == '') {
+            alert('인증번호 4자리를 입력해주세요.');
+            return false;
+        }
+        else {
+            const form = document.getElementById('signup_form');
+            alert($('#name').val()+'님, 회원가입을 축하합니다.')
+            form.action = "{% url 'accounts:signup' %}"
+            form.submit();
+        }
+    }
+</script>
 
 <script>
     // 투자금액 입력시 날짜도 같이 입력

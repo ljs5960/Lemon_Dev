@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os, json
-from mysettings import SECRET_KEY, MY_DATABASES, AWS_KEY
+from mysettings import LEMON_EMAIL, LEMON_PASSWORD, SECRET_KEY, MY_DATABASES, AWS_KEY
 from storages.backends.s3boto3 import S3Boto3Storage
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -217,9 +217,9 @@ EMAIL_HOST = 'smtp.gmail.com'
 # 메일을 호스트하는 서버
 EMAIL_PORT = '587'
 # gmail과의 통신하는 포트
-EMAIL_HOST_USER = 'basoup.t@gmail.com'
+EMAIL_HOST_USER = LEMON_EMAIL
 # 발신할 이메일
-EMAIL_HOST_PASSWORD = 'qktnv0312'
+EMAIL_HOST_PASSWORD = LEMON_PASSWORD
 # 발신할 메일의 비밀번호
 EMAIL_USE_TLS = True
 # TLS 보안 방법

@@ -1,3 +1,5 @@
+import email
+from unittest import result
 from django.shortcuts import render,redirect
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from rest_framework.response import Response
@@ -41,6 +43,19 @@ def main(request):
 @login_required(login_url=URL_LOGIN)
 def myinfo(request):
     return render(request, 'myinfo.html')
+
+def find_id(request):
+    return render(request, 'find_id.html')
+
+def find_id_result(request):
+    if request.method == "POST":
+        find_email = request.POST.get('find_email', None)
+        result = get_user_model().objects.filter(email = find_email).values_list('uid', flat=True)
+        if result.exists():
+            result = result
+        else:
+            result = 0
+    return render(request, 'find_id_result.html', {'result':result})
 
 def signup(request):
     if request.method == 'POST':

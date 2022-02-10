@@ -43,6 +43,17 @@
     padding: 12px 0 10px 0;
     border-bottom: 2px solid #FFF;
     }
+    .home-property-content{
+    font-size:16px;
+    display:flex;
+    justify-content:space-between;
+    }
+    .home-stock-input {
+    font-size:22px;
+    }
+    .home-spand-input{
+    font-size:22px;
+    }
 </style>
 
 
@@ -279,7 +290,6 @@ document.addEventListener('keydown', function(event) {
     </div>
 
     <div class="home-chart" id="home-chart">
-    <a class="chart_text"> 8,000원 </a>
         <canvas id="myChart2" width="100" height="100"></canvas>
         <script>
         const ctx = document.getElementById('myChart2').getContext('2d');
@@ -357,8 +367,8 @@ document.addEventListener('keydown', function(event) {
         </div>
 
         <div class="home-spand-buttons">
-            <button onclick="location.href='{% url 'calendars:history' %}'" style="margin-right:15px;" class="home-spand-button">소비 내역</button>
-            <button onclick="location.href='{% url 'calendars:top5' %}'" style="margin-left:15px;" class="home-spand-button">소비 분석</button>
+            <button onclick="location.href='{% url 'calendars:history' %}'" style="margin-right:15px; white-space: nowrap;" class="home-spand-button">소비 내역</button>
+            <button onclick="location.href='{% url 'calendars:top5' %}'" style="margin-left:15px; white-space: nowrap;" class="home-spand-button">소비 분석</button>
         </div>
     </div>
 
@@ -378,8 +388,8 @@ document.addEventListener('keydown', function(event) {
 
 
         <div class="home-stock-buttons">
-            <button style="margin-right:15px;" class="home-stock-button" onclick="location.href='{% url 'stocks:stock' %}'">보유 주식</button>
-            <button style="margin-left:15px;" class="home-stock-button" onclick="location.href='{% url 'stocks:portfolio' %}'">포트폴리오</button>
+            <button style="margin-right:15px; white-space: nowrap;" class="home-stock-button" onclick="location.href='{% url 'stocks:stock' %}'">보유 주식</button>
+            <button style="margin-left:15px; white-space: nowrap;" class="home-stock-button" onclick="location.href='{% url 'stocks:portfolio' %}'">포트폴리오</button>
         </div>
 
     </div>
@@ -388,7 +398,7 @@ document.addEventListener('keydown', function(event) {
         <div class="home-property-title">
             <strong><a>총 자산</a></strong>
             <a style="font-size:14px; float: right;">금일기준</a>
-            <div class="home-property-contentsWrap">
+            <div class="home-property-contentsWrap" style="width:80%;padding-top:5px;">
                 <div class="home-property-content">
                     <strong><a>지출</a></strong><a>{{Expenditure.amount__sum|default_if_none:'0'|intcomma}}원</a>
                     </div>
@@ -400,8 +410,8 @@ document.addEventListener('keydown', function(event) {
                 </div>
 
                 <div class="home-stock-buttons">
-                    <button style="margin-right:15px;" class="home-stock-button" onclick="location.href='{% url 'stocks:stock' %}'">보유 주식</button>
-                    <button style="margin-left:15px;" class="home-stock-button" onclick="location.href='{% url 'stocks:portfolio' %}'">포트폴리오</button>
+                    <button style="margin-right:15px; white-space: nowrap;" class="home-stock-button" onclick="location.href='{% url 'stocks:stock' %}'">보유 주식</button>
+                    <button style="margin-left:15px; white-space: nowrap;" class="home-stock-button" onclick="location.href='{% url 'stocks:portfolio' %}'">포트폴리오</button>
                 </div>
             </div>
         </div>

@@ -1,11 +1,11 @@
-{% extends 'password_base.html' %}
+{% extends 'base.html' %}
 {% load static %}
-{% block title %}레몬::비밀번호 초기화{% endblock title %}
+{% block title %}레몬::아이디 찾기{% endblock title %}
 
 {% block nav %}
 <div id="nav">
     <div style="text-align:center;">
-      <a>비밀번호 초기화</a>
+      <a>아이디 찾기</a>
     </div>
 </div>
 {% endblock %}
@@ -32,9 +32,11 @@
     text-align:center;
     line-height:40px;
     color: #141414;
+    margin-bottom:20px;
   }
 
   input[type="email"] {
+    padding-left:10px;
     width:70%;
     height:45px;
     border: 1px solid #ddd;
@@ -52,20 +54,36 @@
     background-color:#31bc8a;
     color:#FFF;
   }
+  .submit-btn2{
+    border:1px solid #31bc8a;
+    border-radius:10px;
+    width:70%;
+    height:45px;
+    margin-top:30px;
+    font-size:18px;
+    font-weight:400;
+    background-color:#FFF;
+    color:#141414;
+  }
 </style>
 
 <div class="email-form">
   <div class="img-wrap"><img src="/media/LEMON.png"/></div>
 
   <div class="text-wrap">
-    <a>가입되어있지 않는 이메일입니다.<br>다시 확인해주세요.</a>
+    <!-- 정보가 있다면 -->
+    {% if result %}
+    <a>입력된 정보로 가입된 아이디는 <br> <strong> {{ result.0 }} </strong> 입니다.</a> <br>
+    <!-- 정보가 없다면 -->
+    {% else %}
+    <a>입력된 정보로 가입된 아이디가 없습니다.</a> <br>
+    {% endif %}
   </div>
 
   <div class="form-wrap" style="text-align:center;">
-  <button class="submit-btn" type="submit" onclick="go_home();">처음으로</button>
+    <button class="submit-btn" type="button" onclick="go_home()">로그인</button>
   </div>
 </div>
-
 <script>
   function go_home() {
     window.location.href = '{% url 'accounts:login' %}'
