@@ -61,8 +61,15 @@ def home(request):
     spend_sum_value = list(spend_sum.values())
     income_sum = income_month_filter2.values('amount').aggregate(Sum('amount'))
     income_sum_value = list(income_sum.values())
+    stock_cal = cal.calculator()
+    total_investment_amount = stock_cal.total_investment_amount(request.user.user_id)
+    print( income_sum_value)
+    total_current_price = stock_cal.total_current_price(request.user.user_id)
+    total_use_investment_amount = stock_cal.total_use_investment_amount(request.user.user_id)
+    son = total_current_price + total_use_investment_amount
 
-    home_chartjs_data = [invest]
+    home_chartjs_data = [invest, son]
+    print( home_chartjs_data)
     for spend_sum_value in spend_sum_value:
         if spend_sum_value == None:
             home_chartjs_data.append(0)
@@ -74,14 +81,9 @@ def home(request):
         else:
             home_chartjs_data.append(income_sum_value)
 
-    stock_cal = cal.calculator()
-    total_investment_amount = stock_cal.total_investment_amount(request.user.user_id)
-    print( total_investment_amount)
-    total_current_price = stock_cal.total_current_price(request.user.user_id)
-    total_use_investment_amount = stock_cal.total_use_investment_amount(request.user.user_id)
-    son = total_current_price + total_use_investment_amount
 
-    return render(request, 'home.html', {'month': month, 'Expenditure': spend_sum, 'Income': income_sum,
+
+    return render(request, 'home.html', {'month': month, 'Expenditure': spend_sum, 'Income': income_sum, 'income_sum_value':income_sum_value,
                                          'Home_chartjs_data': home_chartjs_data, 'Total_investment_amount':total_investment_amount, 'total_current_price':total_current_price, 'son':son})
 
 
@@ -413,7 +415,7 @@ def delete_shistory(request, spend_id):
     spend = Spend.objects.get(spend_id = spend_id)
     spend.delete()
     return redirect('/history')
-    
+
 def delete_ihistory(request, income_id):
     income = Income.objects.get(income_id = income_id)
     income.delete()
