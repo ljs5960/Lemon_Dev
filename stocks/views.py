@@ -10,7 +10,7 @@ from . import stockcal as cal
 from .models import *
 from accounts import models as acc_models
 from stocks.models import Stocksector
-from django.db.models import Sum, Count
+from django.db.models import Sum, Count, F
 
 
 def search_stock(request):
@@ -274,28 +274,36 @@ def get_history(request):
 def top2(request):
     st =  Stockheld.objects.filter(sh_userid=request.user.user_id).values('sh_idxindmidclsscd').annotate(count=Count('sh_idxindmidclsscd')).order_by('-count')[:3]
     st2 = list(st.values('sh_idxindmidclsscd'))
+    st8 =  Stocktrading.objects.filter(st_userid=request.user.user_id).values('st_isusrtcd')
+    #print(st8)
 
     st3 = st2[0:3]
-    print(st2)
-    print(st3)
+    # print(st2)
+    # print(st3)
 
     st3_arr = []
     for i in st3:
         #print(i['sh_idxindmidclsscd'])
         st3_arr.append(i['sh_idxindmidclsscd'])
+    #print(st3_arr)
+    st7 = TotalMerge.objects.filter(category__in = st3_arr[0:3]).values("id",'per','pbr',"marketcode","name","category").annotate(
+    ROA = (F('per') * Decimal('1.0') / F('pbr') * Decimal('1.0')), output_field=FloatField()).order_by('-ROA')[0:5]
+    print(st7)
 
-    print(st3_arr)
-
-    st4 = TotalMerge.objects.filter(category__in = st3_arr[0:3]).values("id","market_code","name","cetegory") # id = issuecode pbr,per
-
+    # st4 = TotalMerge.objects.filter(category__in = st3_arr[0:3]).values("id","per","pbr","marketcode","name","category")
     # st5 = []
-    #
     # for element in st4:
     #     ROA = element['per']/element['pbr']
-    #     st5.append([ROA,element['cetegory'],element['name']
+    #     st5.append([ROA,element['category'],element['name']
     #     ])
-    # print(current_price)
-
+    # print(st5)
+    st8 =  Stockheld.objects.filter(sh_userid=request.user.user_id).values('sh_isusrtcd')
+    if st8.values('sh_isusrtcd') == st7.values('id'):
+        print('슈발')
+    else:
+        print('샤발')
+    print(st8)
+    return render(request, 'top2.html', {'st2':st7})
 
     #st4_json = serializers.serialize('json', st4)
     # print('-------------------------------------------------------')
@@ -303,12 +311,12 @@ def top2(request):
     # print(list(st4))
     # #print(st4_json)
     # st4_json = json.dumps(list(st4))
-    # st4 = TotalMerge.objects.filter(category__in = st3_arr[0:3]).values("id","market_code","name","cetegory").annotate(
-    # ROA='pbr'/'per', FloatField()).order_by('ROA')
+    # st4 = TotalMerge.objects.filter(category__in = st3_arr[0:3]).values("id","per","pbr","marketcode","name","category").annotate(
+    # ROA ='pbr'/'per', FloatField()).order_by('ROA')
 
 
-    st5 = TotalMerge.objects.order_by('name').values('name').annotate(
-    count=Cast(Count('name') / 2.0, FloatField()))
+    # st5 = TotalMerge.objects.order_by('name').values('name').annotate(
+    # count=Cast(Count('name') / 2.0, FloatField()))
     '''
     st4 = TotalMerge.objects.filter(category__in = st3_arr[0:1]).values("id","market_code") # id = issuecode
     print('-------------------------------------------------------')
@@ -340,4 +348,4 @@ def top2(request):
     # result_pbr = result['pbr']
     # result_roa = result_per/result_pbr
 
-    return render(request, 'top2.html', {'st2':st4})
+    # return render(request, 'top2.html', {'st2':st4})

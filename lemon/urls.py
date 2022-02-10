@@ -19,7 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.static import serve
 from django.conf.urls import url
-from accounts.views import CustomPasswordChangeView
+
 
 from rest_framework import routers
 #from accounts.views import LemonViewSet
@@ -40,12 +40,7 @@ urlpatterns = [
     url(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),
     url(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),
     path('ckeditor/', include('ckeditor_uploader.urls')),
-    path('password/change/', CustomPasswordChangeView.as_view(), name="account_change_password"),
-      # allauth
-    path("email-confirmation-done/",
-         TemplateView.as_view(template_name="coplate/email-confirmation-done.html"),
-         name="account_email_confirmation_done"),
-    path('', include('allauth.urls')),
+    
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
