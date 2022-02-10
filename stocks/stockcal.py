@@ -62,9 +62,11 @@ class calculator:
     # 개별 평균단가
     def average_price(self, user_id, isusrtcd):
         try:
+            stockheld = Stockheld.objects.get(sh_userid=user_id, sh_isusrtcd=isusrtcd)
             stocktrading = Stocktrading.objects.filter(st_userid=user_id,
                                                        st_isusrtcd=isusrtcd,
-                                                       st_kind='B').aggregate(
+                                                       st_kind='B',
+                                                       st_date__gte=stockheld.sh_z_date).aggregate(
                 total=Sum(F('st_price') * F('st_share')), share_total=Sum('st_share'))
             return round(-stocktrading['total'] / stocktrading['share_total'])
         except Exception as e:

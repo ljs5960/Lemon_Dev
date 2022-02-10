@@ -5,6 +5,7 @@ import json
 from django.http import JsonResponse
 from datetime import datetime
 from django.db import transaction
+from django.db.models import Q
 from . import kocom
 from . import stockcal as cal
 from .models import *
@@ -18,7 +19,7 @@ def search_stock(request):
 
 
 def stock(request):
-    stockheld = Stockheld.objects.filter(sh_userid=request.user.user_id)
+    stockheld = Stockheld.objects.filter(~Q(sh_share=0), sh_userid=request.user.user_id)
 
     stock_data = []
     stock_cal = cal.calculator()
