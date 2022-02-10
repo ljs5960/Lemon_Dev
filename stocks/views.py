@@ -109,14 +109,14 @@ def stock_search_result(request):
     result = False
     if request.method == 'POST':
         try:
-            stocksector = Stocksector.objects.filter(ss_isukorabbrv__icontains=data)
+            totalmerge = Totalmerge.objects.filter(name__icontains=data)
             result = []
-            for elements in stocksector:
+            for elements in totalmerge:
                 result.append({
-                    'logo': elements.ss_logo,
-                    'isukorabbrv': elements.ss_isukorabbrv,
-                    'issuecode': elements.ss_isusrtcd,
-                    'marketcode': elements.ss_marketcode
+                    'logo': elements.logo,
+                    'isukorabbrv': elements.name,
+                    'issuecode': elements.id,
+                    'marketcode': elements.marketcode
                 })
         except Exception as e:
             print('Error in stock_search_result: \n', e)
