@@ -233,8 +233,8 @@ def stocksector_update(request):
 def stocksector_insert(stocksectors_bundle):
     print('==================> Start insert StockSector <==================')
     for stocksector in stocksectors_bundle:
-        stockheld_check = Stocksector.objects.filter(ss_isusrtcd=stocksector['isusrtcd']).exists()
-        if not stockheld_check:
+        stocksector_check = Stocksector.objects.filter(ss_isusrtcd=stocksector['isusrtcd']).exists()
+        if not stocksector_check:
             print('Insert: ', stocksector['isusrtcd'])
             Stocksector(
                 ss_isusrtcd=stocksector['isusrtcd'],
@@ -262,3 +262,36 @@ def get_history(request):
                                                data['trnsmCycleTpCd'], data['inqStrtDd'],
                                                data['inqEndDd'], data['reqCnt'])
     return JsonResponse({'result': result}, content_type='application/json')
+
+
+def per_pbr_update(request):
+    result = False
+    if request.method == 'POST':
+        koscom_api = kocom.api()
+        try:
+            per_pbr_bundle = koscom_api.get_per_pbr_bundle()
+            if per_pbr_bundle:
+                per_pbr_insert(per_pbr_bundle)
+                result = True
+        except Exception as e:
+            print('Error in per_pbr_update: \n', e)
+        return JsonResponse({'result': result}, content_type='application/json')
+
+
+def per_pbr_insert(per_pbr_bundle):
+    print('==================> Start insert per_pbr <==================')
+    not_exists_list = []
+    for per_pbr in per_pbr_bundle:
+        try:
+            totalmerge_check = Totalmerge.objects.filter(id=per_pbr['isusrtcd']).exists()
+            if totalmerge_check:
+                totalmerge_objects = Totalmerge.objects.get(id=per_pbr['isusrtcd'])
+                totalmerge_objects.per = per_pbr['per']
+                totalmerge_objects.pbr = per_pbr['pbr']
+                totalmerge_objects.save()
+                print(f'update: {per_pbr["isusrtcd"]}')
+        except Exception as e:
+            print(f'Error in per_pbr_insert: \n{e}\n !!!!But wait for finish this task!!!!')
+            not_exists_list.append(per_pbr['isusrtcd'])
+    print(print('==================> Finish insert per_pbr <=================='))
+    print(f'not exists list \n {not_exists_list}')
