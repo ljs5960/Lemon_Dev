@@ -43,6 +43,9 @@
     <div><strong>{{user.uid}}</strong>님의</div>
     <div><strong>포트폴리오</strong></div>
 <div>
+<div>
+    <button onclick="fn_set_PER_PBR()">PER, PBR 넣기</button>
+</div>
 <div class="stock">
     <span class="side">현재까지 수익률</span>
     <div class="title">주식</div>
@@ -120,5 +123,43 @@
 $(document).ready(function(){
     //$('.footer-selector').fadeIn(550);
 });
+</script>
+<script>
+    var csrftoken = getCookie('csrftoken');
+    function getCookie(cname) {
+        var name = cname + "=";
+            decodedCookie = decodeURIComponent(document.cookie);
+            ca = decodedCookie.split(';');
+        for(var i = 0; i <ca.length; i++) {
+            var c = ca[i].trim();
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
+    function fn_set_PER_PBR() {
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json')
+        headers.append('X-CSRFToken', csrftoken)
+        fetch('/per_pbr_update', {
+            method: "POST",
+            headers: headers,
+        })
+        .then(res => {
+            if(res.status === 200) return res.json();
+            else console.log(res.statusText);
+        })
+        .then(json => {
+            console.log(json.result);
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
 </script>
 {% endblock %}
