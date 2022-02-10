@@ -232,7 +232,7 @@
 </style>
 
 <div class="addEvent-wrap">
-    <form id="spend_form" action="{%url 'calendars:add_spend_calendar' %}" method="POST">
+    <form id="spend_form" action="{%url 'calendars:add_spend_calendar' %}" method="POST" id="add_form">
         {% csrf_token %}
     <div class="span_div" id="span_div">
         <div class="span_list">
@@ -241,11 +241,11 @@
             <table min-width="300" class="span_table">
                 <tr> <!-- 행선언 -->
                     <th width="200" height="60"><a class="span_list_title">금액</a></th>
-                    <th width="240" style="text-align: end;"><input class="input_span" type="number" name="amount" pattern="\\d*" value="{{form.amount.value|default_if_none:''}}"></th>
+                    <th width="240" style="text-align: end;"><input class="input_span" id="amount" type="number" name="amount" pattern="\\d*" value="{{form.amount.value|default_if_none:''}}"></th>
                 </tr>
                 <tr> <!-- 행선언 -->
                     <th width="200" height="60"><a class="span_list_title">날짜</a></th>
-                    <th width="240" style="text-align: end;"><input style="text-align:center;" class="input_span" type="date" id="datepicker3" min="1900-01-01" max="2099-12-31" autocomplete="off" name="spend_date" value="{{form.spend_date.value|default_if_none:''}}"></th>
+                    <th width="240" style="text-align: end;"><input style="text-align:center;" class="input_span" type="date" id="date" min="1900-01-01" max="2099-12-31" autocomplete="off" name="spend_date" value="{{form.spend_date.value|default_if_none:''}}"></th>
                 </tr>
                 <tr>
                     <th width="200" height="60"><a class="span_list_title">소비처</a></th>
@@ -257,7 +257,7 @@
                 <tr> <!-- 행선언 -->
                     <th width="200" height="60"><a class="span_list_title">결제수단</a></th>
                     <th width="240" style="text-align: end;">
-                        <select class="span_list_select" name="way" style="text-align:center;">
+                        <select class="span_list_select" id="way" name="way" style="text-align:center;">
                             <option style="text-align: center;" value='0' selected>선택</option>
                             <option value='1'>현금</option>
                             <option value='2'>카드</option>    
@@ -267,7 +267,7 @@
                     
                     <th width="200" height="60"><a class="span_list_title">카테고리</a></th>
                     <th width="240" style="text-align: end;">
-                        <select class="span_list_select" name="category" style="text-align:center;">
+                        <select class="span_list_select" id="category" name="category" style="text-align:center;">
                         <option style="text-align: center;" value='0' selected>선택</option>
                         <option value='1'>금융/보험</option>
                         <option value='2'>저축</option>
@@ -288,7 +288,7 @@
                 <tr> <!-- 행선언 -->
                     <th width="200" height="60"><a class="span_list_title">카드사</a></th>
                     <th width="240" style="text-align: end;">
-                        <select class="span_list_select" name="card" style="text-align:center;">
+                        <select class="span_list_select" id="card" name="card" style="text-align:center;">
                             <option style="text-align: center;" value='0' selected>선택</option>
                             <option value='1'>국민카드</option>
                             <option value='2'>롯데카드</option>
@@ -319,14 +319,34 @@
 
 <script>
 function submit(){
-var str = $('#where').val();
-var stockcode = str.slice(-6);
-var stockname = str.replace(":"+stockcode,"");
-document.getElementById('place').value = stockname;
-document.getElementById('stock').value = stockcode;
-const form = document.getElementById('spend_form');
-form.action="{%url 'calendars:add_spend_calendar' %}"
-form.submit();
+    var str = $('#where').val();
+    var stockcode = str.slice(-6);
+    var stockname = str.replace(":"+stockcode,"");
+    var max_int = 210000000;
+
+    if ($('#amount').val() == '') {
+        alert('금액을 입력해주세요.');
+        return false;
+    }
+    else if ($('#amount').val() >= max_int) {
+        alert('입력받을수 있는 금액 범위를 초과하였습니다.');
+        return false;
+    }
+    else if ($('#date').val() == '') {
+        alert('날짜를 선택해주세요.');
+        return false;
+    }
+    else if ($('#where').val() == '') {
+        alert('소비처를 작성해주세요.');
+        return false;
+    }
+    else{
+    document.getElementById('place').value = stockname;
+    document.getElementById('stock').value = stockcode;
+    const form = document.getElementById('spend_form');
+    form.action="{%url 'calendars:add_spend_calendar' %}"
+    form.submit();
+    }
 }
 
 

@@ -182,17 +182,34 @@
         <tr>
           <td width='10'><li style="font-weight: bold; color:#8e8e8e;"></li></td>
           <td style="text-align: left;" width='60'>
-
-            {% if category.category == 1 %}
-            <a style="font-weight:bold; color:#3a3a3a">식비</a>
+            {% if category.category == 0 %}
+            <a style="font-weight:bold; color:#3a3a3a">카테고리 선택안함</a>
+            {% elif category.category == 1 %}
+            <a style="font-weight:bold; color:#3a3a3a">금융/보험</a>
             {% elif category.category == 2 %}
-            <a style="font-weight:bold; color:#3a3a3a">카페/간식</a>
+            <a style="font-weight:bold; color:#3a3a3a">저축</a>
             {% elif category.category == 3 %}
-            <a style="font-weight:bold; color:#3a3a3a">술/유흥</a>
+            <a style="font-weight:bold; color:#3a3a3a">온라인쇼핑</a>
             {% elif category.category == 4 %}
-            <a style="font-weight:bold; color:#3a3a3a">생활</a>
+            <a style="font-weight:bold; color:#3a3a3a">출금</a>
             {% elif category.category == 5 %}
-            <a style="font-weight:bold; color:#3a3a3a">쇼핑</a>
+            <a style="font-weight:bold; color:#3a3a3a">생활/마트</a>
+            {% elif category.category == 6 %}
+            <a style="font-weight:bold; color:#3a3a3a">카페/간식</a>
+            {% elif category.category == 7 %}
+            <a style="font-weight:bold; color:#3a3a3a">기타지출(사회생활비)</a>
+            {% elif category.category == 8 %}
+            <a style="font-weight:bold; color:#3a3a3a">교통/차량유지</a>
+            {% elif category.category == 9 %}
+            <a style="font-weight:bold; color:#3a3a3a">주거생활/통신</a>
+            {% elif category.category == 10 %}
+            <a style="font-weight:bold; color:#3a3a3a">식사</a>
+            {% elif category.category == 11 %}
+            <a style="font-weight:bold; color:#3a3a3a">의료/건강</a>
+            {% elif category.category == 12 %}
+            <a style="font-weight:bold; color:#3a3a3a">문화/예술</a>
+            {% elif category.category == 13 %}
+            <a style="font-weight:bold; color:#3a3a3a">교육비</a>                                
             {% endif %}
           </td>
           <td style="text-align: right;" width='150'>
@@ -214,27 +231,27 @@ var ctx = document.getElementById("myChart").getContext('2d');
 var myChart = new Chart(ctx, {
 type: 'pie',
 data: {
-    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+    //labels: {% if Category_count_label.0 == 7 %} ['기타지출(사회생활비)'] {% endif %},
+    labels: {{ Category_count_label }},
     datasets: [{
-        label: {{ Category_count_label }},
+        //label: {{ Category_count_label.1 }},
+        label:{{ Category_count_label }} ,
         data: {{ Category_count_data }},
         backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
+            'rgba(147, 188, 249, 0.2)',
+            'rgba(204, 237, 246,0.2)',
+            'rgb(126, 166, 191,0.2)',
+            'rgb(122, 154, 198,0.2)',
+            'rgba(87, 107, 158,0.2)'
         ],
         borderColor: [
-            'rgba(255,99,132,1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
+            'rgba(147, 188, 249, 1)',
+            'rgba(204, 237, 246,1)',
+            'rgb(126, 166, 191,1)',
+            'rgb(122, 154, 198,1)',
+            'rgba(87, 107, 158,0.2)'
         ],
-        borderWidth: 1
+        borderWidth: 3
     }]
 },
 options: {
@@ -393,17 +410,35 @@ function click_evt() {
       <tr>
         <td width='10'><li style="font-weight: bold; color:#8e8e8e;"></li></td>
         <td style="text-align: left;" width='60'>
-          {% if category.category == 1 %}
-          <a style="font-weight:bold; color:#3a3a3a">식비</a>
-          {% elif category.category == 2 %}
-          <a style="font-weight:bold; color:#3a3a3a">카페/간식</a>
-          {% elif category.category == 3 %}
-          <a style="font-weight:bold; color:#3a3a3a">술/유흥</a>
-          {% elif category.category == 4 %}
-          <a style="font-weight:bold; color:#3a3a3a">생활</a>
-          {% elif category.category == 5 %}
-          <a style="font-weight:bold; color:#3a3a3a">쇼핑</a>
-          {% endif %}
+            {% if category.category == 0 %}
+            <a style="font-weight:bold; color:#3a3a3a">카테고리 선택안함</a>
+            {% elif category.category == 1 %}
+            <a style="font-weight:bold; color:#3a3a3a">금융/보험</a>
+            {% elif category.category == 2 %}
+            <a style="font-weight:bold; color:#3a3a3a">저축</a>
+            {% elif category.category == 3 %}
+            <a style="font-weight:bold; color:#3a3a3a">온라인쇼핑</a>
+            {% elif category.category == 4 %}
+            <a style="font-weight:bold; color:#3a3a3a">출금</a>
+            {% elif category.category == 5 %}
+            <a style="font-weight:bold; color:#3a3a3a">생활/마트</a>
+            {% elif category.category == 6 %}
+            <a style="font-weight:bold; color:#3a3a3a">카페/간식</a>
+            {% elif category.category == 7 %}
+            <a style="font-weight:bold; color:#3a3a3a">기타지출(사회생활비)</a>
+            {% elif category.category == 8 %}
+            <a style="font-weight:bold; color:#3a3a3a">교통/차량유지</a>
+            {% elif category.category == 9 %}
+            <a style="font-weight:bold; color:#3a3a3a">주거생활/통신</a>
+            {% elif category.category == 10 %}
+            <a style="font-weight:bold; color:#3a3a3a">식사</a>
+            {% elif category.category == 11 %}
+            <a style="font-weight:bold; color:#3a3a3a">의료/건강</a>
+            {% elif category.category == 12 %}
+            <a style="font-weight:bold; color:#3a3a3a">문화/예술</a>
+            {% elif category.category == 13 %}
+            <a style="font-weight:bold; color:#3a3a3a">교육비</a>                                
+            {% endif %}
         </td>
         <td style="text-align: right;" width='150'>
           <a style="font-weight:400; color:#3a3a3a">{{ category.count|intcomma }}회</a>

@@ -229,7 +229,7 @@
 
 <div class="addEvent-wrap">
 
-    <form action="{% url 'calendars:add_income_calendar' %}" method = "POST">
+    <form action="{% url 'calendars:add_income_calendar' %}" method = "POST" id="income_form">
         {% csrf_token %}
     <div class="income_div" id="income_div">
         <div class="income_list">
@@ -238,6 +238,14 @@
                 <input type="number" style="display: none;" readonly name="user" id="user_id" value="{{user.user_id}}">
 
             <table min-width="300">
+                <tr> <!-- 행선언 -->
+                    <th width="200" height="60"><a class="span_list_title">금액</a></th>
+                    <th width="240" style="text-align: end;"><input class="input_span" id="amount" name="amount" type="number" value="{{form.amount.value|default_if_none:''}}"/></th>
+                </tr>
+                <tr> <!-- 행선언 -->
+                    <th width="200" height="60"><a class="span_list_title">날짜</a></th>
+                    <th width="240" style="text-align: end;"><input class="input_span" type="date" id="date" min="1900-01-01" max="2099-12-31" autocomplete="off" name="income_date" value="{{form.income_date.value|default_if_none:''}}"></th>
+                </tr>
                 <tr> <!-- 행선언 -->
                     <th width="200" height="60"><a class="span_list_title">카테고리</a></th>
                     <th width="240" style="text-align: end;"><select class="span_list_select" name="income_way">
@@ -259,14 +267,6 @@
                     </th>
                 </tr>
                 <tr> <!-- 행선언 -->
-                    <th width="200" height="60"><a class="span_list_title">날짜</a></th>
-                    <th width="240" style="text-align: end;"><input class="input_span" type="date" id="datepicker4" min="1900-01-01" max="2099-12-31" autocomplete="off" name="income_date" value="{{form.income_date.value|default_if_none:''}}"></th>
-                </tr>
-                <tr> <!-- 행선언 -->
-                    <th width="200" height="60"><a class="span_list_title">금액</a></th>
-                    <th width="240" style="text-align: end;"><input class="input_span" id="amount" name="amount" type="number" value="{{form.amount.value|default_if_none:''}}"/></th>
-                </tr>
-                <tr> <!-- 행선언 -->
                 <th width="200" height="60"><a class="span_list_title">메모</a></th>
                 <th width="240" style="text-align: end;"><textarea class="input_textarea" rows="1" name="memo" placeholder="메모"></textarea></th>
             </tr>
@@ -275,28 +275,46 @@
         </div>
 
         <div style="text-align:center; margin-top:15px;">
-            <button class="addBtn" value="incomebtn" name="incomebtn" type="submit">추가하기</button>
+            <div type="button" class="addBtn" value="incomebtn" onclick="submit()" style="line-height:47px;" />추가하기</div>
+
         </div>
     </div>
     </form>
 </div>
 
 <script>
+    function submit(){
+    var max_int = 210000000;
+
+    if ($('#amount').val() == '') {
+        alert('금액을 입력해주세요.');
+        return false;
+    }
+    else if ($('#amount').val() >= max_int) {
+        alert('입력받을수 있는 금액 범위를 초과하였습니다.');
+        return false;
+    }
+    else if ($('#date').val() == '') {
+        alert('날짜를 선택해주세요.');
+        return false;
+    }
+    else if ($('#where').val() == '') {
+        alert('소비처를 작성해주세요.');
+        return false;
+    }
+    else{
+    const form = document.getElementById('income_form');
+    form.action="{% url 'calendars:add_income_calendar' %}"
+    form.submit();
+    }
+    }
+</script>
+
+<script>
     //textarea auto height increaze...
 <!--    $("textarea.input_textarea").on('keydown keyup', function () {-->
 <!--        $(this).height(1).height( $(this).prop('scrollHeight')+12 );	-->
 <!--      });-->
-
-
-    $(function() {
-        var cardlist_Tags = [{% for i in wntlr %}
-        '{{i.ss_isukorabbrv}} :{{i.ss_isusrtcd}}',
-        {% endfor %}];
-        $('#place').autocomplete({
-            source: cardlist_Tags,
-            max:10
-        });
-     });
 /*
     $(document).ready(function(){
         //키를 누르거나 떼었을때 이벤트 발생

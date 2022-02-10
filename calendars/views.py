@@ -42,7 +42,6 @@ def home(request):
             invest=request.POST['invest'],
         )
         return redirect('/')
-
     invest = request.user.invest
     user = request.user.user_id
     now = datetime.datetime.now()
@@ -61,8 +60,19 @@ def home(request):
     spend_sum_value = list(spend_sum.values())
     income_sum = income_month_filter2.values('amount').aggregate(Sum('amount'))
     income_sum_value = list(income_sum.values())
-
-    home_chartjs_data = [invest]
+    stock_cal = cal.calculator()
+    total_investment_amount = stock_cal.total_investment_amount(request.user.user_id)
+    total_use_investment_amount = stock_cal.total_use_investment_amount(request.user.user_id)
+    #son = total_current_price + total_use_investment_amount
+    total_current_price = stock_cal.total_current_price(request.user.user_id)
+    if total_current_price is None:
+        total_current_price = 0
+    else:
+        total_current_price = total_current_price
+    son = total_current_price + total_use_investment_amount
+    print(total_current_price)
+    home_chartjs_data = [invest, son]
+    print( home_chartjs_data)
     for spend_sum_value in spend_sum_value:
         if spend_sum_value == None:
             home_chartjs_data.append(0)
@@ -73,16 +83,8 @@ def home(request):
             home_chartjs_data.append(0)
         else:
             home_chartjs_data.append(income_sum_value)
-
-    stock_cal = cal.calculator()
-    total_investment_amount = stock_cal.total_investment_amount(request.user.user_id)
-    print( total_investment_amount)
-    total_current_price = stock_cal.total_current_price(request.user.user_id)
-    total_use_investment_amount = stock_cal.total_use_investment_amount(request.user.user_id)
-    son = total_current_price + total_use_investment_amount
-
-    return render(request, 'home.html', {'month': month, 'Expenditure': spend_sum, 'Income': income_sum,
-                                         'Home_chartjs_data': home_chartjs_data, 'Total_investment_amount':total_investment_amount, 'total_current_price':total_current_price, 'son':son})
+    return render(request, 'home.html', {'month': month, 'Expenditure': spend_sum, 'Income': income_sum, 'income_sum_value':income_sum_value,
+                                         'Home_chartjs_data': home_chartjs_data, 'Total_investment_amount':total_investment_amount, 'son':son})
 
 
 def recom(request):
@@ -317,35 +319,17 @@ def ajax_sendSMS(request):
 
 def add_income_calendar(request):
     if request.method == "POST":
-        if 'spendbtn' in request.POST:
-            sform = SpendForm(request.POST)
-            if sform.is_valid():
-                user_id = request.POST['user'],
-                kind = sform.cleaned_data['kind'],
-                amount = sform.cleaned_data['amount'],
-                place = sform.cleaned_data['place'],
-                spend_date = sform.cleaned_data['spend_date'],
-                way = sform.cleaned_data['way'],
-                category = sform.cleaned_data['category'],
-                card = sform.cleaned_data['card'],
-                memo = sform.cleaned_data['memo'],
-                stock = sform.cleaned_data['place']
-                sform.save()
-                return redirect('/history')
-
-        elif 'incomebtn' in request.POST:
-            iform = IncomeForm(request.POST)
-            if iform.is_valid():
-                user_id = request.POST['user'],
-                kind = iform.cleaned_data['kind'],
-                amount = iform.cleaned_data['amount'],
-                income_date = iform.cleaned_data['income_date'],
-                income_way = iform.cleaned_data['income_way'],
-                memo = iform.cleaned_data['memo']
-                iform.save()
-                return redirect('/history')
+        iform = IncomeForm(request.POST)
+        if iform.is_valid():
+            user_id = request.POST['user'],
+            kind = iform.cleaned_data['kind'],
+            amount = iform.cleaned_data['amount'],
+            income_date = iform.cleaned_data['income_date'],
+            income_way = iform.cleaned_data['income_way'],
+            memo = iform.cleaned_data['memo']
+            iform.save()
+            return redirect('/history')
     else:
-        sform = SpendForm()
         iform = IncomeForm()
     wntlr = Stocksector.objects.all().values('ss_isusrtcd', 'ss_isukorabbrv')
     return render(request, 'add_income_calendar.html', {'wntlr': wntlr})
@@ -413,7 +397,7 @@ def delete_shistory(request, spend_id):
     spend = Spend.objects.get(spend_id = spend_id)
     spend.delete()
     return redirect('/history')
-    
+
 def delete_ihistory(request, income_id):
     income = Income.objects.get(income_id = income_id)
     income.delete()

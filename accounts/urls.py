@@ -15,7 +15,15 @@ urlpatterns = [
     path('login', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('authaccounts/kakao/login', views.KakaoSignInView, name='KakaoSignInView'),
+    path('send_email', views.send_email, name='send_email'),
 
+    path('find_id', views.find_id, name='find_id'),
+    path('find_id_result', views.find_id_result, name='find_id_result'),
+    path('password_reset/', views.UserPasswordResetView.as_view(), name="password_reset"),
+    path('password_reset_done/', auth_views.PasswordResetDoneView.as_view(), name="password_reset_done"),
+    path('password_reset_confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name="password_reset_confirm"),
+    path('password_reset_complete/', auth_views.PasswordResetCompleteView.as_view(), name="password_reset_complete"),
+    
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

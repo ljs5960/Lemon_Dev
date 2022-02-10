@@ -88,7 +88,6 @@ class api:
                     get_stocksector = self.get_stocksector(code, stock['isuSrtCd'])
                     if get_stocksector:
                         print(stock)
-                        print(get_stocksector['isuKorAbbrv'])
                         result.append({
                             'isusrtcd': get_stocksector['isuSrtCd'],
                             'isukorabbrv': get_stocksector['isuKorAbbrv'],
@@ -141,3 +140,24 @@ class api:
         except Exception as e:
             print('Error in get_stock_history: \n', e)
             return False
+
+    def get_per_pbr_bundle(self):
+        result = []
+        marketcode = ['kospi', 'kosdaq']
+        for code in marketcode:
+            list = self.stocks_list(code)
+            if list:
+                for stock in list:
+                    get_stocksector = self.get_selectivemaster(code, stock['isuSrtCd'])
+                    if get_stocksector:
+                        print(get_stocksector)
+                        result.append({
+                            'isusrtcd': get_stocksector['isuSrtCd'],
+                            'per': get_stocksector['per'],
+                            'pbr': get_stocksector['pbr'],
+                        })
+                    else:
+                        print('========>Fail get stocksector: ', stock['isuSrtCd'])
+            else:
+                return False
+        return result

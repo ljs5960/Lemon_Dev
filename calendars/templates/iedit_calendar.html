@@ -48,9 +48,8 @@
         display: none;
     }
     .addEvent-wrap{
-        background-color: #fff;
+      background-color: #fff;
         position: relative;
-        margin-top: 30px;
         margin-bottom: 30px;
         max-width: 768px;
         height: 100%;
@@ -113,7 +112,7 @@
         border-top: none;
         border-left: none;
         border-right: none;
-        border-bottom: 1px solid #767676;
+        border-bottom: 1px solid rgb(202, 202, 202);
         /* ios 기능 */
         appearance: none;
         -moz-appearance: none;
@@ -132,6 +131,8 @@
         font-family: 'Noto Sans KR', sans-serif;
         font-weight:400;
         font-size:15px;
+         -moz-text-align-last: center;
+        text-align: -webkit-center;
         /* ios 기능 */
         appearance: none;
         -moz-appearance: none;
@@ -140,7 +141,7 @@
         -webkit-border-radius: 0;
         -moz-border-radius: 0;
         background-color: #fff;
-        text-align:center;
+        border-bottom: 1px solid rgb(202, 202, 202);
     }
     .income_list_title{
         float: left;
@@ -153,14 +154,15 @@
     }
     .input_textarea{
         width: 230px;
+                height:150px;
         overflow:visible;
-        font-size: 1.3rem;
+        font-size: 15px;
         font-family: 'Noto Sans KR', sans-serif;
         font-weight: 400;
         border-top: none;
         border-left: none;
         border-right: none;
-        border-bottom: 1px solid #767676;
+        border-bottom: 1px solid rgb(202, 202, 202);
         resize: none;
         /* ios 기능 */
         appearance: none;
@@ -177,26 +179,26 @@
 
     }
     .addBtn{
+         margin-top:15px;
         border: 1px solid transparent;
         border-radius: 10px;
-        width: 50%;
+        width: 100%;
         height: 40px;
         font-weight: bold;
         font-size: 18px;
         color: #fff;
         background: #31bc8a;
-        margin-left:5px;
     }
     .delBtn{
+       margin-left:5px;
         border: 1px solid #FC615D;
         border-radius: 10px;
-        width: 50%;
         height: 40px;
         font-weight: bold;
         font-size: 1rem;
         color: #FC615D;
+        padding:5px;
         background: #FFF;  /* Chrome 10-25, Safari 5.1-6 */
-
     }
     @media screen and (max-width: 420px) {
         .span_table a{
@@ -226,11 +228,16 @@
         </div>
 {% endblock nav %}
 <div class="addEvent-wrap">
+    {% for i in income %}
+    <form action = "{% url 'calendars:delete_ihistory' i.income_id %}" method="POST"  style="position:absolute;right:13px;">
+            {% csrf_token %}
+          <input class="delBtn"  type = "submit" value = "삭제">
+        </form>
     <div class="list">
         <input type="radio" name="jtags" value="수입" id="income" checked>
-        <label for="income">수입내역 수정하기</label>
+        <label for="income">수입내역</label>
     </div>
-    {% for i in income %}
+
     <form action="{% url 'calendars:iedit_calendar' i.income_id %}" method = "POST">
         {% csrf_token %}
     <div class="income_div" id="income_div">
@@ -274,28 +281,22 @@
 
             </table>
         </div>
-
-        <div style="display:flex;text-align:center; margin-top:15px;justify-content: space-between;">
-
-            <button class="addBtn" value="incomebtn" name="incomebtn" type="submit" style="width:45%">수정</button>
-            
-        </div>
     </div>
+        <div style="position: absolute;bottom: 15px;width: 100%;padding-right:30px;">
+            <button class="addBtn" value="incomebtn" name="incomebtn" type="submit" style="line-height:37px;text-align:center;">수정</button>
+           </div>
     </form>
-      <form action = "{% url 'calendars:delete_ihistory' i.income_id %}" method="POST">
-            {% csrf_token %}
-          <input class="delBtn"  type = "submit" value = "제거">
-        </form>
-      </div>
+
+</div>
 
 
  {% endfor %}
 <script>
 
     //textarea auto height increaze...
-    $("textarea.input_textarea").on('keydown keyup', function () {
-        $(this).height(1).height( $(this).prop('scrollHeight')+12 );
-      });
+<!--    $("textarea.input_textarea").on('keydown keyup', function () {-->
+<!--        $(this).height(1).height( $(this).prop('scrollHeight')+12 );-->
+<!--      });-->
 
 
     $(function() {

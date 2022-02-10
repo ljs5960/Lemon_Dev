@@ -175,8 +175,8 @@
 <!-- 회원가입 navbar 끝 -->
 
 <!-- 회원가입 Wrapper -->
-<div class="signup-wrapper" style="min-width:378px; padding:70px 20px 40px 20px;">
-    <form class="validation-form" method="POST" action="{% url 'accounts:signup' %}" id="signup-form">
+<div class="signup-wrapper" style="padding:70px 20px 40px 20px;">
+    <form class="validation-form" style="width:100%;" method="POST" action="{% url 'accounts:signup' %}" id="signup-form">
         {% csrf_token %}
         <div class="persnal_info_access" style="padding-bottom: 20px;">
             <div class="require_chk_wrap">
@@ -244,38 +244,85 @@
             <!-- 연락처 입력 input -->
             <div class="signup-form">
             <a>전화번호 <strong>(필수)</strong></a>
-                <div style="width:100%; min-width:373px;">
-                    <input class="add_info_phone_signup" id="phonenumber" name="phonenumber" type="text" placeholder="- 를 제외하고 입력하세요" style="margin-top: 10px; margin-bottom:5px;">
-                    <button type="button" id="codeBtn" class="phone_code_btn_signup">발송</button><br>
-                    <input id="inputCode" class="add_info_phonecode_signup" type="number" placeholder="인증번호 입력" disabled> <a id="count" class="count-signup" style="margin-top: 5px; margin-bottom:10px;"></a>
-                    <button type="button" id="certBtn" onclick="certfun();" class="phone_code_btn_signup" disabled >확인</button><br>
+                <div style="width:100%;">
+                    <div style="display: flex;align-items: center;justify-content: space-between;">
+                    <input class="add_info_phone_signup" id="phonenumber" name="phonenumber" type="number" placeholder="- 를 제외하고 입력하세요" style="margin-top: 10px; margin-bottom:5px;">
+                    <button type="button" id="codeBtn" class="phone_code_btn_signup">발송</button></div>
+                    <div style="display: flex;align-items: center;justify-content: space-between;">
+                    <input id="inputCode" class="add_info_phonecode_signup" type="number" placeholder="인증번호 입력" disabled>
+                        <div style="display: flex; align-items: center;justify-content: space-between;"><a id="count" class="count-signup" style="width:50px;margin-top: 5px; margin-bottom:10px;"></a>
+                    <button type="button" id="certBtn" onclick="certfun();" class="phone_code_btn_signup" disabled >확인</button></div></div>
                 </div>
             </div>
             <!-- 생년월일 입력 input -->
             <div class="signup-form">
             <a>생년월일 <strong>(필수)</strong> </a>
-                <input class="add_info_select_signup" name = birthday type="integrity" id="year" maxlength="8" placeholder="생년월일을 입력해주세요. 예시)19801210" style="margin-top: 10px; margin-bottom:25px;">
+                <input class="add_info_select_signup" name = birthday type="date" id="year" maxlength="8" placeholder="생년월일을 입력해주세요. 예시)19801210" style="margin-top: 10px; margin-bottom:25px;">
             </div>
             <!-- 모의투자금액 입력 input -->
             <div class="signup-form">
             <a>모의투자 금액 </a>
                 <input type="number" class="add_info_select_signup" id="invest" name="invest" placeholder="모의 투자금액을 입력하세요." value="0" style="margin-top: 10px; margin-bottom:25px;"><br>
                 <input style="display: none;" type="date" class="add_info_select_signup" id="invest_date" name="invest_date" value="">
-
             </div>
+
             <!-- 핀번호 입력 input -->
             <div class="signup-form">
             <a>핀번호 </a>
-                <input type="text" class="add_info_select_signup"
-                    id="pin" name="pin" placeholder="미입력시 초기 번호는 0000 입니다." value="">
+                 <input type="password" pattern="[0-9]*" inputmode="numeric" name="pin" maxlength='4' class="add_info_select_signup"
+                    id="pin" placeholder="미입력시 초기 번호는 0000 입니다." value=""/>
             </div>
 
-            <button class="btn btn-primary btn-lg btn-block" id="signupBtn" type="submit" value="signup" disabled style="width:100%">회원가입</button>
+            <button class="btn btn-primary btn-lg btn-block" id="signupBtn" onclick="signup_check()" disabled style="width:100%">회원가입</button>
         </div>
     </form>
 </div><!-- 회원가입 Wrapper 끝 -->
 
 </body>
+
+<script>
+    // 회원가입 값 검증
+    function signup_check() {
+        if ($('#uid').val() == '') {
+            alert('아이디를 입력해주세요.');
+            return false;
+        }
+        else if ($('#password').val() == '') {
+            alert('비밀번호를 입력해주세요.');
+            return false;
+        }
+        else if ($('#password1').val() == '') {
+            alert('한번더 비밀번호를 입력해주세요.');
+            return false;
+        }
+        else if ($('#name').val() == '') {
+            alert('이름을 입력해주세요.');
+            return false;
+        }
+        else if ($('#email').val() == '') {
+            alert('이메일을 입력해주세요.');
+            return false;
+        }
+        else if ($('#phonenumber').val() == '') {
+            alert('전화번호를 입력해주세요.');
+            return false;
+        }
+        else if ($('#year').val() == '') {
+            alert('생년월일을 선택해주세요.');
+            return false;
+        }
+        else if ($('#inputCode').val() == '') {
+            alert('인증번호 4자리를 입력해주세요.');
+            return false;
+        }
+        else {
+            const form = document.getElementById('signup_form');
+            alert($('#name').val()+'님, 회원가입을 축하합니다.')
+            form.action = "{% url 'accounts:signup' %}"
+            form.submit();
+        }
+    }
+</script>
 
 <script>
     // 투자금액 입력시 날짜도 같이 입력

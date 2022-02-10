@@ -55,8 +55,8 @@ def edit_myinfo(request):
         user_db.username = request.POST['username']
         user_db.gender = request.POST['gender']
         user_db.job = request.POST['job']
-        user_db.birthday = request.POST['birthday']
-        user_db.phonenumber = request.POST['phonenumber']
+        #user_db.birthday = request.POST['birthday']
+        #user_db.phonenumber = request.POST['phonenumber']
         user_db.save()
         return redirect('/myinfo/update')
     return render(request, 'edit_myinfo.html')
