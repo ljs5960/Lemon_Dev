@@ -8,7 +8,7 @@ class TotalMerge(models.Model):
     category = models.IntegerField(db_column='category')
     per = models.IntegerField(db_column='per')
     pbr = models.IntegerField(db_column='pbr')
-    ss_haltyn = models.CharField(db_column='ss_haltYN', max_length=5)
+    haltyn = models.CharField(db_column='haltYN', max_length=5)
     logo = models.CharField(db_column='logo', max_length=20)
     date = models.DateTimeField(db_column='date',auto_now_add=True)
 
