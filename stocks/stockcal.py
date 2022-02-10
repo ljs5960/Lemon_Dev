@@ -66,7 +66,7 @@ class calculator:
             stocktrading = Stocktrading.objects.filter(st_userid=user_id,
                                                        st_isusrtcd=isusrtcd,
                                                        st_kind='B',
-                                                       st_date__gte=stockheld.sh_z_date).aggregate(
+                                                       st_date__gt=stockheld.sh_z_date).aggregate(
                 total=Sum(F('st_price') * F('st_share')), share_total=Sum('st_share'))
             return round(-stocktrading['total'] / stocktrading['share_total'])
         except Exception as e:

@@ -38,7 +38,6 @@ def portfolio(request):
     total_investment_amount = stock_cal.total_investment_amount(request.user.user_id)
     total_current_price = stock_cal.total_current_price(request.user.user_id)
     total_use_investment_amount = stock_cal.total_use_investment_amount(request.user.user_id)
-    print(total_use_investment_amount)
     if total_investment_amount is False or total_current_price is False or total_use_investment_amount is False:
         result['total_investment_amount'] = 0
         result['total_current_price'] = 0
@@ -138,7 +137,6 @@ def buy_stock(request):
             stock_master = kocom.api().get_stock_master(data['marketcode'], data['issuecode'])
             stockheld_check = Stockheld.objects.filter(sh_userid=request.user.user_id,
                                                        sh_isusrtcd=stock_master['isuSrtCd']).exists()
-            print(f'check: {stockheld_check}')
             with transaction.atomic():
                 if stock_master and not stockheld_check:
                     stockheld_insert(request.user.user_id, data, stock_master)
@@ -158,7 +156,6 @@ def sold_stock(request):
     result = False
     if request.method == 'POST':
         get_share = cal.calculator().get_shares(request.user.user_id, data['issuecode'])
-        print(f'get_share: {get_share}')
         sold_share = int(data['share'])
         if get_share - sold_share < 0:
             return JsonResponse({'result': '보유 주가 부족합니다'}, content_type='application/json')
@@ -190,6 +187,7 @@ def stockheld_insert(user_id, data, master):
         sh_idxindmidclsscd=master['idxIndMidclssCd'],
         sh_share=data['share'],
         sh_price=-(int(data['share']) * int(data['current_price'])),
+        sh_z_date=datetime(1, 1, 1, 1, 1, 1).strftime('%Y-%m-%d %H:%M:%S')
     ).save()
 
 
@@ -219,7 +217,6 @@ def stocktrading_insert(user_id, data, master, kind):
         st_share=data['share'],
         st_price=data['current_price']
     ).save()
-    # stock_profit_input(user_id, int(data['current_price']))
 
 
 def stock_profit_input(user_id, price):
