@@ -76,8 +76,8 @@ class calculator:
     # 전체 사용한 투자 금액
     def total_use_investment_amount(self, user_id):
         try:
-            use_total = Stocktrading.objects.filter(st_userid=user_id).aggregate(
-                use_total=Sum(F('st_price') * F('st_share')))['use_total']
+            use_total = Stockheld.objects.filter(sh_userid=user_id).aggregate(
+                use_total=Sum('sh_price'))['use_total']
             if use_total:
                 return use_total
             else:

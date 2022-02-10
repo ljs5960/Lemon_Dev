@@ -38,6 +38,7 @@ def portfolio(request):
     total_investment_amount = stock_cal.total_investment_amount(request.user.user_id)
     total_current_price = stock_cal.total_current_price(request.user.user_id)
     total_use_investment_amount = stock_cal.total_use_investment_amount(request.user.user_id)
+    print(total_use_investment_amount)
     if total_investment_amount is False or total_current_price is False or total_use_investment_amount is False:
         result['total_investment_amount'] = 0
         result['total_current_price'] = 0
