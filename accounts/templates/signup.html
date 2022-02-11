@@ -36,6 +36,19 @@
     input[type=number] {
     -moz-appearance: textfield;
     }
+ .addBtn{
+        border: 1px solid transparent;
+        border-radius: 10px;
+        width: 100%;
+        height: 50px;
+        font-weight: bold;
+        font-size: 18px;
+        color: #fff;
+        background: #31bc8a;
+        margin-top: 20px;
+        text-align: center;
+        line-height: 50px;
+        }
 
     .add_info_select_signup{
 		margin-bottom: 10px;
@@ -176,7 +189,7 @@
 
 <!-- 회원가입 Wrapper -->
 <div class="signup-wrapper" style="padding:70px 20px 40px 20px;">
-    <form class="validation-form" style="width:100%;" method="POST" action="{% url 'accounts:signup' %}" id="signup-form">
+    <form class="validation-form" style="width:100%;" method="POST" action="{% url 'accounts:signup' %}" id="signup_form">
         {% csrf_token %}
         <div class="persnal_info_access" style="padding-bottom: 20px;">
             <div class="require_chk_wrap">
@@ -249,6 +262,7 @@
                     <input class="add_info_phone_signup" id="phonenumber" name="phonenumber" type="number" placeholder="- 를 제외하고 입력하세요" style="margin-top: 10px; margin-bottom:5px;">
                     <button type="button" id="codeBtn" class="phone_code_btn_signup">발송</button></div>
                     <div style="display: flex;align-items: center;justify-content: space-between;">
+                        <input type="hidden" id="phone_check" value="0">
                     <input id="inputCode" class="add_info_phonecode_signup" type="number" placeholder="인증번호 입력" disabled>
                         <div style="display: flex; align-items: center;justify-content: space-between;"><a id="count" class="count-signup" style="width:50px;margin-top: 5px; margin-bottom:10px;"></a>
                     <button type="button" id="certBtn" onclick="certfun();" class="phone_code_btn_signup" disabled >확인</button></div></div>
@@ -273,7 +287,7 @@
                     id="pin" placeholder="미입력시 초기 번호는 0000 입니다." value=""/>
             </div>
 
-            <button class="btn btn-primary btn-lg btn-block" id="signupBtn" onclick="signup_check()" disabled style="width:100%">회원가입</button>
+            <div class="addBtn" id="signupBtn" onclick="signup_check()"  style="width:100%">회원가입</span>
         </div>
     </form>
 </div><!-- 회원가입 Wrapper 끝 -->
@@ -281,7 +295,8 @@
 </body>
 
 <script>
-    // 회원가입 값 검증
+    // 이용약관도 체크 확인 하기
+    // 핸드폰 중복 확인
     function signup_check() {
         if ($('#uid').val() == '') {
             alert('아이디를 입력해주세요.');
@@ -307,12 +322,16 @@
             alert('전화번호를 입력해주세요.');
             return false;
         }
-        else if ($('#year').val() == '') {
-            alert('생년월일을 선택해주세요.');
-            return false;
-        }
         else if ($('#inputCode').val() == '') {
             alert('인증번호 4자리를 입력해주세요.');
+            return false;
+        }
+        else if ($('#phone_check').val() == 0 ) {
+            alert('핸드폰 인증을 해주세요.');
+            return false;
+        }
+         else if ($('#year').val() == '') {
+            alert('생년월일을 선택해주세요.');
             return false;
         }
         else {
@@ -385,11 +404,11 @@ document.addEventListener('keydown', function(event) {
         var leftSec = 180;
         var phoneInput = document.getElementById('phonenumber');
         if(phoneInput.value == '' || phoneInput.value == null){
-            alert('휴대전화번호를 입력하세요.');
+            alert('휴대전화 번호를 입력하세요.');
             return false;
         }
         if(phoneInput.value.length != 11){
-            alert('휴대전화번호 11자리를 입력하세요.');
+            alert('휴대전화 번호 11자리를 입력하세요.');
             return false;
         }
 
@@ -417,6 +436,7 @@ document.addEventListener('keydown', function(event) {
                 },
                 success: function(data){
                     console.log('성공');
+                    $('#phonce_check').val(1);
                 },
                 fail: function(data) {
                     console('실패');
