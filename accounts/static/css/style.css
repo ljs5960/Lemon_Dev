@@ -7,13 +7,13 @@ font-family: 'Noto Sans KR', sans-serif;
 		color:#202020;
         text-decoration:none;
         text-decoration-line: none;
-    }
+	}
 
-    a:link, a:visited, a:hover, a:active {
-		text-decoration:none;
-        text-decoration-line: none;
-        color:#202020;
-    }
+	a:link, a:visited, a:hover, a:active {
+	text-decoration:none;
+			text-decoration-line: none;
+			color:#202020;
+	}
 
 	html{
 		margin: 0;
@@ -38,6 +38,7 @@ font-family: 'Noto Sans KR', sans-serif;
 		-ms-user-select: none !important;
 		user-select: none !important;
 	}
+
 	body::-webkit-scrollbar{
 		display: none;
 	}
@@ -47,16 +48,16 @@ font-family: 'Noto Sans KR', sans-serif;
 	}
 
 	.loader-main{
-        position: fixed;
-        top: 50px;
-        left: 0px;
-        right: 0px;
-        bottom: 55px;
-        background-color: #F3F4F6;
-        will-change: opacity;
-        transition: all 250ms ease;
-        z-index: 90;
-        }
+		position: fixed;
+		top: 50px;
+		left: 0px;
+		right: 0px;
+		bottom: 55px;
+		background-color: #F3F4F6;
+		will-change: opacity;
+		transition: all 250ms ease;
+		z-index: 90;
+	}
 
     .la-ball-clip-rotate,
     .la-ball-clip-rotate > div {
@@ -190,6 +191,10 @@ font-family: 'Noto Sans KR', sans-serif;
         }
     }
 
+/* ##################################################################################################################### */
+/* ##################################################### base.html ##################################################### */
+/* ##################################################### 시작 부분 ##################################################### */
+/* ##################################################################################################################### */
 	#wrap{
         position: relative;
     }
@@ -207,20 +212,6 @@ font-family: 'Noto Sans KR', sans-serif;
         right: 0;
         z-index: 100;
         border-bottom:1px solid #f1f1f1;
-    }
-
-	/* nav 관련 */
-	.fa-arrow-left{
-        margin: 0.8rem 0.5rem 0 0.5rem;
-        vertical-align:text-bottom;
-        font-size: 1.5rem;
-        color: #fff;
-    }
-    .fa-bell{
-        margin: 0.8rem 0.5rem 0 0.5rem;
-        float: right;
-        font-size: 1.5rem;
-        color: #fff;
     }
 
 	#container{

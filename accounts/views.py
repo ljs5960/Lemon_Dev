@@ -67,7 +67,7 @@ def signup(request):
                                             gender=request.POST['gender'],
                                             job=request.POST['job'],
                                             email=request.POST['email'],
-                                            phonenumber=request.POST['phonenumber'],
+                                            phonenumber=request.POST.get('phonenumber', False),
                                             invest=request.POST['invest'],
                                             invest_date=request.POST['invest_date'],
                                             u_chk=request.POST['u_chk'],
