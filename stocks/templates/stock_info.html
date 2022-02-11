@@ -175,6 +175,7 @@
                 <input type="hidden" id="sold_marketcode" name="sold_marketcode" value="{{ result.marketcode }}">
                 <input type="hidden" id="sold_issuecode" name="sold_issuecode" value="{{ result.isuSrtCd }}">
                 <div class="title_1">현재가</div><input type="text" id="sold_price" name="price" value="{{ result.curPrice}}"/>
+                <div class="title_1">보유주</div><input type="text" id="curr_share" disabled name="price" value="{{ result.share.0 }}"/>
                 <div class="title_1">주</div><input type="number" id="sold_share" name="sold_share" value=""/>
                     <div style="display: flex;justify-content: space-between;">
                         <div class="btn_1" onclick="sold(1)">+1주</div>
@@ -757,53 +758,68 @@ var myChart = new Chart(ctx, {
             current_price = document.getElementById('buy_price').value
             share = document.getElementById('buy_share').value
 
-        var headers = new Headers();
-        headers.append('Content-Type', 'application/json')
-        headers.append('X-CSRFToken', csrftoken)
-        var data = { marketcode, issuecode, current_price, share }
-        fetch('/buy_stock', {
-            method: "POST",
-            headers: headers,
-            body: JSON.stringify(data)
-        })
-        .then(res => {
-            if(res.status === 200) return res.json();
-            else console.log(res.statusText);
-        })
-        .then(json => {
-            console.log(json.result);
-        })
-        .catch(err => {
-            console.log(err)
-        })
+        if($('#buy_share').val() == '') {
+            alert('구매할 주를 입력해주세요.');
+        }
+        else{
+            var headers = new Headers();
+            headers.append('Content-Type', 'application/json')
+            headers.append('X-CSRFToken', csrftoken)
+            var data = { marketcode, issuecode, current_price, share }
+            fetch('/buy_stock', {
+                method: "POST",
+                headers: headers,
+                body: JSON.stringify(data)
+            })
+            .then(res => {
+                if(res.status === 200) return res.json();
+                else console.log(res.statusText);
+            })
+            .then(json => {
+                console.log(json.result);
+            })
+            .catch(err => {
+                console.log(err)
+            })
+            alert('구매완료\n'+ $('#buy_share').val()+'주');
+            location.reload();
+        }
     }
 
     function fn_sold_stock() {
         var marketcode = document.getElementById('sold_marketcode').value
             issuecode = document.getElementById('sold_issuecode').value
             current_price = document.getElementById('buy_price').value
-            share = document.getElementById('sold_share').value
-
-        var headers = new Headers();
-        headers.append('Content-Type', 'application/json')
-        headers.append('X-CSRFToken', csrftoken)
-        var data = { marketcode, issuecode, current_price, share }
-        fetch('/sold_stock', {
-            method: "POST",
-            headers: headers,
-            body: JSON.stringify(data)
-        })
-        .then(res => {
-            if(res.status === 200) return res.json();
-            else console.log(res.statusText);
-        })
-        .then(json => {
-            console.log(json.result);
-        })
-        .catch(err => {
-            console.log(err)
-        })
-    }
+            share = document.getElementById('sold_share').value;
+            curr_share = document.getElementById('curr_share').value;
+            var sold_stock =  curr_share - share ;
+            if (sold_stock < 0 ){
+                alert("보유주식보다 더 많이 매도할 수 없습니다.");
+            }
+            else{
+            var headers = new Headers();
+            headers.append('Content-Type', 'application/json')
+            headers.append('X-CSRFToken', csrftoken)
+            var data = { marketcode, issuecode, current_price, share }
+            fetch('/sold_stock', {
+                method: "POST",
+                headers: headers,
+                body: JSON.stringify(data)
+            })
+            .then(res => {
+                if(res.status === 200) return res.json();
+                else console.log(res.statusText);
+            })
+            .then(json => {
+                console.log(json.result);
+            })
+            .catch(err => {
+                console.log(err)
+            })
+            alert('매도완료 \n'+ $('#sold_share').val()+'주');
+            location.reload();
+        }
+        }
 
     function fn_get_selectivemaster() {
         var marketcode = document.getElementById('buy_marketcode').value

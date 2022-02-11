@@ -19,7 +19,7 @@ def search_stock(request):
 
 
 def stock(request):
-    stockheld = Stockheld.objects.filter(~Q(sh_share=0), sh_userid=request.user.user_id)
+    stockheld = Stockheld.objects.filter(sh_userid=request.user.user_id)
 
     stock_data = []
     stock_cal = cal.calculator()
@@ -28,7 +28,8 @@ def stock(request):
         average_price = stock_cal.average_price(request.user.user_id, element.sh_isusrtcd)
         current_price = koscom_api.get_current_price(element.sh_marketcode, element.sh_isusrtcd)
         stock_data.append(
-            [element.sh_isukorabbrv, average_price, current_price, element.sh_isusrtcd, element.sh_marketcode])
+            [element.sh_isukorabbrv, average_price, current_price, element.sh_isusrtcd, element.sh_marketcode, element.sh_share])
+        #print(stock_data)
     return render(request, 'stock.html', {'stock_data': stock_data})
 
 
@@ -57,6 +58,8 @@ def stock_info(request):
         result = koscom_api.get_stock_master(request.POST['marketcode'], request.POST['issuecode'])
         if result:
             result['usePrice'] = stock_cal.total_use_investment_amount(request.user.user_id)
+            print(result['usePrice'])
+            result['share'] = Stockheld.objects.filter(sh_userid=request.user.user_id , sh_isusrtcd = request.POST['issuecode']).values_list('sh_share', flat=True)
             result['curPrice'] = koscom_api.get_current_price(request.POST['marketcode'], request.POST['issuecode'])
             result['marketcode'] = request.POST['marketcode']
             result['total_allow_invest'] = request.user.invest - stock_cal.total_use_investment_amount(request.user.user_id)
