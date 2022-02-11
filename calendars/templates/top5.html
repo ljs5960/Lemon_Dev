@@ -293,6 +293,11 @@ function click_evt() {
     window.location.href = 'add_spend_calendar';
   };
 </script>
+       <form id="form" method="post">
+    {% csrf_token %}
+    <input type="hidden" id="issuecode" name="issuecode">
+    <input type="hidden" id="marketcode" name="marketcode">
+</form>
     </div><!-- 카테고리차트 탑5 div 끝-->
   <!-- 소비 탑5 카드사 div 시작-->
        <div style="background-color:#fff; margin:20px 5% 40px 5%; padding: 10px; display:none;">
