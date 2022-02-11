@@ -1,24 +1,30 @@
 from .models import *
 from . import kocom
-from django.db.models import Sum, F
+from django.db.models import Sum, F, Q
 
 
 class calculator:
     def __init__(self):
         pass
 
-    # 전체 매수금액
+    # 현재 있는 주식에 대한 전체 구매한 양
     def total_investment_amount(self, user_id):
+        total_buy = 0
         try:
-            elements_sum = Stocktrading.objects.filter(st_userid=user_id,
-                                                       st_kind='B').aggregate(
-                                sum=Sum(F('st_price') * F('st_share')))['sum']
-            return -elements_sum
+            stockheld = Stockheld.objects.filter(~Q(sh_share__lte=0), sh_userid=user_id)
+            for element in stockheld:
+                stocktrading = Stocktrading.objects.filter(st_userid=user_id,
+                                                           st_isusrtcd=element.sh_isusrtcd,
+                                                           st_kind='B',
+                                                           st_date__gt=element.sh_z_date).aggregate(
+                    total=Sum(F('st_price') * F('st_share')))['total']
+                total_buy += stocktrading
+            return -total_buy
         except Exception as e:
-            print('Error in total_investment_amount: \n', e)
+            print('Error in total_buy_investment_amount: \n', e)
             return False
 
-    # 전체 매도금액
+    # 전체 매도금액 (사용안해 update 안함)
     def total_profit_amount(self, user_id):
         try:
             elements_sum = Stocktrading.objects.filter(st_userid=user_id,
@@ -29,18 +35,15 @@ class calculator:
             print('Error in total_profit_amount: \n', e)
             return False
 
-    # 전체 현재가
+    # 현재 있는 주식에 대한 전체 현재가
     def total_current_price(self, user_id):
         total_current_price = 0
         try:
-            stockheld = Stockheld.objects.filter(sh_userid=user_id)
-            for elements in stockheld:
-                current_price = kocom.api().get_current_price(elements.sh_marketcode, elements.sh_isusrtcd)
+            stockheld = Stockheld.objects.filter(~Q(sh_share__lte=0), sh_userid=user_id)
+            for element in stockheld:
+                current_price = kocom.api().get_current_price(element.sh_marketcode, element.sh_isusrtcd)
                 if current_price:
-                    total_share = Stocktrading.objects.filter(st_userid=user_id,
-                                                              st_isusrtcd=elements.sh_isusrtcd,
-                                                              st_kind='B').aggregate(share_total=Sum('st_share'))
-                    total_current_price += current_price * total_share['share_total']
+                    total_current_price += current_price * element.sh_share
                     return total_current_price
                 else:
                     return False
@@ -76,7 +79,7 @@ class calculator:
     # 전체 사용한 투자 금액
     def total_use_investment_amount(self, user_id):
         try:
-            use_total = Stockheld.objects.filter(sh_userid=user_id).values('sh_share').aggregate(
+            use_total = Stockheld.objects.filter(sh_userid=user_id).aggregate(
                 use_total=Sum('sh_price'))['use_total']
             if use_total:
                 return use_total

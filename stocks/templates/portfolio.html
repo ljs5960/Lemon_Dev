@@ -52,7 +52,7 @@
 
 {% comment %} <div style="text-align:center;font-size:22px;">{{total_current_amount|intcomma}}원</div> {% endcomment %}
 <div style="text-align:center;font-size:22px;">{{total_invest_amount|intcomma}}원</div>
-<div style="text-align:center;font-size:22px;">212,400원</div>
+<div style="text-align:center;font-size:22px;">{{total_current_price|intcomma}}원</div>
 
     <div style="text-align:center;font-size:14px;color:white;">{{total_current_price|sub:total_investment_amount|intcomma}}({{total_current_price|yields:total_investment_amount|rounds:2}}%)</div>
 
@@ -74,7 +74,7 @@
             data: {
                 labels: ['(가상금액-구매한금액)','구매한금액','손익금'],
                 datasets: [{
-                    data: ['1000000', '1500000', '{{total_use_investment_amount}}'],
+                    data: ['{{user.invest|sub:total_investment_amount}}', '{{total_investment_amount}}', '{{total_use_investment_amount}}'],
                     backgroundColor: [
                         '#5989DD',
                         '#D46A84',

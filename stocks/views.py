@@ -5,7 +5,6 @@ import json
 from django.http import JsonResponse
 from datetime import datetime
 from django.db import transaction
-from django.db.models import Q
 from . import kocom
 from . import stockcal as cal
 from .models import *
@@ -29,7 +28,6 @@ def stock(request):
         current_price = koscom_api.get_current_price(element.sh_marketcode, element.sh_isusrtcd)
         stock_data.append(
             [element.sh_isukorabbrv, average_price, current_price, element.sh_isusrtcd, element.sh_marketcode, element.sh_share])
-        #print(stock_data)
     return render(request, 'stock.html', {'stock_data': stock_data})
 
 
@@ -58,7 +56,6 @@ def stock_info(request):
         result = koscom_api.get_stock_master(request.POST['marketcode'], request.POST['issuecode'])
         if result:
             result['usePrice'] = stock_cal.total_use_investment_amount(request.user.user_id)
-            print(result['usePrice'])
             result['share'] = Stockheld.objects.filter(sh_userid=request.user.user_id , sh_isusrtcd = request.POST['issuecode']).values_list('sh_share', flat=True)
             result['curPrice'] = koscom_api.get_current_price(request.POST['marketcode'], request.POST['issuecode'])
             result['marketcode'] = request.POST['marketcode']
