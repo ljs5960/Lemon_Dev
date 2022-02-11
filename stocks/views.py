@@ -18,8 +18,7 @@ def search_stock(request):
 
 
 def stock(request):
-    stockheld = Stockheld.objects.filter(sh_userid=request.user.user_id)
-
+    stockheld = Stockheld.objects.filter(sh_userid=request.user.user_id).exclude(sh_share=0) # 자기가 구매한 것 보이고 다 판건 안보이게 만듬
     stock_data = []
     stock_cal = cal.calculator()
     koscom_api = kocom.api()

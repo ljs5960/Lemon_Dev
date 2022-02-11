@@ -43,15 +43,15 @@
     <div><strong>{{user.uid}}</strong>님의</div>
     <div><strong>포트폴리오</strong></div>
 <div>
-<div>
-    <button onclick="fn_set_PER_PBR()">PER, PBR 넣기</button>
-</div>
+<!--<div>-->
+<!--    <button onclick="fn_set_PER_PBR()">PER, PBR 넣기</button>-->
+<!--</div>-->
 <div class="stock">
     <span class="side">현재까지 수익률</span>
     <div class="title">주식</div>
 
 {% comment %} <div style="text-align:center;font-size:22px;">{{total_current_amount|intcomma}}원</div> {% endcomment %}
-<div style="text-align:center;font-size:22px;">{{total_invest_amount|intcomma}}원</div>
+<!--<div style="text-align:center;font-size:22px;">{{total_invest_amount|intcomma}}원</div>-->
 <div style="text-align:center;font-size:22px;">{{total_current_price|intcomma}}원</div>
 
     <div style="text-align:center;font-size:14px;color:white;">{{total_current_price|sub:total_investment_amount|intcomma}}({{total_current_price|yields:total_investment_amount|rounds:2}}%)</div>
@@ -72,7 +72,7 @@
             },
             type: 'doughnut',
             data: {
-                labels: ['(가상금액-구매한금액)','구매한금액','손익금'],
+                labels: ['가상 잔여 금액','구매한 주식','손익금'],
                 datasets: [{
                     data: ['{{user.invest|sub:total_investment_amount}}', '{{total_investment_amount}}', '{{total_use_investment_amount}}'],
                     backgroundColor: [
@@ -104,8 +104,8 @@
 <div class="stock" style="margin-top:20px;">
     <span class="side">금일 기준</span>
     <div class="title">주문 가능 금액</div>
-    <div style="text-align:center;font-size:22px;">{{user.invest|add:total_use_investment_amount|intcomma}}</div>
-    <div class="my_stock"><a href="{% url 'admins:edit_invest' %}" style="width:40%;color:#31bc8a; padding:10px 20px 10px 20px; border-radius: 10px; background-color:white;">변경</a></div>
+    <div style="text-align:center;font-size:22px;">{{user.invest|sub:total_investment_amount|intcomma}}</div>
+    <div class="my_stock"><a href="{% url 'admins:edit_invest' %}" style="width:40%;color:#31bc8a; padding:10px 20px 10px 20px; border-radius: 10px; background-color:white;">추가</a></div>
     </div>
 </div>
 
