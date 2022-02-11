@@ -31,7 +31,7 @@ class calculator:
 
     # 전체 현재가
     def total_current_price(self, user_id):
-        total_current_price = 1
+        total_current_price = 0
         try:
             stockheld = Stockheld.objects.filter(sh_userid=user_id)
             for elements in stockheld:

@@ -13,7 +13,7 @@ class Stockheld(models.Model):
     sh_idxindmidclsscd = models.CharField(db_column='sh_idxIndMidclssCd', max_length=20)
     sh_share = models.IntegerField()
     sh_price = models.IntegerField()
-    sh_z_date = models.DateTimeField(blank=True, null=True)
+    sh_z_date = models.DateTimeField()
     sh_date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
