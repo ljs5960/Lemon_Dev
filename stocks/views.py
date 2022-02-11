@@ -56,6 +56,7 @@ def stock_info(request):
     if request.method == 'POST':
         result = koscom_api.get_stock_master(request.POST['marketcode'], request.POST['issuecode'])
         if result:
+            result['usePrice'] = stock_cal.total_use_investment_amount(request.user.user_id)
             result['curPrice'] = koscom_api.get_current_price(request.POST['marketcode'], request.POST['issuecode'])
             result['marketcode'] = request.POST['marketcode']
             result['total_allow_invest'] = request.user.invest - stock_cal.total_use_investment_amount(request.user.user_id)
