@@ -13,84 +13,215 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <style>
-  #container{
-      margin: 0 20px !important;
-  }
-  #footer{
-      display:none;
-  }
-    /* FOOTER에서 사용하는 CSS */
-  ::-webkit-scrollbar{
-    width: 10px;
-    background-color: wheat;
-    display: block;
+    #container{
+        margin: 0 20px !important;
     }
-    ::-webkit-scrollbar-thumb{
-      width: 30px;
+      /* FOOTER에서 사용하는 CSS */
+  .bottom-nav-calendar{
+    color: #FFD859 !important;
+  }
+
+  .bottom-nav-calendar a{
+    color: #FFD859 !important;
+  }
+
+  .bottom-nav-search-stock a,
+  .bottom-nav-stock a,.bottom-nav-addlist a,
+  .bottom-nav-myinfo a{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 500;
+    font-size: 0.8rem;
+    color: #D1D6DA !important;
+  }
+    ::-webkit-scrollbar{
+        width: 10px;
+        background-color: wheat;
+        display: block;
+      }
+      ::-webkit-scrollbar-thumb{
+        width: 30px;
+      }
+    .income_div{
+        display: none;
     }
-
-  th{
-    white-space: initial;
-  }
-  input[type="number"]::-webkit-outer-spin-button,
-  input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-  }
-  .span_div,.income_div{
-    padding: 5px;
-  }
-
-  .addBtn{
-    margin-top:15px;
-    border: 1px solid transparent;
-    border-radius: 10px;
-    width: 100%;
-    height: 40px;
-    font-weight: bold;
-    font-size: 18px;
-    color: #fff;
-    background: #31bc8a;
-  }
-
-  .delBtn{
-    margin-left:5px;
-    border: 1px solid #FC615D;
-    border-radius: 10px;
-    height: 40px;
-    font-weight: bold;
-    font-size: 1rem;
-    color: #FC615D;
-    padding:5px;
-    background: #FFF;  /* Chrome 10-25, Safari 5.1-6 */
-  }
-
-@media screen and (max-width: 420px) {
-  .span_table a{
-    font-size: 15px;
-  }
-  .input_span{
-    font-size: 15px;
-  }
-  .span_list_select{
-    font-size: 15px;
-  }
+    .addEvent-wrap{
+        background-color: #fff;
+        position: relative;
+        margin-top: 20px;
+        margin-bottom: 30px;
+        max-width: 768px;
+        height: 100%;
+        border: 1px solid rgb(202, 202, 202);
+        box-shadow: 2px 3px 4px 1px rgb(202, 202, 202);
+        border-radius: 15px;
+        padding: 15px;
+    }
+    .list{
+        text-align: center;
+    }
+    input[type="radio"] {
+        display: none;
+    }
+    th{
+        white-space: initial;
+    }
+    label {
+    width: 90%;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 500;
+    display: inline-block;
+    border-radius: 15px;
+    text-align: center;
+    text-decoration: none;
+    /*border: solid 1px rgb(202, 202, 202);*/
+    transition: 0.25s;
+    padding: 6px 18px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 3px;
+    }
+    input[type="radio"]:checked + label {
+    width: 90%;
+    background: #fff;
+    color: #202020;
+    }
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
+    .span_div,.income_div{
+        padding: 5px;
+    }
+    .span_list_title{
+        color: #000;
+        text-decoration: none;
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: 500;
+        font-size: 15px;
+    }
+    .input_span{
+        width: 230px;
+        padding-bottom: 5px;
+        font-size: 15px;
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: 400;
+        text-align: right;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        border-bottom: 1px solid rgb(202, 202, 202);
+        /* ios 기능 */
+        appearance: none;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        border-radius: 0;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        background-color: #fff;
+    }
+    .span_list_select{
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        width:230px;
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight:400;
+        font-size:15px;
+        /* ios 기능 */
+        appearance: none;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        border-radius: 0;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        background-color: #fff;
+        border-bottom: 1px solid rgb(202, 202, 202);
+    }
+    .income_list_title{
+        float: left;
+        margin-top: 15px;
+        margin-left: 10px;
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: 600;
+        font-size: 1.4rem;
+        margin-right: 2rem;
+    }
+    .input_textarea{
+        width: 230px;
+                height:150px;
+        overflow:visible;
+        font-size: 15px;
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: 400;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        border-bottom: 1px solid rgb(202, 202, 202);
+        resize: none;
+        /* ios 기능 */
+        appearance: none;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        border-radius: 0;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        background-color: #fff;
+        -moz-user-select: auto;
+        -webkit-user-select: auto;
+        -ms-user-select: auto;
+        user-select: auto;
+
+    }
+    .addBtn{
+        margin-top:15px;
+        border: 1px solid transparent;
+        border-radius: 10px;
+        width: 100%;
+        height: 40px;
+        font-weight: bold;
+        font-size: 18px;
+        color: #fff;
+        background: #31bc8a;
+    }
+    .delBtn{
+        margin-left:5px;
+        border: 1px solid #FC615D;
+        border-radius: 10px;
+        height: 40px;
+        font-weight: bold;
+        font-size: 1rem;
+        color: #FC615D;
+        padding:5px;
+        background: #FFF;  /* Chrome 10-25, Safari 5.1-6 */
+
+    }
+    @media screen and (max-width: 420px) {
+        .span_table a{
+            font-size: 15px;
+        }
+        .input_span{
+            font-size: 15px;
+        }
+        .span_list_select{
+            font-size: 15px;
+        }
+    }
 </style>
 {% block nav %}
-<!-- 상단바 영역 시작 -->
 <div id="nav" style="border-bottom: 1px solid #f1f1f1;">
-    <div>
-        <div style="text-align:center;">
-            <a style="color: #fff;" href="javascript:history.back();">
-                <i class="fa fa-angle-left"></i>
-            </a>지출 내역
+            <div>
+            <div style="text-align:center;">
+                <a style="color: #fff;" href="javascript:history.back();"><i class="fa fa-angle-left" style="position: absolute;
+    left: 5px;
+    padding: 14px 15px;
+    top: 0;
+    font-size: 25px;
+    font-weight: 600;color:black;"></i></a>
+                지출 내역</div>
         </div>
-    </div>
-</div>
-<!-- 상단바 영역 끝 -->
+        </div>
 {% endblock nav %}
-
 <div class="addEvent-wrap">
     {% for i in spe %}
     <form action = "{% url 'calendars:delete_shistory' i.spend_id %}" method="POST" style="position:absolute;right:13px;">
@@ -98,7 +229,8 @@
           <input class="delBtn" type = "submit" value = " 삭제 ">
         </form>
     <div class="list">
-        <a style="font-weight: 500;">지출내역</a>
+        <input type="radio" name="jtags" value="지출" id="span" checked>
+        <label for="span">지출내역</label>
     </div>
     <form id="seidt_form" action="{%url 'calendars:sedit_calendar' i.spend_id %}" method="POST">
         {% csrf_token %}
@@ -118,7 +250,9 @@
                 </tr>
                 <tr> <!-- 행선언 -->
                     <th width="200" height="60"><a class="span_list_title">소비처</a></th>
-                    <th width="240" style="text-align: end;"><input class="input_span stock" type="text" id="place" name="place" autocomplete="on" value="{{i.place}}">
+                    <th width="240" style="text-align: end;"><input class="input_span stock" type="text" id="where" name="where" autocomplete="on" value="{{i.place}}:{{i.stock}}">
+                    <input type="hidden" id="place" name="place">
+                     <input type="hidden" id="stock" name="stock">
                 </tr>
                 <tr> <!-- 행선언 -->
                     <th width="200" height="60"><a class="span_list_title">결제수단 </a></th>
@@ -176,10 +310,15 @@
 
             </table>
         </div>
-            <div type="button" class="addBtn" value="수정" onclick="submit()" style="line-height:37px;text-align:center;"/>수정</div>
-        </form>
+            <input type="button" class="addBtn" value="수정" onclick="submit()" style="line-height:37px;text-align:center;"/>
+         </form>
         <script>
             function submit(){
+            var str = $('#where').val();
+            var stockcode = str.slice(-6);
+            var stockname = str.replace(":"+stockcode,"");
+            document.getElementById('place').value = stockname;
+            document.getElementById('stock').value = stockcode;
             const form = document.getElementById('seidt_form');
             form.action="{%url 'calendars:sedit_calendar' i.spend_id %}"
             form.submit();
@@ -193,9 +332,9 @@
 
     $(function() {
         var cardlist_Tags = [{% for i in wntlr %}
-        '{{i.ss_isukorabbrv}}'
+        '{{i.ss_isukorabbrv}} :{{i.ss_isusrtcd}}',
         {% endfor %}];
-        $('#place').autocomplete({
+        $('#where').autocomplete({
             source: cardlist_Tags,
         });
      });
@@ -207,7 +346,7 @@
 
 
      $(function() {
-        var cardlist_Tags = [{% for i in wntlr %}'{{i.ss_isukorabbrv}}{{i.ss_isusrtcd}}',{% endfor %}];
+        var cardlist_Tags = [{% for i in wntlr %}'{{i.ss_isukorabbrv}} : {{i.ss_isusrtcd}}',{% endfor %}];
         $('#place').autocomplete({
             source: cardlist_Tags,
             max:10
@@ -220,25 +359,30 @@
         $("#numcomma").bind('keyup keydown',function(){
             inputNumberFormat(this);
         });
+
         //입력한 문자열 전달
         function inputNumberFormat(obj) {
             obj.value = comma(uncomma(obj.value));
         }
+
         //콤마찍기
         function comma(str) {
             str = String(str);
             return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
         }
+
         //콤마풀기
         function uncomma(str) {
             str = String(str);
             return str.replace(/[^\d]+/g, '');
         }
+
         //숫자만 리턴(저장할때)
         //alert(cf_getNumberOnly('1,2./3g')); -> 123 return
         function cf_getNumberOnly (str) {
             var len      = str.length;
             var sReturn  = "";
+
             for (var i=0; i<len; i++){
                 if ( (str.charAt(i) >= "0") && (str.charAt(i) <= "9") ){
                     sReturn += str.charAt(i);
