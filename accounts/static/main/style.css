@@ -276,9 +276,7 @@ width: 30px;
     font-size: 30px;
 }
 .background-bs{
-background: linear-gradient(to right,#36b284,#4d81c2);
 height:100vh;
-
 }
 .choose-us {
     background-size: cover;
@@ -534,6 +532,12 @@ height:100vh;
     left: 50%;
     top: 45%;
     transform: translate(-50%, -50%);
+
+}
+.background_img{
+background-image:url(/media/1p_1.png);
+height: 100%;
+    background-position: top;
 }
 .hero-text {
     display: grid;
@@ -545,7 +549,7 @@ height:100vh;
 .header h1 {
     font-family: 'S-CoreDream-9Black', sans-serif;
     color: #3a3a3a;
-    font-size: 5.15rem;
+    font-size: 4.2rem;
     margin-top: 40px;
     margin-bottom: 50px;
     line-height: 1.39px;
@@ -553,15 +557,14 @@ height:100vh;
 }
 .header h2 {
     font-family: 'S-CoreDream-5medium', sans-serif;
-    color: rgb(56, 56, 56);
-    font-size: 3.55rem;
+    color: #3a3a3a;
+    font-size: 3rem;
     font-weight: 500;
     margin-bottom: 15px;
     line-height: 2;
     white-space: nowrap;
-    text-decoration: underline #36b284;
+    text-decoration: underline #93bcf9;
 text-underline-position: under;
-
 }
 .header h3 {
     font-family: 'S-CoreDream-5medium', sans-serif;
@@ -575,7 +578,7 @@ text-underline-position: under;
 .header h4 {
     font-family: 'S-CoreDream-5medium', sans-serif;
     color: rgb(56, 56, 56);
-    font-size: 1.55rem;
+    font-size: 1.3rem;
     font-weight: 500;
     margin-bottom: 15px;
     line-height: 1;
@@ -617,8 +620,8 @@ position: absolute;
 .position-left{
 position: absolute;
 width:40%;
-    left: 30%;
-    top: 55%;
+    left: 35%;
+    top: 45%;
     transform: translate(-50%, -50%);
     text-align: center;
 }
@@ -638,11 +641,19 @@ width:45%;
     transform: translate(-50%, -50%);
     text-align: center;
 }
+.position-right-text{
+position: absolute;
+width:45%;
+    left: 60%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
 .position-right{
 width:40%;
 position: absolute;
-    left: 70%;
-    top: 55%;
+    left: 65%;
+    top: 45%;
     transform: translate(-50%, -50%);
     text-align: center;
 }
