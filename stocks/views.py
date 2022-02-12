@@ -26,7 +26,8 @@ def stock(request):
         average_price = stock_cal.average_price(request.user.user_id, element.sh_isusrtcd)
         current_price = koscom_api.get_current_price(element.sh_marketcode, element.sh_isusrtcd)
         stock_data.append(
-            [element.sh_isukorabbrv, current_price, average_price, element.sh_isusrtcd, element.sh_marketcode, element.sh_share])
+            [element.sh_isukorabbrv, average_price, current_price, element.sh_isusrtcd, element.sh_marketcode, element.sh_share])
+
     return render(request, 'stock.html', {'stock_data': stock_data})
 
 
