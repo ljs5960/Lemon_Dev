@@ -264,7 +264,10 @@ var myChart = new Chart(ctx, {
                     //display:false
                 },
                 ticks: {
-                    beginAtZero:false
+                    beginAtZero:false,
+                     userCallback: function(value, index, values) {
+                     return value.toLocaleString();   // this is all we need
+                }
                 }
             }]
         },
@@ -370,7 +373,10 @@ var myChart = new Chart(ctx, {
                     //display:false
                 },
                 ticks: {
-                    beginAtZero:false
+                    beginAtZero:false,
+                     userCallback: function(value, index, values) {
+                     return value.toLocaleString();   // this is all we need
+                }
                 }
             }]
         },
@@ -476,7 +482,10 @@ var myChart = new Chart(ctx, {
                     //display:false
                 },
                 ticks: {
-                    beginAtZero:false
+                    beginAtZero:false,
+                     userCallback: function(value, index, values) {
+                     return value.toLocaleString();   // this is all we need
+                }
                 }
             }]
         },
@@ -582,7 +591,10 @@ var myChart = new Chart(ctx, {
                     //display:false
                 },
                 ticks: {
-                    beginAtZero:false
+                    beginAtZero:false,
+                     userCallback: function(value, index, values) {
+                     return value.toLocaleString();   // this is all we need
+                }
                 }
             }]
         },
