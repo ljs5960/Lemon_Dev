@@ -50,7 +50,10 @@
     <span class="side">현재까지 수익률</span>
     <div class="title">주식</div>
 
-<div style="text-align:center;font-size:22px;">{{total_investment_amount|intcomma}}원</div>
+{% comment %} <div style="text-align:center;font-size:22px;">{{total_current_amount|intcomma}}원</div> {% endcomment %}
+<div style="text-align:center;font-size:22px;">{{total_invest_amount|intcomma}}원</div>
+<div style="text-align:center;font-size:22px;">{{total_current_price|intcomma}}원</div>
+
     <div style="text-align:center;font-size:14px;color:white;">{{total_current_price|sub:total_investment_amount|intcomma}}({{total_current_price|yields:total_investment_amount|rounds:2}}%)</div>
 
     <div class="my_stock"><a href="{% url 'stocks:stock' %}" style="width:40%;color:#31bc8a; padding:10px 20px 10px 20px; border-radius: 10px; background-color:white;">보유 주식</a></div>
@@ -58,7 +61,7 @@
 
 <div class="home-chart" id="home-chart" style="padding:20px;">
     <div class="title" style="color:black;margin-bottom:20px;">주식 정보</div>
-    <div style="text-align:center;font-size:14px;text-align:left;">가상 자산 {금액} 원에서 {{total_current_price|yields:total_investment_amount|rounds:2}}% 증가</div>
+    <div style="text-align:center;font-size:14px;text-align:left;">가상 자산 {{ user.invest|intcomma }} 원에서 {{total_current_price|yields:total_investment_amount|rounds:2}}% 증가</div>
     <div style="text-align:center;font-size:14px;text-align:left;">손익 : {{total_current_price|sub:total_investment_amount|intcomma}}</div>
         <canvas id="myChart2" width="100" height="100"></canvas>
         <script>
@@ -71,7 +74,7 @@
             data: {
                 labels: ['(가상금액-구매한금액)','구매한금액','손익금'],
                 datasets: [{
-                    data: ['1000000', '1500000', '4000000'],
+                    data: ['{{user.invest|sub:total_investment_amount}}', '{{total_investment_amount}}', '{{total_use_investment_amount}}'],
                     backgroundColor: [
                         '#5989DD',
                         '#D46A84',

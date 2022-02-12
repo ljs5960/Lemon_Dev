@@ -13,7 +13,7 @@ from stocks.models import Stocksector
 
 
 def search_stock(request):
-    wntlr = Stocksector.objects.all().values('ss_isusrtcd', 'ss_isukorabbrv')
+    wntlr = Totalmerge.objects.all().values('id', 'name')
     return render(request, 'search_stock.html', {'wntlr': wntlr})
 
 
@@ -27,7 +27,7 @@ def stock(request):
         average_price = stock_cal.average_price(request.user.user_id, element.sh_isusrtcd)
         current_price = koscom_api.get_current_price(element.sh_marketcode, element.sh_isusrtcd)
         stock_data.append(
-            [element.sh_isukorabbrv, average_price, current_price, element.sh_isusrtcd, element.sh_marketcode])
+            [element.sh_isukorabbrv, average_price, current_price, element.sh_isusrtcd, element.sh_marketcode, element.sh_share])
     return render(request, 'stock.html', {'stock_data': stock_data})
 
 
@@ -55,6 +55,8 @@ def stock_info(request):
     if request.method == 'POST':
         result = koscom_api.get_stock_master(request.POST['marketcode'], request.POST['issuecode'])
         if result:
+            result['usePrice'] = stock_cal.total_use_investment_amount(request.user.user_id)
+            result['share'] = Stockheld.objects.filter(sh_userid=request.user.user_id , sh_isusrtcd = request.POST['issuecode']).values_list('sh_share', flat=True)
             result['curPrice'] = koscom_api.get_current_price(request.POST['marketcode'], request.POST['issuecode'])
             result['marketcode'] = request.POST['marketcode']
             result['total_allow_invest'] = request.user.invest - stock_cal.total_use_investment_amount(request.user.user_id)
@@ -109,14 +111,14 @@ def stock_search_result(request):
     result = False
     if request.method == 'POST':
         try:
-            stocksector = Stocksector.objects.filter(ss_isukorabbrv__icontains=data)
+            totalmerge = Totalmerge.objects.filter(name__icontains=data)
             result = []
-            for elements in stocksector:
+            for elements in totalmerge:
                 result.append({
-                    'logo': elements.ss_logo,
-                    'isukorabbrv': elements.ss_isukorabbrv,
-                    'issuecode': elements.ss_isusrtcd,
-                    'marketcode': elements.ss_marketcode
+                    'logo': elements.logo,
+                    'isukorabbrv': elements.name,
+                    'issuecode': elements.id,
+                    'marketcode': elements.marketcode
                 })
         except Exception as e:
             print('Error in stock_search_result: \n', e)
@@ -132,15 +134,16 @@ def buy_stock(request):
         if (request.user.invest + total_rest_investment) - buy_price < 0:
             return JsonResponse({'result': '가상잔액이 부족합니다'}, content_type='application/json')
 
-        stock_master = kocom.api().get_stock_master(data['marketcode'], data['issuecode'])
-        stockheld_check = Stockheld.objects.filter(sh_userid=request.user.user_id,
-                                                   sh_isusrtcd=stock_master['isuSrtCd']).exists()
         try:
+            stock_master = kocom.api().get_stock_master(data['marketcode'], data['issuecode'])
+            stockheld_check = Stockheld.objects.filter(sh_userid=request.user.user_id,
+                                                       sh_isusrtcd=stock_master['isuSrtCd']).exists()
             with transaction.atomic():
                 if stock_master and not stockheld_check:
-                    if stockheld_insert(request.user.user_id, data, stock_master):
-                        stocktrading_insert(request.user.user_id, data, stock_master, 'B')
+                    stockheld_insert(request.user.user_id, data, stock_master)
+                    stocktrading_insert(request.user.user_id, data, stock_master, 'B')
                 elif stock_master and stockheld_check:
+                    stockheld_update(request.user.user_id, data, stock_master, 'B')
                     stocktrading_insert(request.user.user_id, data, stock_master, 'B')
                 result = True
         except Exception as e:
@@ -157,13 +160,16 @@ def sold_stock(request):
         sold_share = int(data['share'])
         if get_share - sold_share < 0:
             return JsonResponse({'result': '보유 주가 부족합니다'}, content_type='application/json')
+        elif get_share - sold_share == 0:
+            data['sh_z_date'] = datetime.now()
 
-        stock_master = kocom.api().get_stock_master(data['marketcode'], data['issuecode'])
-        stockheld_check = Stockheld.objects.filter(sh_userid=request.user.user_id,
-                                                   sh_isusrtcd=stock_master['isuSrtCd']).exists()
         try:
+            stock_master = kocom.api().get_stock_master(data['marketcode'], data['issuecode'])
+            stockheld_check = Stockheld.objects.filter(sh_userid=request.user.user_id,
+                                                       sh_isusrtcd=stock_master['isuSrtCd']).exists()
             with transaction.atomic():
                 if stock_master and stockheld_check:
+                    stockheld_update(request.user.user_id, data, stock_master, 'S')
                     stocktrading_insert(request.user.user_id, data, stock_master, 'S')
                 result = True
         except Exception as e:
@@ -179,8 +185,27 @@ def stockheld_insert(user_id, data, master):
         sh_isucd=master['isuCd'],
         sh_isukorabbrv=master['isuKorAbbrv'],
         sh_marketcode=data['marketcode'],
-        sh_idxindmidclsscd=master['idxIndMidclssCd']
+        sh_idxindmidclsscd=master['idxIndMidclssCd'],
+        sh_share=data['share'],
+        sh_price=-(int(data['share']) * int(data['current_price'])),
+        sh_z_date=datetime(1, 1, 1, 1, 1, 1).strftime('%Y-%m-%d %H:%M:%S')
     ).save()
+
+
+def stockheld_update(user_id, data, master, kind):
+    share = int(data['share'])
+    price = int(data['share']) * int(data['current_price'])
+    if kind == 'B':
+        price = -price
+    if kind == 'S':
+        share = -share
+    stockheld_objects = Stockheld.objects.get(sh_userid=acc_models.user.objects.get(user_id=user_id),
+                                              sh_isusrtcd=master['isuSrtCd'])
+    stockheld_objects.sh_share += share
+    stockheld_objects.sh_price += price
+    if 'sh_z_date' in data:
+        stockheld_objects.sh_z_date = data['sh_z_date']
+    stockheld_objects.save()
 
 
 def stocktrading_insert(user_id, data, master, kind):
@@ -193,7 +218,6 @@ def stocktrading_insert(user_id, data, master, kind):
         st_share=data['share'],
         st_price=data['current_price']
     ).save()
-    stock_profit_input(user_id, int(data['current_price']))
 
 
 def stock_profit_input(user_id, price):
