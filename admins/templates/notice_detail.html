@@ -1,49 +1,34 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}레몬::공지사항{% endblock title %}
+{% block title %}레몬::공지사항 상세{% endblock title %}
 {% block container %}
 <style>
-  .bottom-nav-myinfo,.bottom-nav-myinfo a{
-        color: #FFD859;
-    }
+  .footer-line-myinfo{
+    /* 하단바 선택시 밑줄 */
+    width: 50px;
+    padding: 12px 0 10px 0;
+    border-bottom: 2px solid #fff;
+  }
+  
   #container, body{
     background-color: #fff;
   }
-  nav {
-    padding-top:10px;
-    padding-bottom:10px;
-    display: flex;
-    justify-content: space-between;
-    align-items : center;
-    border-bottom: 1px solid #ddd;
-  }
-  .fa-chevron-left{
-    padding-top: 3px;
-    float: right;
-    padding-left:10px;
-    font-size:20px;
-    width:30px;
-    height:30px;
-  }
-.footer-line-myinfo{
-    width:50px;
-    padding: 12px 0 10px 0;
-    border-bottom: 2px solid #FFF;
-    }
 </style>
 {% block nav %}
-<div id="nav" style="border-bottom: 1px solid #f1f1f1;">
-            <div>
-            <div style="text-align:center;">
-                <a style="color: #fff;" href="javascript:history.back();"><i class="fa fa-angle-left" style="position: absolute;
-    left: 5px;
-    padding: 14px 15px;
-    top: 0;
-    font-size: 25px;
-    font-weight: 600;color:black;"></i></a>공지사항 상세</div>
+<!-- 상단바 영역 시작 -->
+  <div id="nav" style="border-bottom: 1px solid #f1f1f1;">
+    <div>
+        <div style="text-align:center;">
+          <a style="color: #fff;" href="javascript:history.back();">
+            <i class="fa fa-angle-left"></i>
+          </a>공지사항 상세
         </div>
-        </div>
+    </div>
+  </div>
+<!-- 상단바 영역 끝 -->
 {% endblock nav %}
+
+  <!-- 공지사항 상세 영역 시작 -->
   <div class="notice-detail-wrap">
     <div class="notice-detail-titlewrap">
       <a class="notice-detail-title">{{ notice.title }}</a><br>
@@ -54,6 +39,7 @@
       {{ notice.content|safe }}
     </div>
   </div>
+  <!-- 공지사항 상세 영역 끝 -->
 
 
 

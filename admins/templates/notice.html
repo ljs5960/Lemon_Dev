@@ -4,64 +4,52 @@
 {% block container %}
 
 <style>
-    .bottom-nav-myinfo,.bottom-nav-myinfo a{
-        color: #FFD859;
-    }
   #container, body{
     background-color: #fff;
   }
-  nav {
-    padding-top:10px;
-    padding-bottom:10px;
-    display: flex;
-    justify-content: space-between;
-    align-items : center;
+
+  .footer-line-myinfo{
+    /* 하단바 선택시 밑줄 */
+    width: 50px;
+    padding: 12px 0 10px 0;
+    border-bottom: 2px solid #fff;
   }
-  .fa-chevron-left{
-    padding-top: 3px;
-    float: right;
-    padding-left:10px;
-    font-size:20px;
-    width:30px;
-    height:30px;
-  }
-  section {
-    padding: 5px;
-  }
-.footer-line-myinfo{
+
+  .footer-line-myinfo{
     width:50px;
     padding: 12px 0 10px 0;
     border-bottom: 2px solid #FFF;
-    }
+  }
 </style>
-{% block nav %}
-<div id="nav" style="border-bottom: 1px solid #f1f1f1;">
-            <div>
-            <div style="text-align:center;">
-                <a style="color: #fff;" href="javascript:history.back();"><i class="fa fa-angle-left" style="position: absolute;
-    left: 5px;
-    padding: 14px 15px;
-    top: 0;
-    font-size: 25px;
-    font-weight: 600;color:black;"></i></a>공지사항</div>
-        </div>
-        </div>
-{% endblock nav %}
-  <section>
-    <div class="notice-wrap">
-      {% for notice in notices %}
-      <div class="notice-contents" onclick="location.href='{% url 'admins:notice_detail' notice.notice_id %}'">
-        <div>
-      <a class="notice-title">{{ notice.title }}</a>
-          <i style="margin-top:10px; float: right;" class="fas fa-chevron-right"></i>
-        </div>
-        <div>
-          <a class="notice-date">{{ notice.date | date:'Y.m.d' }}</a>
-        </div>
-      </div>
-      {% endfor %}
-    </div>
 
-  </section>
+{% block nav %}
+<!-- 상단바 영역 시작 -->
+  <div id="nav" style="border-bottom: 1px solid #f1f1f1;">
+    <div>
+        <div style="text-align:center;">
+          <a style="color: #fff;" href="{% url 'accounts:myinfo' %}">
+            <i class="fa fa-angle-left"></i>
+          </a>공지사항
+        </div>
+    </div>
+  </div>
+<!-- 상단바 영역 끝 -->
+{% endblock nav %}
+
+  <div class="notice-wrap">
+    <!-- 공지사항 영역 시작 -->
+    {% for notice in notices %}
+    <div class="notice-contents" onclick="location.href='{% url 'admins:notice_detail' notice.notice_id %}'">
+      <div>
+        <a class="notice-title">{{ notice.title }}</a>
+        <i style="margin-top:10px; float: right;" class="fas fa-chevron-right"></i>
+      </div>
+      <div>
+        <a class="notice-date">{{ notice.date | date:'Y.m.d' }}</a>
+      </div>
+    </div>
+    {% endfor %}
+    <!-- 공지사항 영역 끝 -->
+  </div>
 
 {% endblock %}

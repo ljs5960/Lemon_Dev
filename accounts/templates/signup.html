@@ -2,167 +2,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-    <link rel="stylesheet" href="{% static 'css/style.css'%}">
-    <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
-
-    <title>레몬::회원가입</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+  <link rel="stylesheet" href="{% static 'css/style.css'%}">
+  <link rel="stylesheet" href="{% static 'css/account.css'%}">
+  <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+  <title>레몬::회원가입</title>
 </head>
+
 <style>
-    body,html{
-        width: 100%;
-        margin: 0;
-        padding: 0;
-    }
-    select {
-        border-radius:0; /* 아이폰 사파리 보더 없애기 */
-        -webkit-appearance:none; /* 화살표 없애기 for chrome*/
-        -moz-appearance:none; /* 화살표 없애기 for firefox*/
-        appearance:none /* 화살표 없애기 공통*/
-    }
-
-    /* input number  */
-    /* Chrome, Safari, Edge, Opera */
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-    }
-
-    /* Firefox */
-    input[type=number] {
-    -moz-appearance: textfield;
-    }
-
-    .add_info_select_signup{
-		margin-bottom: 10px;
-		padding-left: 10px;
-		background-color: #fff;
-		border: 1px solid #D1D6DA;
-		font-family: 'Noto Sans KR', sans-serif;
-		font-size: 14px;
-		font-weight: 500;
-		width: 96%;
-		height: 35px;
-		border-radius:10px;
-		color:#a0a0a0;
-    }
-    .add_info_phone_signup{
-        margin-bottom: 10px;
-        padding-left: 10px;
-        border: 1px solid #D1D6DA;
-        font-family: 'Noto Sans KR', sans-serif;
-        font-size: 14px;
-        font-weight: 400;
-        width: 60%;
-        height: 35px;
-        border-radius: 10px;
-    }
-    .add_info_phonecode_signup{
-        margin-bottom: 10px;
-        padding-left: 10px;
-        border: 1px solid #D1D6DA;
-        font-family: 'Noto Sans KR', sans-serif;
-        font-size: 14px;
-        font-weight: 400;
-        width: 25%;
-        height: 35px;
-        border-radius: 10px;
-    }
-.phone_code_btn_signup{
-    float:right;
-    margin-top: 1px;
-    margin-right: 12px;
-    width: 73px;
-    height: 35px;
-    background: #31BC89;
+  body,html{
+      width: 100%;
+      margin: 0;
+      padding: 0;
+  }
+  select {
+      border-radius:0; /* 아이폰 사파리 보더 없애기 */
+      -webkit-appearance:none; /* 화살표 없애기 for chrome*/
+      -moz-appearance:none; /* 화살표 없애기 for firefox*/
+      appearance:none /* 화살표 없애기 공통*/
+  }
+  /* input number  */
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+  }
+  /* Firefox */
+  input[type=number] {
+  -moz-appearance: textfield;
+  }
+  textarea{
     font-family: 'Noto Sans KR', sans-serif;
-    font-weight: bold;
-    font-size: 14px;
-    text-align: center;
-    vertical-align: top;
-    border: 0px;
-    border-radius: 1px;
-    color: white;
+    font-size: 12px;
+    border: 1px solid #CACACA;
     border-radius: 10px;
-}
-.phone_code_btn_signup:disabled{
-    float:right;
-    margin-top: 1px;
-    margin-right: 12px;
-    width: 73px;
-    height: 35px;
-    background:#a0a0a0;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-weight: bold;
-    font-size: 14px;
-    text-align: center;
-    vertical-align: top;
-    border: 0px;
-    border-radius: 1px;
-    color: white;
-    border-radius: 10px;
-}
-    button{
-        font-family: 'Noto Sans KR', sans-serif;
-        font-weight: bold;
-        font-size: 16px;
-        text-align: center;
-        vertical-align: middle;
-        width:100%;
-        height: 50px;
-        margin-top:40px;
-        background:#31BC89;
-        border:0px;
-        border-radius:10px;
-        color:white;
-    }
-
-    button:disabled{
-        font-family: 'Noto Sans KR', sans-serif;
-        font-weight: bold;
-        font-size: 16px;
-        text-align: center;
-        vertical-align: middle;
-        width:100%;
-        height: 50px;
-        /*margin-top:20px;*/
-        background:#a0a0a0;
-        border:0px;
-        border-radius:10px;
-        color:white;
-    }
-
-    textarea{
-        font-family: 'Noto Sans KR', sans-serif;
-        font-size: 12px;
-        border: 1px solid #CACACA;
-        border-radius: 10px;
-        background-color: #fff;
-        resize: none;
-        padding-left: 5px;
-        padding-top: 5px;
-    }
-
-.count-signup{
-    padding-top: 9px;
-    position: relative;
-    width: 30px;
-}
-
-    .all_chk_wrap{
-        margin-bottom: 15px;
-    }
-
-    .all_chk_font{
-        font-family: 'Noto Sans KR', sans-serif;
-        font-weight: 400;
-        color: #3a3a3a;
-        font-size: 12pt; /*16px*/
-    }
+    background-color: #fff;
+    resize: none;
+    padding-left: 5px;
+    padding-top: 5px;
+  }
 </style>
 
 <body>
@@ -176,108 +58,120 @@
 
 <!-- 회원가입 Wrapper -->
 <div class="signup-wrapper" style="padding:70px 20px 40px 20px;">
-    <form class="validation-form" style="width:100%;" method="POST" action="{% url 'accounts:signup' %}" id="signup-form">
-        {% csrf_token %}
-        <div class="persnal_info_access" style="padding-bottom: 20px;">
-            <div class="require_chk_wrap">
-                <a>개인정보 수집 동의(필수)</a><br>
-                <textarea cols="30" rows="10" style="width:100%;" disabled="disabled">{% include 'persnal.html' %}</textarea><br>
-                <label style="text-align:end;">
-                    <input type="checkbox" name="u_chk" value ="1" id="require_chk2">
-                    <span>이용약관에 동의합니다.</span>
-                </label>
+  <form class="validation-form" style="width:100%;" method="POST" action="{% url 'accounts:signup' %}" id="signup-form">
+    {% csrf_token %}
+    <div class="persnal_info_access" style="padding-bottom: 20px;">
+      <div class="require_chk_wrap">
+        <a>개인정보 수집 동의(필수)</a><br>
+        <textarea cols="30" rows="10" style="width:100%;" disabled="disabled">{% include 'persnal.html' %}</textarea><br>
+        <label style="text-align:end;">
+            <input type="checkbox" name="u_chk" value ="1" id="require_chk2">
+            <span>이용약관에 동의합니다.</span>
+        </label>
+      </div>
+    </div>
+
+  <!-- 회원가입 폼 시작 -->
+  <div class="signup-form-wrap"> 
+    <!-- 아이디 입력 input -->
+    <div class="signup-form">
+    <a>아이디 <strong>(필수)</strong></a>
+        <input type="text" class="add_info_select_signup" style="margin-top: 10px; margin-bottom:10px;"
+          id="uid" name="uid" placeholder="" value="">
+    </div>
+
+    <!-- 비밀번호 입력 input -->
+    <div class="signup-form">
+    <a>비밀번호 <strong>(필수)</strong></a>
+        <input type="password" class="add_info_select_signup" style="margin-top: 10px; margin-bottom:10px;"
+          id="password" name="password" placeholder="" value="">
+    </div>
+
+    <!-- 비밀번호 입력2 input -->
+    <div class="signup-form">
+    <a>비밀번호 확인 <strong>(필수)</strong></a>
+        <input type="password" class="add_info_select_signup" style="margin-top: 10px; margin-bottom:10px;"
+          id="password1" name="password1" placeholder="" value="">
+    </div>
+
+    <!-- 이름 입력 input -->
+    <div class="signup-form">
+    <a>이름 <strong>(필수)</strong></a>
+        <input type="text" class="add_info_select_signup" style="margin-top: 10px; margin-bottom:10px;"
+          id="name" name="username" placeholder="" value="">
+    </div>
+
+    <!-- 성별 입력 input -->
+    <div class="signup-form">
+    <a>성별</a>
+        <select name="gender" class="add_info_select" style="margin-top: 10px; margin-bottom:10px;">
+          <option value="0"> -- 선택 -- </option>
+          <option value="M"> 남자 </option>
+          <option value="F"> 여자 </option>
+        </select>
+    </div>
+
+    <!-- 직업군 입력 input -->
+    <div class="signup-form">
+    <a>직업군</a>
+      <select name = job class="add_info_select" style="margin-top: 10px; margin-bottom:10px;">
+        <option value="0"> -- 선택 -- </option>
+        <option value="1">학생</option>
+        <option value="2">직장인</option>
+        <option value="3">사업자</option>
+        <option value="4">공무원</option>
+        <option value="5">기타(프리랜서)</option>
+        <option value="6">무직</option>
+      </select>
+    </div>
+
+    <!-- 이메일 입력 input -->
+    <div class="signup-form">
+    <a>이메일 <strong>(필수)</strong></a>
+      <input type="email" class="add_info_select_signup" style="margin-top: 10px; margin-bottom:10px;" id="email" name="email" placeholder="" value="">
+    </div>
+
+    <!-- 연락처 입력 input -->
+    <div class="signup-form">
+      <a>전화번호 <strong>(필수)</strong></a>
+        <div style="width:100%;">
+          <div style="display: flex;align-items: center;justify-content: space-between;">
+            <input class="add_info_phone_signup" id="phonenumber" name="phonenumber" type="number" placeholder="- 를 제외하고 입력하세요" style="margin-top: 10px; margin-bottom:5px;">
+            <button type="button" id="codeBtn" class="phone_code_btn_signup">발송</button>
+          </div>
+          <div style="display: flex;align-items: center;justify-content: space-between;">
+            <input id="inputCode" class="add_info_phonecode_signup" type="number" placeholder="인증번호 입력" disabled>
+            <div style="display: flex; align-items: center;justify-content: space-between;"><a id="count" class="count-signup" style="width:50px;margin-top: 5px; margin-bottom:10px;"></a>
+              <button type="button" id="certBtn" onclick="certfun();" class="phone_code_btn_signup" disabled >확인</button>
             </div>
         </div>
-
-        <div class="signup-form-wrap">
-            <!-- 아이디 입력 input -->
-            <div class="signup-form">
-            <a>아이디 <strong>(필수)</strong></a>
-                <input type="text" class="add_info_select_signup" style="margin-top: 10px; margin-bottom:10px;"
-                    id="uid" name="uid" placeholder="" value="">
-            </div>
-            <!-- 비밀번호 입력 input -->
-            <div class="signup-form">
-            <a>비밀번호 <strong>(필수)</strong></a>
-                <input type="password" class="add_info_select_signup" style="margin-top: 10px; margin-bottom:10px;"
-                    id="password" name="password" placeholder="" value="">
-            </div>
-            <!-- 비밀번호 입력2 input -->
-            <div class="signup-form">
-            <a>비밀번호 확인 <strong>(필수)</strong></a>
-                <input type="password" class="add_info_select_signup" style="margin-top: 10px; margin-bottom:10px;"
-                    id="password1" name="password1" placeholder="" value="">
-            </div>
-            <!-- 이름 입력 input -->
-            <div class="signup-form">
-            <a>이름 <strong>(필수)</strong></a>
-                <input type="text" class="add_info_select_signup" style="margin-top: 10px; margin-bottom:10px;"
-                    id="name" name="username" placeholder="" value="">
-            </div>
-            <!-- 성별 입력 input -->
-            <div class="signup-form">
-            <a>성별</a>
-                <select name="gender" class="add_info_select" style="margin-top: 10px; margin-bottom:10px;">
-                    <option value="0"> -- 선택 -- </option>
-                    <option value="M"> 남자 </option>
-                    <option value="F"> 여자 </option>
-                </select>
-            </div>
-            <!-- 직업군 입력 input -->
-            <div class="signup-form">
-            <a>직업군</a>
-                <select name = job class="add_info_select" style="margin-top: 10px; margin-bottom:10px;">
-                    <option value="0"> -- 선택 -- </option>
-                    <option value="1">학생</option>
-                    <option value="2">직장인</option>
-                    <option value="3">사업자</option>
-                    <option value="4">공무원</option>
-                    <option value="5">기타(프리랜서)</option>
-                    <option value="6">무직</option>
-                </select>
-            </div>
-            <!-- 이메일 입력 input -->
-            <div class="signup-form">
-            <a>이메일 <strong>(필수)</strong></a>
-                <input type="email" class="add_info_select_signup" style="margin-top: 10px; margin-bottom:10px;" id="email" name="email" placeholder="" value="">
-            </div>
-            <!-- 연락처 입력 input -->
-            <div class="signup-form">
-            <a>전화번호 <strong>(필수)</strong></a>
-                <div style="width:100%;">
-                    <div style="display: flex;align-items: center;justify-content: space-between;">
-                    <input class="add_info_phone_signup" id="phonenumber" name="phonenumber" type="number" placeholder="- 를 제외하고 입력하세요" style="margin-top: 10px; margin-bottom:5px;">
-                    <button type="button" id="codeBtn" class="phone_code_btn_signup">발송</button></div>
-                    <div style="display: flex;align-items: center;justify-content: space-between;">
-                    <input id="inputCode" class="add_info_phonecode_signup" type="number" placeholder="인증번호 입력" disabled>
-                        <div style="display: flex; align-items: center;justify-content: space-between;"><a id="count" class="count-signup" style="width:50px;margin-top: 5px; margin-bottom:10px;"></a>
-                    <button type="button" id="certBtn" onclick="certfun();" class="phone_code_btn_signup" disabled >확인</button></div></div>
-                </div>
-            </div>
-            <!-- 생년월일 입력 input -->
-            <div class="signup-form">
-            <a>생년월일 <strong>(필수)</strong> </a>
-                <input class="add_info_select_signup" name = birthday type="date" id="year" maxlength="8" placeholder="생년월일을 입력해주세요. 예시)19801210" style="margin-top: 10px; margin-bottom:25px;">
-            </div>
-            <!-- 모의투자금액 입력 input -->
-            <div class="signup-form">
-            <a>모의투자 금액 </a>
-                <input type="number" class="add_info_select_signup" id="invest" name="invest" placeholder="모의 투자금액을 입력하세요." value="0" style="margin-top: 10px; margin-bottom:25px;"><br>
-                <input style="display: none;" type="date" class="add_info_select_signup" id="invest_date" name="invest_date" value="">
-            </div>
-
-            <!-- 핀번호 입력 input -->
-            <div class="signup-form">
-            <a>핀번호 </a>
-                 <input type="password" pattern="[0-9]*" inputmode="numeric" name="pin" maxlength='4' class="add_info_select_signup"
-                    id="pin" placeholder="미입력시 초기 번호는 0000 입니다." value=""/>
-            </div>
-
-            <button class="btn btn-primary btn-lg btn-block" id="signupBtn" onclick="signup_check()" disabled style="width:100%">회원가입</button>
         </div>
-    </form>
+    </div>
+
+    <!-- 생년월일 입력 input -->
+    <div class="signup-form">
+    <a>생년월일 <strong>(필수)</strong> </a>
+      <input class="add_info_select_signup" name = birthday type="date" id="year" maxlength="8" placeholder="생년월일을 입력해주세요. 예시)19801210" style="margin-top: 10px; margin-bottom:25px;">
+    </div>
+
+    <!-- 모의투자금액 입력 input -->
+    <div class="signup-form">
+    <a>모의투자 금액 </a>
+      <input type="number" class="add_info_select_signup" id="invest" name="invest" placeholder="모의 투자금액을 입력하세요." value="0" style="margin-top: 10px; margin-bottom:25px;"><br>
+      <input style="display: none;" type="date" class="add_info_select_signup" id="invest_date" name="invest_date" value="">
+    </div>
+
+    <!-- 핀번호 입력 input -->
+    <div class="signup-form">
+    <a>핀번호 </a>
+      <input type="password" pattern="[0-9]*" inputmode="numeric" name="pin" maxlength='4' class="add_info_select_signup"
+        id="pin" placeholder="미입력시 초기 번호는 0000 입니다." value=""/>
+    </div>
+
+    <button class="signup-btn" id="signupBtn" onclick="signup_check()" disabled style="width:100%">회원가입</button>
+  </div><!-- 회원가입 폼 끝 -->
+  </form>
 </div><!-- 회원가입 Wrapper 끝 -->
-
 </body>
 
 <script>
@@ -476,8 +370,5 @@ document.addEventListener('keydown', function(event) {
         }, 1000);
             isRunning = true;
     }
-
-
 </script>
-
 </html>
