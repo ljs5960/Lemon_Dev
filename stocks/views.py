@@ -27,6 +27,7 @@ def stock(request):
         current_price = koscom_api.get_current_price(element.sh_marketcode, element.sh_isusrtcd)
         stock_data.append(
             [element.sh_isukorabbrv, average_price, current_price, element.sh_isusrtcd, element.sh_marketcode, element.sh_share])
+
     return render(request, 'stock.html', {'stock_data': stock_data})
 
 
@@ -36,25 +37,25 @@ def portfolio(request):
     total_investment_amount = stock_cal.total_investment_amount(request.user.user_id)
     total_current_price = stock_cal.total_current_price(request.user.user_id)
     total_use_investment_amount = stock_cal.total_use_investment_amount(request.user.user_id)
-    if total_investment_amount is False or total_current_price is False or total_use_investment_amount is False:
-        result['total_investment_amount'] = 0
-        result['total_current_price'] = 0
-        result['total_use_investment_amount'] = 0
-    else:
-        result['total_investment_amount'] = total_investment_amount
-        result['total_current_price'] = total_current_price
-        result['total_use_investment_amount'] = total_use_investment_amount
+    result['total_investment_amount'] = total_investment_amount if total_investment_amount else 0
+    result['total_current_price'] = total_current_price if total_current_price else 0
+    result['total_use_investment_amount'] = total_use_investment_amount if total_use_investment_amount else 0
     return render(request, 'portfolio.html', result)
 
 
 def stock_info(request):
     result = False
-    koscom_api = kocom.api()
     stock_cal = cal.calculator()
+    total_investment_amount = stock_cal.total_investment_amount(request.user.user_id)
+    total_use_investment_amount = stock_cal.total_use_investment_amount(request.user.user_id)
+
+    koscom_api = kocom.api()
     if request.method == 'POST':
         result = koscom_api.get_stock_master(request.POST['marketcode'], request.POST['issuecode'])
         if result:
-            result['usePrice'] = stock_cal.total_use_investment_amount(request.user.user_id)
+            result['total_investment_amount'] = total_investment_amount if total_investment_amount else 0
+            result['total_use_investment_amount'] = total_use_investment_amount if total_use_investment_amount else 0
+            result['total'] = result['total_use_investment_amount'] - result['total_investment_amount']
             result['share'] = Stockheld.objects.filter(sh_userid=request.user.user_id , sh_isusrtcd = request.POST['issuecode']).values_list('sh_share', flat=True)
             result['curPrice'] = koscom_api.get_current_price(request.POST['marketcode'], request.POST['issuecode'])
             result['marketcode'] = request.POST['marketcode']

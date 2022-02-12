@@ -56,20 +56,11 @@
                 <div style="padding-top:20px;margin-bottom:20px;">
                     {% for ele in stock_data %}
                     <div class="stocks" style="width:100%" onclick="info('{{ele.3}}','{{ele.4}}')">
-                        <table style="width:100%">
-                            <tbody>
-                            <tr>
-                                <td style="width:50%"><div class="stock_name">{{ele.0}}</div></td>
-                                <td style="width:50%;text-align:right;">보유 주식  {{ele.5}} 주 / {{ele.1|intcomma }}원</td>
-                            </tr>
-                            <tr>
-                                   <td style="width:50%">{{ele.2|intcomma}} 원</td>
-                                     <td style="width:50%"><div style="float:right;padding-left:5px;"> {{ele.2|yields:ele.1|rounds:2}}%</div></td>
-
-                            </tr>
-                            </tbody>
-                        </table>
-
+                        <div style="width:100%">
+                                <div style="width:50%;display:inline-block;"><div class="stock_name">{{ele.0}}</div></div>
+                                 <div style="width:50%;float:right;text-align:right;">{{ele.1|intcomma}} 원</div>
+                                     <div style="padding-left:5px;text-align:right;">{{ele.2|intcomma}} 원 {{ele.2|yields:ele.1|rounds:2}}%</div>
+                        </div>
                     </div>
                     {% empty %}
                     <span>구매한 주식이 없습니다</span>

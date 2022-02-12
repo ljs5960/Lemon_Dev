@@ -13,6 +13,7 @@
 </head>
 
 <style>
+<<<<<<< HEAD
   body,html{
       width: 100%;
       margin: 0;
@@ -36,15 +37,6 @@
   -moz-appearance: textfield;
   }
   textarea{
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 12px;
-    border: 1px solid #CACACA;
-    border-radius: 10px;
-    background-color: #fff;
-    resize: none;
-    padding-left: 5px;
-    padding-top: 5px;
-  }
 </style>
 
 <body>
@@ -175,7 +167,8 @@
 </body>
 
 <script>
-    // 회원가입 값 검증
+    // 이용약관도 체크 확인 하기
+    // 핸드폰 중복 확인
     function signup_check() {
         if ($('#uid').val() == '') {
             alert('아이디를 입력해주세요.');
@@ -201,12 +194,16 @@
             alert('전화번호를 입력해주세요.');
             return false;
         }
-        else if ($('#year').val() == '') {
-            alert('생년월일을 선택해주세요.');
-            return false;
-        }
         else if ($('#inputCode').val() == '') {
             alert('인증번호 4자리를 입력해주세요.');
+            return false;
+        }
+        else if ($('#phone_check').val() == 0 ) {
+            alert('핸드폰 인증을 해주세요.');
+            return false;
+        }
+         else if ($('#year').val() == '') {
+            alert('생년월일을 선택해주세요.');
             return false;
         }
         else {
@@ -279,11 +276,11 @@ document.addEventListener('keydown', function(event) {
         var leftSec = 180;
         var phoneInput = document.getElementById('phonenumber');
         if(phoneInput.value == '' || phoneInput.value == null){
-            alert('휴대전화번호를 입력하세요.');
+            alert('휴대전화 번호를 입력하세요.');
             return false;
         }
         if(phoneInput.value.length != 11){
-            alert('휴대전화번호 11자리를 입력하세요.');
+            alert('휴대전화 번호 11자리를 입력하세요.');
             return false;
         }
 
@@ -311,6 +308,7 @@ document.addEventListener('keydown', function(event) {
                 },
                 success: function(data){
                     console.log('성공');
+                    $('#phonce_check').val(1);
                 },
                 fail: function(data) {
                     console('실패');
