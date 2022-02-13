@@ -52,11 +52,17 @@
 
 {% comment %} <div style="text-align:center;font-size:22px;">{{total_current_amount|intcomma}}원</div> {% endcomment %}
 <!--<div style="text-align:center;font-size:22px;">{{total_invest_amount|intcomma}}원</div>-->
-<div style="text-align:center;font-size:22px;">{{total_current_price|intcomma}}원</div>
+ {% if total_investment_amount %}
+    <div style="text-align:center;font-size:22px;">{{total_current_price|intcomma}}원</div>
 
-    <div style="text-align:center;font-size:14px;color:white;">{{total_current_price|sub:total_investment_amount|intcomma}}({{total_current_price|yields:total_investment_amount|rounds:2}}%)</div>
-
+    <div style="text-align:center;font-size:14px;color:white;">
+       {{total_current_price|sub:total_investment_amount|intcomma}} ({{total_current_price|yields:total_investment_amount|rounds:2}}%) </div>
     <div class="my_stock"><a href="{% url 'stocks:stock' %}" style="width:40%;color:#31bc8a; padding:10px 20px 10px 20px; border-radius: 10px; background-color:white;">보유 주식</a></div>
+    {% else %}
+    <div style="text-align:center;font-size:22px;">구매한 주식이 없습니다.</div>
+        {% endif %}
+
+
 </div></div>
 
 <div class="home-chart" id="home-chart" style="padding:20px;">
