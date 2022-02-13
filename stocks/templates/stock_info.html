@@ -84,8 +84,37 @@
     border:1px solid grey;
     padding:0px 10px 0px 10px;
     }
+    .yellow{
+      color:gold;
+    }
+
 </style>
+<script>
+  function pick(id, id2, id3){
+  $("#marketcode").val(id);
+  $("#isuSrtCd").val(id2);
+  if (id3 == 1) {
+    activate = 0;
+    $("#activate").val(activate);
+  } else {
+    activate = 1;
+    $("#activate").val(activate);
+  }
+  const form = document.getElementById('form');
+  form.action="/stock_info"
+  form.submit();
+  location.reload;
+  }
+
+  </script>
+
 {% block nav %}
+<form id="form" method="PO">
+  {% csrf_token %}
+<input type="hidden" id="marketcode">
+<input type="hidden" id="isuSrtCd">
+<input type="hidden" id="activate">
+</form>
 <div id="nav" style="border-bottom: 1px solid #f1f1f1;">
             <div>
             <div style="text-align:center;">
@@ -102,10 +131,14 @@
         <div class="title">
                 <div class="stock-name">{{ result.isuKorAbbrv }} </div>
                 <div class="code">{{ result.isuSrtCd }} </div>
-            <div class="pick" onclick="pick('{{ result.isuSrtCd }}')"><i class="fas fa-star"></i></div>
+            <div class="pick {% if activate == 1 %} yellow {% endif %}" onclick="pick('{{ result.marketcode }}', '{{ result.isuSrtCd }}', '{{activate}}')"><i class="fas fa-star"></i></div>
+            <form action = "{% url 'stocks:boomark' result.marketcode result.isuSrtCd  %}" method="POST">
+               {% csrf_token %}
+             <input class="delBtn"  type = "submit" value = " 별 ">
+           </form>
             <div class="marketcode"> {{ result.marketcode }}</div>
                 <div class="curprice">{{ result.curPrice|intcomma }}원</div>
-                <div class="lastprice"> 종가 : {{ result.prevddClsprc|intcomma }}원</div>
+                <div class="lastprice"> 종가 : {{ result.prevddClsprc|intcomma }}원 {{activate}}</div>
             <i class="fas fa-angle-up red"></i>
             <i class="fas fa-angle-down blue"></i>
             <i class="fas fa-minus"></i>
@@ -887,9 +920,7 @@ $( document ).ready(function() {
     }
 });
 
-    function pick(id){
-    alert(id);
-    }
+
 </script>
 <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
 <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
@@ -933,4 +964,3 @@ $( document ).ready(function() {
 }
 </Style>
 {% endblock %}
-

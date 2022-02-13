@@ -22,6 +22,7 @@ from stocks.models import Stocksector
 from django.http import JsonResponse
 from stocks import stockcal as cal
 from stocks import kocom
+from itertools import chain
 
 # Create your views here.
 URL_LOGIN = '/login'
@@ -216,7 +217,7 @@ def top5(request):
     category_card = spend_month_filter.values('card').annotate(amount=Sum('amount')).order_by('-amount')[:5]
     category_place = spend_month_filter.values('place','stock').annotate(amount=Sum('amount')).order_by('-amount')[:5]
 
-    print(category_place)
+
     category_category = spend_month_filter.values('category').annotate(amount=Sum('amount')).order_by('-amount')[:5]
 
     # 요약 페이지_카테고리 건수별 TOP5
@@ -225,10 +226,20 @@ def top5(request):
     category_stock = []
     koscom_api = kocom.api()
     for element in category_place:
+        find_market_code = Stocksector.objects.filter(ss_isusrtcd=element['stock']).values_list('ss_marketcode', flat=True)
+
+        find_market_code = list(find_market_code)
+        print(find_market_code)
         current_price = koscom_api.test_get_current_price(element['stock'])
-        category_stock.append([current_price,element['amount'],element['place']
+        category_stock.append([current_price,element['amount'],element['place'],find_market_code[0]
+
         ])
-        print(current_price)
+
+
+
+
+
+    print(category_stock)
 
     category_amount_data = []
     category_amount_label = []

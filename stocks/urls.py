@@ -13,7 +13,7 @@ urlpatterns = [
     path('stock', views.stock, name='stock'),
     path('portfolio', views.portfolio, name='portfolio'),
     path('stock_info', views.stock_info, name='stock_info'),
-
+    path('stock_info/<str:marketcode>/<int:isuSrtCd>', views.stock_info, name='stock_info'),
     path('current_stock', views.current_stock, name='current_stock'),
     path('buy_stock', views.buy_stock, name='buy_stock'),
     path('sold_stock', views.sold_stock, name='sold_stock'),
@@ -22,4 +22,5 @@ urlpatterns = [
     path('get_history', views.get_history, name='get_history'),
     path('stock_search_result', views.stock_search_result, name='stock_list_result'),
     path('top2', views.top2, name='top2'),#테스트
+    path('boomark/<str:marketcode>/<int:isuSrtCd>', views.boomark, name='boomark'),#테스트
 ]

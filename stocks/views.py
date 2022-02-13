@@ -1,8 +1,7 @@
-from django.shortcuts import render
-
+from django.shortcuts import render, redirect
 # Create your views here.
 import json
-from django.http import JsonResponse
+from django.http import HttpResponse,JsonResponse
 from datetime import datetime
 from django.db import transaction
 from . import kocom
@@ -15,6 +14,11 @@ from decimal import *
 
 
 
+
+
+
+
+
 def search_stock(request):
     wntlr = Stocksector.objects.all().values('ss_isusrtcd', 'ss_isukorabbrv')
     return render(request, 'search_stock.html', {'wntlr': wntlr})
@@ -22,6 +26,10 @@ def search_stock(request):
 
 def stock(request):
     stockheld = Stockheld.objects.filter(sh_userid=request.user.user_id)
+    #print(stockheld)
+    st2 = stockheld.values('sh_isusrtcd')
+    st3 = Stockheld.objects.filter(sh_isusrtcd__in = st2).values('sh_share')
+    #print(st3)
 
     stock_data = []
     stock_cal = cal.calculator()
@@ -30,11 +38,34 @@ def stock(request):
         average_price = stock_cal.average_price(request.user.user_id, element.sh_isusrtcd)
         current_price = koscom_api.get_current_price(element.sh_marketcode, element.sh_isusrtcd)
         stock_data.append(
-            [element.sh_isukorabbrv, average_price, current_price, element.sh_isusrtcd, element.sh_marketcode])
+            [element.sh_isukorabbrv, average_price, current_price, element.sh_isusrtcd, element.sh_marketcode,element.sh_share])
+        st1 = Stocktrading.objects.filter(st_isusrtcd = element.sh_isusrtcd).values('st_share')
+        print(st1)
+
     return render(request, 'stock.html', {'stock_data': stock_data})
 
 
 def portfolio(request):
+    categorys =  Stockheld.objects.filter(sh_userid=request.user.user_id).values('sh_idxindmidclsscd','sh_isusrtcd').annotate(count=Count('sh_idxindmidclsscd')).order_by('-count')[:3]
+    category_list = list(categorys.values('sh_idxindmidclsscd'))
+    categorys_isurtcd = list(categorys.values('sh_isusrtcd'))
+    category_keep = category_list[0:3]
+    category_arr = []
+    isurtcd_arr = []
+    for i in category_keep:
+        category_arr.append(i['sh_idxindmidclsscd'])
+    for i in categorys_isurtcd:
+        isurtcd_arr.append(i['sh_isusrtcd'])
+
+    stock_suggestion1 = TotalMerge.objects.exclude(id__in = isurtcd_arr).filter(category__in =category_arr[0:3]).values("id",'per','pbr',"marketcode","name","category").annotate(
+    ROA = (F('per') * Decimal('1.0') / F('pbr') * Decimal('1.0'))).order_by('-ROA')[0:5]
+    stock_suggestion2 =list(stock_suggestion1)
+    category_stock = []
+    koscom_api = kocom.api()
+    for element in stock_suggestion2:
+        stock_suggestion = koscom_api.s_get_current_price(element['marketcode'],element['id'])
+        category_stock.append([stock_suggestion,element['id'],element['per'],element['pbr'],element['marketcode'],element['name'],element['category']  ])
+
     result = {}
     stock_cal = cal.calculator()
     total_investment_amount = stock_cal.total_investment_amount(request.user.user_id)
@@ -45,10 +76,77 @@ def portfolio(request):
         result['total_current_price'] = 0
         result['total_use_investment_amount'] = 0
     else:
+
+        result['category_stock'] = category_stock
         result['total_investment_amount'] = total_investment_amount
         result['total_current_price'] = total_current_price
         result['total_use_investment_amount'] = total_use_investment_amount
     return render(request, 'portfolio.html', result)
+
+#
+# def add_bookmark(request):
+#     user_id =  request.user.user_id
+#     if request.method == 'POST':
+#         Bookmark =()
+#         user_id = request.user.user_id,
+#         marketcode = request.POST['marketcode'],
+#         ss_isuSrtCd = request.POST['issuecode'],
+#         activate = 1,
+#         Bookmakr.save()
+#         return redirect('/stock_info')
+# def bookmark(request):
+#     result_test = test.get('data' , None)
+#     data = json.loads(request.body)
+#     print(result_test)
+#     if data:
+#         bookmark.objects.create(
+#             user_id =request.user.user_id,
+#             marketcode = request.POST['marketcode'],
+#             isuSrtCd = request.POST['issuecode'],
+#             activate = 1
+#         )
+# def bookmark(request):
+#     if request.method == 'POST':
+#         marketcode = request.POST.get('marketcode', None) # ajax 통신을 통해서 template에서 POST방식으로 전달
+#         issuecode = request.POST.get('issuecode', None) # ajax 통신을 통해서 template에서 POST방식으로 전달
+#         mark = bookmark.objects.filter(user_id =request.user.user_id, marketcode=marketcode )
+#         if mark:
+#             ev = list(mark)
+#         else:
+#             ev = bookmark.objects.create(
+#                 user_id =request.user.user_id,
+#                 marketcode = marketcode,
+#                 isuSrtCd = issuecode,
+#                 activate = 1
+#                 )
+#             ev = list(ev)
+#         print(ev)
+#
+#         data = {'ev': ev}
+#         print(data)
+#
+#         return JsonResponse(data)
+
+def boomark(request,isuSrtCd, marketcode ):
+    isuSrtCd = str(isuSrtCd)
+    marketcode= str(marketcode)
+    print(type(marketcode))
+
+    mark = bookmark.objects.filter(user_id =request.user.user_id, marketcode = marketcode, isuSrtCd = isuSrtCd)
+    print(mark)
+    if mark:
+        mark.delete()
+    else:
+        bookmark.objects.create(
+            user_id =request.user.user_id,
+            marketcode = marketcode,
+            isuSrtCd = issuecode,
+            activate = 1
+        )
+
+    return redirect('/stock_info')
+
+
 
 
 def stock_info(request):
@@ -56,6 +154,22 @@ def stock_info(request):
     koscom_api = kocom.api()
     stock_cal = cal.calculator()
     if request.method == 'POST':
+        # marketcode = request.POST['marketcode']
+        # print(marketcode)
+        # ss_isuSrtCd = request.POST['issuecode']
+# redirect( stock_info/marketcode/issuecode, )
+
+        # mark = bookmark.objects.filter(user_id =request.user.user_id, marketcode = request.POST['marketcode'])
+        # if mark:
+        #     activate = 1
+        # else:
+        #     bookmark.objects.create(
+        #         user_id =request.user.user_id,
+        #         marketcode = request.POST['marketcode'],
+        #         isuSrtCd = request.POST['issuecode'],
+        #         activate = 1
+        #     )
+
         result = koscom_api.get_stock_master(request.POST['marketcode'], request.POST['issuecode'])
         if result:
             result['curPrice'] = koscom_api.get_current_price(request.POST['marketcode'], request.POST['issuecode'])
@@ -70,7 +184,7 @@ def stock_info(request):
                                                                                      'W', '19800101', datetime.today().strftime('%Y%m%d'), 50))
             result['day_history'] = day_trdDd_matching(koscom_api.get_stock_history(request.POST['marketcode'], request.POST['issuecode'],
                                                                                     'D', '19800101', datetime.today().strftime('%Y%m%d'), 50))
-    return render(request, 'stock_info.html', {'result': result})
+    return render(request, 'stock_info.html', {'result': result  })
 
 
 def cal_year_history(history):
@@ -277,18 +391,23 @@ def get_history(request):
 def top2(request):
     categorys =  Stockheld.objects.filter(sh_userid=request.user.user_id).values('sh_idxindmidclsscd','sh_isusrtcd').annotate(count=Count('sh_idxindmidclsscd')).order_by('-count')[:3]
     category_list = list(categorys.values('sh_idxindmidclsscd'))
+    categorys_isurtcd = list(categorys.values('sh_isusrtcd'))
     category_keep = category_list[0:3]
     category_arr = []
+    isurtcd_arr = []
     for i in category_keep:
         category_arr.append(i['sh_idxindmidclsscd'])
-
-    categorys_isurtcd = list(categorys.values('sh_isusrtcd'))
-    isurtcd_arr = []
     for i in categorys_isurtcd:
         isurtcd_arr.append(i['sh_isusrtcd'])
 
-
-    result = TotalMerge.objects.exclude(id__in = isurtcd_arr).filter(category__in =category_arr[0:3]).values("id",'per','pbr',"marketcode","name","category").annotate(
+    stock_suggestion1 = TotalMerge.objects.exclude(id__in = isurtcd_arr).filter(category__in =category_arr[0:3]).values("id",'per','pbr',"marketcode","name","category").annotate(
     ROA = (F('per') * Decimal('1.0') / F('pbr') * Decimal('1.0'))).order_by('-ROA')[0:5]
-    print(result)
-    return render(request, 'top2.html', {'st2':result})
+    stock_suggestion2 =list(stock_suggestion1)
+
+    category_stock = []
+    koscom_api = kocom.api()
+    for element in stock_suggestion2:
+        stock_suggestion = koscom_api.s_get_current_price(element['marketcode'],element['id'])
+        category_stock.append([stock_suggestion,element['id'],element['per'],element['pbr'],element['marketcode'],element['name'],element['category']  ])
+        print(category_stock)
+    return render(request, 'top2.html', {'category_stock': category_stock})

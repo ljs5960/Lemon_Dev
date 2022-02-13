@@ -1,7 +1,8 @@
-{% for i in st2%}
+{% for i in category_stock%}
 roa:{{i.ROA}}pbr:{{i.per}}per:{{i.pbr}}이름:{{i.name}} 코드:{{i.id}}구거:{{i.marketcode}}<br>
 {% endfor %}
-<br><br><br><br><br><br><br><br><br><br><br>
-{% for j in st4_json %}
-{{j|safe}}
-{% endfor %}
+{{category_stock.0}}<br>
+{{category_stock.1}}<br>
+{{category_stock.2}}<br>
+{{category_stock.3}}<br>
+{{category_stock.4}}
