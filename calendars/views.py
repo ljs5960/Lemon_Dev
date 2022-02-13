@@ -6,7 +6,7 @@ from django.core import serializers
 from django.contrib.auth import login, authenticate, get_user_model
 from django.contrib.auth.models import User
 from accounts.models import user
-from .models import Income, Spend, AccountBook
+from .models import Income, Spend, Stocksector, AccountBook
 from django.contrib.auth.decorators import login_required
 from .calendarsforms import SpendForm, IncomeForm
 from django.views.decorators.csrf import csrf_exempt
@@ -18,10 +18,10 @@ from django.conf import settings
 from django.views.generic import View
 from django.contrib.auth.hashers import check_password
 from dateutil.relativedelta import relativedelta
-from stocks.models import Stocksector
 from django.http import JsonResponse
 from stocks import stockcal as cal
 from stocks import kocom
+from stocks.models import Stocksector
 
 # Create your views here.
 URL_LOGIN = '/login'
@@ -209,7 +209,6 @@ def top5(request):
     category_card = spend_month_filter.values('card').annotate(amount=Sum('amount')).order_by('-amount')[:5]
     category_place = spend_month_filter.values('place','stock').annotate(amount=Sum('amount')).order_by('-amount')[:5]
 
-    print(category_place)
     category_category = spend_month_filter.values('category').annotate(amount=Sum('amount')).order_by('-amount')[:5]
 
     # 요약 페이지_카테고리 건수별 TOP5
@@ -218,10 +217,11 @@ def top5(request):
     category_stock = []
     koscom_api = kocom.api()
     for element in category_place:
-        current_price = koscom_api.test_get_current_price(element['stock'])
-        category_stock.append([current_price,element['amount'],element['place']
+        find_market_code = Stocksector.objects.filter(ss_isusrtcd=element['stock']).values_list('ss_marketcode', flat=True)
+        print(find_market_code)
+        current_price = koscom_api.get_current_price(element['stock'], find_market_code)
+        category_stock.append([current_price,element['amount'],element['place'],element['stock'], find_market_code
         ])
-        print(current_price)
 
     category_amount_data = []
     category_amount_label = []
@@ -261,29 +261,19 @@ def category_detail(request, int):
 def detail_search(request):
     user = request.user.user_id
     start_date = request.POST.get('start_date', None )
-    end_date = request.POST.get("end_date",None)
-
-    if not start_date :
-        return redirect('/history')
-    elif not end_date >= start_date:
-        messages.warning(request, "종료날짜보다 시작날짜가 작아야합니다.")
-        return redirect('/history')
-    else:
-        spend_date = Spend.objects.filter(user_id=user, spend_date__range=(start_date, end_date)).values('spend_id', 'kind',
+    end_date = request.POST.get("end_date", None)
+    spend_date = Spend.objects.filter(user_id=user, spend_date__range=(start_date, end_date)).values('spend_id', 'kind',
                                                                                                      'spend_date',
                                                                                                      'amount', 'place',
                                                                                                      'category')
-        income_date = Income.objects.filter(user_id=user, income_date__range=(start_date, end_date)).values('income_id',
+    income_date = Income.objects.filter(user_id=user, income_date__range=(start_date, end_date)).values('income_id',
                                                                                                         'kind',
                                                                                                         'income_date',
                                                                                                         'amount',
                                                                                                         'income_way',
                                                                                                         'income_way')
-        total_date = spend_date.union(income_date).order_by('-spend_date')
-
-
-
-    return render(request, 'detail_search.html', {'total_date': total_date})
+    total_date = spend_date.union(income_date).order_by('-spend_date')
+    return render(request, 'detail_search.html', {'total_date': total_date,'start_date':start_date, 'end_date':end_date})
 
 
 # 알리고 관련 기능

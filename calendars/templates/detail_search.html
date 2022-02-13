@@ -83,7 +83,7 @@
     background:white;
   }
   .search-btn{
-    margin: 25px 0 5px 0;
+     margin: 25px 0 5px 0;
     width: 98%;
     height: 40px;
     font-size: 18px;
@@ -92,6 +92,8 @@
     border: 0px;
     border-radius: 5px;
     color: #fff;
+    line-height: 35px;
+    width: 100%;
   }
 
   .th-month-title{
@@ -144,16 +146,30 @@
         document.getElementById('hide-btn').style.display="";
         document.getElementById('show-btn').style.display="none";
       }
+      function check_date(){
+  if  ($("#start_date").val() == 0){
+  alert('시작 날짜를 입력 부탁드립니다.');
+  }
+  else if  ($("#end_date").val() == 0){
+  alert('종료 날짜를 입력 부탁드립니다.');
+  }
+  else if ($("#end_date").val() < $("#start_date").val()) {
+      alert('끝나는 날짜가 앞설 수 없습니다.');
+  }
+  else{
+  const form = document.getElementById('search_form');
+  form.action="{% url 'calendars:detail_search' %}" ;
+  form.submit();
+  }};
     </script>
 
     <div class="filter-menu-contents" id="filter-contents" style="display: none;padding-top:15px;">
       <form class="check_box_form" action="{% url 'calendars:detail_search' %}" method="post">
     {% csrf_token %}
-      <div style="padding-left:5px;padding-bottom:5px;">기간으로 검색하기</div>
       <div style="text-align: center;">
       <input class="search-date" type="date" id="start_date" min="1900-01-01" max="2099-12-31" autocomplete="off" name="start_date" value=""> ~
       <input class="search-date" type="date" id="end_date" min="1900-01-01" max="2099-12-31" autocomplete="off" name="end_date" value=""> <br>
-    <button class="search-btn" type=submit>검색</button></form> <br>
+    <div class="search-btn" onclick="check_date()">상세 검색</div></form> <br>
       </div>
     </div>
 
@@ -167,8 +183,8 @@
   {% for filter in total_date %}
   <tr class="tr-month-title">
   {% ifchanged filter.spend_date.month %}
-    <th class="th-month-title">{{ filter.spend_date | date:'m월' }}</th>
-    <th class="th-month-title2"></th>
+    <th class="th-month-title2" style="text-align:right;">기간 : {{start_date}} ~ </th>
+    <th class="th-month-title2" style="padding-left:3px;"> {{end_date}}</th>
   {% endifchanged %}
   </tr>
   {% ifchanged filter.spend_date.day %}
