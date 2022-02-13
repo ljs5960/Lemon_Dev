@@ -161,7 +161,7 @@
                 <input type="hidden" id="buy_issuecode" name="buy_issuecode" value="{{ result.isuSrtCd }}">
                  <input type="hidden" id="buy_price" name="price" value="{{ result.curPrice}}"/>
                 <div class="title_1">현재가</div><input type="text" name="price" value="{{ result.curPrice|intcomma}}"/>
-                <div class="title_1">주문 가능 주 </div><input type="text" id="howmuch" value=" "/>
+                <div class="title_1">주문 가능 주 </div><input disabled type="text" id="howmuch" value=" "/>
                 <div class="title_1">주</div><input type="number" id="buy_share" name="buy_share" value=""/>
                     <div style="display: flex;justify-content: space-between;padding:10px">
                         <div class="btn_1" onclick="add(1)">+1주</div>
@@ -196,12 +196,6 @@
         <button onclick="fn_get_selectivemaster()">PER, PBR (PBR = PER * ROE)</button>
         <Button onclick="fn_stocksector_update()">업종분류 업데이트</Button>
     </div>
-
-
-
-    <!-- result.history : 차트 데이터 -->
-
-
 <script>
     function add(price){
         total = Number($('#buy_share').val()) + price;
@@ -212,16 +206,16 @@
         $('#sold_share').val(total);
     }
     function sell(){
-    $('.buy').hide();
-    $('.sell').show();
-    $('.buy-btn').removeClass('act');
-    $('.sell-btn').addClass('act');
+        $('.buy').hide();
+        $('.sell').show();
+        $('.buy-btn').removeClass('act');
+        $('.sell-btn').addClass('act');
     }
     function buy(){
-    $('.sell').hide();
-    $('.buy').show();
-     $('.sell-btn').removeClass('act');
-    $('.buy-btn').addClass('act');
+        $('.sell').hide();
+        $('.buy').show();
+         $('.sell-btn').removeClass('act');
+        $('.buy-btn').addClass('act');
     }
 </script>
 <script>
@@ -726,31 +720,31 @@ var myChart = new Chart(ctx, {
         console.log(history_result.result)
     }
 
-    function fn_koscom_history(marketcode, issuecode, trnsmCycleTpCd, today) {
-        let data = {
-            'marketcode': marketcode,
-            'issuecode': issuecode,
-            'trnsmCycleTpCd': trnsmCycleTpCd,
-            'inqStrtDd': '19800101',    //의미없는 최대값
-            'inqEndDd': today,          //오늘 날짜
-            'reqCnt': '500'             //의미없는 최대값
-        }
-        headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        headers.append('X-CSRFToken', csrftoken);
-        let response = fetch('/get_history', {
-            method: "POST",
-            headers: headers,
-            body: JSON.stringify(data)
-        })
-        return response.then(res => {
-            if(res.status === 200) return res.json();
-            else console.log(res.statusText);
-        })
-        .catch(err => {
-            console.log(err);
-        })
-    }
+<!--    function fn_koscom_history(marketcode, issuecode, trnsmCycleTpCd, today) {-->
+<!--        let data = {-->
+<!--            'marketcode': marketcode,-->
+<!--            'issuecode': issuecode,-->
+<!--            'trnsmCycleTpCd': trnsmCycleTpCd,-->
+<!--            'inqStrtDd': '19800101',    //의미없는 최대값-->
+<!--            'inqEndDd': today,          //오늘 날짜-->
+<!--            'reqCnt': '500'             //의미없는 최대값-->
+<!--        }-->
+<!--        headers = new Headers();-->
+<!--        headers.append('Content-Type', 'application/json');-->
+<!--        headers.append('X-CSRFToken', csrftoken);-->
+<!--        let response = fetch('/get_history', {-->
+<!--            method: "POST",-->
+<!--            headers: headers,-->
+<!--            body: JSON.stringify(data)-->
+<!--        })-->
+<!--        return response.then(res => {-->
+<!--            if(res.status === 200) return res.json();-->
+<!--            else console.log(res.statusText);-->
+<!--        })-->
+<!--        .catch(err => {-->
+<!--            console.log(err);-->
+<!--        })-->
+<!--    }-->
 
     function cal_year_history(result) {
         let temp_year = ''
@@ -770,12 +764,12 @@ var myChart = new Chart(ctx, {
         var marketcode = document.getElementById('buy_marketcode').value;
             issuecode = document.getElementById('buy_issuecode').value;
             current_price = document.getElementById('buy_price').value;
-            share = document.getElementById('buy_share').value;
+        var share = document.getElementById('buy_share').value;
         var howmuch = $('#howmuch').val();
-        if($('#buy_share').val() == '') {
+        if(share == '' || share == 0) {
             alert('구매할 주를 입력해주세요.');
         }
-        if($('#buy_share').val() > howmuch) {
+        else if(share > howmuch) {
             alert('구매 가능한 주를 입력해주세요.');
         }
         else{
@@ -809,7 +803,7 @@ var myChart = new Chart(ctx, {
             current_price = document.getElementById('buy_price').value
             share = document.getElementById('sold_share').value;
             curr_share = document.getElementById('curr_share').value;
-            var sold_stock =  curr_share - share ;
+        var sold_stock =  curr_share - share ;
             if (sold_stock < 0 ){
                 alert("보유 주식보다 더 많이 매도할 수 없습니다.");
             }
