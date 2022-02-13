@@ -34,23 +34,6 @@
   text-decoration-line: none;
   }
 
-  /* FOOTER에서 사용하는 CSS */
-  .bottom-nav-calendar{
-    color: #FFD859 !important;
-  }
-
-  .bottom-nav-calendar a{
-    color: #FFD859 !important;
-  }
-
-  .bottom-nav-search-stock a,.bottom-nav-home a,
-  .bottom-nav-stock a,.bottom-nav-addlist a,
-  .bottom-nav-myinfo a{
-    font-family: 'Noto Sans KR', sans-serif;
-    font-weight: 500;
-    font-size: 0.8rem;
-    color: #D1D6DA !important;
-  }
   .social-wrap{
     padding: 20px;
   }
@@ -112,56 +95,29 @@
     margin:0;
     padding: 0;
   }
-  .pagenation{
-    background-color: lightgrey;
-    z-index: 10;
-    padding:0;
-    bottom: 70px;
-    left: 58px;
-    position: fixed;
-    vertical-align: middle;
-    text-align: center;
-    width: 70%;
-    height: 30px;
-    border-radius: 20px;
-    margin: 0 auto;
-  }
-  .pagenation li{
-    padding-top: 2px;
-    font-weight: 500;
-    border-radius: 20px;
-    width : 32%;
-    height: 30px;
-    display:inline-block;
-  }
-
   #pagenation_calendar{
     background-color: #4C8AE5;
   }
   #pagenation_calendar a{
     color: #fff;
   }
-  #pagenation_recom a, #pagenation_summary a, #pagenation_list a{
-     color: white;
-  }
-  #pagenation_recom{
-    display: none;
+  #pagenation_summary a, #pagenation_list a{
+    color: white;
   }
   canvas{
     margin: 15px auto;
     width:200px !important;
     height:200px !important;
   }
-.footer-line-calendar{
+  .footer-line-calendar{
     width:50px;
     padding: 12px 0 10px 0;
     border-bottom: 2px solid #FFF;
-    }
+  }
   </style>
   <!-- pagenation -->
 <div class="pagenation">
   <ul>
-<!--    <li id="pagenation_recom"><a href="{% url 'calendars:recom' %}">추천</a></li>-->
     <li id="pagenation_summary"><a href="{% url 'calendars:summary' %}">요약</a></li>
     <li id="pagenation_list"><a href="{% url 'calendars:history' %}">내역</a></li>
     <li id="pagenation_calendar"><a href="{% url 'calendars:top5' %}">TOP 5</a></li>
@@ -176,7 +132,7 @@
   <div id="chart_view">
   <canvas id="myChart" width="100" height="100"></canvas>
     <ol style="padding-left: 1rem !important;">
-      <table border="0" style="width: 100%; margin-top:10px; border-collapse:inherit;">
+      <table style="width: 100%; margin-top:10px; border-collapse:inherit;">
         {% for category in Category_sum %}
         {% ifchanged category.category %}
         <tr>
@@ -386,12 +342,6 @@ function click_evt() {
             <td width='10' style="text-align: right;">
               <a style="font-size:9pt; font-weight:300; color:#ff5d51">{{area.0|intcomma}} {{result}} 원</a>
             </td>
-            <!--
-            <td width='40' style="text-align: right;">
-              <a style="font-family: 'Noto Sans KR', sans-serif; font-size:9pt; font-weight:300; color:#8e8e8e">주문</a>
-              <img style="width: 20px; height:20px;" src="media/arrow.png">
-            </td>
-            -->
           </tr>
           {% empty %}
           <div class="summary-nodata-wrap">
@@ -480,7 +430,7 @@ function click_evt() {
         document.getElementById('issuecode').value = issuecode;
         document.getElementById('marketcode').value = marketcode;
         const form = document.getElementById('form');
-        form.action="/stock_info"
+        form.action="/stock_info/"+issuecode+"/"+ marketcode
         form.submit();
     }
   </script>

@@ -334,13 +334,6 @@ font-family: 'Noto Sans KR', sans-serif;
 		align-items:center;
 		position: relative;
 	}
-	.fa-google {
-		background: conic-gradient(from -45deg, #ea4335 110deg, #4285f4 90deg 180deg, #34a853 180deg 270deg, #fbbc05 270deg) 73% 55%/150% 150% no-repeat;
-		-webkit-background-clip: text;
-		background-clip: text;
-		color: transparent;
-		-webkit-text-fill-color: transparent;
-	}
 
 	.fa-comment{
 		color:#343740;
@@ -391,50 +384,6 @@ font-family: 'Noto Sans KR', sans-serif;
 		bottom: 105px;
 	}
 
-
-
-	/* calendar 페이지 관련 css */
-	/* 1. 추천서비스 관련 css */
-
-	/* 2. 요약서비스 관련 css */
-	/* Modal 관련 CSS */
-	.modal-content{
-		margin-top: 50px;
-		border-radius: 30px;
-	}
-
-	.modal-title{
-		font-size:20px;
-		text-align:left;
-	}
-
-	.modal-header{
-		border-bottom: none;
-	}
-
-	.modal-body-text{
-		margin: 10px 20px;
-		font-family: 'Noto Sans KR', sans-serif;
-		font-size: 12px;
-		font-weight: 400;
-	}
-    .modal-body-kind{
-    display: inline-block;
-    text-align: left;
-    font-size:16px;
-    }
-    .modal-body-amount{
-    float:right;
-    display:inline-block;
-    font-size:16px;
-    }
-
-	.modal-footer{
-		border-top: none;
-		display: block;
-		text-align: center;
-	}
-
 	.addList-btn{
 	font-family: 'Noto Sans KR', sans-serif;
 	font-size: 18px;
@@ -448,73 +397,9 @@ font-family: 'Noto Sans KR', sans-serif;
 	background: #31bc8a;
 	}
 
-	.addevent-btn{
-		border-radius: 50%;
-		background-color: #31bc8a;
-		font-size: 35px;
-		width: 45px;
-		height: 45px;
-		line-height: 30px;
-		display: table;
-		position: fixed;
-		float: right;
-		bottom: 50px;
-		margin-bottom: 4rem;
-		right: 15px;
-		text-align: center;
-		z-index: 10;
-	}
-		.money-info-wrap{
-		margin: 5%;
-		padding: 1px;
-		text-align: left;
-		background: #31bc8a;  /* Chrome 10-25, Safari 5.1-6 */
-		border-radius: 15px;
-		}
-		.money-info-container{
-			padding-top: 10px;
-		}
-		.money-info-title{
-		font-size: 16pt;
-		font-weight: 400;
-		color:#FFF;
-		margin-top:10px;
-		padding-left:15px;
-		}
-		.money-wrap{
 
-		}
-		.amountMoney{
-		text-align:center;
-		padding-left:15px;
-		margin-top:7px;
-		}
-		.amount-money{
-			background-color: #fff;
-			border: 1px solid transparent;
-			box-shadow: 1px 1px 10px 1px #9f9f9f;
-			border-radius: 10px;
-			width: fit-content;
-			padding: 0 10px;
-			color:#3A3A3A;
-			font-size: 25px;
-			font-weight:bold;
-			margin-right: 5px;
-		}
-		.amount-won{
-		font-size:20px;
-		font-weight:bold;
-		color: #fff;
-		}
-		.list-table{
-		width: 95%;
-		background-color:#fff;
-		border-radius:10px;
-		margin: 10px 10px 60px 10px;
-		padding:5px;
-		border-collapse:separate;
-		border-spacing:0 20px;
-		}
+		
+
 		.summary-nodata-wrap{
 			margin-top:10px;
 			margin-right:20px;
@@ -641,66 +526,6 @@ font-family: 'Noto Sans KR', sans-serif;
 	-webkit-tap-highlight-color:transparent;
 	outline: none;
   }
-
-    /* Fullcalendar 관련 css */
-    .fc-toolbar-chunk{
-      display: flex;
-    }
-.cal-container{
-	background-color:#fff;
-	border-radius: 20px !important;
-	min-height: 465px;
-	padding-bottom:30px;
-	margin: 20px 20px 45px 20px !important;
-}
-    .fc-prev-button.fc-button.fc-button-primary,
-    .fc-next-button.fc-button.fc-button-primary{
-      background-color: transparent;
-      border-color: transparent;
-      color: #32BC8B;
-      margin: 0;
-    }
-    .fc-prev-button.fc-button.fc-button-primary:hover,
-    .fc-next-button.fc-button.fc-button-primary:hover,
-    .fc-prev-button.fc-button.fc-button-primary:active,
-    .fc-next-button.fc-button.fc-button-primary:active{
-      background-color: transparent;
-      border-color: transparent;
-      color: #4C8AE5;
-      font-weight: bold;
-      transition: 0.5s;
-      margin: 0;
-      border-color: transparent;
-    }
-    .fc-view-harness.fc-view-harness-active{
-      border-radius: 10px;
-      /*box-shadow: 2px 3px 4px 1px rgb(202, 202, 202);*/
-    }
-    .fc-toolbar-title{
-      font-weight: blod;
-      font-family: 'Noto Sans KR', sans-serif;
-    }
-    .fc .fc-col-header-cell-cushion {
-      display: inline-block;
-      padding: 2px 4px;
-    }
-    .fc-col-header-cell-cushion, .fc-daygrid-day-number {
-      color: black;
-    }
-    .fc-event-title-container{
-      text-align: end;
-    }
-    .fc-day-sun {
-      color:#FF0000;
-      }
-      .fc-day-sun a{ color:#FF0000; }
-    .fc-day-sat {
-      color:blue;
-      }
-      .fc-day-sat a{ color:blue; }
-
-    /*End Fullcalendar CSS*/
-
 	.no-top5{
 		display: flex;
     margin: 0px 20px 0 20px;
