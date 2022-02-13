@@ -762,8 +762,8 @@ var myChart = new Chart(ctx, {
 
     function fn_buy_stock() {
         var marketcode = document.getElementById('buy_marketcode').value;
-            issuecode = document.getElementById('buy_issuecode').value;
-            current_price = document.getElementById('buy_price').value;
+        var issuecode = document.getElementById('buy_issuecode').value;
+        var current_price = document.getElementById('buy_price').value;
         var share = document.getElementById('buy_share').value;
         var howmuch = $('#howmuch').val();
         if(share == '' || share == 0) {
@@ -793,7 +793,8 @@ var myChart = new Chart(ctx, {
                 console.log(err)
             })
             alert('매수 완료\n'+ $('#buy_share').val()+'주');
-            location.reload();
+            var here = window.location.href;
+                        location.replace(here);
         }
     }
 
@@ -828,7 +829,8 @@ var myChart = new Chart(ctx, {
                 console.log(err)
             })
             alert('매도 완료 \n'+ $('#sold_share').val()+'주');
-            location.reload();
+            var here = window.location.href;
+            location.replace(here);
         }
         }
 

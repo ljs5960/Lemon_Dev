@@ -43,32 +43,35 @@ def portfolio(request):
     return render(request, 'portfolio.html', result)
 
 
-def stock_info(request):
-    result = False
+def stock_info(request, marketcode, issuecode):
     stock_cal = cal.calculator()
     total_investment_amount = stock_cal.total_investment_amount(request.user.user_id)
     total_use_investment_amount = stock_cal.total_use_investment_amount(request.user.user_id)
-
     koscom_api = kocom.api()
-    if request.method == 'POST':
-        result = koscom_api.get_stock_master(request.POST['marketcode'], request.POST['issuecode'])
-        if result:
-            result['total_investment_amount'] = total_investment_amount if total_investment_amount else 0
-            result['total_use_investment_amount'] = total_use_investment_amount if total_use_investment_amount else 0
-            result['total'] = result['total_use_investment_amount'] - result['total_investment_amount']
-            result['share'] = Stockheld.objects.filter(sh_userid=request.user.user_id , sh_isusrtcd = request.POST['issuecode']).values_list('sh_share', flat=True)
-            result['curPrice'] = koscom_api.get_current_price(request.POST['marketcode'], request.POST['issuecode'])
-            result['marketcode'] = request.POST['marketcode']
-            result['total_allow_invest'] = request.user.invest - stock_cal.total_use_investment_amount(request.user.user_id)
+    result = koscom_api.get_stock_master(marketcode, issuecode)
+    if result:
+        result['total_investment_amount'] = total_investment_amount if total_investment_amount else 0
+        result['total_use_investment_amount'] = total_use_investment_amount if total_use_investment_amount else 0
+        result['total'] = result['total_use_investment_amount'] - result['total_investment_amount']
+        result['share'] = Stockheld.objects.filter(sh_userid=request.user.user_id,
+                                                   sh_isusrtcd=issuecode).values_list('sh_share', flat=True)
+        result['curPrice'] = koscom_api.get_current_price(marketcode, issuecode)
+        result['marketcode'] = marketcode
+        result['total_allow_invest'] = request.user.invest - stock_cal.total_use_investment_amount(request.user.user_id)
 
-            result['year_history'] = day_trdDd_matching(cal_year_history(koscom_api.get_stock_history(request.POST['marketcode'], request.POST['issuecode'],
-                                                                                                      'M', '19800101', datetime.today().strftime('%Y%m%d'), 50)))
-            result['month_history'] = day_trdDd_matching(koscom_api.get_stock_history(request.POST['marketcode'], request.POST['issuecode'],
-                                                                                      'M', '19800101', datetime.today().strftime('%Y%m%d'), 50))
-            result['week_history'] = day_trdDd_matching(koscom_api.get_stock_history(request.POST['marketcode'], request.POST['issuecode'],
-                                                                                     'W', '19800101', datetime.today().strftime('%Y%m%d'), 50))
-            result['day_history'] = day_trdDd_matching(koscom_api.get_stock_history(request.POST['marketcode'], request.POST['issuecode'],
-                                                                                    'D', '19800101', datetime.today().strftime('%Y%m%d'), 50))
+        result['year_history'] = day_trdDd_matching(
+            cal_year_history(koscom_api.get_stock_history(marketcode, issuecode,
+                                                          'M', '19800101', datetime.today().strftime('%Y%m%d'), 50)))
+        result['month_history'] = day_trdDd_matching(
+            koscom_api.get_stock_history(marketcode, issuecode,
+                                         'M', '19800101', datetime.today().strftime('%Y%m%d'), 50))
+        result['week_history'] = day_trdDd_matching(
+            koscom_api.get_stock_history(marketcode, issuecode,
+                                         'W', '19800101', datetime.today().strftime('%Y%m%d'), 50))
+        result['day_history'] = day_trdDd_matching(
+            koscom_api.get_stock_history(marketcode, issuecode,
+                                         'D', '19800101', datetime.today().strftime('%Y%m%d'), 50))
+
     return render(request, 'stock_info.html', {'result': result})
 
 

@@ -75,7 +75,7 @@
 </div>
 <form id="form" method="post">
     {% csrf_token %}
-    <input type="hidden" id="issuecode" name="issuecode">
+    <input style="display:none;" type="text" id="issuecode" name="issuecode">
     <input type="hidden" id="marketcode" name="marketcode">
 </form>
 <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
@@ -94,7 +94,7 @@
         document.getElementById('issuecode').value = issuecode;
         document.getElementById('marketcode').value = marketcode;
         const form = document.getElementById('form');
-        form.action="/stock_info"
+        form.action="/stock_info/" + marketcode + "/" + issuecode ;
         form.submit();
     }
     var body_height = document.documentElement.clientHeight - 145;
