@@ -218,10 +218,9 @@ def top5(request):
     koscom_api = kocom.api()
     for element in category_place:
         find_market_code = Stocksector.objects.filter(ss_isusrtcd=element['stock']).values_list('ss_marketcode', flat=True)
-        print(find_market_code)
-        current_price = koscom_api.get_current_price(element['stock'], find_market_code)
-        category_stock.append([current_price,element['amount'],element['place'],element['stock'], find_market_code
-        ])
+        market_code = find_market_code[0] if find_market_code else None
+        current_price = koscom_api.get_current_price(market_code, element['stock'])
+        category_stock.append([current_price, element['amount'], element['place'], element['stock'], market_code])
 
     category_amount_data = []
     category_amount_label = []

@@ -375,7 +375,7 @@ function click_evt() {
       <ol style="padding-left: 1rem !important;">
         <table border="0" style="width: 100%; margin-top:10px; border-collapse:inherit;">
           {% for area in category_stock %}
-          <tr onclick="info('{{ area.3}}','{{ area.4.0 }}')">
+          <tr onclick="info('{{ area.3}}','{{ area.4 }}')">
             <td width='10'><li style="font-weight: bold; color:#8e8e8e;"></li></td>
             <td style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:50px; text-align: left;" width='50'>
               <a style="font-weight:bold; color:#3a3a3a">{{ area.2 }}</a>
@@ -479,7 +479,7 @@ function click_evt() {
   function info(issuecode, marketcode) {
         document.getElementById('issuecode').value = issuecode;
         document.getElementById('marketcode').value = marketcode;
-        if (marketcode == '') {
+        if (marketcode == 'None') {
         alert('주식 정보가 없습니다.')
         }
         else{
