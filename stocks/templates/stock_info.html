@@ -55,9 +55,6 @@
     float:right;
     color:lightgrey;
     }
-    .picked{
-    color:gold;
-    }
     .btn{
     padding:10px 20px 10px 20px;
     width:100%;
@@ -84,6 +81,9 @@
     border:1px solid grey;
     padding:0px 10px 0px 10px;
     }
+    .gold{
+    color:gold !important;;
+    }
 </style>
 {% block nav %}
 <div id="nav" style="border-bottom: 1px solid #f1f1f1;">
@@ -99,10 +99,11 @@
  </div>
 {% endblock nav %}
         {% if result %}
+
         <div class="title">
                 <div class="stock-name">{{ result.isuKorAbbrv }} </div>
                 <div class="code">{{ result.isuSrtCd }} </div>
-            <div class="pick" onclick="pick('{{ result.isuSrtCd }}')"><i class="fas fa-star"></i></div>
+            <div class="pick {% if star == 1  %} gold {% endif %}" onclick="pick()"><i class="fas fa-star"></i></div>
             <div class="marketcode"> {{ result.marketcode }}</div>
                 <div class="curprice">{{ result.curPrice|intcomma }}원</div>
                 <div class="lastprice"> 종가 : {{ result.prevddClsprc|intcomma }}원</div>
@@ -920,7 +921,47 @@ var number = {{user.invest|add:result.total|div:result.curPrice|floatformat}};
 var final = Math.trunc(number);
 $('#howmuch').val(final);
 });
+$.ajaxSetup({
+    headers: { "X-CSRFToken": '{{csrf_token}}' }
+  });
+
+    function pick(){
+    if ($(".pick").hasClass("gold") === false){
+        var data = {{star}};
+        alert('관심 종목에 등록이 되었습니다.');
+         $.ajax({
+        type:'post',
+        url:'{% url 'stocks:boomark' result.marketcode result.isuSrtCd  %}',
+        data:JSON.stringify(data),
+        success:function(json){
+        $('.pick').addClass('gold');
+        },
+        error : function(xhr,errmsg,err) {
+        console.log(xhr.status + ": " + xhr.responseText);
+        }
+        });
+    }else{
+        var data = {{star}};
+        alert('관심 종목에 등록이 해지 되었습니다.');
+         $.ajax({
+        type:'post',
+        url:'{% url 'stocks:boomark' result.marketcode result.isuSrtCd  %}',
+        data:JSON.stringify(data),
+        success:function(json){
+        $('.pick').removeClass('gold');
+        },
+        error : function(xhr,errmsg,err) {
+        console.log(xhr.status + ": " + xhr.responseText);
+        }
+        });
+    }}
+
 </script>
+<div  style="display:none;">
+    <form action = "{% url 'stocks:boomark' result.marketcode result.isuSrtCd  %}" method="POST" id="form3">
+               {% csrf_token %}
+           </form>
+</div>
 <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
 <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
 <script>

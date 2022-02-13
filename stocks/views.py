@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
 import json
@@ -22,13 +22,20 @@ def stock(request):
     stock_data = []
     stock_cal = cal.calculator()
     koscom_api = kocom.api()
+    mark = bookmark.objects.filter(user_id=request.user.user_id)
+    bookmark_date = []
     for element in stockheld:
         average_price = stock_cal.average_price(request.user.user_id, element.sh_isusrtcd)
         current_price = koscom_api.get_current_price(element.sh_marketcode, element.sh_isusrtcd)
         stock_data.append(
             [element.sh_isukorabbrv, average_price, current_price, element.sh_isusrtcd, element.sh_marketcode, element.sh_share])
 
-    return render(request, 'stock.html', {'stock_data': stock_data})
+    for element in mark :
+        find_stock_name = Stocksector.objects.filter(ss_isusrtcd=element.isuSrtCd).values_list('ss_isukorabbrv', flat=True)
+        name = find_stock_name[0]
+        current_price = koscom_api.get_current_price(element.marketcode, element.isuSrtCd)
+        bookmark_date.append([element.marketcode,element.isuSrtCd, current_price, name])
+    return render(request, 'stock.html', {'stock_data': stock_data,'bookmark_date':bookmark_date})
 
 
 def portfolio(request):
@@ -49,12 +56,18 @@ def stock_info(request, marketcode, issuecode):
     total_use_investment_amount = stock_cal.total_use_investment_amount(request.user.user_id)
     koscom_api = kocom.api()
     result = koscom_api.get_stock_master(marketcode, issuecode)
+    mark = bookmark.objects.filter(user_id=request.user.user_id, marketcode=marketcode, isuSrtCd=issuecode)
+    if mark:
+        star=1
+    else :
+        star=0
     if result:
         result['total_investment_amount'] = total_investment_amount if total_investment_amount else 0
         result['total_use_investment_amount'] = total_use_investment_amount if total_use_investment_amount else 0
         result['total'] = result['total_use_investment_amount'] - result['total_investment_amount']
         result['share'] = Stockheld.objects.filter(sh_userid=request.user.user_id,
                                                    sh_isusrtcd=issuecode).values_list('sh_share', flat=True)
+        print(result['share'])
         result['curPrice'] = koscom_api.get_current_price(marketcode, issuecode)
         result['marketcode'] = marketcode
         result['total_allow_invest'] = request.user.invest - stock_cal.total_use_investment_amount(request.user.user_id)
@@ -72,7 +85,7 @@ def stock_info(request, marketcode, issuecode):
             koscom_api.get_stock_history(marketcode, issuecode,
                                          'D', '19800101', datetime.today().strftime('%Y%m%d'), 50))
 
-    return render(request, 'stock_info.html', {'result': result})
+    return render(request, 'stock_info.html', {'result': result,'star':star})
 
 
 def cal_year_history(history):
@@ -89,6 +102,23 @@ def cal_year_history(history):
         print('Error in cal_year_history: \n', e)
         return False
 
+def boomark(request, marketcode, isuSrtCd ):
+    if request.method == 'POST':
+        mark = bookmark.objects.filter(user_id =request.user.user_id, marketcode = marketcode, isuSrtCd = isuSrtCd)
+        if mark :
+            mark.delete()
+        else:
+            bookmark.objects.create(
+                user_id =request.user.user_id,
+                marketcode = marketcode,
+                isuSrtCd = isuSrtCd,
+                activate = 1
+            )
+        data = json.loads(request.body)
+        context = {
+            'result': data,
+        }
+        return JsonResponse(context)
 
 def day_trdDd_matching(history):
     day_trdDd_array = []
