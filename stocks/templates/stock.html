@@ -51,7 +51,7 @@
 <div class="swiper">
     <div class="swiper-scrollbar" style="top:0px;height:3px;"></div>
     <div class="swiper-wrapper">
-        <div class="swiper-slide">
+        <div class="swiper-slide" data-hash="slide1">
             <div class="stock">
                 <div style="padding-top:20px;margin-bottom:20px;">
                     {% for ele in stock_data %}
@@ -68,7 +68,22 @@
                 </div>
             </div>
         </div>
-        <div class="swiper-slide">
+        <div class="swiper-slide" data-hash="slide2">
+            <div class="stock">
+                <div style="padding-top:20px;margin-bottom:20px;">
+                    {% for ele in bookmark_date %}
+                  <div class="stocks" style="width:100%" onclick="info('{{ele.1}}','{{ele.0}}')">
+                        <div style="width:100%;height:48px;">
+                                <div style="width:50%;display:inline-block;"><div class="stock_name">{{ele.3}}</div></div>
+                                 <div style="width:50%;float:right;text-align:right;">{{ele.2|intcomma}} 원</div>
+                                     <div style="padding-left:5px;text-align:right;">  </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <span>관심 주식이 없습니다</span>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -85,6 +100,7 @@
   scrollbar: {
     el: '.swiper-scrollbar',
   },
+  hashNavigation: true,
 });
     function move_page(index){
     swiper.slideTo(index)
