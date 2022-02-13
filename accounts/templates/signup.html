@@ -160,7 +160,8 @@
         id="pin" placeholder="미입력시 초기 번호는 0000 입니다." value=""/>
     </div>
 
-    <button class="signup-btn" id="signupBtn" onclick="signup_check()" disabled style="width:100%">회원가입</button>
+    <!-- <button class="signup-btn" id="signupBtn" onclick="signup_check()" disabled style="width:100%">회원가입</button> -->
+    <div class="signup-btn" id="signupBtn" onclick="signup_check()" style="width:100%">회원가입</span>
   </div><!-- 회원가입 폼 끝 -->
   </form>
 </div><!-- 회원가입 Wrapper 끝 -->
@@ -170,7 +171,11 @@
     // 이용약관도 체크 확인 하기
     // 핸드폰 중복 확인
     function signup_check() {
-        if ($('#uid').val() == '') {
+        let require_chk =  $('input[id="require_chk2"]').is(":checked");
+        if (!require_chk) {
+            alert('이용약관을 동의해 주세요.')
+        }
+        else if ($('#uid').val() == '') {
             alert('아이디를 입력해주세요.');
             return false;
         }
