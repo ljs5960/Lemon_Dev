@@ -4,9 +4,6 @@
 {% load humanize %}
 {% load mathfilters %}
 <style>
-    .bottom-nav-addlist,.bottom-nav-addlist a{
-        color: #FFD859;
-    }
     .wrapper{
     padding:20px;
     }
@@ -43,26 +40,32 @@
     <div><strong>{{user.uid}}</strong>님의</div>
     <div><strong>포트폴리오</strong></div>
 <div>
-<div>
-    <button onclick="fn_set_PER_PBR()">PER, PBR 넣기</button>
-</div>
+<!--<div>-->
+<!--    <button onclick="fn_set_PER_PBR()">PER, PBR 넣기</button>-->
+<!--</div>-->
 <div class="stock">
     <span class="side">현재까지 수익률</span>
     <div class="title">주식</div>
 
 {% comment %} <div style="text-align:center;font-size:22px;">{{total_current_amount|intcomma}}원</div> {% endcomment %}
-<div style="text-align:center;font-size:22px;">{{total_invest_amount|intcomma}}원</div>
-<div style="text-align:center;font-size:22px;">{{total_current_price|intcomma}}원</div>
+<!--<div style="text-align:center;font-size:22px;">{{total_invest_amount|intcomma}}원</div>-->
+ {% if total_investment_amount %}
+    <div style="text-align:center;font-size:22px;">{{total_current_price|intcomma}}원</div>
 
-    <div style="text-align:center;font-size:14px;color:white;">{{total_current_price|sub:total_investment_amount|intcomma}}({{total_current_price|yields:total_investment_amount|rounds:2}}%)</div>
-
+    <div style="text-align:center;font-size:14px;color:white;">
+       {{total_current_price|sub:total_investment_amount|intcomma}} ({{total_current_price|yields:total_investment_amount|rounds:2}}%) </div>
     <div class="my_stock"><a href="{% url 'stocks:stock' %}" style="width:40%;color:#31bc8a; padding:10px 20px 10px 20px; border-radius: 10px; background-color:white;">보유 주식</a></div>
+    {% else %}
+    <div style="text-align:center;font-size:22px;">구매한 주식이 없습니다.</div>
+        {% endif %}
+
+
 </div></div>
 
 <div class="home-chart" id="home-chart" style="padding:20px;">
     <div class="title" style="color:black;margin-bottom:20px;">주식 정보</div>
-    <div style="text-align:center;font-size:14px;text-align:left;">가상 자산 {{ user.invest|intcomma }} 원에서 {{total_current_price|yields:total_investment_amount|rounds:2}}% 증가</div>
-    <div style="text-align:center;font-size:14px;text-align:left;">손익 : {{total_current_price|sub:total_investment_amount|intcomma}}</div>
+    <div style="text-align:center;font-size:14px;text-align:left;">내 가상 자산 {{ user.invest|intcomma }} 원에서 {{total_current_price|yields:total_investment_amount|rounds:2}}% 증가</div>
+    <div style="text-align:center;font-size:14px;text-align:left;">손익 : {{total_use_investment_amount|intcomma}}</div>
         <canvas id="myChart2" width="100" height="100"></canvas>
         <script>
         const ctx = document.getElementById('myChart2').getContext('2d');
@@ -72,7 +75,7 @@
             },
             type: 'doughnut',
             data: {
-                labels: ['(가상금액-구매한금액)','구매한금액','손익금'],
+                labels: ['가상 잔여 금액','구매한 주식','손익금'],
                 datasets: [{
                     data: ['{{user.invest|sub:total_investment_amount}}', '{{total_investment_amount}}', '{{total_use_investment_amount}}'],
                     backgroundColor: [
@@ -80,14 +83,12 @@
                         '#D46A84',
                         '#4ACBD7',
                         '#F3CD55',
-
                     ],
                     borderColor: [
                         '#5989DD',
                         '#D46A84',
                         '#4ACBD7',
                         '#F3CD55',
-
                     ],
                     borderWidth: 0
                 }]
@@ -104,15 +105,27 @@
 <div class="stock" style="margin-top:20px;">
     <span class="side">금일 기준</span>
     <div class="title">주문 가능 금액</div>
-    <div style="text-align:center;font-size:22px;">{{user.invest|add:total_use_investment_amount|intcomma}}</div>
-    <div class="my_stock"><a href="{% url 'admins:edit_invest' %}" style="width:40%;color:#31bc8a; padding:10px 20px 10px 20px; border-radius: 10px; background-color:white;">변경</a></div>
+    <div style="text-align:center;font-size:22px;">{{user.invest|sub:total_investment_amount|add:total_use_investment_amount|intcomma}}</div>
+    <div class="my_stock"><a href="{% url 'admins:edit_invest' %}" style="width:40%;color:#31bc8a; padding:10px 20px 10px 20px; border-radius: 10px; background-color:white;">추가</a></div>
     </div>
 </div>
 
    <div style="background-color:#fff; margin:20px 5% 40px 5%; padding: 10px;">
     <div style="text-align:left; font-weight: bold; font-size:16px;">
-      <a style="font-weight: bold; font-family: 'Noto Sans KR', sans-serif; font-size:16pt;">포토폴리오 기반 추천 Top 5</a>
+      <a style="font-weight: bold; font-family: 'Noto Sans KR', sans-serif; font-size:16pt;">포트폴리오 기반 추천 Top 5</a>
     </div>
+
+    {{category_stock.0.0}}<br> <!-- 0.1 유저한테 보여줘야할것 -->
+    {{category_stock.0.1}}<br> <!-- 0.1 종목코드 -->
+    {{category_stock.0.2}}<br> <!-- 0.1 per -->
+    {{category_stock.0.3}}<br> <!-- 0.1 pbr -->
+    {{category_stock.0.4}}<br> <!-- 0.1 마켓코드 -->
+    {{category_stock.0.5}}<br> <!-- 0.1 유저한테 보여줘야할것 -->
+
+    <!--{{category_stock.1}}<br>
+    {{category_stock.2}}<br>
+    {{category_stock.3}}<br>
+    {{category_stock.4}}<br>-->
   <div>
   <ol style="padding-left: 1rem !important;">
     <table border="0" style="width: 100%; margin-top:10px; border-collapse:inherit;">

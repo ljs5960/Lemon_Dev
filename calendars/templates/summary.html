@@ -5,76 +5,35 @@
 {% load humanize %}
 
 <style>
-   /* FOOTER에서 사용하는 CSS */
-   .bottom-nav-calendar{
-    color: #FFD859 !important;
-  }
-
-  .bottom-nav-calendar a{
-    color: #FFD859 !important;
-  }
-
-  .bottom-nav-search-stock a,.bottom-nav-home a,
-  .bottom-nav-stock a,.bottom-nav-addlist a,
-  .bottom-nav-myinfo a{
-    font-family: 'Noto Sans KR', sans-serif;
-    font-weight: 500;
-    font-size: 0.8rem;
-    color: #D1D6DA !important;
-  }
   ul{
     list-style: none;
     margin:0;
     padding: 0;
   }
-  .pagenation{
-    background-color: lightgrey;
-    z-index: 10;
-    padding:0;
-    bottom: 70px;
-    left: 58px;
-    position: fixed;
-    vertical-align: middle;
-    text-align: center;
-    width: 70%;
-    height: 30px;
-    border-radius: 20px;
-    margin: 0 auto;
-  }
-  .pagenation li{
-    padding-top: 2px;
-    font-weight: 500;
-    border-radius: 20px;
-    width : 32%;
-    height: 30px;
-    display:inline-block;
-  }
-
+  
+  /* 요약페이지 페이지네이션 */
   #pagenation_summary{
     background-color: #4C8AE5;
   }
   #pagenation_summary a{
     color: #fff;
   }
-  #pagenation_recom a, #pagenation_list a, #pagenation_calendar a{
+  #pagenation_list a, #pagenation_calendar a{
     color: white;
   }
-  #pagenation_recom{
-    display: none;
+  /* ###################### */
+  .fc-scroller{
+    overflow:hidden !important;
   }
-.fc-scroller{
-overflow:hidden !important;
-}
-.footer-line-calendar{
+  .footer-line-calendar{
     width:50px;
     padding: 12px 0 10px 0;
     border-bottom: 2px solid #FFF;
-    }
+  }
 </style>
-<!-- pagenatino -->
+<!-- pagenation -->
 <div class="pagenation">
   <ul>
-<!--    <li id="pagenation_recom"><a href="{% url 'calendars:recom' %}">추천</a></li>-->
     <li id="pagenation_summary"><a href="{% url 'calendars:summary' %}">요약</a></li>
     <li id="pagenation_list"><a href="{% url 'calendars:history' %}">내역</a></li>
     <li id="pagenation_calendar"><a href="{% url 'calendars:top5' %}">TOP 5</a></li>
@@ -114,7 +73,7 @@ overflow:hidden !important;
       </b>
       <div class="amountMoney" style="padding-top:10px;">
         <a id="amount-money1" style="display: none;">{{Expenditure.amount__sum|default_if_none:'0'|intcomma}}</a>
-        <div class="money-wrap"><b id="amount-money" class="amount-money"></b><b class="amount-won">won</b></div>
+        <div class="money-wrap"><a id="amount-money" class="amount-money"></a><b class="amount-won">won</b></div>
       </div>
 
       <script>
@@ -129,17 +88,16 @@ overflow:hidden !important;
         const cn1element = document.getElementById('amount-money');
         cn1element.innerHTML = cn1;
       </script>
-
-      <div style="text-align:initial; padding-top:10px;padding-left:16px;">
-        <div style="margin-top:10px; margin-bottom:10px;">
+      <!-- 지출 수입 부분 영역 -->
+      <div class="spend-income-wrap">
+        <div class="spend-income-content">
           <a style="color:#FFF; font-weight: bold;">지출</a> <a style="margin-left: 10px; margin-right:10px; font-weight:400; color:#FFF;">{{Expenditure.amount__sum|default_if_none:'0'|intcomma}} won</a>
         </div>
 
-        <div style="margin-top:10px; margin-bottom:10px;">
+        <div class="spend-income-content">
           <a style="color:#FFF; font-weight: bold;">수입</a> <a style="margin-left: 10px; font-weight:400; color:#FFF;">{{Income.amount__sum|default_if_none:'0'|intcomma}} won</a>
         </div>
-
-      </div>
+      </div><!-- 지출 수입 부분 영역 끝 -->
     </div><!--money-info-container 끝-->
   </div><!--money-info-wrap 끝-->
 

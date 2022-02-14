@@ -6,7 +6,7 @@
 {% load mathfilters %}
 <style>
     .bottom-nav-stock,.bottom-nav-stock a{
-      color: #FFD859;
+        color: #FFD859;
     }
     .act{
     border-bottom:2px solid #31bc8a;
@@ -55,9 +55,6 @@
     float:right;
     color:lightgrey;
     }
-    .picked{
-    color:gold;
-    }
     .btn{
     padding:10px 20px 10px 20px;
     width:100%;
@@ -84,6 +81,9 @@
     border:1px solid grey;
     padding:0px 10px 0px 10px;
     }
+    .gold{
+    color:gold !important;;
+    }
 </style>
 {% block nav %}
 <div id="nav" style="border-bottom: 1px solid #f1f1f1;">
@@ -99,10 +99,11 @@
  </div>
 {% endblock nav %}
         {% if result %}
+
         <div class="title">
                 <div class="stock-name">{{ result.isuKorAbbrv }} </div>
                 <div class="code">{{ result.isuSrtCd }} </div>
-            <div class="pick" onclick="pick('{{ result.isuSrtCd }}')"><i class="fas fa-star"></i></div>
+            <div class="pick {% if star == 1  %} gold {% endif %}" onclick="pick()"><i class="fas fa-star"></i></div>
             <div class="marketcode"> {{ result.marketcode }}</div>
                 <div class="curprice">{{ result.curPrice|intcomma }}원</div>
                 <div class="lastprice"> 종가 : {{ result.prevddClsprc|intcomma }}원</div>
@@ -159,25 +160,27 @@
                 <div class="buy">
                 <input type="hidden" id="buy_marketcode" name="buy_marketcode" value="{{ result.marketcode }}">
                 <input type="hidden" id="buy_issuecode" name="buy_issuecode" value="{{ result.isuSrtCd }}">
-                <div class="title_1">현재가</div><input type="text" id="buy_price" name="price" value="{{ result.curPrice}}"/>
+                <input type="hidden" id="buy_price" name="price" value="{{ result.curPrice}}"/>
+                <div class="title_1">현재가</div><input type="text" name="price" value="{{ result.curPrice|intcomma}}"/>
+                <div class="title_1">주문 가능 주 </div><input disabled type="text" id="howmuch" value=" "/>
                 <div class="title_1">주</div><input type="number" id="buy_share" name="buy_share" value=""/>
-                    <div style="display: flex;justify-content: space-between;">
+                    <div style="display: flex;justify-content: space-between;padding:10px">
                         <div class="btn_1" onclick="add(1)">+1주</div>
                         <div class="btn_1" onclick="add(5)">+5주</div>
                         <div class="btn_1" onclick="add(10)">+10주</div>
                         <div class="btn_1" onclick="add(50)">+50주</div>
                     </div>
                 <div class="btn" onclick="fn_buy_stock()">매수</div>
-                <!--    구매 가능한 주 보이기 / 구매 가능한 주 넘어가면 alert 나오기-->
                 </div>
 
                 <div class="sell" style="display:none;">
                 <input type="hidden" id="sold_marketcode" name="sold_marketcode" value="{{ result.marketcode }}">
                 <input type="hidden" id="sold_issuecode" name="sold_issuecode" value="{{ result.isuSrtCd }}">
-                <div class="title_1">현재가</div><input type="text" id="sold_price" name="price" value="{{ result.curPrice}}"/>
+                    <input type="hidden" id="sold_price" name="price" value="{{ result.curPrice}}"/>
+                <div class="title_1">현재가</div><input type="text" name="price" value="{{ result.curPrice|intcomma}}"/>
                 <div class="title_1">보유주</div><input type="text" id="curr_share" disabled name="price" value="{{ result.share.0 }}"/>
                 <div class="title_1">주</div><input type="number" id="sold_share" name="sold_share" value=""/>
-                    <div style="display: flex;justify-content: space-between;">
+                    <div style="display: flex;justify-content: space-between;padding:10px;">
                         <div class="btn_1" onclick="sold(1)">+1주</div>
                         <div class="btn_1" onclick="sold(5)">+5주</div>
                         <div class="btn_1" onclick="sold(10)">+10주</div>
@@ -194,12 +197,6 @@
         <button onclick="fn_get_selectivemaster()">PER, PBR (PBR = PER * ROE)</button>
         <Button onclick="fn_stocksector_update()">업종분류 업데이트</Button>
     </div>
-
-
-
-    <!-- result.history : 차트 데이터 -->
-
-
 <script>
     function add(price){
         total = Number($('#buy_share').val()) + price;
@@ -210,21 +207,22 @@
         $('#sold_share').val(total);
     }
     function sell(){
-    $('.buy').hide();
-    $('.sell').show();
-    $('.buy-btn').removeClass('act');
-    $('.sell-btn').addClass('act');
+        $('.buy').hide();
+        $('.sell').show();
+        $('.buy-btn').removeClass('act');
+        $('.sell-btn').addClass('act');
     }
     function buy(){
-    $('.sell').hide();
-    $('.buy').show();
-     $('.sell-btn').removeClass('act');
-    $('.buy-btn').addClass('act');
+        $('.sell').hide();
+        $('.buy').show();
+         $('.sell-btn').removeClass('act');
+        $('.buy-btn').addClass('act');
     }
 </script>
 <script>
 <!-- 일봉 차트 -->
 var ctx = document.getElementById("myChart");
+
 var myChart = new Chart(ctx, {
     type: 'line',
     data: {
@@ -262,7 +260,10 @@ var myChart = new Chart(ctx, {
                     //display:false
                 },
                 ticks: {
-                    beginAtZero:false
+                    beginAtZero:false,
+                     userCallback: function(value, index, values) {
+                     return value.toLocaleString();   // this is all we need
+                }
                 }
             }]
         },
@@ -368,7 +369,10 @@ var myChart = new Chart(ctx, {
                     //display:false
                 },
                 ticks: {
-                    beginAtZero:false
+                    beginAtZero:false,
+                    userCallback: function(value, index, values) {
+                     return value.toLocaleString();   // this is all we need
+                }
                 }
             }]
         },
@@ -474,7 +478,10 @@ var myChart = new Chart(ctx, {
                     //display:false
                 },
                 ticks: {
-                    beginAtZero:false
+                    beginAtZero:false,
+                     userCallback: function(value, index, values) {
+                     return value.toLocaleString();   // this is all we need
+                }
                 }
             }]
         },
@@ -580,7 +587,10 @@ var myChart = new Chart(ctx, {
                     //display:false
                 },
                 ticks: {
-                    beginAtZero:false
+                    beginAtZero:false,
+                     userCallback: function(value, index, values) {
+                     return value.toLocaleString();   // this is all we need
+                }
                 }
             }]
         },
@@ -712,31 +722,31 @@ var myChart = new Chart(ctx, {
         console.log(history_result.result)
     }
 
-    function fn_koscom_history(marketcode, issuecode, trnsmCycleTpCd, today) {
-        let data = {
-            'marketcode': marketcode,
-            'issuecode': issuecode,
-            'trnsmCycleTpCd': trnsmCycleTpCd,
-            'inqStrtDd': '19800101',    //의미없는 최대값
-            'inqEndDd': today,          //오늘 날짜
-            'reqCnt': '500'             //의미없는 최대값
-        }
-        headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        headers.append('X-CSRFToken', csrftoken);
-        let response = fetch('/get_history', {
-            method: "POST",
-            headers: headers,
-            body: JSON.stringify(data)
-        })
-        return response.then(res => {
-            if(res.status === 200) return res.json();
-            else console.log(res.statusText);
-        })
-        .catch(err => {
-            console.log(err);
-        })
-    }
+<!--    function fn_koscom_history(marketcode, issuecode, trnsmCycleTpCd, today) {-->
+<!--        let data = {-->
+<!--            'marketcode': marketcode,-->
+<!--            'issuecode': issuecode,-->
+<!--            'trnsmCycleTpCd': trnsmCycleTpCd,-->
+<!--            'inqStrtDd': '19800101',    //의미없는 최대값-->
+<!--            'inqEndDd': today,          //오늘 날짜-->
+<!--            'reqCnt': '500'             //의미없는 최대값-->
+<!--        }-->
+<!--        headers = new Headers();-->
+<!--        headers.append('Content-Type', 'application/json');-->
+<!--        headers.append('X-CSRFToken', csrftoken);-->
+<!--        let response = fetch('/get_history', {-->
+<!--            method: "POST",-->
+<!--            headers: headers,-->
+<!--            body: JSON.stringify(data)-->
+<!--        })-->
+<!--        return response.then(res => {-->
+<!--            if(res.status === 200) return res.json();-->
+<!--            else console.log(res.statusText);-->
+<!--        })-->
+<!--        .catch(err => {-->
+<!--            console.log(err);-->
+<!--        })-->
+<!--    }-->
 
     function cal_year_history(result) {
         let temp_year = ''
@@ -753,13 +763,16 @@ var myChart = new Chart(ctx, {
     }
 
     function fn_buy_stock() {
-        var marketcode = document.getElementById('buy_marketcode').value
-            issuecode = document.getElementById('buy_issuecode').value
-            current_price = document.getElementById('buy_price').value
-            share = document.getElementById('buy_share').value
-
-        if($('#buy_share').val() == '') {
+        var marketcode = document.getElementById('buy_marketcode').value;
+        var issuecode = document.getElementById('buy_issuecode').value;
+        var current_price = document.getElementById('buy_price').value;
+        var share = document.getElementById('buy_share').value;
+        var howmuch = $('#howmuch').val();
+        if(share == '' || share == 0) {
             alert('구매할 주를 입력해주세요.');
+        }
+        else if(share > howmuch) {
+            alert('구매 가능한 주를 입력해주세요.');
         }
         else{
             var headers = new Headers();
@@ -781,8 +794,9 @@ var myChart = new Chart(ctx, {
             .catch(err => {
                 console.log(err)
             })
-            alert('구매완료\n'+ $('#buy_share').val()+'주');
-            location.reload();
+            alert('매수 완료\n'+ $('#buy_share').val()+'주');
+            var here = window.location.href;
+                        location.replace(here);
         }
     }
 
@@ -792,9 +806,9 @@ var myChart = new Chart(ctx, {
             current_price = document.getElementById('buy_price').value
             share = document.getElementById('sold_share').value;
             curr_share = document.getElementById('curr_share').value;
-            var sold_stock =  curr_share - share ;
+        var sold_stock =  curr_share - share ;
             if (sold_stock < 0 ){
-                alert("보유주식보다 더 많이 매도할 수 없습니다.");
+                alert("보유 주식보다 더 많이 매도할 수 없습니다.");
             }
             else{
             var headers = new Headers();
@@ -816,8 +830,9 @@ var myChart = new Chart(ctx, {
             .catch(err => {
                 console.log(err)
             })
-            alert('매도완료 \n'+ $('#sold_share').val()+'주');
-            location.reload();
+            alert('매도 완료 \n'+ $('#sold_share').val()+'주');
+            var here = window.location.href;
+            location.replace(here);
         }
         }
 
@@ -902,11 +917,52 @@ $( document ).ready(function() {
     $('.fa-minus').hide();
     }
 });
+$( document ).ready(function() {
+var number = {{user.invest|add:result.total|div:result.curPrice|floatformat}};
+var final = Math.trunc(number);
+$('#howmuch').val(final);
+});
+$.ajaxSetup({
+    headers: { "X-CSRFToken": '{{csrf_token}}' }
+  });
 
-    function pick(id){
-    alert(id);
-    }
+    function pick(){
+    if ($(".pick").hasClass("gold") === false){
+        var data = {{star}};
+        alert('관심 종목에 등록이 되었습니다.');
+         $.ajax({
+        type:'post',
+        url:'{% url 'stocks:boomark' result.marketcode result.isuSrtCd  %}',
+        data:JSON.stringify(data),
+        success:function(json){
+        $('.pick').addClass('gold');
+        },
+        error : function(xhr,errmsg,err) {
+        console.log(xhr.status + ": " + xhr.responseText);
+        }
+        });
+    }else{
+        var data = {{star}};
+        alert('관심 종목에 등록이 해지 되었습니다.');
+         $.ajax({
+        type:'post',
+        url:'{% url 'stocks:boomark' result.marketcode result.isuSrtCd  %}',
+        data:JSON.stringify(data),
+        success:function(json){
+        $('.pick').removeClass('gold');
+        },
+        error : function(xhr,errmsg,err) {
+        console.log(xhr.status + ": " + xhr.responseText);
+        }
+        });
+    }}
+
 </script>
+<div  style="display:none;">
+    <form action = "{% url 'stocks:boomark' result.marketcode result.isuSrtCd  %}" method="POST" id="form3">
+               {% csrf_token %}
+           </form>
+</div>
 <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
 <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
 <script>
@@ -926,7 +982,7 @@ $( document ).ready(function() {
         form.action="/stock_info"
         form.submit();
     }
-    var body_height = document.documentElement.clientHeight - 555;
+    var body_height = $('.myChartDiv').height();
     $('.swiper-wrapper').height(body_height)
     $('.swiper').height(body_height)
     swiper.update();
