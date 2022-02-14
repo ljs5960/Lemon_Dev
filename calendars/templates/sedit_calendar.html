@@ -16,6 +16,9 @@
   #container{
       margin: 0 20px !important;
   }
+  #footer{
+      display:none;
+  }
     /* FOOTER에서 사용하는 CSS */
   ::-webkit-scrollbar{
     width: 10px;
@@ -115,9 +118,7 @@
                 </tr>
                 <tr> <!-- 행선언 -->
                     <th width="200" height="60"><a class="span_list_title">소비처</a></th>
-                    <th width="240" style="text-align: end;"><input class="input_span stock" type="text" id="where" name="where" autocomplete="on" value="{{i.place}}:{{i.stock}}">
-                    <input type="hidden" id="place" name="place">
-                     <input type="hidden" id="stock" name="stock">
+                    <th width="240" style="text-align: end;"><input class="input_span stock" type="text" id="place" name="place" autocomplete="on" value="{{i.place}}">
                 </tr>
                 <tr> <!-- 행선언 -->
                     <th width="200" height="60"><a class="span_list_title">결제수단 </a></th>
@@ -179,11 +180,6 @@
         </form>
         <script>
             function submit(){
-            var str = $('#where').val();
-            var stockcode = str.slice(-6);
-            var stockname = str.replace(":"+stockcode,"");
-            document.getElementById('place').value = stockname;
-            document.getElementById('stock').value = stockcode;
             const form = document.getElementById('seidt_form');
             form.action="{%url 'calendars:sedit_calendar' i.spend_id %}"
             form.submit();
@@ -197,9 +193,9 @@
 
     $(function() {
         var cardlist_Tags = [{% for i in wntlr %}
-        '{{i.ss_isukorabbrv}} :{{i.ss_isusrtcd}}',
+        '{{i.ss_isukorabbrv}}'
         {% endfor %}];
-        $('#where').autocomplete({
+        $('#place').autocomplete({
             source: cardlist_Tags,
         });
      });
@@ -211,7 +207,7 @@
 
 
      $(function() {
-        var cardlist_Tags = [{% for i in wntlr %}'{{i.ss_isukorabbrv}} : {{i.ss_isusrtcd}}',{% endfor %}];
+        var cardlist_Tags = [{% for i in wntlr %}'{{i.ss_isukorabbrv}}{{i.ss_isusrtcd}}',{% endfor %}];
         $('#place').autocomplete({
             source: cardlist_Tags,
             max:10
@@ -224,30 +220,25 @@
         $("#numcomma").bind('keyup keydown',function(){
             inputNumberFormat(this);
         });
-
         //입력한 문자열 전달
         function inputNumberFormat(obj) {
             obj.value = comma(uncomma(obj.value));
         }
-
         //콤마찍기
         function comma(str) {
             str = String(str);
             return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
         }
-
         //콤마풀기
         function uncomma(str) {
             str = String(str);
             return str.replace(/[^\d]+/g, '');
         }
-
         //숫자만 리턴(저장할때)
         //alert(cf_getNumberOnly('1,2./3g')); -> 123 return
         function cf_getNumberOnly (str) {
             var len      = str.length;
             var sReturn  = "";
-
             for (var i=0; i<len; i++){
                 if ( (str.charAt(i) >= "0") && (str.charAt(i) <= "9") ){
                     sReturn += str.charAt(i);

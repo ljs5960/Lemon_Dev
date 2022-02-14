@@ -50,8 +50,6 @@
 19. Kokom.py 에 s_get_current_price 부분에 포트폴리오 추천top5 관련해서 소스코드 추가
 
 20. stockprofilt 테이블을 사용하도록 설정
-
-
 #### 2022.02.10
 
 1. 403, 404, 500 페이지 CSS 작업

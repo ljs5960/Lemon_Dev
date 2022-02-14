@@ -92,9 +92,7 @@
                 </tr>
                 <tr>
                     <th width="200" height="60"><a class="span_list_title">소비처</a></th>
-                    <th width="240" style="text-align: end;"><input class="input_span stock" type="text" id="where" name="where" autocomplete="on" value="">
-                    <input type="hidden" id="place" name="place">
-                     <input type="hidden" id="stock" name="stock">
+                    <th width="240" style="text-align: end;"><input class="input_span stock" type="text" id="place" name="place" autocomplete="on" value="">
                 </tr>
                 </tr>
                 <tr> <!-- 행선언 -->
@@ -103,11 +101,11 @@
                         <select class="span_list_select" id="way" name="way" style="text-align:center;">
                             <option style="text-align: center;" value='0' selected>선택</option>
                             <option value='1'>현금</option>
-                            <option value='2'>카드</option>    
+                            <option value='2'>카드</option>
                         </select></th>
                 </tr>
                 <tr> <!-- 행선언 -->
-                    
+
                     <th width="200" height="60"><a class="span_list_title">카테고리</a></th>
                     <th width="240" style="text-align: end;">
                         <select class="span_list_select" id="category" name="category" style="text-align:center;">
@@ -162,44 +160,19 @@
 
 <script>
 function submit(){
-    var str = $('#where').val();
-    var stockcode = str.slice(-6);
-    var stockname = str.replace(":"+stockcode,"");
-    var max_int = 210000000;
-
-    if ($('#amount').val() == '') {
-        alert('금액을 입력해주세요.');
-        return false;
-    }
-    else if ($('#amount').val() >= max_int) {
-        alert('입력받을수 있는 금액 범위를 초과하였습니다.');
-        return false;
-    }
-    else if ($('#date').val() == '') {
-        alert('날짜를 선택해주세요.');
-        return false;
-    }
-    else if ($('#where').val() == '') {
-        alert('소비처를 작성해주세요.');
-        return false;
-    }
-    else{
-    document.getElementById('place').value = stockname;
-    document.getElementById('stock').value = stockcode;
     const form = document.getElementById('spend_form');
     form.action="{%url 'calendars:add_spend_calendar' %}"
     form.submit();
     }
-}
 
 
 
 
     $(function() {
         var cardlist_Tags = [{% for i in wntlr %}
-        '{{i.ss_isukorabbrv}} :{{i.ss_isusrtcd}}',
+        '{{i.ss_isukorabbrv}}',
         {% endfor %}];
-        $('#where').autocomplete({
+        $('#place').autocomplete({
             source: cardlist_Tags,
         });
      });
@@ -209,30 +182,30 @@ function submit(){
         $("#numcomma").bind('keyup keydown',function(){
             inputNumberFormat(this);
         });
-    
+
         //입력한 문자열 전달
         function inputNumberFormat(obj) {
             obj.value = comma(uncomma(obj.value));
         }
-          
+
         //콤마찍기
         function comma(str) {
             str = String(str);
             return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
         }
-    
+
         //콤마풀기
         function uncomma(str) {
             str = String(str);
             return str.replace(/[^\d]+/g, '');
         }
-    
+
         //숫자만 리턴(저장할때)
         //alert(cf_getNumberOnly('1,2./3g')); -> 123 return
         function cf_getNumberOnly (str) {
             var len      = str.length;
             var sReturn  = "";
-    
+
             for (var i=0; i<len; i++){
                 if ( (str.charAt(i) >= "0") && (str.charAt(i) <= "9") ){
                     sReturn += str.charAt(i);
