@@ -11,6 +11,9 @@ class Stockheld(models.Model):
     sh_isukorabbrv = models.CharField(db_column='sh_isuKorAbbrv', max_length=30)
     sh_marketcode = models.CharField(max_length=20)
     sh_idxindmidclsscd = models.CharField(db_column='sh_idxIndMidclssCd', max_length=20)
+    sh_share = models.IntegerField()
+    sh_price = models.IntegerField()
+    sh_z_date = models.DateTimeField()
     sh_date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -82,3 +85,13 @@ class Totalmerge(models.Model):
     class Meta:
         managed = False
         db_table = 'TotalMerge'
+
+class bookmark(models.Model):
+    Bookmark_id= models.AutoField(db_column='Bookmark_id', primary_key=True)
+    user_id = models.CharField(max_length=20)
+    marketcode = models.CharField(max_length=20)
+    isuSrtCd = models.CharField(db_column='ss_isuSrtCd', max_length=30, blank=True, null=True)
+    activate = models.CharField(max_length=2)
+    class Meta:
+        managed = False
+        db_table = 'bookmark'

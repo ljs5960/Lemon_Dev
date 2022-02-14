@@ -1,60 +1,57 @@
-<style>
-    .loader-main{
-    bottom:0px !important;
-    }
-</style>
 {% extends 'base.html' %}
 {% block title %}레몬::정보변경{% endblock title %}
 {% block container %}
-<body>
+<style>
+  #footer {
+    display: none;
+  }
+
+  .loader-main{
+    bottom:0px !important;
+  }
+
+  input {
+    border-radius: 10px;
+    margin-top: 30px;
+    padding: 10px;
+    width: 80%;
+    border: 1px solid #31bc8a;
+    text-align: left;
+    padding-left: 20%;
+  }
+
+  input[type="password"] {
+    letter-spacing: 40px;
+  }
+  
+  .footer-line-myinfo{
+    /* 하단바 선택시 밑줄 */
+    width: 50px;
+    padding: 12px 0 10px 0;
+    border-bottom: 2px solid #fff;
+  }
+</style>
 {% block nav %}
+<!-- 상단바 영역 시작 -->
 <div id="nav" style="border-bottom: 1px solid #f1f1f1;">
-            <div>
-            <div style="text-align:center;">
-                <a style="color: #fff;" href="javascript:history.back();"><i class="fa fa-angle-left" style="position: absolute;
-    left: 5px;
-    padding: 14px 15px;
-    top: 0;
-    font-size: 25px;
-    font-weight: 600;color:black;"></i></a>Pin 번호 변경</div>
-        </div>
-        </div>
+  <div>
+    <div style="text-align:center;">
+      <a style="color: #fff;" href="{% url 'accounts:myinfo' %}">
+        <i class="fa fa-angle-left"></i>
+      </a>Pin 번호 변경
+    </div>
+  </div>
+</div>
+<!-- 상단바 영역 끝 -->
 {% endblock nav %}
 
   <form action="" method="POST">
     {% csrf_token %}
-      <div style="display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;">
-    <input type="password" pattern="[0-9]*" inputmode="numeric" name="pin" maxlength='4'/>
-      </div>
-      <div style="text-align:center;margin-top:35px;position:fixed;bottom:15px;width:100%;left:0px;"><button class="btn" type="submit">Pin 번호 변경</button></div>
-
+    <div class="pin-wrap">
+      <input type="password" pattern="[0-9]*" inputmode="numeric" name="pin" maxlength='4' />
+    </div>
+    <div class="pin-btn-wrap">
+      <button class="pin-btn" type="submit">Pin 번호 변경</button>
+    </div>
   </form>
-</body>
-<style>
-.btn{
-  padding:10px 30px 10px 30px;
-  width:80%;
-  border-radius:10px;
-  color:white !important;
-  background-color:#31bc8a;
-  }
-  #footer{
-  display:none;
-  }
-  input{
-  border-radius:10px;
-  margin-top:30px;
-  padding:10px;
-  width:80%;
-  border:1px solid #31bc8a;
-  text-align:left;
-  padding-left: 20%;
-  }
-  input[type="password"] {
-    letter-spacing: 40px;
-    }
-</style>
 {% endblock %}

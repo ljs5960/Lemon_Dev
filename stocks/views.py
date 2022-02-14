@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
 import json
@@ -10,28 +10,56 @@ from . import stockcal as cal
 from .models import *
 from accounts import models as acc_models
 from stocks.models import Stocksector
-
+from django.db.models import Sum, Count, F
+from decimal import *
 
 def search_stock(request):
-    wntlr = Stocksector.objects.all().values('ss_isusrtcd', 'ss_isukorabbrv')
+    wntlr = Totalmerge.objects.all().values('id', 'name')
     return render(request, 'search_stock.html', {'wntlr': wntlr})
 
 
 def stock(request):
-    stockheld = Stockheld.objects.filter(sh_userid=request.user.user_id)
-
+    stockheld = Stockheld.objects.filter(sh_userid=request.user.user_id).exclude(sh_share=0) # 자기가 구매한 것 보이고 다 판건 안보이게 만듬
     stock_data = []
     stock_cal = cal.calculator()
     koscom_api = kocom.api()
+    mark = bookmark.objects.filter(user_id=request.user.user_id)
+    bookmark_date = []
     for element in stockheld:
         average_price = stock_cal.average_price(request.user.user_id, element.sh_isusrtcd)
         current_price = koscom_api.get_current_price(element.sh_marketcode, element.sh_isusrtcd)
         stock_data.append(
-            [element.sh_isukorabbrv, average_price, current_price, element.sh_isusrtcd, element.sh_marketcode])
-    return render(request, 'stock.html', {'stock_data': stock_data})
+            [element.sh_isukorabbrv, average_price, current_price, element.sh_isusrtcd, element.sh_marketcode, element.sh_share])
+
+    for element in mark :
+        find_stock_name = Stocksector.objects.filter(ss_isusrtcd=element.isuSrtCd).values_list('ss_isukorabbrv', flat=True)
+        name = find_stock_name[0]
+        current_price = koscom_api.get_current_price(element.marketcode, element.isuSrtCd)
+        bookmark_date.append([element.marketcode,element.isuSrtCd, current_price, name])
+    return render(request, 'stock.html', {'stock_data': stock_data,'bookmark_date':bookmark_date})
 
 
 def portfolio(request):
+    categorys =  Stockheld.objects.filter(sh_userid=request.user.user_id).values('sh_idxindmidclsscd','sh_isusrtcd').annotate(count=Count('sh_idxindmidclsscd')).order_by('-count')[:3]
+    category_list = list(categorys.values('sh_idxindmidclsscd'))
+    categorys_isurtcd = list(categorys.values('sh_isusrtcd'))
+    category_keep = category_list[0:3]
+    category_arr = []
+    isurtcd_arr = []
+    for i in category_keep:
+        category_arr.append(i['sh_idxindmidclsscd'])
+    for i in categorys_isurtcd:
+        isurtcd_arr.append(i['sh_isusrtcd'])
+
+    stock_suggestion1 = Totalmerge.objects.exclude(id__in = isurtcd_arr).filter(category__in =category_arr[0:3]).values("id",'per','pbr',"marketcode","name","category").annotate(
+    ROA = (F('per') * Decimal('1.0') / F('pbr') * Decimal('1.0'))).order_by('-ROA')[0:5]
+    stock_suggestion2 =list(stock_suggestion1)
+    category_stock = []
+    koscom_api = kocom.api()
+    for element in stock_suggestion2:
+        stock_suggestion = koscom_api.s_get_current_price(element['marketcode'],element['id'])
+        category_stock.append([stock_suggestion,element['id'],element['per'],element['pbr'],element['marketcode'],element['name'],element['category']  ])
+
     result = {}
     stock_cal = cal.calculator()
     total_investment_amount = stock_cal.total_investment_amount(request.user.user_id)
@@ -42,32 +70,50 @@ def portfolio(request):
         result['total_current_price'] = 0
         result['total_use_investment_amount'] = 0
     else:
+
+        result['category_stock'] = category_stock
         result['total_investment_amount'] = total_investment_amount
         result['total_current_price'] = total_current_price
         result['total_use_investment_amount'] = total_use_investment_amount
     return render(request, 'portfolio.html', result)
 
 
-def stock_info(request):
-    result = False
-    koscom_api = kocom.api()
+def stock_info(request, marketcode, issuecode):
     stock_cal = cal.calculator()
-    if request.method == 'POST':
-        result = koscom_api.get_stock_master(request.POST['marketcode'], request.POST['issuecode'])
-        if result:
-            result['curPrice'] = koscom_api.get_current_price(request.POST['marketcode'], request.POST['issuecode'])
-            result['marketcode'] = request.POST['marketcode']
-            result['total_allow_invest'] = request.user.invest - stock_cal.total_use_investment_amount(request.user.user_id)
+    total_investment_amount = stock_cal.total_investment_amount(request.user.user_id)
+    total_use_investment_amount = stock_cal.total_use_investment_amount(request.user.user_id)
+    koscom_api = kocom.api()
+    result = koscom_api.get_stock_master(marketcode, issuecode)
+    mark = bookmark.objects.filter(user_id=request.user.user_id, marketcode=marketcode, isuSrtCd=issuecode)
+    if mark:
+        star=1
+    else :
+        star=0
+    if result:
+        result['total_investment_amount'] = total_investment_amount if total_investment_amount else 0
+        result['total_use_investment_amount'] = total_use_investment_amount if total_use_investment_amount else 0
+        result['total'] = result['total_use_investment_amount'] - result['total_investment_amount']
+        result['share'] = Stockheld.objects.filter(sh_userid=request.user.user_id,
+                                                   sh_isusrtcd=issuecode).values_list('sh_share', flat=True)
+        print(result['share'])
+        result['curPrice'] = koscom_api.get_current_price(marketcode, issuecode)
+        result['marketcode'] = marketcode
+        result['total_allow_invest'] = request.user.invest - stock_cal.total_use_investment_amount(request.user.user_id)
 
-            result['year_history'] = day_trdDd_matching(cal_year_history(koscom_api.get_stock_history(request.POST['marketcode'], request.POST['issuecode'],
-                                                                                                      'M', '19800101', datetime.today().strftime('%Y%m%d'), 50)))
-            result['month_history'] = day_trdDd_matching(koscom_api.get_stock_history(request.POST['marketcode'], request.POST['issuecode'],
-                                                                                      'M', '19800101', datetime.today().strftime('%Y%m%d'), 50))
-            result['week_history'] = day_trdDd_matching(koscom_api.get_stock_history(request.POST['marketcode'], request.POST['issuecode'],
-                                                                                     'W', '19800101', datetime.today().strftime('%Y%m%d'), 50))
-            result['day_history'] = day_trdDd_matching(koscom_api.get_stock_history(request.POST['marketcode'], request.POST['issuecode'],
-                                                                                    'D', '19800101', datetime.today().strftime('%Y%m%d'), 50))
-    return render(request, 'stock_info.html', {'result': result})
+        result['year_history'] = day_trdDd_matching(
+            cal_year_history(koscom_api.get_stock_history(marketcode, issuecode,
+                                                          'M', '19800101', datetime.today().strftime('%Y%m%d'), 50)))
+        result['month_history'] = day_trdDd_matching(
+            koscom_api.get_stock_history(marketcode, issuecode,
+                                         'M', '19800101', datetime.today().strftime('%Y%m%d'), 50))
+        result['week_history'] = day_trdDd_matching(
+            koscom_api.get_stock_history(marketcode, issuecode,
+                                         'W', '19800101', datetime.today().strftime('%Y%m%d'), 50))
+        result['day_history'] = day_trdDd_matching(
+            koscom_api.get_stock_history(marketcode, issuecode,
+                                         'D', '19800101', datetime.today().strftime('%Y%m%d'), 50))
+
+    return render(request, 'stock_info.html', {'result': result,'star':star})
 
 
 def cal_year_history(history):
@@ -84,6 +130,23 @@ def cal_year_history(history):
         print('Error in cal_year_history: \n', e)
         return False
 
+def boomark(request, marketcode, isuSrtCd ):
+    if request.method == 'POST':
+        mark = bookmark.objects.filter(user_id =request.user.user_id, marketcode = marketcode, isuSrtCd = isuSrtCd)
+        if mark :
+            mark.delete()
+        else:
+            bookmark.objects.create(
+                user_id =request.user.user_id,
+                marketcode = marketcode,
+                isuSrtCd = isuSrtCd,
+                activate = 1
+            )
+        data = json.loads(request.body)
+        context = {
+            'result': data,
+        }
+        return JsonResponse(context)
 
 def day_trdDd_matching(history):
     day_trdDd_array = []
@@ -109,14 +172,14 @@ def stock_search_result(request):
     result = False
     if request.method == 'POST':
         try:
-            stocksector = Stocksector.objects.filter(ss_isukorabbrv__icontains=data)
+            totalmerge = Totalmerge.objects.filter(name__icontains=data)
             result = []
-            for elements in stocksector:
+            for elements in totalmerge:
                 result.append({
-                    'logo': elements.ss_logo,
-                    'isukorabbrv': elements.ss_isukorabbrv,
-                    'issuecode': elements.ss_isusrtcd,
-                    'marketcode': elements.ss_marketcode
+                    'logo': elements.logo,
+                    'isukorabbrv': elements.name,
+                    'issuecode': elements.id,
+                    'marketcode': elements.marketcode
                 })
         except Exception as e:
             print('Error in stock_search_result: \n', e)
@@ -132,15 +195,16 @@ def buy_stock(request):
         if (request.user.invest + total_rest_investment) - buy_price < 0:
             return JsonResponse({'result': '가상잔액이 부족합니다'}, content_type='application/json')
 
-        stock_master = kocom.api().get_stock_master(data['marketcode'], data['issuecode'])
-        stockheld_check = Stockheld.objects.filter(sh_userid=request.user.user_id,
-                                                   sh_isusrtcd=stock_master['isuSrtCd']).exists()
         try:
+            stock_master = kocom.api().get_stock_master(data['marketcode'], data['issuecode'])
+            stockheld_check = Stockheld.objects.filter(sh_userid=request.user.user_id,
+                                                       sh_isusrtcd=stock_master['isuSrtCd']).exists()
             with transaction.atomic():
                 if stock_master and not stockheld_check:
-                    if stockheld_insert(request.user.user_id, data, stock_master):
-                        stocktrading_insert(request.user.user_id, data, stock_master, 'B')
+                    stockheld_insert(request.user.user_id, data, stock_master)
+                    stocktrading_insert(request.user.user_id, data, stock_master, 'B')
                 elif stock_master and stockheld_check:
+                    stockheld_update(request.user.user_id, data, stock_master, 'B')
                     stocktrading_insert(request.user.user_id, data, stock_master, 'B')
                 result = True
         except Exception as e:
@@ -157,13 +221,16 @@ def sold_stock(request):
         sold_share = int(data['share'])
         if get_share - sold_share < 0:
             return JsonResponse({'result': '보유 주가 부족합니다'}, content_type='application/json')
+        elif get_share - sold_share == 0:
+            data['sh_z_date'] = datetime.now()
 
-        stock_master = kocom.api().get_stock_master(data['marketcode'], data['issuecode'])
-        stockheld_check = Stockheld.objects.filter(sh_userid=request.user.user_id,
-                                                   sh_isusrtcd=stock_master['isuSrtCd']).exists()
         try:
+            stock_master = kocom.api().get_stock_master(data['marketcode'], data['issuecode'])
+            stockheld_check = Stockheld.objects.filter(sh_userid=request.user.user_id,
+                                                       sh_isusrtcd=stock_master['isuSrtCd']).exists()
             with transaction.atomic():
                 if stock_master and stockheld_check:
+                    stockheld_update(request.user.user_id, data, stock_master, 'S')
                     stocktrading_insert(request.user.user_id, data, stock_master, 'S')
                 result = True
         except Exception as e:
@@ -179,8 +246,27 @@ def stockheld_insert(user_id, data, master):
         sh_isucd=master['isuCd'],
         sh_isukorabbrv=master['isuKorAbbrv'],
         sh_marketcode=data['marketcode'],
-        sh_idxindmidclsscd=master['idxIndMidclssCd']
+        sh_idxindmidclsscd=master['idxIndMidclssCd'],
+        sh_share=data['share'],
+        sh_price=-(int(data['share']) * int(data['current_price'])),
+        sh_z_date=datetime(1, 1, 1, 1, 1, 1).strftime('%Y-%m-%d %H:%M:%S')
     ).save()
+
+
+def stockheld_update(user_id, data, master, kind):
+    share = int(data['share'])
+    price = int(data['share']) * int(data['current_price'])
+    if kind == 'B':
+        price = -price
+    if kind == 'S':
+        share = -share
+    stockheld_objects = Stockheld.objects.get(sh_userid=acc_models.user.objects.get(user_id=user_id),
+                                              sh_isusrtcd=master['isuSrtCd'])
+    stockheld_objects.sh_share += share
+    stockheld_objects.sh_price += price
+    if 'sh_z_date' in data:
+        stockheld_objects.sh_z_date = data['sh_z_date']
+    stockheld_objects.save()
 
 
 def stocktrading_insert(user_id, data, master, kind):
@@ -193,7 +279,6 @@ def stocktrading_insert(user_id, data, master, kind):
         st_share=data['share'],
         st_price=data['current_price']
     ).save()
-    stock_profit_input(user_id, int(data['current_price']))
 
 
 def stock_profit_input(user_id, price):

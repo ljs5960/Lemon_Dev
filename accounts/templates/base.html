@@ -45,6 +45,9 @@
             crossorigin="anonymous"></script>
     <!-- style.css 및 swiper.css 선언 -->
     <link rel="stylesheet" href="{% static 'css/style.css'%}">
+    <link rel="stylesheet" href="{% static 'css/admin.css'%}">
+    <link rel="stylesheet" href="{% static 'css/account.css'%}">
+    <link rel="stylesheet" href="{% static 'css/calendar.css'%}">
     <link rel="stylesheet" href="{% static 'css/swiper.css'%}">
 
     <!-- Swiper 선언 -->
@@ -139,10 +142,10 @@ $( document ).ready(function() {
             </div>
         </div>
     </div>
+
     {% block nav %}
     <div id="nav">
         <div>
-            <!-- <i class="fas fa-arrow-left"></i> -->
             <div style="margin-left:15px; float:left; width:35%;">
                 <img onclick="location.href='{% url 'calendars:home' %}'" src="{% static 'main/assets/img/lemon_horizontal.png'%}" width="100px">
             </div>
@@ -152,7 +155,66 @@ $( document ).ready(function() {
         </div>
     </div>
     {% endblock %}
+ {% if user.u_chk == 1 %}
+  {% if user.last_login  > '지금 시간' %}
+   <div id="page-preload">
+        <div class="pin_saver">
 
+      <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
+    <input type="password" pattern="[0-9]*" inputmode="numeric" name="pin" id="pin" maxlength='4'/>
+      </div>
+      <div style="text-align:center;margin-top:35px;position:fixed;bottom:15px;width:100%;left:0px;">
+          <div onclick="pin_saver({{user.pin}})" class="btn" type="submit">Pin 번호</divonclick></div>
+        </div>
+    </div>
+   </div>
+  <style>
+    .btn{
+  padding:10px 30px 10px 30px;
+  width:80%;
+  border-radius:10px;
+  color:white !important;
+  background-color:#31bc8a;
+  }
+  #footer{
+  display:none;
+  }
+  input[type="password"]{
+  border-radius:10px;
+  margin-top:30px;
+  padding:10px;
+  width:80%;
+  border:1px solid #31bc8a;
+  text-align:left;
+  padding-left: 20%;
+    letter-spacing: 40px;
+    }
+    .fa-search{
+    display:none;
+    }
+        .pin_saver{
+    /*position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    background-color: #F3F4F6;
+    will-change: opacity;
+    z-index: 90;*/
+    }
+</style>
+  <script>
+    function pin_saver(pin){
+    var password = $('#pin').val()
+        if (password == pin ){
+            $('.pin_saver').fadeOut()
+        } else {
+            alert('핀번호가 틀렸습니다.');
+        }
+    }
+  </script>
+      {% endif %}
+  {% endif %}
     <div id="footer">
         {% block footer %}
         <table class="bottom-nav-wrap" style="padding-left:0 !important;">
