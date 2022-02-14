@@ -8,7 +8,6 @@
 <script>
   $(document).ready(function(){
     $('.footer-selector').fadeIn(550);
-      //document.getElementById('footer_calendar').src = "/media/calendar_active.png";
   });
 </script>
 <style>
@@ -34,77 +33,11 @@
   text-decoration-line: none;
   }
 
-  /* FOOTER에서 사용하는 CSS */
-  .bottom-nav-calendar{
-    color: #FFD859 !important;
-  }
-
-  .bottom-nav-calendar a{
-    color: #FFD859 !important;
-  }
-
-  .bottom-nav-search-stock a,.bottom-nav-home a,
-  .bottom-nav-stock a,.bottom-nav-addlist a,
-  .bottom-nav-myinfo a{
-    font-family: 'Noto Sans KR', sans-serif;
-    font-weight: 500;
-    font-size: 0.8rem;
-    color: #D1D6DA !important;
-  }
-  .social-wrap{
-    padding: 20px;
-  }
-  .social-textarea{
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 12px;
-    border: 1px solid #CACACA;
-    border-radius: 10px;
-    background-color: #fff;
-    resize: none;
-    padding-left: 5px;
-    padding-top: 5px;
-  }
-  .social-btn{
-    font-family: 'Noto Sans KR', sans-serif;
-    font-weight: bold;
-    font-size: 16px;
-    text-align: center;
-    vertical-align: middle;
-    width:100%;
-    height: 50px;
-    margin-top:20px;
-    background:#31BC89;
-    border:0px;
-    border-radius:50px;
-    color:white;
-  }
-  .social-btn:disabled{
-    font-family: 'Noto Sans KR', sans-serif;
-    font-weight: bold;
-    font-size: 16px;
-    text-align: center;
-    vertical-align: middle;
-    width:100%;
-    height: 50px;
-    background:#a0a0a0;
-    border:0px;
-    border-radius:50px;
-    color:white;
-  }
-
   ::-webkit-scrollbar {
     width: 10px;
   }
-
-::-webkit-scrollbar-thumb {
+  ::-webkit-scrollbar-thumb {
     background: #a9a9a9;
-  }
-
-  .list-filter{
-    background-color:#fff;
-    border-radius: 20px !important;
-    box-shadow: 1px 1px 5px 1px rgb(202, 202, 202);
-    margin: 20px !important;
   }
 
   ul{
@@ -112,56 +45,29 @@
     margin:0;
     padding: 0;
   }
-  .pagenation{
-    background-color: lightgrey;
-    z-index: 10;
-    padding:0;
-    bottom: 70px;
-    left: 58px;
-    position: fixed;
-    vertical-align: middle;
-    text-align: center;
-    width: 70%;
-    height: 30px;
-    border-radius: 20px;
-    margin: 0 auto;
-  }
-  .pagenation li{
-    padding-top: 2px;
-    font-weight: 500;
-    border-radius: 20px;
-    width : 32%;
-    height: 30px;
-    display:inline-block;
-  }
-
   #pagenation_calendar{
     background-color: #4C8AE5;
   }
   #pagenation_calendar a{
     color: #fff;
   }
-  #pagenation_recom a, #pagenation_summary a, #pagenation_list a{
-     color: white;
-  }
-  #pagenation_recom{
-    display: none;
+  #pagenation_summary a, #pagenation_list a{
+    color: white;
   }
   canvas{
     margin: 15px auto;
     width:200px !important;
     height:200px !important;
   }
-.footer-line-calendar{
+  .footer-line-calendar{
     width:50px;
     padding: 12px 0 10px 0;
     border-bottom: 2px solid #FFF;
-    }
+  }
   </style>
   <!-- pagenation -->
 <div class="pagenation">
   <ul>
-<!--    <li id="pagenation_recom"><a href="{% url 'calendars:recom' %}">추천</a></li>-->
     <li id="pagenation_summary"><a href="{% url 'calendars:summary' %}">요약</a></li>
     <li id="pagenation_list"><a href="{% url 'calendars:history' %}">내역</a></li>
     <li id="pagenation_calendar"><a href="{% url 'calendars:top5' %}">TOP 5</a></li>
@@ -169,62 +75,68 @@
 </div>
 
 <div class="swiper-slide" id="swiper-slide">
-  <!-- 카테고리 탑5 div 시작-->
-   <div style="background-color:#fff; margin:20px 5% 40px 5%; padding: 10px;">
-    <div style="text-align:left; font-weight: bold; font-size:16px;">
-      <a style="font-weight: bold; font-size:16pt;">나의 소비 패턴</a></div>
-  <div id="chart_view">
-  <canvas id="myChart" width="100" height="100"></canvas>
-    <ol style="padding-left: 1rem !important;">
-      <table border="0" style="width: 100%; margin-top:10px; border-collapse:inherit;">
-        {% for category in Category_sum %}
-        {% ifchanged category.category %}
-        <tr>
-          <td width='10'><li style="font-weight: bold; color:#8e8e8e;"></li></td>
-          <td style="text-align: left;" width='60'>
-            {% if category.category == 0 %}
-            <a style="font-weight:bold; color:#3a3a3a">카테고리 선택안함</a>
-            {% elif category.category == 1 %}
-            <a style="font-weight:bold; color:#3a3a3a">금융/보험</a>
-            {% elif category.category == 2 %}
-            <a style="font-weight:bold; color:#3a3a3a">저축</a>
-            {% elif category.category == 3 %}
-            <a style="font-weight:bold; color:#3a3a3a">온라인쇼핑</a>
-            {% elif category.category == 4 %}
-            <a style="font-weight:bold; color:#3a3a3a">출금</a>
-            {% elif category.category == 5 %}
-            <a style="font-weight:bold; color:#3a3a3a">생활/마트</a>
-            {% elif category.category == 6 %}
-            <a style="font-weight:bold; color:#3a3a3a">카페/간식</a>
-            {% elif category.category == 7 %}
-            <a style="font-weight:bold; color:#3a3a3a">기타지출(사회생활비)</a>
-            {% elif category.category == 8 %}
-            <a style="font-weight:bold; color:#3a3a3a">교통/차량유지</a>
-            {% elif category.category == 9 %}
-            <a style="font-weight:bold; color:#3a3a3a">주거생활/통신</a>
-            {% elif category.category == 10 %}
-            <a style="font-weight:bold; color:#3a3a3a">식사</a>
-            {% elif category.category == 11 %}
-            <a style="font-weight:bold; color:#3a3a3a">의료/건강</a>
-            {% elif category.category == 12 %}
-            <a style="font-weight:bold; color:#3a3a3a">문화/예술</a>
-            {% elif category.category == 13 %}
-            <a style="font-weight:bold; color:#3a3a3a">교육비</a>                                
-            {% endif %}
-          </td>
-          <td style="text-align: right;" width='150'>
-            <a style="font-weight:400; color:#3a3a3a">{{ category.amount|truncatechars:16|intcomma }}원</a>
-          </td>
-        </tr>
-        {% endifchanged %}
-        {% empty %}
-        <div class="summary-nodata-wrap">
-          <a>소비내역 및 지출내역이 없습니다.</a>
-        </div>
-        {% endfor %}
-      </table>
-    </ol>
-  </div><!-- 카테고리 탑5 div 끝-->
+  <!-- 나의 소비패턴 div 시작-->
+  <div class="myPattern-wrap">
+    <div class="myPattern-title">
+      <a>나의 소비 패턴</a>
+    </div>
+
+    <!-- chart_view div 시작-->
+    <div id="chart_view">
+      <canvas id="myChart" width="100" height="100"></canvas>
+        <ol style="padding-left: 1rem !important;">
+          <table style="width: 100%; margin-top:10px; border-collapse:inherit;">
+            {% for category in Category_sum %}
+            {% ifchanged category.category %}
+            <!-- 행시작 -->
+            <tr>
+              <td width='10'><li style="font-weight: bold; color:#8e8e8e;"></li></td>
+              <td style="text-align: left;" width='60'>
+                {% if category.category == 0 %}
+                <a class="myPattern-a" >카테고리 선택안함</a>
+                {% elif category.category == 1 %}
+                <a class="myPattern-a">금융/보험</a>
+                {% elif category.category == 2 %}
+                <a class="myPattern-a">저축</a>
+                {% elif category.category == 3 %}
+                <a class="myPattern-a">온라인쇼핑</a>
+                {% elif category.category == 4 %}
+                <a class="myPattern-a">출금</a>
+                {% elif category.category == 5 %}
+                <a class="myPattern-a">생활/마트</a>
+                {% elif category.category == 6 %}
+                <a class="myPattern-a">카페/간식</a>
+                {% elif category.category == 7 %}
+                <a class="myPattern-a">기타지출(사회생활비)</a>
+                {% elif category.category == 8 %}
+                <a class="myPattern-a">교통/차량유지</a>
+                {% elif category.category == 9 %}
+                <a class="myPattern-a">주거생활/통신</a>
+                {% elif category.category == 10 %}
+                <a class="myPattern-a">식사</a>
+                {% elif category.category == 11 %}
+                <a class="myPattern-a">의료/건강</a>
+                {% elif category.category == 12 %}
+                <a class="myPattern-a">문화/예술</a>
+                {% elif category.category == 13 %}
+                <a class="myPattern-a">교육비</a>                                
+                {% endif %}
+              </td>
+
+              <td style="text-align: right;" width='150'>
+                <a style="font-weight:400; color:#3a3a3a">{{ category.amount|truncatechars:16|intcomma }}원</a>
+              </td>
+            </tr>
+    </div><!-- chart_view div 끝 -->
+                {% endifchanged %}
+                {% empty %}
+                <div class="summary-nodata-wrap">
+                  <a>소비내역 및 지출내역이 없습니다.</a>
+                </div>
+                {% endfor %}
+          </table>
+        </ol>
+  </div><!-- 나의 소비패턴 div 끝-->
     
 <script>
 var ctx = document.getElementById("myChart").getContext('2d');
@@ -251,7 +163,7 @@ data: {
             'rgb(122, 154, 198,1)',
             'rgba(87, 107, 158,0.2)'
         ],
-        borderWidth: 3
+        borderWidth: 0
     }]
 },
 options: {
@@ -284,8 +196,6 @@ $(function(){
                         +'<button onclick="click_evt()" class="no-top5-btn">지출내역 등록</button>'
                         +'</div>'
                         +'</div>';
-
-    console.log('데이터가 영이야');
   };
 });
 
@@ -293,9 +203,16 @@ function click_evt() {
     window.location.href = 'add_spend_calendar';
   };
 </script>
+    <form id="form" method="post">
+        {% csrf_token %}
+        <input type="hidden" id="issuecode" name="issuecode">
+        <input type="hidden" id="marketcode" name="marketcode">
+    </form>
+    
     </div><!-- 카테고리차트 탑5 div 끝-->
+
   <!-- 소비 탑5 카드사 div 시작-->
-       <div style="background-color:#fff; margin:20px 5% 40px 5%; padding: 10px; display:none;">
+  <div style="background-color:#fff; margin:20px 5% 40px 5%; padding: 10px; display:none;">
     <div style="text-align:left; font-weight: bold; font-size:16px;">
       <a style="font-weight: bold; font-size:16pt;">카드사 Top5</a>
     </div>
@@ -307,25 +224,25 @@ function click_evt() {
           <td width='10'><li style="font-weight: bold; color:#8e8e8e;"></li></td>
           <td style="text-align: center;" width='50'>
             {% if method.card == 1 %}
-          <a style="font-weight:bold; color:#3a3a3a">국민카드</a>
+          <a class="myPattern-a">국민카드</a>
           {% elif method.card == 2 %}
-          <a style="font-weight:bold; color:#3a3a3a">롯대카드</a>
+          <a class="myPattern-a">롯대카드</a>
           {% elif method.card == 3 %}
-          <a style="font-weight:bold; color:#3a3a3a">BC카드</a>
+          <a class="myPattern-a">BC카드</a>
           {% elif method.card == 4 %}
-          <a style="font-weight:bold; color:#3a3a3a">삼성카드</a>
+          <a class="myPattern-a">삼성카드</a>
           {% elif method.card == 6 %}
-          <a style="font-weight:bold; color:#3a3a3a">신한카드</a>
+          <a class="myPattern-a">신한카드</a>
           {% elif method.card == 7 %}
-          <a style="font-weight:bold; color:#3a3a3a">하나카드</a>
+          <a class="myPattern-a">하나카드</a>
           {% elif method.card == 8 %}
-          <a style="font-weight:bold; color:#3a3a3a">현대카드</a>
+          <a class="myPattern-a">현대카드</a>
           {% elif method.card == 9 %}
-          <a style="font-weight:bold; color:#3a3a3a">농협카드</a>
+          <a class="myPattern-a">농협카드</a>
           {% elif method.card == 10 %}
-          <a style="font-weight:bold; color:#3a3a3a">시티카드</a>
+          <a class="myPattern-a">시티카드</a>
           {% elif method.card == 11 %}
-          <a style="font-weight:bold; color:#3a3a3a">카카오뱅크카드</a>
+          <a class="myPattern-a">카카오뱅크카드</a>
           {% endif %}
           </td>
           <td width='25' style="text-align: right;"><a style="font-family: 'Noto Sans KR', sans-serif; font-weight:400; color:#3a3a3a">{{ method.amount|truncatechars:100|intcomma }}원</a></td>
@@ -362,18 +279,23 @@ function click_evt() {
     </ol>
     </div>
   </div> <!-- 소비 탑5 카드사 div 끝-->
+  
+  <!-- 소비 탑5 기업명 div 시작-->
+  <div class="spendTop5-wrap">
+    <div class="spendTop5-title">
+      <a>소비처 Top5</a>
+    </div>
 
-       <div style="background-color:#fff; margin:20px 5% 40px 5%; padding: 10px;"><!-- 소비 탑5 기업명 div 시작-->
-    <div style="text-align:left; font-weight: bold; font-size:16px;">
-      <a style="font-weight: bold; font-size:16pt;">소비처 Top5</a></div>
     <div>
       <ol style="padding-left: 1rem !important;">
-        <table border="0" style="width: 100%; margin-top:10px; border-collapse:inherit;">
+        <table style="width: 100%; margin-top:10px; border-collapse:inherit;">
           {% for area in category_stock %}
-          <tr onclick="info('주식코드','시장 kospi')">
-            <td width='10'><li style="font-weight: bold; color:#8e8e8e;"></li></td>
-            <td style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:50px; text-align: left;" width='50'>
-              <a style="font-weight:bold; color:#3a3a3a">{{ area.2 }}</a>
+          <tr onclick="info('{{ area.3}}','{{ area.4 }}')">
+            <td width='10'>
+              <li style="font-weight: bold; color:#8e8e8e;"></li>
+            </td>
+            <td class="spendTop5-tableTitle" width='50'>
+              <a>{{ area.2 }}</a>
             </td>
             <td style="text-align: right;" width='25'>
               <a style="font-weight:400; color:#3a3a3a">{{ area.1|truncatechars:500|intcomma }}원</a>
@@ -381,12 +303,6 @@ function click_evt() {
             <td width='10' style="text-align: right;">
               <a style="font-size:9pt; font-weight:300; color:#ff5d51">{{area.0|intcomma}} {{result}} 원</a>
             </td>
-            <!--
-            <td width='40' style="text-align: right;">
-              <a style="font-family: 'Noto Sans KR', sans-serif; font-size:9pt; font-weight:300; color:#8e8e8e">주문</a>
-              <img style="width: 20px; height:20px;" src="media/arrow.png">
-            </td>
-            -->
           </tr>
           {% empty %}
           <div class="summary-nodata-wrap">
@@ -398,10 +314,10 @@ function click_evt() {
     </div>
   </div><!-- 소비 탑5 기업명 div 끝-->
 
-    <!-- 건수 탑5 div 시작-->
-   <div style="background-color:#fff; margin:20px 5% 40px 5%; padding: 10px;">
-    <div style="text-align:left; font-weight: bold; font-size:16px;">
-      <a style="font-weight: bold; font-family: 'Noto Sans KR', sans-serif; font-size:16pt;">카테고리 지출 Top5</a>
+  <!-- 건수 탑5 div 시작-->
+  <div class="categoryCountTop5">
+    <div class="categoryCountTop5-title">
+      <a>카테고리 지출 Top5</a>
     </div>
   <div>
   <ol style="padding-left: 1rem !important;">
@@ -411,33 +327,33 @@ function click_evt() {
         <td width='10'><li style="font-weight: bold; color:#8e8e8e;"></li></td>
         <td style="text-align: left;" width='60'>
             {% if category.category == 0 %}
-            <a style="font-weight:bold; color:#3a3a3a">카테고리 선택안함</a>
+            <a class="myPattern-a">카테고리 선택안함</a>
             {% elif category.category == 1 %}
-            <a style="font-weight:bold; color:#3a3a3a">금융/보험</a>
+            <a class="myPattern-a">금융/보험</a>
             {% elif category.category == 2 %}
-            <a style="font-weight:bold; color:#3a3a3a">저축</a>
+            <a class="myPattern-a">저축</a>
             {% elif category.category == 3 %}
-            <a style="font-weight:bold; color:#3a3a3a">온라인쇼핑</a>
+            <a class="myPattern-a">온라인쇼핑</a>
             {% elif category.category == 4 %}
-            <a style="font-weight:bold; color:#3a3a3a">출금</a>
+            <a class="myPattern-a">출금</a>
             {% elif category.category == 5 %}
-            <a style="font-weight:bold; color:#3a3a3a">생활/마트</a>
+            <a class="myPattern-a">생활/마트</a>
             {% elif category.category == 6 %}
-            <a style="font-weight:bold; color:#3a3a3a">카페/간식</a>
+            <a class="myPattern-a">카페/간식</a>
             {% elif category.category == 7 %}
-            <a style="font-weight:bold; color:#3a3a3a">기타지출(사회생활비)</a>
+            <a class="myPattern-a">기타지출(사회생활비)</a>
             {% elif category.category == 8 %}
-            <a style="font-weight:bold; color:#3a3a3a">교통/차량유지</a>
+            <a class="myPattern-a">교통/차량유지</a>
             {% elif category.category == 9 %}
-            <a style="font-weight:bold; color:#3a3a3a">주거생활/통신</a>
+            <a class="myPattern-a">주거생활/통신</a>
             {% elif category.category == 10 %}
-            <a style="font-weight:bold; color:#3a3a3a">식사</a>
+            <a class="myPattern-a">식사</a>
             {% elif category.category == 11 %}
-            <a style="font-weight:bold; color:#3a3a3a">의료/건강</a>
+            <a class="myPattern-a">의료/건강</a>
             {% elif category.category == 12 %}
-            <a style="font-weight:bold; color:#3a3a3a">문화/예술</a>
+            <a class="myPattern-a">문화/예술</a>
             {% elif category.category == 13 %}
-            <a style="font-weight:bold; color:#3a3a3a">교육비</a>                                
+            <a class="myPattern-a">교육비</a>                                
             {% endif %}
         </td>
         <td style="text-align: right;" width='150'>
@@ -474,9 +390,14 @@ function click_evt() {
   function info(issuecode, marketcode) {
         document.getElementById('issuecode').value = issuecode;
         document.getElementById('marketcode').value = marketcode;
+        if (marketcode == 'None') {
+        alert('주식 정보가 없습니다.')
+        }
+        else{
         const form = document.getElementById('form');
-        form.action="/stock_info"
+        form.action="/stock_info/" + marketcode + "/" + issuecode ;
         form.submit();
+        }
     }
   </script>
 
