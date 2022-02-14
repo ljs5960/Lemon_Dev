@@ -137,7 +137,7 @@
         document.getElementById('issuecode').value = issuecode;
         document.getElementById('marketcode').value = marketcode;
         const form = document.getElementById('form');
-        form.action="/stock_info"
+        form.action="/stock_info/" + marketcode + "/" + issuecode ;
         form.submit();
     }
 </script>

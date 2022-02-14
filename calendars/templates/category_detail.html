@@ -4,20 +4,25 @@
 {% block container %}
 {% load humanize %}
 {% load mytag %}
-
+<style>
+  .footer-line-calendar{
+    width:50px;
+    padding: 12px 0 10px 0;
+    border-bottom: 2px solid #FFF;
+  }
+</style>
 {% block nav %}
+<!-- 상단바 영역 시작 -->
 <div id="nav" style="border-bottom: 1px solid #f1f1f1;">
-            <div>
-            <div style="text-align:center;">
-                <a style="color: #fff;" href="javascript:history.back();"><i class="fa fa-angle-left" style="position: absolute;
-    left: 5px;
-    padding: 14px 15px;
-    top: 0;
-    font-size: 25px;
-    font-weight: 600;color:black;"></i></a>
-                카테고리 상세</div>
-        </div>
-        </div>
+  <div>
+    <div style="text-align:center;">
+      <a style="color: #fff;" href="javascript:history.back();">
+        <i class="fa fa-angle-left"></i>
+      </a>카테고리 상세
+    </div>
+  </div>
+</div>
+<!-- 상단바 영역 끝 -->
 {% endblock nav %}
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -36,9 +41,7 @@
       <a style="font-weight: 100; color:#3a3a3a;font-size:20px; vertical-align: inherit;">{{ i.spend_date | date:'d 일' }}</a>
     </th>
     <th style="text-align:right;font-size:13px; border-bottom:1px solid #dddddd; vertical-align: middle;">
-     <!-- <div style="display:flex;flex-direction:column;align-items:flex-end;"> -->
       <div>
-<!--        <a style="font-weight: bold; font-size:10pt; margin-right:5px; color: #ff5d51">-원</a>-->
         </div>
     </th>
     {% endifchanged %}
@@ -52,14 +55,6 @@
         <div style="text-align:left;padding-left:30px;">
 
         <a id= "place" style="font-family: 'Noto Sans KR', sans-serif; font-weight:400; font-size:12pt; color: #3a3a3a; display:block;">{{ i.place }}</a>
-
-<!--          <a style="font-weight:400; font-size:12pt; color: #3a3a3a;display:block;">{% if i.place == '1' %} 급여 {% endif %}</a>-->
-<!--          <a style="font-weight:400; font-size:12pt; color: #3a3a3a;display:block;">{% if i.place == '2' %} 용돈 {% endif %}</a>-->
-<!--          <a style="font-weight:400; font-size:12pt; color: #3a3a3a;display:block;">{% if i.place == '3' %} 금융수입 {% endif %}</a>-->
-<!--          <a style="font-weight:400; font-size:12pt; color: #3a3a3a;display:block;">{% if i.place == '4' %} 사업수입 {% endif %}</a>-->
-<!--          <a style="font-weight:400; font-size:12pt; color: #3a3a3a;display:block;">{% if i.place == '5' %} 기타 {% endif %}</a>-->
-
-
           </div>
       </td>
       <td style="vertical-align: top;">
