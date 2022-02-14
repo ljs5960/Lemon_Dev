@@ -1,24 +1,72 @@
-<script>
-  function fn_readSMS() {
-      var startDate = '2022.01.13 00:00'
-      var endDate = '2022.01.17 24:00'
-      window.AndroidBridge.readSMS(startDate, endDate);
-  }
+{% extends 'base.html' %}
+{% block container %}
+<style>
+    #sms_date {
+        color: red;
+    }
+    #sms_body {
+        color: blue;
+    }
+</style>
+<body>
+    <input type="date" id="startDate">
+    <input type="date" id="endDate">
+    <button onclick="fn_readSMS()">SMS읽어오기</button>
+    <div id="sms_lists"></div>
+    <div id="sms_list"></div>
+    <script>
+        // Send Date Info to App
+        function fn_readSMS() {
+            // Format => 'yyyy.MM.dd HH:mm'
+            // Replace all '-' -> '.' & Append ' HH:mm'
+            const startDate = $("#startDate").val().replace(/-/g, ".") + ' 00:00';
+            const endDate = $("#endDate").val().replace(/-/g, ".") + ' 00:00';
+            const test1 = '2022.01.13 00:00';
+            const test2 = '2022.01.17 24:00';
+            window.AndroidBridge.readSMS(test1, test2);
+        }
+        
+        // Print JSON on Screen
+        function fn_receiveSMSRead(resultSMS) {
+            const sms_lists = document.getElementById('sms_lists');
+            sms_lists.append(resultSMS);
+        }
+        
+        // Parse JSON & Filter
+        function fn_receiveSMSReadComplete() {
+            const sms_list = document.getElementById('sms_list');
+            const sms = sms_lists.innerText;
+            sms_lists.innerHTML = '';
+            sms_list.innerHTML = '';
 
-  function fn_receiveSMSRead(resultSMS) {
-      var result_text = document.getElementById('search_result');
-      result_text.append(resultSMS);
-  }
+            for(let i=0; i<sms.length; i++) {
+                // Excute 'innerHTML' if filtered == True ->.includes('결제')
+                if(JSON.parse(sms)[i]['body']) {
+                    sms_list.innerHTML += `<div id='sms' onclick="clickSMS('${JSON.parse(sms)[i]['date']}','${JSON.parse(sms)[i]['body']}')"><div id='sms_date'> ${JSON.parse(sms)[i]['date']} </div> <div id='sms_body'> ${JSON.parse(sms)[i]['body']} </div></div><br>`;
+                }
+            }
+        }
 
-  function fn_receiveSMSReadComplete() {
-      var result_text = document.getElementById('search_result');
-      result_text.append('finish');
-  }
+        function fn_receiveSMS(resultSMS) {
+            sms_lists.innerHTML = resultSMS;
+        }
 
-  function fn_receiveSMS(resultSMS) {
-      var result_text = document.getElementById('search_result');
-      result_text.innerHTML = resultSMS;
-  }
-</script>
-<button onclick="fn_readSMS()">SMS읽어오기</button>
-<div id="search_result"></div>
+        // Send info to Writing Page
+        function clickSMS(date, body) {
+            $.ajax({
+                type: "POST",
+                url: "{% url 'admins:sms_write' %}",
+                data : {
+                    date: date,
+                    body: body,
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    dataType: "json"
+                },
+                success: function(data) {
+                    window.location.href="{% url 'admins:sms_write' %}";
+                }
+            });
+        }
+    </script>
+</body>
+{% endblock %}

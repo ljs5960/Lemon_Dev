@@ -115,9 +115,9 @@
               </div>
             </a>
             </li>
-            <li><a href="{% url 'admins:faq' %}">
+            <li class="sms"><a href="{% url 'admins:sms_read' %}">
                 <i class="fas fa-question-circle" style="padding-right:5px;"></i><div class="order">
-                    <div>FAQ</div>
+                    <div>문자내역 가져오기</div>
                     <i class="fas fa-chevron-right"></i>
             </div>
           </a>
@@ -165,6 +165,11 @@
 $(document).ready(function(){
     $('.footer-selector').fadeIn(550);
 });
+
+// Display 'none' if Apple Device
+if(navigator.userAgent.match(/iP(hone|od|ad)|safari/)){
+    document.getElementsByClassName('sms').display = none;
+    }
 </script>
 <!--    {% if message %}-->
 <!--    <script>alert('{{ message }}');</script>-->
