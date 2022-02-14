@@ -93,3 +93,8 @@ def faq_detail(request, pk):
 # SMS 읽기
 def sms_read(request):
     return render(request, 'sms_read.html')
+
+
+# 문자내역 지출작성 페이지
+def sms_write(request):
+    return render(request, 'sms_write.html')

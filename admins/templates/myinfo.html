@@ -128,20 +128,18 @@
                       </div>
                 </a>
             </li>
-
+            <li id="sms_read"><a href="{% url 'admins:sms_read' %}">
+                <i class="fas fa-question-circle" style="padding-right:5px;"></i><div class="order">
+                    <div>문자내역 가져오기</div>
+                    <i class="fas fa-chevron-right"></i>
+            </div>
+          </a>
+          </li>
             <li><a style="color: #FF4444;" onclick="ask_out()">
                 <i class="fas fa-sign-out-alt" style="padding-right:5px;"></i><div class="order"><div>회원 탈퇴</div><i
                     class="fas fa-chevron-right"></i></div></a>
             </li>
             <li>
-                <a href="{% url 'admins:sms_read' %}">
-                    <i class="fas fa-unlock-alt" style="padding-right:5px;"></i><div class="order">
-                        <div>문자내역</div>
-                        <i class="fas fa-chevron-right"></i>
-                          </div>
-                    </a>
-                </li>
-                <li>
                 <a style="color: #FF4444;" href="{% url 'accounts:logout' %}">
                       <i class="fas fa-sign-out-alt" style="padding-right:5px;"></i><div class="order">
                     <div>로그아웃</div>
@@ -165,6 +163,17 @@
 $(document).ready(function(){
     $('.footer-selector').fadeIn(550);
 });
+
+function iosDisplayNone() {
+    // Display 'none' if Apple Device
+    const UA = navigator.userAgent.toLowerCase();
+
+    if(UA.indexOf("iphone") != -1) {
+        document.querySelector("#sms_read").style.display = "none";
+    } else {
+        document.querySelector("#sms_read").style.display = "none";
+    }
+}
 </script>
 <!--    {% if message %}-->
 <!--    <script>alert('{{ message }}');</script>-->
