@@ -117,12 +117,13 @@
                 <tr> <!-- 행선언 -->
                     <th width="200" height="60"><a class="span_list_title">수입수단</a></th>
                     <th width="240" style="text-align: end;"><select class="span_list_select" name="income_way">
+                        <option value="0" {% if i.income_way == 0 %} selected {% endif %}>선택안함</option>
                         <option value="1" {% if i.income_way == 1 %} selected {% endif %}>금융/보험</option>
                         <option value="2" {% if i.income_way == 2 %} selected {% endif %}>저축</option>
                         <option value="3" {% if i.income_way == 3 %} selected {% endif %}>온라인쇼핑</option>
                         <option value="4" {% if i.income_way == 4 %} selected {% endif %}>출금</option>
                         <option value="5" {% if i.income_way == 5 %} selected {% endif %}>생활/마트</option>
-                        <option value="6" {% if i.income_way == 5 %} selected {% endif %}>카페/간식</option>
+                        <option value="6" {% if i.income_way == 6 %} selected {% endif %}>카페/간식</option>
                         <option value="7" {% if i.income_way == 7 %} selected {% endif %}>기타지출(사회생활비)</option>
                         <option value="8" {% if i.income_way == 8 %} selected {% endif %}>교통/차량유지</option>
                         <option value="9" {% if i.income_way == 9 %} selected {% endif %}>주거생활/통신</option>
