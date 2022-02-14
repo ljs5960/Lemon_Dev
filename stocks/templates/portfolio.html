@@ -4,9 +4,6 @@
 {% load humanize %}
 {% load mathfilters %}
 <style>
-    .bottom-nav-addlist,.bottom-nav-addlist a{
-        color: #FFD859;
-    }
     .wrapper{
     padding:20px;
     }
@@ -115,8 +112,20 @@
 
    <div style="background-color:#fff; margin:20px 5% 40px 5%; padding: 10px;">
     <div style="text-align:left; font-weight: bold; font-size:16px;">
-      <a style="font-weight: bold; font-family: 'Noto Sans KR', sans-serif; font-size:16pt;">포토폴리오 기반 추천 Top 5</a>
+      <a style="font-weight: bold; font-family: 'Noto Sans KR', sans-serif; font-size:16pt;">포트폴리오 기반 추천 Top 5</a>
     </div>
+
+    {{category_stock.0.0}}<br> <!-- 0.1 유저한테 보여줘야할것 -->
+    {{category_stock.0.1}}<br> <!-- 0.1 종목코드 -->
+    {{category_stock.0.2}}<br> <!-- 0.1 per -->
+    {{category_stock.0.3}}<br> <!-- 0.1 pbr -->
+    {{category_stock.0.4}}<br> <!-- 0.1 마켓코드 -->
+    {{category_stock.0.5}}<br> <!-- 0.1 유저한테 보여줘야할것 -->
+
+    <!--{{category_stock.1}}<br>
+    {{category_stock.2}}<br>
+    {{category_stock.3}}<br>
+    {{category_stock.4}}<br>-->
   <div>
   <ol style="padding-left: 1rem !important;">
     <table border="0" style="width: 100%; margin-top:10px; border-collapse:inherit;">

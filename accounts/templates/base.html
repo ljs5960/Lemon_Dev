@@ -203,17 +203,17 @@ $( document ).ready(function() {
     z-index: 90;*/
     }
 </style>
-       <script>
-           function pin_saver(pin){
-           var password = $('#pin').val()
-           if (password == pin ){
-           $('.pin_saver').fadeOut()
-           } else {
-           alert('핀번호가 틀렸습니다.');
-           }
-           }
-       </script>
-       {% endif %}
+  <script>
+    function pin_saver(pin){
+    var password = $('#pin').val()
+        if (password == pin ){
+            $('.pin_saver').fadeOut()
+        } else {
+            alert('핀번호가 틀렸습니다.');
+        }
+    }
+  </script>
+      {% endif %}
   {% endif %}
     <div id="footer">
         {% block footer %}
