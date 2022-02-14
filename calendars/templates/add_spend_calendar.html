@@ -92,9 +92,7 @@
                 </tr>
                 <tr>
                     <th width="200" height="60"><a class="span_list_title">소비처</a></th>
-                    <th width="240" style="text-align: end;"><input class="input_span stock" type="text" id="where" name="where" autocomplete="on" value="">
-                    <input type="hidden" id="place" name="place">
-                     <input type="hidden" id="stock" name="stock">
+                    <th width="240" style="text-align: end;"><input class="input_span stock" type="text" id="place" name="place" autocomplete="on" value="">
                 </tr>
                 </tr>
                 <tr> <!-- 행선언 -->
@@ -162,52 +160,19 @@
 
 <script>
 function submit(){
-    var str = $('#where').val();
-    var test = str.indexOf(':');
-    console.log(test);
-    if ( test > 0 ){
-      var stockcode = str.slice(-6);
-      }
-    else{
-      var stockcode = 0;
-    }
-    console.log(stockcode);
-    var stockname = str.replace(":"+stockcode,"");
-    console.log(stockname);
-    var max_int = 210000000;
-    if ($('#amount').val() == '') {
-        alert('금액을 입력해주세요.');
-        return false;
-    }
-    else if ($('#amount').val() >= max_int) {
-        alert('입력받을수 있는 금액 범위를 초과하였습니다.');
-        return false;
-    }
-    else if ($('#date').val() == '') {
-        alert('날짜를 선택해주세요.');
-        return false;
-    }
-    else if ($('#where').val() == '') {
-        alert('소비처를 작성해주세요.');
-        return false;
-    }
-    else{
-    document.getElementById('place').value = stockname;
-    document.getElementById('stock').value = stockcode;
     const form = document.getElementById('spend_form');
     form.action="{%url 'calendars:add_spend_calendar' %}"
     form.submit();
     }
-}
 
 
 
 
     $(function() {
         var cardlist_Tags = [{% for i in wntlr %}
-        '{{i.ss_isukorabbrv}} :{{i.ss_isusrtcd}}',
+        '{{i.ss_isukorabbrv}}',
         {% endfor %}];
-        $('#where').autocomplete({
+        $('#place').autocomplete({
             source: cardlist_Tags,
         });
      });

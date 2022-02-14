@@ -115,9 +115,7 @@
                 </tr>
                 <tr> <!-- 행선언 -->
                     <th width="200" height="60"><a class="span_list_title">소비처</a></th>
-                    <th width="240" style="text-align: end;"><input class="input_span stock" type="text" id="where" name="where" autocomplete="on" value="{{i.place}}{% if i.stock == '0' %}{%else%} :{{i.stock}}{% endif %} ">
-                    <input type="hidden" id="place" name="place">
-                     <input type="hidden" id="stock" name="stock">
+                    <th width="240" style="text-align: end;"><input class="input_span stock" type="text" id="place" name="place" autocomplete="on" value="{{i.place}}">
                 </tr>
                 <tr> <!-- 행선언 -->
                     <th width="200" height="60"><a class="span_list_title">결제수단 </a></th>
@@ -179,24 +177,9 @@
          </form>
         <script>
             function submit(){
-            var str = $('#where').val();
-            var test = str.indexOf(':')
-            console.log(str);
-            console.log(test);
-            if ( test > 0 ){
-              var stockcode = str.slice(-8);
-            }
-            else{
-              var stockcode = 0;
-            }
-            console.log(stockcode);
-            var stockname = str.replace(":" +stockcode, "");
-            console.log(stockname);
-            document.getElementById('place').value = stockname;
-            document.getElementById('stock').value = stockcode;
             const form = document.getElementById('seidt_form');
             form.action="{%url 'calendars:sedit_calendar' i.spend_id %}"
-            // form.submit();
+            form.submit();
             }
         </script>
     {% endfor %}
@@ -207,9 +190,9 @@
 
     $(function() {
         var cardlist_Tags = [{% for i in wntlr %}
-        '{{i.ss_isukorabbrv}} :{{i.ss_isusrtcd}}',
+        '{{i.ss_isukorabbrv}}'
         {% endfor %}];
-        $('#where').autocomplete({
+        $('#place').autocomplete({
             source: cardlist_Tags,
         });
      });
@@ -221,7 +204,7 @@
 
 
      $(function() {
-        var cardlist_Tags = [{% for i in wntlr %}'{{i.ss_isukorabbrv}} : {{i.ss_isusrtcd}}',{% endfor %}];
+        var cardlist_Tags = [{% for i in wntlr %}'{{i.ss_isukorabbrv}}{{i.ss_isusrtcd}}',{% endfor %}];
         $('#place').autocomplete({
             source: cardlist_Tags,
             max:10

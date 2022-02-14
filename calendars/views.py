@@ -36,7 +36,7 @@ def home(request):
             username=request.POST['username'],
             gender=request.POST.get("gender"),
             job=request.POST.get("job"),
-            phonenumber=request.POST.get('phonenumber'),
+            phonenumber=request.POST['phonenumber'],
             birthday=request.POST['birthday'],
             pin=request.POST['pin'],
             invest=request.POST['invest'],
@@ -207,7 +207,7 @@ def top5(request):
     # 소비 TOP5 카테고리 금액 합계
     category_sum = spend_month_filter.values('category').annotate(amount=Sum('amount')).order_by('-amount')[:5]
     category_card = spend_month_filter.values('card').annotate(amount=Sum('amount')).order_by('-amount')[:5]
-    category_place = spend_month_filter.values('place','stock').annotate(amount=Sum('amount')).order_by('-amount')[:5]
+    category_place = spend_month_filter.values('place').annotate(amount=Sum('amount')).order_by('-amount')[:5]
 
     category_category = spend_month_filter.values('category').annotate(amount=Sum('amount')).order_by('-amount')[:5]
 
@@ -217,10 +217,17 @@ def top5(request):
     category_stock = []
     koscom_api = kocom.api()
     for element in category_place:
-        find_market_code = Stocksector.objects.filter(ss_isusrtcd=element['stock']).values_list('ss_marketcode', flat=True)
+        find_market_code = Stocksector.objects.filter(ss_isukorabbrv=element['place']).values_list('ss_marketcode', flat=True)
+        find_market_code1 = Stocksector.objects.filter(ss_isukorabbrv=element['place']).values_list('ss_isusrtcd', flat=True)
+
+        find_market_code = list(find_market_code)
+        find_market_code1 = list(find_market_code1)
         market_code = find_market_code[0] if find_market_code else None
-        current_price = koscom_api.get_current_price(market_code, element['stock'])
-        category_stock.append([current_price, element['amount'], element['place'], element['stock'], market_code])
+        issuecode = find_market_code1[0] if find_market_code1 else None
+        current_price = koscom_api.get_current_price(market_code , issuecode  )
+        print(current_price)
+        category_stock.append([current_price, element['amount'], element['place'], issuecode, market_code])
+        print(category_stock)
 
     category_amount_data = []
     category_amount_label = []
@@ -359,21 +366,30 @@ def edit_calendar(request, spend_id, kind):
 def sedit_calendar(request, spend_id):
     if request.method == "POST":
         user = request.user.user_id
-        place=request.POST['place']
-        stock=request.POST['stock']
+        where =request.POST['where']
+        print(where)
+        stock=where[-6:]
+        place=where[:-6]
+        if stock ==where:
+            place = stock
+            stock = 0
+        if stock ==place:
+            place = stock
+            stock = 0
         print(stock)
         print(place)
-        if place == stock:
-            stock = 000000
+
+        # if place == stock:
+        #     stock = 000000
         spe = Spend.objects.filter(spend_id=spend_id, user_id=user).update(
             amount=request.POST['amount'],
-            place=request.POST['place'],
+            place=place,
             spend_date=request.POST['spend_date'],
             way=request.POST['way'],
             category=request.POST['category'],
             card=request.POST['card'],
             memo=request.POST['memo'],
-            stock=request.POST['stock'])
+            stock=stock)
         return redirect('/history')
 
 
