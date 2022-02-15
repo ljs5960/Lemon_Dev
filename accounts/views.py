@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 import email
 from unittest import result
 from django.shortcuts import render,redirect
@@ -27,6 +28,7 @@ from django.contrib.auth.forms import (
     AuthenticationForm, PasswordChangeForm, PasswordResetForm, SetPasswordForm,
 )
 from django.urls import reverse_lazy
+from datetime import datetime, date, timedelta
 
 URL_LOGIN = '/login'
 
@@ -59,6 +61,29 @@ def find_id_result(request):
 
 def signup(request):
     if request.method == 'POST':
+        phonenumber = request.POST.get('phonenumber', None)
+        phonenumber = str(phonenumber)
+        invest = request.POST['invest']
+        birthday = request.POST['birthday']
+        pin = request.POST['pin']
+        if invest == '0':
+            #invest_date = None
+            invest_date = date(1111,1,11)
+        else:
+            invest_date = datetime.now()
+        
+        if birthday == '':
+            #birthday = date(1111, 1, 11)
+            birthday = datetime.now()
+        else:
+            birthday = birthday
+
+        if pin == '':
+            pin = '0000'
+            pin_date = datetime.now() + timedelta(hours=12)
+        else:
+            pin = pin
+            pin_date = datetime.now() + timedelta(hours=12)
         if request.POST['password'] == request.POST['password1']:
             user = get_user_model().objects.create_user(
                                             uid=request.POST['uid'],
@@ -67,12 +92,13 @@ def signup(request):
                                             gender=request.POST['gender'],
                                             job=request.POST['job'],
                                             email=request.POST['email'],
-                                            phonenumber=request.POST.get('phonenumber', False),
+                                            phonenumber=phonenumber,
                                             invest=request.POST['invest'],
-                                            invest_date=request.POST['invest_date'],
+                                            invest_date=invest_date,
                                             u_chk=request.POST['u_chk'],
-                                            pin=request.POST['pin'],
-                                            birthday=request.POST['birthday'],
+                                            pin = pin,
+                                            pin_date=pin_date,
+                                            birthday = birthday,
                                             )
             auth.login(request, user)
             return redirect('/')
@@ -92,3 +118,31 @@ class UserPasswordResetView(PasswordResetView):
             
 class UserPasswordResetDoneView(PasswordResetDoneView):
     template_name = 'password_reset_done.html' #템플릿을 변경하려면 이와같은 형식으로 입력
+
+
+def ajax_checkID(request):
+    if request.method == "POST":
+        uid = request.POST.get('Vaildid', None)
+        print('에이젝스로 받은 아이디는',uid)
+
+        id = user.objects.filter(uid=uid).values('uid')
+        if id:
+            result_msg = 0
+        else:
+            result_msg = 1
+
+        return JsonResponse(result_msg, safe=False)
+
+
+def ajax_checkEmail(request):
+    if request.method == "POST":
+        vailEmail = request.POST.get('vailEmail', None)
+        print('에이젝스로 받은 아이디는', vailEmail)
+
+        email = user.objects.filter(email=vailEmail).values('email')
+        if email:
+            result_msg = 0
+        else:
+            result_msg = 1
+
+        return JsonResponse(result_msg, safe=False)

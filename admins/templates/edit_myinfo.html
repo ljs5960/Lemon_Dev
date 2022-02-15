@@ -97,13 +97,13 @@
     <!-- 생년월일 부분 영역 -->
       <div class="input_design">
         <div class="input_title">생년월일</div>
-          <input type="text" value="{{ user.birthday }}" disabled>
+          <input name="birthday" type="date" value="{{user.birthday|date:'Y-m-d'}}"/>
       </div>
 
     <!-- 연락처 부분 영역 -->
       <div class="input_design" style="width:100%;">
         <div class="input_title">연락처</div>
-          <input style="width:75%;" type="text" id="phonenumber" value="{{ user.phonenumber }}" disabled name="phonenumber"> <button type="button" onclick="phonechange();" class="changePhone-btn">변경</button>
+          <input style="width:75%;" type="text" id="phonenumber" value="{{ user.phonenumber|default:'연락처를 등록해주세요.'}}" disabled name="phonenumber"> <button type="button" onclick="phonechange();" class="changePhone-btn">변경</button>
       </div>
     <div style="text-align:center;margin-top:35px;position:absolute;bottom:15px;width:100%;left:0px;"><button class="changeInfo-btn" type="submit">정보 수정</button></div>
   </form>

@@ -10,7 +10,7 @@ from .models import Income, Spend, Stocksector, AccountBook
 from django.contrib.auth.decorators import login_required
 from .calendarsforms import SpendForm, IncomeForm
 from django.views.decorators.csrf import csrf_exempt
-from datetime import datetime
+from datetime import datetime, date
 import datetime, requests
 from django.db.models import Sum, Count
 import os, json
@@ -31,16 +31,40 @@ URL_LOGIN = '/login'
 def home(request):
     if request.method == 'POST':
         user = request.user.user_id
+        phonenumber = request.POST.get('phonenumber', None)
+        phonenumber = str(phonenumber)
+        invest = request.POST['invest']
+        birthday = request.POST['birthday']
+        pin = request.POST['pin']
+        
+        if invest == '0':
+            #invest_date = None
+            invest_date = date(1111,1,11)
+        else:
+            invest_date = datetime.now()
+        
+        if birthday == '':
+            #birthday = date(1111, 1, 11)
+            birthday = datetime.now()
+        else:
+            birthday = birthday
+
+        if pin == '':
+            pin = '0000'
+        else:
+            pin = pin
+        
         user = get_user_model().objects.filter(user_id=user).update(
             u_chk=request.POST['u_chk'],
             username=request.POST['username'],
             gender=request.POST.get("gender"),
             job=request.POST.get("job"),
-            phonenumber=request.POST['phonenumber'],
-            birthday=request.POST['birthday'],
-            pin=request.POST['pin'],
-            invest=request.POST['invest'],
+            phonenumber=phonenumber,
+            birthday=birthday,
+            pin=pin,
+            invest=invest,
         )
+        print("저장후 폰넘버", phonenumber)
         return redirect('/')
     invest = request.user.invest
     user = request.user.user_id

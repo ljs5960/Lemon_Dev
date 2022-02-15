@@ -55,7 +55,7 @@ def edit_myinfo(request):
         user_db.username = request.POST['username']
         user_db.gender = request.POST['gender']
         user_db.job = request.POST['job']
-        #user_db.birthday = request.POST['birthday']
+        user_db.birthday = request.POST['birthday']
         #user_db.phonenumber = request.POST['phonenumber']
         user_db.save()
         return redirect('/myinfo/update')
@@ -63,17 +63,12 @@ def edit_myinfo(request):
 
 # 전화번호 변경
 def changephone(request):
-    print(request.GET)
-    print(request.POST)
-    print(request.method)
-
-    print(request.path)
     if request.method == "POST":
-        phonenumber = request.POST.get('change_phonenumber', None)
-        print(phonenumber)
+        phonenumber = request.POST.get('phonenumber')
+        phonenumber = str(phonenumber)
         user_id = request.user.user_id
         user_db = user.objects.get(user_id=user_id)
-        user_db.phonenumber = request.POST['phonenumber']
+        user_db.phonenumber = phonenumber
         user_db.save()
         return redirect('/myinfo/update')
     return render(request, 'changephone.html')

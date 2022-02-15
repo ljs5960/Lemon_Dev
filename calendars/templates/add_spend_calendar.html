@@ -159,10 +159,32 @@
 </div>
 
 <script>
+$(document).ready(function(){
+    let today = moment();
+    let today2 = today.format('YYYY-MM-DD')
+    $('#date').attr('value', today2);
+    });
+
 function submit(){
+    var max_int = 210000000;
+
+    if ($('#amount').val() == '') {
+        alert('금액을 입력해주세요.');
+        return false;
+    }
+    else if ($('#amount').val() >= max_int) {
+        alert('입력받을수 있는 금액 범위를 초과하였습니다.');
+        return false;
+    }
+    else if ($('#where').val() == '') {
+        alert('소비처를 작성해주세요.');
+        return false;
+    }
+    else{
     const form = document.getElementById('spend_form');
     form.action="{%url 'calendars:add_spend_calendar' %}"
     form.submit();
+    }
     }
 
 
