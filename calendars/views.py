@@ -374,6 +374,18 @@ def add_spend_calendar(request):
     wntlr = Stocksector.objects.all().values('ss_isusrtcd', 'ss_isukorabbrv')
     return render(request, 'add_spend_calendar.html', {'wntlr': wntlr})
 
+
+# SMS문자내역 입력
+def sms_add_spend_calendar(request, date, amount, place):
+    if request.method == "POST":
+        date = request.POST.get("date", None)
+        amount = request.POST.get("amount", None)
+        place = request.POST.get("place", None)
+        wntlr = Stocksector.objects.all().values('ss_isusrtcd', 'ss_isukorabbrv')
+    
+    return render(request, 'sms_add_spend_calendar.html', {'date': date, 'amount': amount, 'place': place, 'wntlr': wntlr})
+
+
 def edit_calendar(request, spend_id, kind):
     user = request.user.user_id
     if kind == '지출':
