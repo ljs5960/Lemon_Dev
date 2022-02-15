@@ -49,7 +49,7 @@
 
 <!-- 회원가입 Wrapper -->
 <div class="signup-wrapper" style="padding:70px 20px 40px 20px;">
-  <form class="validation-form" style="width:100%;" method="POST" action="{% url 'accounts:signup' %}" id="signup-form">
+  <form class="validation-form" style="width:100%;" method="POST" action="{% url 'accounts:signup' %}" id="signupForm">
     {% csrf_token %}
     <div class="persnal_info_access" style="padding-bottom: 20px;">
       <div class="require_chk_wrap">
@@ -63,7 +63,7 @@
     </div>
 
   <!-- 회원가입 폼 시작 -->
-  <div class="signup-form-wrap"> 
+  <div class="signup-form-wrap">
     <!-- 아이디 입력 input -->
     <div class="signup-form">
     <a>아이디 <strong>(필수)</strong></a>
@@ -170,6 +170,7 @@
     // 이용약관도 체크 확인 하기
     // 핸드폰 중복 확인
     function signup_check() {
+
         let require_chk =  $('input[id="require_chk2"]').is(":checked");
         if (!require_chk) {
             alert('이용약관을 동의해 주세요.')
@@ -211,7 +212,7 @@
             return false;
         }
         else {
-            const form = document.getElementById('signup_form');
+            const form = document.getElementById('signupForm');
             alert($('#name').val()+'님, 회원가입을 축하합니다.')
             form.action = "{% url 'accounts:signup' %}"
             form.submit();

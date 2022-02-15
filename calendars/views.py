@@ -366,21 +366,6 @@ def edit_calendar(request, spend_id, kind):
 def sedit_calendar(request, spend_id):
     if request.method == "POST":
         user = request.user.user_id
-        where =request.POST['where']
-        print(where)
-        stock=where[-6:]
-        place=where[:-6]
-        if stock ==where:
-            place = stock
-            stock = 0
-        if stock ==place:
-            place = stock
-            stock = 0
-        print(stock)
-        print(place)
-
-        # if place == stock:
-        #     stock = 000000
         spe = Spend.objects.filter(spend_id=spend_id, user_id=user).update(
             amount=request.POST['amount'],
             place=place,

@@ -59,6 +59,9 @@ def find_id_result(request):
 
 def signup(request):
     if request.method == 'POST':
+        phonenumber=request.POST['phonenumber']
+        phonenumber=str(phonenumber)
+        print(phonenumber)
         if request.POST['password'] == request.POST['password1']:
             user = get_user_model().objects.create_user(
                                             uid=request.POST['uid'],
@@ -67,7 +70,7 @@ def signup(request):
                                             gender=request.POST['gender'],
                                             job=request.POST['job'],
                                             email=request.POST['email'],
-                                            phonenumber=request.POST.get('phonenumber', False),
+                                            phonenumber=phonenumber,
                                             invest=request.POST['invest'],
                                             invest_date=request.POST['invest_date'],
                                             u_chk=request.POST['u_chk'],
@@ -83,12 +86,12 @@ class UserPasswordResetView(PasswordResetView):
     template_name = 'password_reset.html' #템플릿을 변경하려면 이와같은 형식으로 입력
     success_url = reverse_lazy('password_reset_done')
     form_class = PasswordResetForm
-    
+
     def form_valid(self, form):
         if User.objects.filter(email=self.request.POST.get("email")).exists():
             return super().form_valid(form)
         else:
             return render(self.request, 'password_reset_done_fail.html')
-            
+
 class UserPasswordResetDoneView(PasswordResetDoneView):
     template_name = 'password_reset_done.html' #템플릿을 변경하려면 이와같은 형식으로 입력
