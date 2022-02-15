@@ -265,6 +265,17 @@
 		color: #3d3d3d;
 		border-bottom: 1px solid #e2e2e2;
 	}
+  .chart-legend2{
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width:290px;
+    padding:5px;
+    position: absolute;
+    top:16%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+  }
 	.home-spand-title,.home-stock-title
 	,.home-property-title{
 		font-weight: 400;

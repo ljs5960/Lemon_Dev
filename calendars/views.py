@@ -36,7 +36,7 @@ def home(request):
             username=request.POST['username'],
             gender=request.POST.get("gender"),
             job=request.POST.get("job"),
-            phonenumber=request.POST.get('phonenumber'),
+            phonenumber=request.POST['phonenumber'],
             birthday=request.POST['birthday'],
             pin=request.POST['pin'],
             invest=request.POST['invest'],
@@ -154,10 +154,10 @@ def history(request):
         year = now.strftime('%Y')
 
     # 월별 기간 필터링
-    spend_month_filter = Spend.objects.filter(user_id=user, spend_date__month=month).values('spend_id', 'kind',
+    spend_month_filter = Spend.objects.filter(user_id=user, spend_date__year=year, spend_date__month=month).values('spend_id', 'kind',
                                                                                             'spend_date', 'amount',
                                                                                             'place', 'category')
-    income_month_filter = Income.objects.filter(user_id=user, income_date__month=month).values('income_id', 'kind',
+    income_month_filter = Income.objects.filter(user_id=user, income_date__year=year, income_date__month=month).values('income_id', 'kind',
                                                                                                'income_date', 'amount',
                                                                                                'income_way',
                                                                                                'income_way')
@@ -207,7 +207,7 @@ def top5(request):
     # 소비 TOP5 카테고리 금액 합계
     category_sum = spend_month_filter.values('category').annotate(amount=Sum('amount')).order_by('-amount')[:5]
     category_card = spend_month_filter.values('card').annotate(amount=Sum('amount')).order_by('-amount')[:5]
-    category_place = spend_month_filter.values('place','stock').annotate(amount=Sum('amount')).order_by('-amount')[:5]
+    category_place = spend_month_filter.values('place').annotate(amount=Sum('amount')).order_by('-amount')[:5]
 
     category_category = spend_month_filter.values('category').annotate(amount=Sum('amount')).order_by('-amount')[:5]
 
@@ -217,10 +217,17 @@ def top5(request):
     category_stock = []
     koscom_api = kocom.api()
     for element in category_place:
-        find_market_code = Stocksector.objects.filter(ss_isusrtcd=element['stock']).values_list('ss_marketcode', flat=True)
+        find_market_code = Stocksector.objects.filter(ss_isukorabbrv=element['place']).values_list('ss_marketcode', flat=True)
+        find_market_code1 = Stocksector.objects.filter(ss_isukorabbrv=element['place']).values_list('ss_isusrtcd', flat=True)
+
+        find_market_code = list(find_market_code)
+        find_market_code1 = list(find_market_code1)
         market_code = find_market_code[0] if find_market_code else None
-        current_price = koscom_api.get_current_price(market_code, element['stock'])
-        category_stock.append([current_price, element['amount'], element['place'], element['stock'], market_code])
+        issuecode = find_market_code1[0] if find_market_code1 else None
+        current_price = koscom_api.get_current_price(market_code , issuecode  )
+        print(current_price)
+        category_stock.append([current_price, element['amount'], element['place'], issuecode, market_code])
+        print(category_stock)
 
     category_amount_data = []
     category_amount_label = []
@@ -281,7 +288,7 @@ def ajax_sendSMS(request):
     if request.method == "POST":
         NUM = request.POST.get("NUM", None)
         KEY = request.POST.get("KEY", None)
-    print(str(NUM) + '그리고' + str(KEY))
+        print(str(NUM) + '그리고' + str(KEY))
 
     send_url = 'https://apis.aligo.in/send/'  # 요청을 던지는 URL, 현재는 문자보내기
     # ================================================================== 문자 보낼 때 필수 key값
@@ -293,7 +300,7 @@ def ajax_sendSMS(request):
         'sender': ALIGO_SENDER,  # 발신번호
         'receiver': NUM,  # 수신번호 (,활용하여 1000명까지 추가 가능)
         'msg': f'[LEMON]인증번호 [{KEY}]를 입력해주세요.',  # 문자 내용
-        #'testmode_yn': 'Y'  # 테스트모드 적용 여부 Y/N
+        'testmode_yn': 'Y'  # 테스트모드 적용 여부 Y/N
         # 'msg_type' : 'SMS', #메세지 타입 (SMS, LMS)
         # 'title' : 'testTitle', #메세지 제목 (장문에 적용)
         # 'destination' : '01000000000|고객명', # %고객명% 치환용 입력
@@ -337,7 +344,7 @@ def add_spend_calendar(request):
             category = sform.cleaned_data['category'],
             card = sform.cleaned_data['card'],
             memo = sform.cleaned_data['memo'],
-            stock = sform.cleaned_data['stock']
+            #stock = sform.cleaned_data['stock']
             sform.save()
             return redirect('/history')
     else:
@@ -371,6 +378,8 @@ def edit_calendar(request, spend_id, kind):
 def sedit_calendar(request, spend_id):
     if request.method == "POST":
         user = request.user.user_id
+        # if place == stock:
+        #     stock = 000000
         spe = Spend.objects.filter(spend_id=spend_id, user_id=user).update(
             amount=request.POST['amount'],
             place=request.POST['place'],
@@ -379,7 +388,7 @@ def sedit_calendar(request, spend_id):
             category=request.POST['category'],
             card=request.POST['card'],
             memo=request.POST['memo'],
-            stock=request.POST['stock'])
+            )
         return redirect('/history')
 
 

@@ -61,6 +61,23 @@ def edit_myinfo(request):
         return redirect('/myinfo/update')
     return render(request, 'edit_myinfo.html')
 
+# 전화번호 변경
+def changephone(request):
+    print(request.GET)
+    print(request.POST)
+    print(request.method)
+
+    print(request.path)
+    if request.method == "POST":
+        phonenumber = request.POST.get('change_phonenumber', None)
+        print(phonenumber)
+        user_id = request.user.user_id
+        user_db = user.objects.get(user_id=user_id)
+        user_db.phonenumber = request.POST['phonenumber']
+        user_db.save()
+        return redirect('/myinfo/update')
+    return render(request, 'changephone.html')
+
 # pin번호
 def input_pin(request):
     if request.method == 'POST':

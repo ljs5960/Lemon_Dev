@@ -33,69 +33,13 @@
   .loader-main{
     bottom:0px !important;
     }
-  .switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-  }
-  .switch input { 
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-
-.switch input { 
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-  input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
-  }
-  /* Rounded sliders */
-  .slider.round {
-    border-radius: 34px;
-  }
-  .slider.round:before {
-    border-radius: 50%;
+  .changePhone-btn{
+    border: 0;
+    border-radius: 10px;
+    background-color:#31bc8a;
+    height: 35px;
+    width: 80px;
+    color: #fff;
   }
 </style>
 {% block nav %}
@@ -157,11 +101,17 @@
       </div>
 
     <!-- 연락처 부분 영역 -->
-      <div class="input_design">
+      <div class="input_design" style="width:100%;">
         <div class="input_title">연락처</div>
-          <input type="text" id="phonenumber" value="{{ user.phonenumber }}" disabled name="phonenumber">
+          <input style="width:75%;" type="text" id="phonenumber" value="{{ user.phonenumber }}" disabled name="phonenumber"> <button type="button" onclick="phonechange();" class="changePhone-btn">변경</button>
       </div>
-    <div style="text-align:center;margin-top:35px;position:fixed;bottom:15px;width:100%;left:0px;"><button class="changeInfo-btn" type="submit">정보 수정</button></div>
+    <div style="text-align:center;margin-top:35px;position:absolute;bottom:15px;width:100%;left:0px;"><button class="changeInfo-btn" type="submit">정보 수정</button></div>
   </form>
 </div>
+
+<script>
+  function phonechange() {
+    location.href='update/changephone';
+  }
+</script>
 {% endblock %}

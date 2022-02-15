@@ -16,7 +16,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('authaccounts/kakao/login', views.KakaoSignInView, name='KakaoSignInView'),
     path('send_email', views.send_email, name='send_email'),
-
+    path('pin_date_save', views.pin_date_save, name='pin_date_save'),
     path('find_id', views.find_id, name='find_id'),
     path('find_id_result', views.find_id_result, name='find_id_result'),
     path('password_reset/', views.UserPasswordResetView.as_view(), name="password_reset"),

@@ -48,6 +48,7 @@
     <link rel="stylesheet" href="{% static 'css/admin.css'%}">
     <link rel="stylesheet" href="{% static 'css/account.css'%}">
     <link rel="stylesheet" href="{% static 'css/calendar.css'%}">
+    <link rel="stylesheet" href="{% static 'css/stock.css'%}">
     <link rel="stylesheet" href="{% static 'css/swiper.css'%}">
 
     <!-- Swiper 선언 -->
@@ -65,11 +66,10 @@
     <!-- PC접속시 홍보페이지 이동 -->
     <!-- 홍보페이지 extends 'base.html' 구문때문에 무한 리다이렉트, 구문 삭제 후 코드 활성화 -->
     <script>
-        
         if(!navigator.userAgent.match(/Android|Mobile|iP(hone|od|ad)|BlackBerry|IEMobile|Kindle|NetFront|Silk-Accelerated|(hpw|web)OS|Fennec|Minimo|Opera M(obi|ini)|Blazer|Dolfin|Dolphin|Skyfire|Zune/)){
         location.href = "/main"; // 추후 홍보페이지 주소 입력
         }
-        
+
     </script>
     <title>{% block title %}{% endblock %}</title>
 
@@ -130,11 +130,9 @@ $( document ).ready(function() {
 
     $(window).on('load',function(){
         $('.loader-main').fadeOut(850);
-
     });
 </script>
 <body>
-
   <div id="page-preloader">
         <div class="loader-main">
             <div class="la-ball-clip-rotate">
@@ -142,7 +140,6 @@ $( document ).ready(function() {
             </div>
         </div>
     </div>
-
     {% block nav %}
     <div id="nav">
         <div>
@@ -155,45 +152,70 @@ $( document ).ready(function() {
         </div>
     </div>
     {% endblock %}
- {% if user.u_chk == 1 %}
-  {% if user.last_login  > '지금 시간' %}
-   <div id="page-preload">
+  <script>
+   $( document ).ready(function() {
+     var pin_date = '{{user.pin_date|date:'Y/n/d H:i'}}';
+     let today = new Date();
+     var year = today.getFullYear();
+     let month = today.getMonth() + 1;  // 월
+     let date = today.getDate();  // 날짜
+     let hours = today.getHours(); // 시
+     let minutes = today.getMinutes();
+     var now = year + '/' + month + '/' + date + ' ' + hours + ':' + minutes;
+     console.log(pin_date);
+     console.log(now);
+     console.log(pin_date > now);
+     if ( pin_date > now ){
+     $('.pin_saver').hide()
+     }else{
+     $('.fa-search').hide()
+     $('#footer').hide()
+     }
+    });
+    function pin_saver(pin){
+    var password = $('#pin').val()
+        if ( password == pin ){
+            $('.pin_saver').fadeOut()
+             $('.fa-search').show()
+             $('#footer').show()
+             const form = document.getElementById('pin_form');
+            form.action ="/pin_date_save" ;
+            form.submit();
+        } else {
+            alert('핀번호가 틀렸습니다.');
+        }
+    }
+  </script>
+   <div id="pin-preload">
         <div class="pin_saver">
-
       <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
     <input type="password" pattern="[0-9]*" inputmode="numeric" name="pin" id="pin" maxlength='4'/>
       </div>
       <div style="text-align:center;margin-top:35px;position:fixed;bottom:15px;width:100%;left:0px;">
-          <div onclick="pin_saver({{user.pin}})" class="btn" type="submit">Pin 번호</divonclick></div>
+          <div onclick="pin_saver({{user.pin}})" class="btn" type="submit">Pin 번호</div></div>
         </div>
     </div>
    </div>
   <style>
-    .btn{
-  padding:10px 30px 10px 30px;
-  width:80%;
-  border-radius:10px;
-  color:white !important;
-  background-color:#31bc8a;
-  }
-  #footer{
-  display:none;
-  }
-  input[type="password"]{
-  border-radius:10px;
-  margin-top:30px;
-  padding:10px;
-  width:80%;
-  border:1px solid #31bc8a;
-  text-align:left;
-  padding-left: 20%;
+       .btn{
+      padding:10px 30px 10px 30px;
+      width:80%;
+      border-radius:10px;
+      color:white !important;
+      background-color:#31bc8a;
+      }
+      input[type="password"]{
+      border-radius:10px;
+      margin-top:30px;
+      padding:10px;
+      width:80%;
+      border:1px solid #31bc8a;
+      text-align:left;
+      padding-left: 20%;
     letter-spacing: 40px;
     }
-    .fa-search{
-    display:none;
-    }
-        .pin_saver{
-    /*position: fixed;
+    .pin_saver{
+    position: fixed;
     top: 0px;
     left: 0px;
     right: 0px;
@@ -203,18 +225,10 @@ $( document ).ready(function() {
     z-index: 90;*/
     }
 </style>
-  <script>
-    function pin_saver(pin){
-    var password = $('#pin').val()
-        if (password == pin ){
-            $('.pin_saver').fadeOut()
-        } else {
-            alert('핀번호가 틀렸습니다.');
-        }
-    }
-  </script>
-      {% endif %}
-  {% endif %}
+
+      <form id="pin_form" method="post">
+        {% csrf_token %}
+    </form>
     <div id="footer">
         {% block footer %}
         <table class="bottom-nav-wrap" style="padding-left:0 !important;">
