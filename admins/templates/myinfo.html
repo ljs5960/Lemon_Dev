@@ -128,7 +128,7 @@
                       </div>
                 </a>
             </li>
-            <li>
+            <li class="sms">
                 <a href="{% url 'admins:sms_read' %}">
                     <i class="fas fa-pen" style="padding-right:5px;"></i>
                     <div class="order">
@@ -167,9 +167,11 @@ $(document).ready(function(){
 });
 
 // Display 'none' if Apple Device
-if(navigator.userAgent.match(/iP(hone|od|ad)|safari/)){
-    document.getElementsByClassName('sms').display = none;
-    }
+var mobile = (/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase()));
+if(mobile) {
+    $('.sms').hide();
+}
+
 </script>
 <!--    {% if message %}-->
 <!--    <script>alert('{{ message }}');</script>-->
