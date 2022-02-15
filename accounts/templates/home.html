@@ -22,9 +22,8 @@
     }
 
     canvas{
-    margin: 5px auto;
+    margin-top: 30px;
     width:100% !important;
-    height:400px !important;
     }
     .footer-line-home{
         width:50px;
@@ -294,7 +293,20 @@ document.addEventListener('keydown', function(event) {
     <div class="home-title">
         <a><strong>{{user.username}}</strong>님의 <br><strong>소비</strong>와 <strong>투자 현황</strong></a>
     </div>
-
+    <div class="chart-legend2">
+        <div><a style="color: #4c8ae5; padding-right: 5px;">■</a>
+            <a>모의투자 금액</a><a style="float: right;">{{Home_chartjs_data.0|intcomma }}원</a>
+        </div>
+        <div><a style="color: #ff5d51; padding-right: 5px;">■</a>
+            <a>주식 수입</a><a style="float: right;">{{Home_chartjs_data.1|intcomma }}원</a>
+        </div>
+        <div><a style="color: #93bcf9; padding-right: 5px;">■</a>
+            <a>가계부 지출</a><a style="float: right;">{{Home_chartjs_data.2|intcomma }}원</a>
+        </div>
+        <div><a style="color: #ffd85a; padding-right: 5px;">■</a>
+            <a>가계부 수입</a><a style="float: right;">{{Home_chartjs_data.3|intcomma }}원</a>
+        </div>
+    </div>
     <div class="home-chart" id="home-chart"> <!-- 차트부분 -->
       <canvas id="myChart2" width="100" height="100"></canvas>
       <script>
@@ -313,20 +325,21 @@ document.addEventListener('keydown', function(event) {
                 '#ffd85a',
               ],
               borderColor: [
-                '#4c8ae5',
-                '#ff5d51',
-                '#93bcf9',
-                '#ffd85a',
+                '#FFF',
+                '#FFF',
+                '#FFF',
+                '#FFF',
               ],
-              borderWidth: 2
+              borderWidth: 5
               }]
           },
           options: {
-            legend: { display: true },
+            legend: { display: false },
             rotation: 1 * Math.PI,
             circumference: 1 * Math.PI,
-            cutoutPercentage: 90,
+            cutoutPercentage: 80,
             tooltips:{
+            enabled: 0,
               mode: 'nearest',
               displayColors: true, // 툴팁 바 컬러 표시 여부
               backgroundColor: '#FFF', // 툴팁 배경
@@ -385,7 +398,7 @@ document.addEventListener('keydown', function(event) {
         </div>
 
         <div class="home-stock-input2">
-            <a>{{son|intcomma}}</a>
+            <a>{{son|intcomma}}원</a>
         </div>
 
 

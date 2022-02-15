@@ -150,23 +150,27 @@ data: {
         label:{{ Category_count_label }} ,
         data: {{ Category_count_data }},
         backgroundColor: [
-            'rgba(147, 188, 249, 0.2)',
-            'rgba(204, 237, 246,0.2)',
-            'rgb(126, 166, 191,0.2)',
-            'rgb(122, 154, 198,0.2)',
-            'rgba(87, 107, 158,0.2)'
+            '#034B95',
+            '#6A9CFD',
+            '#AEE4FF',
+            '#FEEAE5',
+            '#FED490'
         ],
         borderColor: [
-            'rgba(147, 188, 249, 1)',
-            'rgba(204, 237, 246,1)',
-            'rgb(126, 166, 191,1)',
-            'rgb(122, 154, 198,1)',
-            'rgba(87, 107, 158,0.2)'
+            '#FFF',
+            '#FFF',
+            '#FFF',
+            '#FFF',
+            '#FFF',
+
         ],
-        borderWidth: 0
+        borderWidth: 5
     }]
 },
 options: {
+  tooltips: {
+    enabled: 0,
+  },
   legend: { display: false },
     scales: {
         yAxes: [{
