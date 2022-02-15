@@ -9,7 +9,7 @@ from django.contrib.auth import login, authenticate, get_user_model
 from django.contrib.auth.models import User
 from .models import user
 from django.views.decorators.csrf import csrf_exempt
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 import datetime
@@ -78,6 +78,15 @@ def signup(request):
             return redirect('/')
         return render(request, 'signup.html')
     return render(request, 'signup.html')
+
+def pin_date_save(request):
+    now_time = datetime.datetime.now() + timedelta(days=1)
+    if request.method == 'POST':
+        user_id = request.user.user_id
+        user_db = user.objects.get(user_id=user_id)
+        user_db.pin_date = now_time
+        user_db.save()
+        return redirect('/')
 
 class UserPasswordResetView(PasswordResetView):
     template_name = 'password_reset.html' #템플릿을 변경하려면 이와같은 형식으로 입력
