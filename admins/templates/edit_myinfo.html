@@ -1,19 +1,71 @@
-<style>
-  .loader-main{
-  bottom:0px !important;
-  }
-</style>
 {% extends 'base.html' %}
 {% load humanize %}
-{% block title %}레몬::정보변경{% endblock title %}
+{% block title %}레몬::회원 정보 변경{% endblock title %}
 {% block container %}
 <style>
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-}
+  #footer{
+    display:none;
+  }
+  select{
+    border:none;
+    margin-top:10px;
+    border-bottom:1px solid #ebebeb;
+    width:100%;
+    display:inline-block;
+    text-align:left;
+    background-color:white;
+  }
+
+  input{
+    border:none;
+    width:100%;
+    display:inline-block;
+    border-bottom:1px solid #ebebeb;
+    background-color:white;
+    margin-top:10px;
+  }
+  .footer-line-myinfo{
+    /* 하단바 선택시 밑줄 */
+    width: 50px;
+    padding: 12px 0 10px 0;
+    border-bottom: 2px solid #fff;
+  }
+  .loader-main{
+    bottom:0px !important;
+    }
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  .switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
 
 .switch input { 
   opacity: 0;
@@ -33,117 +85,83 @@
   transition: .4s;
 }
 
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-input:checked + .slider {
-  background-color: #2196F3;
-}
-
-input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
-}
-
-input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
-
-/* Rounded sliders */
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
-}
-input{border:none;
-width:100%;
-display:inline-block;
-border-bottom:1px solid #ebebeb;
-background-color:white;
-margin-top:10px;
-}
-.input_design{
-margin-bottom:30px;
-margin-top:10px;
-}
-.input_title{
-width:30%;
-font-size:12px;
-color:grey;
-}
-select{
-border:none;
-margin-top:10px;
-border-bottom:1px solid #ebebeb;
-width:100%;
-  display:inline-block;
-  text-align:left;
-  background-color:white;
-}
-.btn{
-padding:10px 30px 10px 30px;
-width:80%;
-border-radius:10px;
-color:white !important;
-background-color:#31bc8a;
-}
-#footer{
-display:none;
-}
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  .slider.round:before {
+    border-radius: 50%;
+  }
 </style>
-<body>
 {% block nav %}
-<div id="nav" style="border-bottom: 1px solid #f1f1f1;">
-          <div>
-          <div style="text-align:center;">
-              <a style="color: #fff;" href="javascript:history.back();"><i class="fa fa-angle-left" style="position: absolute;
-  left: 5px;
-  padding: 14px 15px;
-  top: 0;
-  font-size: 25px;
-  font-weight: 600;color:black;"></i></a>회원 정보 변경</div>
-      </div>
-      </div>
+<!-- 상단바 영역 시작 -->
+  <div id="nav" style="border-bottom: 1px solid #f1f1f1;">
+    <div>
+        <div style="text-align:center;">
+          <a style="color: #fff;" href="{% url 'accounts:myinfo' %}">
+            <i class="fa fa-angle-left"></i>
+          </a>회원 정보 변경
+        </div>
+    </div>
+  </div>
+<!-- 상단바 영역 끝 -->
 {% endblock nav %}
-<!--  <a href="{% url 'accounts:myinfo' %}"><h3><i class="fas fa-chevron-left"></i></h3></a>-->
-<div style="padding:20px;">
-<form action="" method="POST">
+
+
+<div class="editInfo-wrap">
+  <form action="" method="POST">
   {% csrf_token %}
-  <div class="input_design"><div class="input_title">ID</div><input type="text" value="{{ user.uid }}" disabled></div>
+    <!-- ID 부분 영역 -->
+      <div class="input_design">
+        <div class="input_title">ID</div>
+        <input type="text" value="{{ user.uid }}" disabled>
+      </div>
 
- <div class="input_design"><div class="input_title">이름</div><input name="username" type="text" value="{{ user.username }}"></div>
-  <div class="input_design"><div class="input_title">성별</div>
-      <select id="gender" name="gender">
-      <option value="1">남</option>
-        <option value="2">여</option>
-    </select>
-  </div>
-   <div class="input_design"><div class="input_title">직업</div>
-  <select id="job" name="job">
-    <option value="1" {% if user.job == 1 %} selected {% endif %}>학생</option>
-    <option value="2" {% if user.job == 2 %} selected {% endif %}>직장인</option>
-    <option value="3" {% if user.job == 3 %} selected {% endif %}>사업자</option>
-    <option value="4" {% if user.job == 4 %} selected {% endif %}>공무원</option>
-    <option value="5" {% if user.job == 5 %} selected {% endif %}>기타(프리랜서)</option>
-    <option value="6" {% if user.job == 6 %} selected {% endif %}>무직</option>
-  </select></div>
-  <div class="input_design"><div class="input_title">생년월일</div><input type="text" name="birthday" value="{{ user.birthday }}" placeholder="예)19990102 형식으로 입력하세요." ></div>
-    <div class="input_design"><div class="input_title">연락처</div><input type="text" id="phonenumber" value="{{ user.phonenumber }}" placeholder="- 을 제외한 번호을 입력하세요" name="phonenumber" pattern="[0-9]{11}"></div>
+    <!-- 이름 부분 영역 -->
+      <div class="input_design">
+        <div class="input_title">이름</div>
+        <input name="username" type="text" value="{{ user.username }}">
+      </div>
 
-    <div style="text-align:center;margin-top:35px;position:fixed;bottom:15px;width:100%;left:0px;"><button class="btn" type="submit">정보 수정</button></div>
-</form>
-  </div>
-</body>
+    <!-- 성별 부분 영역 -->
+      <div class="input_design">
+        <div class="input_title">성별</div>
+          <select id="gender" name="gender">
+            <option value="M" {% if user.gender == 'M' %} selected {% endif %}>남</option>
+            <option value="F" {% if user.gender == 'F' %} selected {% endif %}>여</option>
+          </select>
+      </div>
+
+    <!-- 직업 부분 영역 -->
+      <div class="input_design">
+      <div class="input_title">직업</div>
+        <select id="job" name="job">
+          <option value="1" {% if user.job == 1 %} selected {% endif %}>학생</option>
+          <option value="2" {% if user.job == 2 %} selected {% endif %}>직장인</option>
+          <option value="3" {% if user.job == 3 %} selected {% endif %}>사업자</option>
+          <option value="4" {% if user.job == 4 %} selected {% endif %}>공무원</option>
+          <option value="5" {% if user.job == 5 %} selected {% endif %}>기타(프리랜서)</option>
+          <option value="6" {% if user.job == 6 %} selected {% endif %}>무직</option>
+        </select>
+      </div>
+
+    <!-- 생년월일 부분 영역 -->
+      <div class="input_design">
+        <div class="input_title">생년월일</div>
+          <input type="text" value="{{ user.birthday }}" disabled>
+      </div>
+
+    <!-- 연락처 부분 영역 -->
+      <div class="input_design">
+        <div class="input_title">연락처</div>
+          <input type="text" id="phonenumber" value="{{ user.phonenumber }}" disabled name="phonenumber">
+      </div>
+    <div style="text-align:center;margin-top:35px;position:fixed;bottom:15px;width:100%;left:0px;"><button class="changeInfo-btn" type="submit">정보 수정</button></div>
+  </form>
+</div>
 {% endblock %}

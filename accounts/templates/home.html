@@ -13,39 +13,38 @@
     select::-ms-expand{
         display:none;/*for IE10,11*/
     }
-    /* FOOTER에서 사용하는 CSS */
 
-    .bottom-nav-home a{
-        color: #FFD859 !important;
-    }
-
-    .bottom-nav-search-stock a,.bottom-nav-calendar a,
-    .bottom-nav-stock a,.bottom-nav-addlist a,
-    .bottom-nav-myinfo a{
-        font-family: 'Noto Sans KR', sans-serif;
-        font-weight: 500;
-        font-size: 0.8rem;
-        color: #D1D6DA !important;
-    }
     input::placeholder {
     color: #a0a0a0;
     font-size:14px;
     line-height:16px;
     padding-bottom:3px;
     }
+
     canvas{
     margin: 5px auto;
     width:100% !important;
     height:400px !important;
-  }
-  .footer-line-home{
-    width:50px;
-    padding: 12px 0 10px 0;
-    border-bottom: 2px solid #FFF;
+    }
+    .footer-line-home{
+        width:50px;
+        padding: 12px 0 10px 0;
+        border-bottom: 2px solid #FFF;
+    }
+    .home-property-content{
+    font-size:16px;
+    display:flex;
+    justify-content:space-between;
+    }
+    .home-stock-input {
+    font-size:22px;
+    }
+    .home-spand-input{
+    font-size:22px;
     }
 </style>
 
-
+<!-- 소셜 로그인으로 첫 접속했을때 나오는 화면 -->
 {% if user.u_chk == 0 %}
 <style>
     #footer{
@@ -57,73 +56,100 @@
     <div style="text-align:center;">소셜로그인 추가정보 수집 안내</div>
     </div>
 </div>
-    <div class="signup-wrap" style="background-color: #fff;">
-  <div class="signup-wrap">
+
+<div class="socialAccess-wrap" style="padding: 0 20px;">
     <div class="alert alert-danger" role="alert">
         <a>최초 로그인시, <strong>개인정보 수집 동의 </strong>와
         <strong>추가정보 입력</strong> 후 서비스 사용가능합니다.</a>
     </div>
-    <div class="input-form col-md-12 mx-auto" style="height:100%; padding:0 20px; text-align:left;">
 
-        <div style="width: 100%; text-align:center; margin-top:10px;">
-        <!--<img src="media/LEMON_LOGO_146x40.png" style="width: 146px; height:40px;">-->
+    <form method="POST" action="{% url 'calendars:home' %}" id="signup-form">
+    {% csrf_token %}
+    <!-- 개인정보 수집 동의 영역 -->
+    <div class="persnal_info_access">
+        <div class="require_chk_wrap" style="margin-top: 15px;">
+            <a>개인정보 수집 동의(필수)</a><br>
+            <textarea rows="10" style="width:100%;" disabled="disabled">{% include "persnal.html" %}</textarea><br>
+            <label style="text-align:end;">
+                <input type="checkbox" name="u_chk" value="1" id="require_chk2">
+                <span>이용약관에 동의합니다.</span>
+            </label>
         </div>
-        <form class="validation-form" method="POST" action="{% url 'calendars:home' %}" id="signup-form">
-            {% csrf_token %}
-            <div class="persnal_info_access" style="padding-top:10px; min-width:375px;">
-                <div class="require_chk_wrap" style="margin-top: 15px;">
-                    <a>개인정보 수집 동의(필수)</a><br>
-                    <textarea cols="30" rows="5" style="width:100%;" disabled="disabled">{% include "persnal.html" %}</textarea><br>
-                    <label style="text-align:end;">
-                        <input type="checkbox" name="u_chk" value ="1" id="require_chk2">
-                        <span>이용약관에 동의합니다.</span>
-                    </label>
-                </div>
-             <div class="add_info" style="padding-top:40px;">
-                 <a class="add_info_title" style="padding-top:40px;">추가 정보</a><br>
-                <input id="name" name="username" type="text" class="add_info_input" value="" placeholder="이름을 입력해주세요"> <br>
-                <select name="gender" class="add_info_select">
-                    <option value=""> 성별을 선택해주세요 </option>
-                    <option value="M"> 남자 </option>
-                    <option value="F"> 여자 </option>
-                </select> <br>
-                <select name = job class="add_info_select">
-                    <option value=""> 직업군을 선택해주세요 </option>
-                    <option value="1">학생</option>
-                    <option value="2">자영업자</option>
-                    <option value="3">회사원</option>
-                    <option value="4">의사</option>
-                </select> <br>
-                <input type="number" class="add_info_input" id="invest" name="invest" placeholder="모의 투자금액을 입력하세요." value=""><br>
-                <input style="display: none;" type="date" class="add_info_select_signup" id="invest_date" name="invest_date" value="">
-                <div style="width:100%; min-width:373px;">
-                    <input class="add_info_phone" id="phonenumber" name="phonenumber" type="text" placeholder="- 를 제외하고 전화번호를 입력하세요">
-                    <button type="button" id="codeBtn" class="phone_code_btn">발송</button><br>
-                    <input id="inputCode" class="add_info_phonecode" type="number" placeholder="인증번호 입력" disabled> <a id="count" class="count"></a>
-                    <button type="button" id="certBtn" onclick="certfun();" class="phone_code_btn" disabled >확인</button><br>
-                </div>
-                    <input style="margin-bottom:10px;" class="add_info_year" name = birthday type="integrity" id="year" maxlength="8" placeholder="생년월일을 입력해주세요. 예시)19801210">
-                <input type="text" class="add_info_input"
-                    id="pin" name="pin" placeholder="핀번호 입력해주세요." value="">
-            </div>
+    </div><!-- 개인정보 수집 동의 영역 끝 -->
 
-                <button class="access_btn" id="signupBtn" type="submit" value="signup" disabled style="width:100%">레몬 시작하기</button>
-            </div>
-        </form>
-    </div>
+    <!-- 추가정보 영역 -->
+    <div class="add_info" style="padding-top:40px;">
+        <a class="add_info_title" style="padding-top:40px;">추가 정보</a><br>
+        <!-- 이름입력 영역 -->
+        <div class="add_info_content">
+            <input id="name" name="username" type="text" class="add_info_input" value="" placeholder="이름을 입력해주세요">
+        </div>
+
+        <!-- 성별선택 영역 -->
+        <div class="add_info_content">
+            <select name="gender" class="add_info_select">
+                <option value=""> 성별을 선택해주세요 </option>
+                <option value="M"> 남자 </option>
+                <option value="F"> 여자 </option>
+            </select>
+        </div>
+
+        <!-- 직업선택 영역 -->
+        <div class="add_info_content">
+            <select name=job class="add_info_select">
+                <option value="0"> 직업군을 선택해주세요 </option>
+                <option value="1">학생</option>
+                <option value="2">직장인</option>
+                <option value="3">사업자</option>
+                <option value="4">공무원</option>
+                <option value="5">기타(프리랜서)</option>
+                <option value="6">무직</option>
+            </select>
+        </div>
+
+        <!-- 모의자산 입력 영역 -->
+        <div class="add_info_content">
+            <input type="number" class="add_info_input" id="invest" name="invest" placeholder="모의 투자금액을 입력하세요." value="">
+            <input style="display: none;" type="date" class="add_info_select_signup" id="invest_date" name="invest_date" value="">
+        </div>
+
+        <!-- 전화번호 입력 영역 -->
+        <div class="add_info_content">
+            <input class="add_info_phone" id="phonenumber" name="phonenumber" type="text" placeholder="- 를 제외하고 전화번호를 입력하세요">
+            <button type="button" id="codeBtn" class="phone_code_btn">발송</button><br>
+            <input id="inputCode" class="add_info_phonecode" type="number" placeholder="인증번호 입력" disabled> <a id="count"
+                class="count"></a>
+            <button type="button" id="certBtn" onclick="certfun();" class="phone_code_btn" disabled>확인</button><br>
+        </div>
+
+        <!-- 생년월인 선택 영역 -->
+        <div class="add_info_content">
+            <a class="add_info_title" style="padding-top:40px;">생년월일</a><br>
+            <input style="margin-bottom:10px;" class="add_info_year" name=birthday type="date" id="year" maxlength="8"
+                placeholder="생년월일을 입력해주세요. 예시)19801210">
+        </div>
+
+        <!-- 핀번호 입력 영역 -->
+        <div class="add_info_content">
+            <input type="text" class="add_info_input" id="pin" name="pin" placeholder="핀번호 입력해주세요." value="">
+        </div>
+        
+        <button class="access_btn" id="signupBtn" type="submit" value="signup" disabled style="width:100%">레몬 시작하기</button>
+    </div><!-- 추가정보 영역 끝 -->
+    </form>
 </div>
 <script>
-document.addEventListener('keydown', function(event) {
+    document.addEventListener('keydown', function(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+        };
+    }, true);
+
+    document.addEventListener('keydown', function(event) {
     if (event.keyCode === 13) {
         event.preventDefault();
     };
-}, true);
-
-  document.addEventListener('keydown', function(event) {
-  if (event.keyCode === 13) {
-    event.preventDefault();
-  };
-}, true);
+    }, true);
 
 $('#require_chk2').change(function () {
     var checked = $(this).prop('checked');
@@ -131,14 +157,6 @@ $('#require_chk2').change(function () {
     //$('#signupBtn').removeAttr('disabled');
     checked ? $('#signupBtn').removeAttr('disabled'):$('#signupBtn').attr('disabled','true');
 });
-
-/*
-$('input[id="require_chk"]').change(function () {
-    var tmpLength = $('input[id="require_chk"]').length;
-    var checkedLength = $('input[id="require_chk"]:checked').length;
-    var selectAll = (tmpLength == checkedLength);
-    $('#all_chk').prop('checked', selectAll);
-    selectAll ? $('#signupBtn').removeAttr('disabled'):$('#signupBtn').attr('disabled','true');});*/
 </script>
 
 <script>
@@ -267,86 +285,79 @@ document.addEventListener('keydown', function(event) {
         }, 1000);
             isRunning = true;
     }
-
-
 </script>
-
+<!-- 소셜 로그인으로 첫 접속했을때 나오는 화면 끝 -->
 
 {% else %}
+<!-- 홈 wrap 시작 -->
 <div class="home-wrap">
     <div class="home-title">
         <a><strong>{{user.username}}</strong>님의 <br><strong>소비</strong>와 <strong>투자 현황</strong></a>
     </div>
 
-    <div class="home-chart" id="home-chart">
-    <a class="chart_text"> 8,000원 </a>
-        <canvas id="myChart2" width="100" height="100"></canvas>
-        <script>
+    <div class="home-chart" id="home-chart"> <!-- 차트부분 -->
+      <canvas id="myChart2" width="100" height="100"></canvas>
+      <script>
         const ctx = document.getElementById('myChart2').getContext('2d');
         const myChart = new Chart(ctx, {
-            if(data=['0','0']){
-                console.log('데이터가 0');
-            },
-            type: 'doughnut',
-            data: {
-                labels: ['모의투자금액','주식수입','가계부지출','가계부수입'],
-                datasets: [{
-                    label: ['모의투자금액','주식수입','가계부지출','가계부수입'],
-                    data: {{ Home_chartjs_data }},
-                    backgroundColor: [
-                        '#4c8ae5',
-                        '#ff5d51',
-                        '#93bcf9',
-                        '#ffd85a',
-
-                    ],
-                    borderColor: [
-                        '#4c8ae5',
-                        '#ff5d51',
-                        '#93bcf9',
-                        '#ffd85a',
-
-                    ],
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                legend: { display: true },
-                rotation: 1 * Math.PI,
-                circumference: 1 * Math.PI,
-                cutoutPercentage: 90,
-                tooltips:{
-            mode: 'nearest',
-            displayColors: true, // 툴팁 바 컬러 표시 여부
-            backgroundColor: '#FFF', // 툴팁 배경
-            titleFontSize: 14,
-            titleSpacing: 50,
-            titleMarginBottom: 16,
-            titleMarginLeft: 26,
-            titleFontStyle: 'bold',
-            titleFontColor: "#000",
-            bodyFontColor: '#000', // 툴팁 폰트 관련
-            bodyFontSize: 16,
-            borderWidth:2,
-            cornerRadius: 6,
-            xPadding:12,
-            yPadding:20,
-            footerMarginTop:30,
-            caretPadding:15,
-            borderColor: 'rgba(163, 163, 163,1)',
-            callbacks: {
+          type: 'doughnut',
+          data: {
+            labels: ['모의투자금액','주식수입','가계부지출','가계부수입'],
+            datasets: [{
+              label: ['모의투자금액','주식수입','가계부지출','가계부수입'],
+              data: {{ Home_chartjs_data }},
+              backgroundColor: [
+                '#4c8ae5',
+                '#ff5d51',
+                '#93bcf9',
+                '#ffd85a',
+              ],
+              borderColor: [
+                '#4c8ae5',
+                '#ff5d51',
+                '#93bcf9',
+                '#ffd85a',
+              ],
+              borderWidth: 2
+              }]
+          },
+          options: {
+            legend: { display: true },
+            rotation: 1 * Math.PI,
+            circumference: 1 * Math.PI,
+            cutoutPercentage: 90,
+            tooltips:{
+              mode: 'nearest',
+              displayColors: true, // 툴팁 바 컬러 표시 여부
+              backgroundColor: '#FFF', // 툴팁 배경
+              titleFontSize: 14,
+              titleSpacing: 50,
+              titleMarginBottom: 16,
+              titleMarginLeft: 26,
+              titleFontStyle: 'bold',
+              titleFontColor: "#000",
+              bodyFontColor: '#000', // 툴팁 폰트 관련
+              bodyFontSize: 16,
+              borderWidth:2,
+              cornerRadius: 6,
+              xPadding:12,
+              yPadding:20,
+              footerMarginTop:30,
+              caretPadding:15,
+              borderColor: 'rgba(163, 163, 163,1)',
+              callbacks: {
                 title: function(tooltipItem) {
-                    return this._data.labels[tooltipItem[0].index];
-                },
+                return this._data.labels[tooltipItem[0].index];
+              },
             },
-            },
-
+          },
         },
-        });
-        </script>
-    </div>
+      });
+      </script>
+    </div> <!-- 차트부분 끝 -->
 
-    <div class="home-spand-div">
+    <!-- 소비 영역 -->
+    <div class="home-spand-div"> 
         <div class="home-spand-title">
             <a><strong>{{month}}월</strong> 소비</a>
             <b class="home-spand-dateView" id="date_view"></b>
@@ -357,12 +368,13 @@ document.addEventListener('keydown', function(event) {
         </div>
 
         <div class="home-spand-buttons">
-            <button onclick="location.href='{% url 'calendars:history' %}'" style="margin-right:15px;" class="home-spand-button">소비 내역</button>
-            <button onclick="location.href='{% url 'calendars:top5' %}'" style="margin-left:15px;" class="home-spand-button">소비 분석</button>
+            <button onclick="location.href='{% url 'calendars:history' %}'" style="margin-right:15px; white-space: nowrap;" class="home-spand-button">소비 내역</button>
+            <button onclick="location.href='{% url 'calendars:top5' %}'" style="margin-left:15px; white-space: nowrap;" class="home-spand-button">소비 분석</button>
         </div>
-    </div>
+    </div><!-- 소비 영역 끝 -->
 
-    <div class="home-stock-div" style="">
+    <!-- 주식 영역 -->
+    <div class="home-stock-div">
         <div class="home-stock-title">
             <strong><a>주식</a></strong>
             <a class="home-spand-dateView" id="date_view2"></a>
@@ -378,49 +390,47 @@ document.addEventListener('keydown', function(event) {
 
 
         <div class="home-stock-buttons">
-            <button style="margin-right:15px;" class="home-stock-button" onclick="location.href='{% url 'stocks:stock' %}'">보유 주식</button>
-            <button style="margin-left:15px;" class="home-stock-button" onclick="location.href='{% url 'stocks:portfolio' %}'">포트폴리오</button>
+            <button style="margin-right:15px; white-space: nowrap;" class="home-stock-button" onclick="location.href='{% url 'stocks:stock' %}'">보유 주식</button>
+            <button style="margin-left:15px; white-space: nowrap;" class="home-stock-button" onclick="location.href='{% url 'stocks:portfolio' %}'">포트폴리오</button>
         </div>
+    </div><!-- 주식 영역 끝 -->
 
-    </div>
-
+    <!-- 총자산 영역 -->
     <div class="home-property-div">
-        <div class="home-property-title">
-            <strong><a>총 자산</a></strong>
-            <a style="font-size:14px; float: right;">금일기준</a>
-            <div class="home-property-contentsWrap">
-                <div class="home-property-content">
-                    <strong><a>지출</a></strong><a>{{Expenditure.amount__sum|default_if_none:'0'|intcomma}}원</a>
-                    </div>
-                    <div class="home-property-content">
-                    <strong><a>수입</a></strong><a>{{income_sum_value|default_if_none:'0'|intcomma}}원</a>
-                    </div>
-                    <div class="home-property-content">
-                    <strong><a>투자</a></strong><a>{{Total_investment_amount|default_if_none:'0'|intcomma}}원</a>
-                </div>
-
-                <div class="home-stock-buttons">
-                    <button style="margin-right:15px;" class="home-stock-button" onclick="location.href='{% url 'stocks:stock' %}'">보유 주식</button>
-                    <button style="margin-left:15px;" class="home-stock-button" onclick="location.href='{% url 'stocks:portfolio' %}'">포트폴리오</button>
-                </div>
+      <div class="home-property-title">
+        <strong><a>총 자산</a></strong>
+        <a id="todayDateView" style="font-size:14px; float: right;"></a>
+          <div class="home-property-contentsWrap" style="width:80%;padding-top:5px;">
+            <div class="home-property-content">
+              <strong><a>지출</a></strong><a>{{Expenditure.amount__sum|default_if_none:'0'|intcomma}}원</a>
             </div>
-        </div>
-    </div>
-</div>
+
+            <div class="home-property-content">
+              <strong><a>수입</a></strong><a>{{income_sum_value|default_if_none:'0'|intcomma}}원</a>
+            </div>
+
+            <div class="home-property-content">
+              <strong><a>투자</a></strong><a>{{Total_investment_amount|default_if_none:'0'|intcomma}}원</a>
+            </div>
+
+            <div class="home-stock-buttons">
+                <button style="margin-right:15px; white-space: nowrap;" class="home-stock-button" onclick="location.href='{% url 'stocks:stock' %}'">보유 주식</button>
+                <button style="margin-left:15px; white-space: nowrap;" class="home-stock-button" onclick="location.href='{% url 'stocks:portfolio' %}'">포트폴리오</button>
+            </div>
+          </div>
+      </div>
+    </div><!-- 총자산 영역 끝-->
+
+</div><!-- 홈 wrap 끝 -->
 
 <script>
+  $(document).ready(function () {
     let date = new Date();
-    let today = moment(date).format('YY.MM.DD');
+    let today = moment(date).format('MM.DD');
+    const tmp = document.getElementById("todayDateView");
+    tmp.innerHTML = today;
     console.log(today);
-    $('#date_view').html(today);
-    $('#date_view2').html(today);
-</script>
-
-<script>
-    $(document).ready(function(){
-        //$('.footer-line-home').fadeIn(550);
-        //document.getElementById('footer_home').src = "/media/home_active.png";
-    });
+  });
 </script>
 
 {% endif %}

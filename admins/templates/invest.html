@@ -8,99 +8,98 @@
 {% load humanize %}
 {% block title %}레몬::가상투자 금액 설정{% endblock title %}
 {% block container %}
-<body>
-{% block nav %}
-<div id="nav" style="border-bottom: 1px solid #f1f1f1;">
-          <div>
-          <div style="text-align:center;">
-              <a style="color: #fff;" href="javascript:history.back();"><i class="fa fa-angle-left" style="position: absolute;
-  left: 5px;
-  padding: 14px 15px;
-  top: 0;
-  font-size: 25px;
-  font-weight: 600;color:black;"></i></a>가상투자 금액 추가</div>
-      </div>
-      </div>
-{% endblock nav %}
-<form action="" method="POST">
-<div class="wrap">
-
-{% if user.invest %}
-  <div class="setup">
-  <h1 style="color:white;">가상투자 금액 추가</h1>
-      <div style="display:flex;flex-direction:column;padding-top:20px;">
-  <div style="width:100%;display: flex;
-      justify-content: space-between;
-  padding: 10px;"><div style="width:40%;display:inline-block">기존 투자 금액</div>{{ user.invest|intcomma }} 원</div>
-  <div style="width:100%;display: flex;
-      justify-content: space-between;
-  padding: 10px;"><div style="width:40%;display:inline-block">설정 날짜</div>{{ user.invest_date|date:"Y-m-d" }}</div>
-     </div>
-  <div style="width:100%;display: flex;
-      justify-content: space-between;
-  padding: 10px;"><div style="width:40%;display:inline-block">변경 가능 날짜</div>{{can_date|date:"Y-m-d"}}</div>
-      <div>
-          {% if can_date|date:"Y-m-d" <= now_date|date:"Y-m-d" %}
-    <input class="invest" type="text" name="invest" value="{{ user.invest|intcomma }}" required>
-          {% else %}
-      <input class="invest" type="text" name="invest" value="{{ user.invest|intcomma }}" disabled>
-          {% endif %}
-  </div>
-      </div>
-{% else %}
-      <div class="setup">
-          <h1 style="color:white;">가상투자 금액 설정</h1>
-              <div>
-            <input class="invest" type="text" name="invest" required>
-  </div>
-      </div>
-{% endif %}
-  {% csrf_token %}
-     <div style="text-align:center;margin-top:35px;position:fixed;bottom:15px;width:100%;left:0px;">
-         {% if can_date|date:"Y-m-d" <= now_date|date:"Y-m-d" %}
-         <button class="btn" type="submit">변경</button>
-           {% else %}
-             <div class="btn" onclick="alert('30일 동안 변경을 하실수 없습니다.')">변경</div>
-          {% endif %}
-     </div>
-
-</div>
-</form>
-</body>
 <style>
-.wrap{
-padding:20px;
-margin:0 20px;
-text-align:center;
-height:100%;
-align-items:center;
-display:flex;
-}
-.btn{
-padding:10px 30px 10px 30px;
-width:80%;
-border-radius:10px;
-color:white !important;
-background-color:#31bc8a;
-}
- #footer{
-display:none;
-}
-input{
-border-radius:10px;
-margin-top:30px;
-padding:10px;
-width:80%;
-border:1px solid #31bc8a;
-  text-align:center;
-}
-.setup{
-width:100%;
-background-color:#31bc8a;
-padding:30px 10px 30px 10px;
-border-radius:10px;
-color:white;
-}
+  #footer{
+  display:none;
+  }
 
+  h1{
+    color: #FFF;
+  }
+
+  .loader-main{
+    bottom:0px !important;
+  }
+
+  input{
+    border-radius:10px;
+    margin-top:30px;
+    padding:10px;
+    width:80%;
+    border:1px solid #31bc8a;
+    text-align:center;
+  }
+  
+  .footer-line-myinfo{
+    /* 하단바 선택시 밑줄 */
+    width: 50px;
+    padding: 12px 0 10px 0;
+    border-bottom: 2px solid #fff;
+  }
 </style>
+
+{% block nav %}
+<!-- 상단바 영역 시작 -->
+  <div id="nav" style="border-bottom: 1px solid #f1f1f1;">
+    <div>
+      <div style="text-align:center;">
+        <a style="color: #fff;" href="{% url 'accounts:myinfo' %}">
+          <i class="fa fa-angle-left"></i>
+        </a>가상투자 금액 상세
+      </div>
+    </div>
+  </div>
+<!-- 상단바 영역 끝 -->
+{% endblock nav %}
+
+<!-- 가상투자 영역 시작 -->
+<div class="invest-wrap">
+  <form action="" method="POST">
+  {% csrf_token %}
+  {% if user.invest %}
+  <div class="invest-setup"> <!-- invest-setup div 시작 -->
+    <h1>가상투자 금액 추가</h1>
+      <div class="setup-content"> <!-- setup-content div 시작 -->
+        <div class="setup-content-row1"> <!-- setup-content-row1 div 시작 -->
+          <div class="setup-content-row1-1">기존 투자 금액</div>
+          {{ user.invest|intcomma }} 원
+        </div> <!-- setup-content-row1 div 끝 -->
+    
+        <div class="setup-content-row2"> <!-- setup-content-row2 div 시작 -->
+          <div class="setup-content-row2-1">설정 날짜</div>
+          {{ user.invest_date|date:"Y-m-d" }}
+        </div> <!-- setup-content-row2 div 끝 -->
+        
+      
+        <div class="setup-content-row3"> <!-- setup-content-row3 div 시작 -->
+          <div class="setup-content-row3-1">변경 가능 날짜</div>
+          {{can_date|date:"Y-m-d"}}
+        </div> <!-- setup-content-row3 div 끝 -->
+    
+    <div>
+      {% if can_date|date:"Y-m-d" <= now_date|date:"Y-m-d" %}
+      <input class="invest" type="text" name="invest" value="{{ user.invest|intcomma }}" required>
+      {% else %}
+      <input class="invest" type="text" name="invest" value="{{ user.invest|intcomma }}" disabled>
+      {% endif %}
+    </div>
+    </div><!-- setup-content div 끝 -->
+  </div><!-- invest-setup div 끝 -->
+  {% else %}
+  <div class="setup">
+    <h1>가상투자 금액 설정</h1>
+      <div>
+        <input class="setup-invest" type="text" name="invest" required>
+      </div>
+  </div>
+  {% endif %}
+
+    <div class="changeinvest-wrap">
+      {% if can_date|date:"Y-m-d" <= now_date|date:"Y-m-d" %} <button class="changeinvest_btn" type="submit">변경</button>
+        {% else %}
+        <div class="changeinvest_btn" onclick="alert('30일 동안 변경을 하실수 없습니다.')">변경</div>
+        {% endif %}
+    </div>
+  </form>
+</div> <!-- 가상투자 영역 끝 -->
 {% endblock %}

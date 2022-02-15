@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block container %}
+<style>
+    #footer, #nav {display:none;} 
+    html,body{
+        font-family: 'Noto Sans KR', sans-serif;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .wrap{
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        padding: 150px 20px 0 20px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;  
+        box-sizing: border-box; 
+    }
+    .lemon-logo-wrap{
+        width: 100%;
+        padding-bottom: 20px;
+    }
+    .lemon-logo{
+        width: 120px;
+    }
+    .text-title{
+        font-size: 60px;
+		font-weight: 500;
+		color: #8E8E8E;
+    }
+    .text-text{
+        margin-top: 20px;
+        font-size: 20px;
+		font-weight: 400;
+		color: #2a2a2a;
+    }
+    .btn{
+        border: 1px solid transparent;
+        border-radius: 10px;
+        width: 45%;
+        height: 40px;
+        font-weight: bold;
+        font-size: 18px;
+        color: #fff;
+        background: #31bc8a;
+    }
+</style>
+    <div class="wrap">
+        <div class="lemon-logo-wrap">
+            <img class="lemon-logo" src="{% static '../../media/LEMON.png' %}"/>
+        </div>
+
+        <div class="text-wrap">
+            <a class="text-title">403</a> <br>
+            <a class="text-text">CSRF Token missing</a>
+        </div>
+
+        <div style="padding-top: 50px;">
+            <button class="btn" onclick="history.back()"> 이전으로 </button>
+        </div>
+    </div>
+
+{% endblock %}

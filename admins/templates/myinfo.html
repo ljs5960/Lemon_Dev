@@ -3,9 +3,6 @@
 {% block container %}
 {% load humanize %}
 <style>
-    .bottom-nav-myinfo,.bottom-nav-myinfo a{
-        color: #FFD859;
-    }
     .profile-wrap{
       margin: 20px;
     }
@@ -24,7 +21,7 @@
     font-size:14px;
     }
     .menu1-wrap li{
-    padding-bottom:20px;
+    padding-bottom:30px;
         display: flex;
     justify-content: space-between;
     }
@@ -76,7 +73,7 @@
 <div class="profile-wrap invest">
     {% if user.invest == 0 or user.invest == NULL %}
     <a style="padding-right:5px;">보유 가상 자산</a>
-    <div class="invest_money"><a href="{% url 'admins:edit_invest' %}">가상자산을 설정해주세요.</a></div>
+    <div class="invest_money"><a href="{% url 'accounts:myinfo' %}">가상자산을 설정해주세요.</a></div>
     {% else %}
     <a style="padding-right:5px;">보유 가상 자산</a>
     <div class="invest_money"><span style="color:black;">{{ user.invest|default_if_none:'0'|intcomma }}원</span>
@@ -115,13 +112,6 @@
               </div>
             </a>
             </li>
-            <li class="sms"><a href="{% url 'admins:sms_read' %}">
-                <i class="fas fa-question-circle" style="padding-right:5px;"></i><div class="order">
-                    <div>문자내역 가져오기</div>
-                    <i class="fas fa-chevron-right"></i>
-            </div>
-          </a>
-          </li>
             <li>
                 <a href="{% url 'admins:edit_myinfo' %}">
                    <i class="fas fa-user-alt" style="padding-right:5px;"></i><div class="order">
@@ -138,7 +128,20 @@
                       </div>
                 </a>
             </li>
+
+            <li><a style="color: #FF4444;" onclick="ask_out()">
+                <i class="fas fa-sign-out-alt" style="padding-right:5px;"></i><div class="order"><div>회원 탈퇴</div><i
+                    class="fas fa-chevron-right"></i></div></a>
+            </li>
             <li>
+                <a href="{% url 'admins:sms_read' %}">
+                    <i class="fas fa-unlock-alt" style="padding-right:5px;"></i><div class="order">
+                        <div>문자내역</div>
+                        <i class="fas fa-chevron-right"></i>
+                          </div>
+                    </a>
+                </li>
+                <li>
                 <a style="color: #FF4444;" href="{% url 'accounts:logout' %}">
                       <i class="fas fa-sign-out-alt" style="padding-right:5px;"></i><div class="order">
                     <div>로그아웃</div>
@@ -146,9 +149,6 @@
                 </div>
                 </a>
             </li>
-            <li><a style="color: #FF4444;" onclick="ask_out()">
-                <i class="fas fa-sign-out-alt" style="padding-right:5px;"></i><div class="order"><div>회원 탈퇴</div><i
-                    class="fas fa-chevron-right"></i></div></a></li>
         </div>
     </div>
 </div>

@@ -91,14 +91,15 @@
                 <div class="section">
                     <div id="s0" class="header background-bs">
                         <div class="container">
+                            <div class="background_img"></div>
                             <div class="row">
                                 <div class="header-wrapper">
                                     <div class="hero-text-inner">
                                         <div class="hero-text">
-                                        <div class="page_loge" style="width:100%;text-align:center;"><img src="{% static 'main/assets/img/android-chrome-192x192.png'%}"></div>
+                                        <div class="page_loge"><img class="main_logo" src="{% static 'main/assets/img/android-chrome-192x192.png'%}"></div>
                                          <h1>오늘의 당신을 신뢰하세요</h1>
                                             <div class="heroimg">
-                                                <div class="hero-text-img">
+                                                <div class="hero-text-img" style="text-align:center;">
                                                     <a onclick="goto_market()"><img src="{% static 'main/assets/img/googleplay.png'%}" alt=""></a>
                                                     <a onclick="goto_store()"><img src="{% static 'main/assets/img/appstore.png'%}" alt=""></a>
                                                 </div>
@@ -117,30 +118,22 @@
                     <div id="s1" class="header background-bs">
                         <div class="container">
                             <div class="row">
-                                <div class="choose-wrapper">
-                                    <div class="hero-text-inner">
-                                        <div class="hero-text">
-                                         <h2>소비와 투자를 연계하다</h2>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="choose-wrapper2">
-                                    <div class="hero-text-inner">
-                                        <div class="hero-text">
-                                             <h3>(- And +)</h3>
-                                            <h3>=</h3>
-                                         <h3>Positive Or Negative?</h3>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="position-left">
                                     <div>
-                                        <img src="{% static 'main/assets/img/mockup1.png'%}">
+                                        <img src="/media/2p_1.png" style="width: 40%;">
                                     </div>
                                 </div>
                                 <div class="position-right">
                                     <div>
-                                        <img src="{% static 'main/assets/img/mockup4.png'%}">
+                                        <img src="/media/2p_2.png" style="width: 40%;">
+                                    </div>
+                                </div>
+                                <div class="header_inner">
+                                    <div class="hero-text-inner">
+                                        <div class="hero-text">
+                                            <h4><span style="color:#4c8ae5;">(- And +) = </span>Positive Or Negative?</h4>
+                                         <h3><span style="color:#4c8ae5;">소비</span>와<span style="color:#4c8ae5;">투자</span>를 연계하다</h3>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="move_page">
@@ -156,16 +149,18 @@
                             <div class="row">
                                 <div class="position-left-text">
                                     <div class="hero-text-inner">
-                                        <div class="hero-text" style="text-align:left;">
+                                        <div class="hero-text-left">
                                          <h2>나의 소비는 오늘의 나!</h2>
-                                         <h4>내 라이프를 기록해 보세요</h4>
-                                         <h4>나를 토대로 투자할 수 있어요</h4>
+                                         <h4><span style="color:8e8e8e !important;line-height: normal;">내 라이프를 기록해 보세요<br>
+                                         나를 토대로 투자할 수 있어요</span></h4>
+                                          <a href="#page4">  <img src="/media/3p_1.png" style="width: 30%;"></a>
                                         </div>
+
                                     </div>
                                 </div>
-                                <div class="position-right">
+                                <div class="position-right-solo">
                                     <div>
-                                        <img src="{% static 'main/assets/img/mockup3.png'%}">
+                                        <img src="/media/3p_2.png" style="width: 40%;">
                                     </div>
                                 </div>
                                 <div class="move_page">
@@ -179,24 +174,25 @@
                     <div id="s3" class="header background-bs">
                         <div class="container">
                             <div class="row">
-                                <div class="choose-wrapper">
-                                    <div class="hero-text-inner">
-                                        <div class="hero-text">
-                                         <h2>가상투자를 시작해보세요</h2>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="position-center">
+                                <div class="position-left_1">
                                     <div>
-                                        <img src="{% static 'main/assets/img/mockup2.png'%}">
+                                        <img src="/media/4p_1.png" style="width: 40%;">
                                     </div>
                                 </div>
-                                <div class="position-center-text">
+                                <div class="position-left_2">
+                                    <div>
+                                        <img src="/media/4p_2.png" style="width: 40%;">
+                                    </div>
+                                </div>
+                                <div class="position-right-text">
                                     <div class="hero-text-inner">
                                         <div class="hero-text">
-                                         <h4>가상 자본을 설정하고</h4>
-                                            <h4>나와 밀접한 기업에 자유롭게 투자해보세요</h4>
+                                         <h2>가상 투자를 시작해 보세요</h2>
+                                         <h4><span style="color:8e8e8e !important;line-height: normal;">가상 자본을 설정하고<br>
+                                         나와 밀접한 기업에 자유롭게 투자해보세요</span></h4>
+                                          <a href="#page5">  <img src="/media/4p_3.png" style="width: 30%;"></a>
                                         </div>
+
                                     </div>
                                 </div>
                                 <div class="move_page">
@@ -210,23 +206,18 @@
                     <div id="s4" class="header background-bs">
                         <div class="container">
                             <div class="row">
-                                <div class="choose-wrapper">
+                                <div class="position-left-solo">
+                                    <div>
+                                        <img src="/media/5p_1.png" style="width: 40%;">
+                                    </div>
+                                </div>
+                                <div class="position-right-text">
                                     <div class="hero-text-inner">
                                         <div class="hero-text">
                                          <h2>자유롭고 가벼운 자산관리</h2>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="position-center">
-                                    <div>
-                                        <img src="{% static 'main/assets/img/mockup2.png'%}">
-                                    </div>
-                                </div>
-                                <div class="position-center-text">
-                                    <div class="hero-text-inner">
-                                        <div class="hero-text">
-                                         <h4>소비내역을 토대로 제공받은 주식을</h4>
-                                            <h4>가상구매해 포트폴리오를 완성하세요</h4>
+                                         <h4><span style="color:8e8e8e !important;line-height: normal;">소비내역을 토대로 제공 받은 주식을<br>
+                                          가상구매해 포트폴리오를 완성하세요</span></h4>
+                                          <a href="#page6">  <img src="/media/5p_2.png" style="width: 30%;"></a>
                                         </div>
                                     </div>
                                 </div>
@@ -238,21 +229,26 @@
                     </div>
                 </div>
                  <div class="section">
-                    <div id="s1" class="header background-bs">
+                    <div id="s5" class="header background-bs">
                         <div class="container">
                             <div class="row">
-                                <div class="position-left-text">
-                                    <div class="hero-text-inner">
-                                        <div class="hero-text" style="text-align:left;">
-                                         <h2>나의 다양한 기업 소개</h2>
-                                             <h4>머신러닝을 활용하여 여러분의 포토폴리오를 분석하고</h4>
-                                            <h4>코스닥, 나스닥의 구분 없이 예상 밖 다양한 주식을 추천합니다.</h4>
-                                        </div>
+                                <div class="position-left_1">
+                                    <div>
+                                        <img src="/media/6p_1.png" style="width: 40%;">
                                     </div>
                                 </div>
-                                <div class="position-right">
+                                <div class="position-left_2">
                                     <div>
-                                        <img src="{% static 'main/assets/img/mockup4.png'%}">
+                                 <img src="/media/6p_2.png" style="width: 40%;">
+                                    </div>
+                                </div>
+                                 <div class="position-right-text">
+                                    <div class="hero-text-inner">
+                                        <div class="hero-text">
+                                         <h2>다양한 기업 소개</h2>
+                                         <h4><span style="color:8e8e8e !important;line-height: normal;">머신러닝을 활용하여 여러분의 포트폴리오를 분석하고<br>
+                                          포스닥, 나스닥의 구분 없이 예상 밖 다양한 주식을 추천합니다</span></h4>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="move_page">
@@ -263,261 +259,65 @@
                     </div>
                 </div>
                 <div class="section">
-                    <div id="s5" class="header background-bs">
+                    <div id="s6" class="header background-bs">
                         <div class="container">
                             <div class="row">
-                                         <div class="position-left-text">
+                                         <div class="position-center-text" style="top:75%">
                                     <div class="hero-text-inner">
-                                        <div class="hero-text" style="text-align:left;">
-                                         <h2>가상 투자를 시작해보세요</h2>
-                                             <h4>여러분의 현명했떤 오늘의 소비</h4>
-                                            <h4>내일도 모레도 계속 유호할 수 있도록, <span style="color:#f5d05c"> 레몬</span>을 시작해보세요.</h4>
+                                        <div class="hero-text" style="text-align:center;">
+                                         <h2>레몬을 시작해보세요</h2>
+                                         <h4><span style="color:8e8e8e !important;line-height: normal;">여러분의 현명했던 오늘의 소비<br>
+                                          내일도 모레도 계쏙 유효할 수 있도록, 레몬을 시작해보세요</span></h4>
+                                             <a href="#page1"><img src="/media/7p_2.png" style="width: 40%;"></a>
                                         </div>
                                     </div>
                                 </div>
-                                        <div class="position-right">
+                                        <div class="position-center" style="top:40%">
+                                            <div>
+                                        <img src="/media/7p_1.png" style="width: 60%;">
+                                    </div>
                                             </div>
                                 </div>
-                            <div class="move_page">
-                                  <a href="#page8"><i class="fas fa-angle-double-down" style="color:lightgrey;"></i></a>
-                                </div>
+<!--                            <div class="move_page">-->
+<!--                                  <a href="#page1"><img src="/media/7p_2.png" style="width: 40%;"></a>-->
+<!--                                </div>-->
                             </div>
                         </div>
                     </div>
-                <div class="section">
-                    <div id="s5" class="header background-bs">
-                        <div class="container">
-                            <div class="row">
-                                        <div class="position-center">
-                                                <h2>
-                                                    <strong>(주)바숲텐서</strong>
-                                                </h2>
-                                                <h5>대표자 : 김선희
-                                                    <br>
-                                                    주소 : 광주광역시 서구 천변좌로 318, 3층
-                                                    <br>
-                                                    대표메일 : basoup.t@gmail.com
-                                                    <br>
-                                                    사업자번호 : 883-87-02312
-                                                    <br>
-                                                    <strong>Copyright @BasoupTensor Corp. All Rights Reserved</strong>
-                                                </h5>
-                                            <div class="heroimg1">
-                                                <div class="hero-text-img1">
-                                                        <a href="https://play.google.com/store/apps/details?id=kr.co.mycampus.android" target="blank"><img src="{% static 'main/assets/img/googleplay.png'%}" alt=""></a>
-                                                        <a href="https://apps.apple.com/app/id1533306020" target="blank"><img src="{% static 'main/assets/img/appstore.png'%}" alt=""></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<!--                <div class="section">-->
+<!--                    <div id="s7" class="header background-bs">-->
+<!--                        <div class="container">-->
+<!--                            <div class="row">-->
+<!--                                        <div class="position-center">-->
+<!--                                                <h2>-->
+<!--                                                    <strong>(주)바숲텐서</strong>-->
+<!--                                                </h2>-->
+<!--                                                <h5>대표자 : 김선희-->
+<!--                                                    <br>-->
+<!--                                                    주소 : 광주광역시 서구 천변좌로 318, 3층-->
+<!--                                                    <br>-->
+<!--                                                    대표메일 : basoup.t@gmail.com-->
+<!--                                                    <br>-->
+<!--                                                    사업자번호 : 883-87-02312-->
+<!--                                                    <br>-->
+<!--                                                    <strong>Copyright @BasoupTensor Corp. All Rights Reserved</strong>-->
+<!--                                                </h5>-->
+<!--                                            <div class="heroimg1">-->
+<!--                                                <div class="hero-text-img1">-->
+<!--                                                        <a href="https://play.google.com/store/apps/details?id=kr.co.mycampus.android" target="blank"><img src="{% static 'main/assets/img/googleplay.png'%}" alt=""></a>-->
+<!--                                                        <a href="https://apps.apple.com/app/id1533306020" target="blank"><img src="{% static 'main/assets/img/appstore.png'%}" alt=""></a>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
                 </full-page>
             </div>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
             <script src="{% static 'main/assets/js/vue-fullpage.min.js'%}"></script>
             <script src="{% static 'main/index.js'%}"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.6/css/swiper.css"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.6/js/swiper.min.js"></script>
-            <script>
-                var galleryTop = new Swiper('.gallery-top', {
-                    spaceBetween: 10,
-                    allowTouchMove: false,
-                    navigation: {
-                        nextEl: '.swiper-button-next',
-                        prevEl: '.swiper-button-prev'
-                    },
-                    loop: true,
-                    loopedSlides: 5
-                });
-                var galleryThumbs = new Swiper('.gallery-thumbs', {
-                    spaceBetween: 10,
-                    centeredSlides: true,
-                    slidesPerView: 5,
-                    touchRatio: 0.2,
-                    slideToClickedSlide: true,
-                    loop: true,
-                    loopedSlides: 5
-
-                });
-                galleryTop.controller.control = galleryThumbs;
-                galleryThumbs.controller.control = galleryTop;
-            </script>
-            <script>
-                var galleryTop = new Swiper('.gallery-top1', {
-                    spaceBetween: 10,
-                    navigation: {
-                        nextEl: '.swiper-button-next',
-                        prevEl: '.swiper-button-prev'
-                    },
-                    loop: true,
-                    loopedSlides: 5
-                });
-                var galleryThumbs = new Swiper('.gallery-thumbs1', {
-                    spaceBetween: 10,
-                    centeredSlides: true,
-                    slidesPerView: 1,
-                    touchRatio: 0.2,
-                    slideToClickedSlide: true,
-                    loop: true,
-                    loopedSlides: 5
-                });
-                var galleryThumbs = new Swiper('.club_images', {
-                    spaceBetween: 10,
-                    centeredSlides: true,
-                    slidesPerView: 1,
-                    touchRatio: 0.2,
-                    slideToClickedSlide: true,
-                    loop: true,
-                    pagination : {
-                    el : '.swiper-pagination2',
-                    clickable : true,
-                    },
-                });
-                galleryTop.controller.control = galleryThumbs;
-                galleryThumbs.controller.control = galleryTop;
-            </script>
-            <script>
-                var Slider = function (id, _web, _tab, _mobile, spacing) {
-                    var containerWidth = 0;
-                    var sliderItemWidth = 0;
-                    var totalCount = 0;
-                    var spacing = spacing || 10;
-                    var display = _web;
-                    var left = 0;
-                    var interval;
-                    var DOM = {
-                        container: function (id) {
-                            var dom = document.querySelector('#' + id);
-                            dom.className = 's-container';
-                            dom.style.position = 'relative';
-                            dom.style.overflow = 'hidden';
-                            return dom;
-                        },
-                        slider: function (container) {
-                            totalCount = container.children.length;
-                            var dom = document.createElement('div');
-                            dom.className = 'slider'
-                            dom.style.position = 'relative';
-                            dom.style.overflow = 'hidden';
-                            dom.style.height = '100%';
-                            dom.style.left = 0;
-                            dom.style.transition = 'left .5s';
-                            return dom;
-                        }
-                    }
-                    // DOM 만들기
-                    var container = DOM.container(id);
-                    var slider = DOM.slider(container);
-                    var temp = container.innerHTML;
-                    container.innerHTML = '';
-                    slider.innerHTML = temp;
-                    container.appendChild(slider);
-                    var items = document.querySelector('#' + id + ' .slider').children;
-                    for (var i = 0; i < items.length; i++) {
-                        items[i].style.float = 'left';
-                        items[i].style.height = '100%';
-                        items[i].style.width = (sliderItemWidth - spacing) + 'px';
-                        items[i].style['margin-right'] = spacing + 'px'; // 간격
-                    }
-                    // 화면 사이즈 수정시 발생하는 이벤트
-                    function resize() {
-                        left = 0;
-                        document
-                            .querySelector('#' + id + ' .slider')
-                            .style
-                            .left = left + 'px';
-                        var innerWidth = window.innerWidth;
-                        if (innerWidth >= 1000) {
-                            setDisplayCount(_mobile);
-                        } else if (innerWidth < 1000 && innerWidth >= 768) {
-                            setDisplayCount(_mobile);
-                        } else if (innerWidth < 768) {
-                            setDisplayCount(_mobile);
-                        }
-                        if (display === 1) {
-                            spacing = 0;
-                            var items = document.querySelector('#' + id + ' .slider').children;
-                            for (var i = 0; i < items.length; i++) {
-                                items[i].style.width = sliderItemWidth + 'px';
-                                items[i].style['margin-right'] = 0 + 'px'; // 간격
-                            }
-                        }
-                    }
-                    // 디스플레이 갯수 설정 함수
-                    function setDisplayCount(count) {
-                        display = count;
-                        containerWidth = container.offsetWidth + spacing;
-                        sliderItemWidth = containerWidth / display;
-                        document
-                            .querySelector('#' + id + ' .slider')
-                            .style
-                            .width = totalCount * sliderItemWidth + spacing * totalCount + 'px';
-                        var items = document.querySelector('#' + id + ' .slider').children;
-                        for (var i = 0; i < items.length; i++) {
-                            items[i].style.width = (sliderItemWidth - spacing) + 'px';
-                        }
-                    }
-                    // 반응형 디스플레이 갯수 조절
-                    var isResponsive = _tab != undefined && _mobile != undefined;
-                    if (isResponsive) {
-                        window.onresize = resize;
-                    }
-                    resize();
-                    return {
-                        setDisplayCount: setDisplayCount,
-                        move: function (index) {
-                            left = (-1) * sliderItemWidth * index;
-                            document
-                                .querySelector('#' + id + ' .slider')
-                                .style
-                                .left = left + 'px';
-                        },
-                        prev: function () {
-                            left += sliderItemWidth;
-                            var limit = 0;
-                            if (left > limit) {
-                                left = limit;
-                            }
-                            document
-                                .querySelector('#' + id + ' .slider')
-                                .style
-                                .left = left + 'px';
-                        },
-                        next: function () {
-                            left -= sliderItemWidth;
-                            var limit = (-1) * sliderItemWidth * (totalCount - display);
-                            if (left < limit) {
-                                left = limit;
-                            }
-                            document
-                                .querySelector('#' + id + ' .slider')
-                                .style
-                                .left = left + 'px';
-                        },
-                        auto: function () {
-                            clearInterval(interval);
-                            interval = setInterval(function () {
-                                left -= sliderItemWidth;
-                                var limit = (-1) * sliderItemWidth * (totalCount - display);
-                                if (left < limit) {
-                                    left = 0;
-                                }
-                                document
-                                    .querySelector('#' + id + ' .slider')
-                                    .style
-                                    .left = left + 'px';
-                            }, 2000)
-                        },
-                        stop: function () {
-                            clearInterval(interval);
-                        }
-                    }
-                }
-                var slider = new Slider('slider', 4, 3, 1, 20);
-                slider.auto();
-            </script>
     <script>
         function goto_market() {
         var visitedAt = (new Date()).getTime();

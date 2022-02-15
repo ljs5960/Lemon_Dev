@@ -6,7 +6,7 @@ from django.core import serializers
 from django.contrib.auth import login, authenticate, get_user_model
 from django.contrib.auth.models import User
 from accounts.models import user
-from .models import Income, Spend, AccountBook
+from .models import Income, Spend, Stocksector, AccountBook
 from django.contrib.auth.decorators import login_required
 from .calendarsforms import SpendForm, IncomeForm
 from django.views.decorators.csrf import csrf_exempt
@@ -18,10 +18,10 @@ from django.conf import settings
 from django.views.generic import View
 from django.contrib.auth.hashers import check_password
 from dateutil.relativedelta import relativedelta
-from stocks.models import Stocksector
 from django.http import JsonResponse
 from stocks import stockcal as cal
 from stocks import kocom
+from stocks.models import Stocksector
 
 # Create your views here.
 URL_LOGIN = '/login'
@@ -42,7 +42,6 @@ def home(request):
             invest=request.POST['invest'],
         )
         return redirect('/')
-
     invest = request.user.invest
     user = request.user.user_id
     now = datetime.datetime.now()
@@ -63,11 +62,15 @@ def home(request):
     income_sum_value = list(income_sum.values())
     stock_cal = cal.calculator()
     total_investment_amount = stock_cal.total_investment_amount(request.user.user_id)
-    print( income_sum_value)
-    total_current_price = stock_cal.total_current_price(request.user.user_id)
     total_use_investment_amount = stock_cal.total_use_investment_amount(request.user.user_id)
+    #son = total_current_price + total_use_investment_amount
+    total_current_price = stock_cal.total_current_price(request.user.user_id)
+    if total_current_price is None:
+        total_current_price = 0
+    else:
+        total_current_price = total_current_price
     son = total_current_price + total_use_investment_amount
-
+    print(total_current_price)
     home_chartjs_data = [invest, son]
     print( home_chartjs_data)
     for spend_sum_value in spend_sum_value:
@@ -80,11 +83,8 @@ def home(request):
             home_chartjs_data.append(0)
         else:
             home_chartjs_data.append(income_sum_value)
-
-
-
     return render(request, 'home.html', {'month': month, 'Expenditure': spend_sum, 'Income': income_sum, 'income_sum_value':income_sum_value,
-                                         'Home_chartjs_data': home_chartjs_data, 'Total_investment_amount':total_investment_amount, 'total_current_price':total_current_price, 'son':son})
+                                         'Home_chartjs_data': home_chartjs_data, 'Total_investment_amount':total_investment_amount, 'son':son})
 
 
 def recom(request):
@@ -209,7 +209,6 @@ def top5(request):
     category_card = spend_month_filter.values('card').annotate(amount=Sum('amount')).order_by('-amount')[:5]
     category_place = spend_month_filter.values('place','stock').annotate(amount=Sum('amount')).order_by('-amount')[:5]
 
-    print(category_place)
     category_category = spend_month_filter.values('category').annotate(amount=Sum('amount')).order_by('-amount')[:5]
 
     # 요약 페이지_카테고리 건수별 TOP5
@@ -218,10 +217,10 @@ def top5(request):
     category_stock = []
     koscom_api = kocom.api()
     for element in category_place:
-        current_price = koscom_api.test_get_current_price(element['stock'])
-        category_stock.append([current_price,element['amount'],element['place']
-        ])
-        print(current_price)
+        find_market_code = Stocksector.objects.filter(ss_isusrtcd=element['stock']).values_list('ss_marketcode', flat=True)
+        market_code = find_market_code[0] if find_market_code else None
+        current_price = koscom_api.get_current_price(market_code, element['stock'])
+        category_stock.append([current_price, element['amount'], element['place'], element['stock'], market_code])
 
     category_amount_data = []
     category_amount_label = []
@@ -261,29 +260,19 @@ def category_detail(request, int):
 def detail_search(request):
     user = request.user.user_id
     start_date = request.POST.get('start_date', None )
-    end_date = request.POST.get("end_date",None)
-
-    if not start_date :
-        return redirect('/history')
-    elif not end_date >= start_date:
-        messages.warning(request, "종료날짜보다 시작날짜가 작아야합니다.")
-        return redirect('/history')
-    else:
-        spend_date = Spend.objects.filter(user_id=user, spend_date__range=(start_date, end_date)).values('spend_id', 'kind',
+    end_date = request.POST.get("end_date", None)
+    spend_date = Spend.objects.filter(user_id=user, spend_date__range=(start_date, end_date)).values('spend_id', 'kind',
                                                                                                      'spend_date',
                                                                                                      'amount', 'place',
                                                                                                      'category')
-        income_date = Income.objects.filter(user_id=user, income_date__range=(start_date, end_date)).values('income_id',
+    income_date = Income.objects.filter(user_id=user, income_date__range=(start_date, end_date)).values('income_id',
                                                                                                         'kind',
                                                                                                         'income_date',
                                                                                                         'amount',
                                                                                                         'income_way',
                                                                                                         'income_way')
-        total_date = spend_date.union(income_date).order_by('-spend_date')
-
-
-
-    return render(request, 'detail_search.html', {'total_date': total_date})
+    total_date = spend_date.union(income_date).order_by('-spend_date')
+    return render(request, 'detail_search.html', {'total_date': total_date,'start_date':start_date, 'end_date':end_date})
 
 
 # 알리고 관련 기능
@@ -319,35 +308,17 @@ def ajax_sendSMS(request):
 
 def add_income_calendar(request):
     if request.method == "POST":
-        if 'spendbtn' in request.POST:
-            sform = SpendForm(request.POST)
-            if sform.is_valid():
-                user_id = request.POST['user'],
-                kind = sform.cleaned_data['kind'],
-                amount = sform.cleaned_data['amount'],
-                place = sform.cleaned_data['place'],
-                spend_date = sform.cleaned_data['spend_date'],
-                way = sform.cleaned_data['way'],
-                category = sform.cleaned_data['category'],
-                card = sform.cleaned_data['card'],
-                memo = sform.cleaned_data['memo'],
-                stock = sform.cleaned_data['place']
-                sform.save()
-                return redirect('/history')
-
-        elif 'incomebtn' in request.POST:
-            iform = IncomeForm(request.POST)
-            if iform.is_valid():
-                user_id = request.POST['user'],
-                kind = iform.cleaned_data['kind'],
-                amount = iform.cleaned_data['amount'],
-                income_date = iform.cleaned_data['income_date'],
-                income_way = iform.cleaned_data['income_way'],
-                memo = iform.cleaned_data['memo']
-                iform.save()
-                return redirect('/history')
+        iform = IncomeForm(request.POST)
+        if iform.is_valid():
+            user_id = request.POST['user'],
+            kind = iform.cleaned_data['kind'],
+            amount = iform.cleaned_data['amount'],
+            income_date = iform.cleaned_data['income_date'],
+            income_way = iform.cleaned_data['income_way'],
+            memo = iform.cleaned_data['memo']
+            iform.save()
+            return redirect('/history')
     else:
-        sform = SpendForm()
         iform = IncomeForm()
     wntlr = Stocksector.objects.all().values('ss_isusrtcd', 'ss_isukorabbrv')
     return render(request, 'add_income_calendar.html', {'wntlr': wntlr})

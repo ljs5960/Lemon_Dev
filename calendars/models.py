@@ -62,3 +62,16 @@ class Income(models.Model):
     class Meta:
         managed = False
         db_table = 'income'
+
+class Stocksector(models.Model):
+    ss_isusrtcd = models.CharField(db_column='ss_isuSrtCd', primary_key=True, max_length=30)
+    ss_isukorabbrv = models.CharField(db_column='ss_isuKorAbbrv', max_length=30, blank=True, null=True)
+    ss_marketcode = models.CharField(max_length=30)
+    ss_idxindmidclsscd = models.CharField(db_column='ss_idxIndMidclssCd', max_length=30, blank=True, null=True)
+    ss_haltyn = models.CharField(db_column='ss_haltYN', max_length=5)
+    ss_logo = models.CharField(max_length=70, blank=True, null=True)
+    ss_date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        managed = False
+        db_table = 'stocksector'

@@ -32,25 +32,20 @@ class api:
         except Exception as e:
             print('Error in get_current_price: \n', e)
             return False
-
-    def test_get_current_price(self, stock):
-            try:
-                url = f'https://sandbox-apigw.koscom.co.kr/v2/market/stocks/kospi/{stock}/price'
-                headers = {'apikey': KOSCOM_KEY}
-                response = requests.get(url, headers=headers, timeout=self.timeout)
-                if response.status_code == 200:
-                    return json.loads(response.text)['result']['trdPrc']
-                else:
-                    url = f'https://sandbox-apigw.koscom.co.kr/v2/market/stocks/kosdaq/{stock}/price'
-                    headers = {'apikey': KOSCOM_KEY}
-                    response = requests.get(url, headers=headers, timeout=self.timeout)
-                    if response.status_code == 200:
-                        return json.loads(response.text)['result']['trdPrc']
-                    else:
-                        return False
-            except Exception as e:
-                print('Error in get_current_price: \n', e)
+        
+    def s_get_current_price(self, marketcode, id):
+        try:
+            url = f'https://sandbox-apigw.koscom.co.kr/v2/market/stocks/{marketcode}/{id}/price'
+            headers = {'apikey': KOSCOM_KEY}
+            response = requests.get(url, headers=headers, timeout=self.timeout)
+            if response.status_code == 200:
+                return json.loads(response.text)['result']['trdPrc']
+            else:
                 return False
+        except Exception as e:
+            print('Error in get_current_price: \n', e)
+            return False
+
 
     def get_stock_master(self, marketcode, issuecode):
         try:
@@ -88,7 +83,6 @@ class api:
                     get_stocksector = self.get_stocksector(code, stock['isuSrtCd'])
                     if get_stocksector:
                         print(stock)
-                        print(get_stocksector['isuKorAbbrv'])
                         result.append({
                             'isusrtcd': get_stocksector['isuSrtCd'],
                             'isukorabbrv': get_stocksector['isuKorAbbrv'],
@@ -141,3 +135,24 @@ class api:
         except Exception as e:
             print('Error in get_stock_history: \n', e)
             return False
+
+    def get_per_pbr_bundle(self):
+        result = []
+        marketcode = ['kospi', 'kosdaq']
+        for code in marketcode:
+            list = self.stocks_list(code)
+            if list:
+                for stock in list:
+                    get_stocksector = self.get_selectivemaster(code, stock['isuSrtCd'])
+                    if get_stocksector:
+                        print(get_stocksector)
+                        result.append({
+                            'isusrtcd': get_stocksector['isuSrtCd'],
+                            'per': get_stocksector['per'],
+                            'pbr': get_stocksector['pbr'],
+                        })
+                    else:
+                        print('========>Fail get stocksector: ', stock['isuSrtCd'])
+            else:
+                return False
+        return result
