@@ -44,8 +44,10 @@ font-family: 'Noto Sans KR', sans-serif;
 	}
     ::-webkit-scrollbar{
     display:none;
-
     }
+    input:focus {outline: none;}
+    select:focus {outline: none;}
+    textarea:focus {outline: none;}
 	li{
 		font-family: 'Noto Sans KR', sans-serif;
 	}
