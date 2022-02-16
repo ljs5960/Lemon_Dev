@@ -41,8 +41,10 @@ def invest_change(request):
     #             return redirect('/myinfo')
     # except AttributeError:
     if request.method == 'POST':
+            uid = request.POST['invest']
+            uid = int(uid)
             user_db.invest_date = now_date
-            user_db.invest = request.POST['invest']
+            user_db.invest = uid + user_db.invest
             user_db.save()
             return redirect('/invest/update')
     return render(request, 'invest.html', {'user': user_db, 'can_date': can_date, 'now_date': now_date})
