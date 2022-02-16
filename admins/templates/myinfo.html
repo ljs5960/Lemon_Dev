@@ -129,6 +129,16 @@
                 </a>
             </li>
 
+            <li class="sms">
+                <a href="{% url 'admins:sms_read' %}">
+                    <i class="fas fa-pen" style="padding-right:5px;"></i>
+                    <div class="order">
+                        <div>문자내역</div>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </a>
+            </li>
+
             <li><a style="color: #FF4444;" onclick="ask_out()">
                 <i class="fas fa-sign-out-alt" style="padding-right:5px;"></i><div class="order"><div>회원 탈퇴</div><i
                     class="fas fa-chevron-right"></i></div></a>
@@ -147,7 +157,7 @@
 <script>
     function ask_out(){
         if (confirm('정말로 탈퇴하시겠습니까?') == true){
-        window.location.href = "{% url 'admins:user_delete' user.user_id %}";
+            window.location.href = "{% url 'admins:user_delete' user.user_id %}";
         } else {
         return;
         }
@@ -162,9 +172,11 @@
 }
 </script>
 <script>
-$(document).ready(function(){
-    $('.footer-selector').fadeIn(550);
-});
+// Display 'none' if Apple Device
+const mobile = (/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase()));
+if(mobile) {
+    $('.sms').hide();
+}
 </script>
 <!--    {% if message %}-->
 <!--    <script>alert('{{ message }}');</script>-->

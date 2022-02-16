@@ -90,8 +90,7 @@
   {% for filter in total_date %}
   <tr class="tr-month-title">
   {% ifchanged filter.spend_date.month %}
-    <th class="th-month-title2" style="text-align:right;">기간 : {{start_date}} ~ </th>
-    <th class="th-month-title2" style="padding-left:3px;"> {{end_date}}</th>
+    <th class="th-month-title">{{ filter.spend_date | date:'m월' }}</th>
   {% endifchanged %}
   </tr>
   {% ifchanged filter.spend_date.day %}

@@ -384,21 +384,6 @@ font-family: 'Noto Sans KR', sans-serif;
 		bottom: 105px;
 	}
 
-	.addList-btn{
-	font-family: 'Noto Sans KR', sans-serif;
-	font-size: 18px;
-	color: #fff;
-	font-weight: bold;
-	width: 95%;
-	height: 55px;
-	border: 1px solid transparent;
-	border-radius: 15px;
-	box-shadow: 1px 1px 5px 1px gray;
-	background: #31bc8a;
-	}
-
-
-		
 
 		.summary-nodata-wrap{
 			margin-top:10px;
@@ -573,5 +558,39 @@ font-family: 'Noto Sans KR', sans-serif;
 		color: #FFF;
 	}
 
+	.pin-input-wrap{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+	}
+	.pin-btn-wrap{
+		text-align:center;
+		display: flex;
+		justify-content: center;
+		margin-top:35px;
+		position:fixed;
+		bottom:15px;
+		width:100%;
+		left:0px;
+	}
+	.pinBtn {
+		padding: 10px 30px 10px 30px;
+		width: 80%;
+		border-radius: 10px;
+		color: white !important;
+		background-color: #31bc8a;
+	}
+	
+	.pin_saver {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		right: 0px;
+		bottom: 0px;
+		background-color: #F3F4F6;
+		will-change: opacity;
+		z-index: 90;
+	}
 
 }

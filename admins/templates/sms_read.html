@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% block container %}
+<style>
+  #sms_head {
+    color: rgba(0, 0, 0, 0.3);
+  }
+</style>
+<div>
+  <input type="date" id="startDate">
+  ~
+  <input type="date" id="endDate">
+  <button onclick="fn_readSMS()">문자내역 가져오기</button>
+  <div id="sms_lists"></div>
+  <div id="sms_list"></div>
+  <form id="form" method="post">
+    {% csrf_token %}
+    <input style="display:none;" type="text" id="date" name="date">
+    <input style="display:none;" type="text" id="amount" name="amount">
+    <input style="display:none;" type="text" id="place" name="place">
+  </form>
+</div>
+<script>
+  // Start Function when Open Page
+  $(document).ready(function() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = ('0' + (today.getMonth() + 1)).slice(-2);
+    const day = ('0' + today.getDate()).slice(-2);
+    // Last 30 days
+    let startDate = `${year}.${month-1}.${day} 00:00`;
+    let endDate = `${year}.${month}.${day} 00:00`;
+
+    window.AndroidBridge.readSMS(startDate, endDate);
+  });
+
+  // Send Date Info to App
+  function fn_readSMS() {
+    /* 
+    Format => 'yyyy.MM.dd HH:mm'
+    Replace all '-' -> '.' & Append ' HH:mm'
+    */
+    startDate = $("#startDate").val().replace(/-/g, ".") + ' 00:00';
+    endDate = $("#endDate").val().replace(/-/g, ".") + ' 00:00';
+
+    if(!($("#startDate").val())) {
+      alert("시작일을 입력해주세요.");
+    } else if(!($("#endDate").val())) {
+      alert("종료일을 입력해주세요.");
+    } else if(($("#startDate").val()) > ($("#endDate").val())) {
+      alert("날짜를 확인해주세요.");
+    } else {
+      window.AndroidBridge.readSMS(startDate, endDate);
+    }
+  }
+  
+  // Print JSON on Screen
+  function fn_receiveSMSRead(resultSMS) {
+    const sms_lists = document.getElementById('sms_lists');
+    sms_lists.append(resultSMS);
+  }
+  
+  // Parse JSON & Filter
+  function fn_receiveSMSReadComplete() {
+    const sms_list = document.getElementById('sms_list');
+    const sms = sms_lists.innerText;
+    sms_lists.innerHTML = '';
+    sms_list.innerHTML = '';
+
+    for(let i=0; i<sms.length; i++) {
+      if(JSON.parse(sms)[i]['body']) {
+        sms_list.innerHTML += 
+        `<div id='sms' onclick="clickSMS('${JSON.parse(sms)[i]['date']}','${JSON.parse(sms)[i]['body']}')">
+          <div id='sms_head'>
+            ${JSON.parse(sms)[i]['date']}
+          </div>
+          <div id='sms_body'>
+            ${JSON.parse(sms)[i]['body']}
+          </div>
+        </div><br>`;
+      }
+    }
+  }
+
+  function fn_receiveSMS(resultSMS) {
+    sms_lists.innerHTML = resultSMS;
+  }
+
+  // Send info to Writing Page
+  function clickSMS(raw_date, body) {
+    // Find Amount & Place RegEx
+    const place = body.match(/0원[가-힣]*/)[0].substring(2);
+    const amount = Number(body.match(/[0-9]*0원/)[0].slice(0, -1));
+    const date = raw_date.replace(".",  '-').replace(".",  '-').slice(0, -6);
+
+    const form = document.getElementById('form');
+    document.getElementById('date').value = date;
+    document.getElementById('place').value = place;
+    document.getElementById('amount').value = amount;
+
+    form.action=`/sms_add_spend_calendar/${date}/${amount}/${place}`;
+    form.submit();
+  }
+</script>
+{% endblock %}
