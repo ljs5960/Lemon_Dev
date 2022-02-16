@@ -69,8 +69,10 @@ def changephone(request):
 
     print(request.path)
     if request.method == "POST":
-        phonenumber = request.POST.get('change_phonenumber', None)
+        phonenumber = request.POST.get('phon')
+        #phonenumber1 = request.POST['phonenumber']
         print(phonenumber)
+        #print(phonenumber1)
         user_id = request.user.user_id
         user_db = user.objects.get(user_id=user_id)
         user_db.phonenumber = request.POST['phonenumber']

@@ -33,7 +33,7 @@ def stock(request):
 
     for element in mark :
         find_stock_name = Stocksector.objects.filter(ss_isusrtcd=element.isuSrtCd).values_list('ss_isukorabbrv', flat=True)
-        name = find_stock_name[0]
+        name = find_stock_name[0:]
         current_price = koscom_api.get_current_price(element.marketcode, element.isuSrtCd)
         bookmark_date.append([element.marketcode,element.isuSrtCd, current_price, name])
     return render(request, 'stock.html', {'stock_data': stock_data,'bookmark_date':bookmark_date})

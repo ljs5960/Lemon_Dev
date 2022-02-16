@@ -404,11 +404,13 @@ def ajax_pushdate(request):
     if request.method == "POST":
         user = request.user.user_id
         date = request.POST.get("clikDate", None)
-        spend = Spend.objects.filter(user_id=user, spend_date=date).values('kind', 'spend_date', 'amount', 'place')
-        income = Income.objects.filter(user_id=user, income_date=date).values('kind', 'income_date', 'amount',
-                                                                              'income_way')
+        spend = Spend.objects.filter(user_id=user, spend_date=date).values('spend_id','kind', 'spend_date', 'amount', 'place')
+        income = Income.objects.filter(user_id=user, income_date=date).values('income_id','kind', 'income_date', 'amount', 'income_way')
         detail_month = income.union(spend).order_by('kind')
-        even1 = list(detail_month.values('kind', 'income_date', 'amount'))
-        evens = {'msg1': even1}
+        # spend_eve = list(detail_month.values('kind', 'spend_id', 'amount','place'))
+        # income_eve = list(detail_month.values('kind', 'income_id', 'amount','income_way'))
+        even1 = list(detail_month.values('income_id','kind', 'income_date', 'amount','income_way'))
+        evens = {'msg1': even1,}
+
 
         return JsonResponse(evens)

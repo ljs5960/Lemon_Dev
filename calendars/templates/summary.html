@@ -10,7 +10,7 @@
     margin:0;
     padding: 0;
   }
-  
+
   /* 요약페이지 페이지네이션 */
   #pagenation_summary{
     background-color: #4C8AE5;
@@ -50,6 +50,15 @@
           <button type="button" onclick="close_btn()" id="close_btn" class="btn btn-default" data-dismiss="modal"><i class="far fa-times-circle"></i></button>
       </div>
       <div id="modalBody" class="modal-body">
+        zzzz
+          {% for detail in Detail_month %}
+        {% if detail.kind == "지출" %}
+        <tr onclick="location.href='{% url 'calendars:edit_calendar'  detail.kind detail.spend_id %}'">
+        {% else %}
+        <tr onclick="location.href='{% url 'calendars:edit_calendar' detail.kind detail.spend_id %}'">
+          {% endif %}
+
+        {% endfor %}
       </div>
       <div class="modal-footer" style="display:flex;">
         <button type="button" onclick="location.href='add_spend_calendar'" id="add_event" class="addList-btn" data-dismiss="modal" style="width:47%">지출 추가</button>
@@ -174,15 +183,21 @@
               dataType: "json",
             },
             success: function(data){
-              
+
               msg_value = data.msg1;
+
+
+
+
               const reset = document.getElementById('modalBody');
               const element = document.getElementById('modalBody');
               reset.innerHTML = '';
               $.each (msg_value, function (index, el) {
                 console.log('element', index, el);
-                element.innerHTML += '<div class="modal-body-text"><div class="modal-body-kind">'+el.kind+'</div>'
-                                    +'<div class="modal-body-amount">'+ el.amount +'원</div></div>';
+                element.innerHTML += '<div class="modal-body-text"><div class="modal-body-kind">'+el.income_id+'</div>'
+                                      +'<div>'+el.income_way+'</div>'+'<div>'+el.kind+'</div>'
+                                    +'<div class="modal-body-amount">'+ el.amount +'원</div></div>'
+                                    +'<a href="/edit_calendar/'+el.kind+'/'+el.income_id+'">링크</a>';
               });
             },
             fail: function() {

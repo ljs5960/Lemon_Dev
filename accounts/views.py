@@ -5,11 +5,16 @@ from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from rest_framework.response import Response
 from django.http.response import HttpResponse
 from django.contrib import auth
+
 from django.contrib.auth import login, authenticate, get_user_model
+
+from django.contrib.auth import views as auth_views
+from django.contrib.auth import views
+
 from django.contrib.auth.models import User
 from .models import user
 from django.views.decorators.csrf import csrf_exempt
-from datetime import datetime
+from datetime import datetime,timedelta
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 import datetime
@@ -27,8 +32,48 @@ from django.contrib.auth.forms import (
     AuthenticationForm, PasswordChangeForm, PasswordResetForm, SetPasswordForm,
 )
 from django.urls import reverse_lazy
-
+from datetime import datetime
+import datetime, requests
 URL_LOGIN = '/login'
+
+
+def user_Confirm(request):
+    if request.method == "POST":
+        uid = request.POST.get('uid', None)
+        print(uid)
+        email = request.POST.get('email', None)
+        print(email)
+        id = User.objects.filter(uid = uid).values('uid')
+        print(id)
+        email = User.objects.filter(email = email).values('email')
+        print(email)
+        if id:
+            id = '중복'
+        else:
+            id ='없음'
+        print(id)
+        if email:
+            email='중복'
+        else:
+            email='없음'
+        print(email)
+        mesage1 = list(id)
+        print(mesage1)
+        mesage2 = list(email)
+        print(mesage2)
+
+        go = { 'msg':mesage1,
+               'msg':mesage2}
+        print(go)
+        return JsonResponse(go)
+
+
+
+def fail(request):
+    return render(request, 'registration/password_reset_done_fail.html')
+
+
+
 
 def send_email(request):
     subject = "message"
@@ -61,7 +106,9 @@ def signup(request):
     if request.method == 'POST':
         phonenumber=request.POST['phonenumber']
         phonenumber=str(phonenumber)
-        print(phonenumber)
+        invest=request.POST['invest']
+
+
         if request.POST['password'] == request.POST['password1']:
             user = get_user_model().objects.create_user(
                                             uid=request.POST['uid'],
@@ -81,17 +128,36 @@ def signup(request):
             return redirect('/')
         return render(request, 'signup.html')
     return render(request, 'signup.html')
-
 class UserPasswordResetView(PasswordResetView):
-    template_name = 'password_reset.html' #템플릿을 변경하려면 이와같은 형식으로 입력
-    success_url = reverse_lazy('password_reset_done')
-    form_class = PasswordResetForm
+    template_name = 'registration/password_reset.html' #템플릿을 변경하려면 이와같은 형식으로 입력
 
     def form_valid(self, form):
-        if User.objects.filter(email=self.request.POST.get("email")).exists():
+        if user.objects.filter(email=self.request.POST.get("email")).exists():
+            opts = {
+                'use_https': self.request.is_secure(),
+                'token_generator': self.token_generator,
+                'from_email': self.from_email,
+                'email_template_name': self.email_template_name,
+                'subject_template_name': self.subject_template_name,
+                'request': self.request,
+                'html_email_template_name': self.html_email_template_name,
+                'extra_email_context': self.extra_email_context,
+            }
+            form.save(**opts)
             return super().form_valid(form)
         else:
-            return render(self.request, 'password_reset_done_fail.html')
+            return render(self.request, 'registration/password_reset_done_fail.html')
+
+class UserPasswordResetView(PasswordResetView):
+    template_name = 'password_reset.form.html' #템플릿을 변경하려면 이와같은 형식으로 입력
+    # success_url = reverse_lazy('password_reset_done')
+    # form_class = PasswordResetForm
+
+    def form_valid(self, form):
+        if user.objects.filter(email=self.request.POST.get("email")).exists():
+            return super().form_valid(form)
+        else:
+            return render(self.request, 'registration/password_reset_done_fail.html')
 
 class UserPasswordResetDoneView(PasswordResetDoneView):
-    template_name = 'password_reset_done.html' #템플릿을 변경하려면 이와같은 형식으로 입력
+    template_name = 'registration/password_reset_done.html' #템플릿을 변경하려면 이와같은 형식으로 입력
