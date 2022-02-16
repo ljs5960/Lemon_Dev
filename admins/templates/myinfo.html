@@ -167,7 +167,7 @@ $(document).ready(function(){
 });
 
 // Display 'none' if Apple Device
-var mobile = (/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase()));
+const mobile = (/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase()));
 if(mobile) {
     $('.sms').hide();
 }

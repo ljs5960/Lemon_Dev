@@ -1,16 +1,27 @@
 {% extends 'base.html' %}
+{% block title %}레몬::문자내역 불러오기{% endblock title %}
 {% block container %}
 <style>
-  #sms_head {
+  .body {
+    padding: 0 1.25rem;
+  }
+  #sms_head_date {
     color: rgba(0, 0, 0, 0.3);
   }
+  #sms_head_amount {
+    display: flex;
+    justify-content: space-between;
+  }
+  #sms_head_amount span:last-child {
+    font-weight: bold
+  }
 </style>
-<div>
-  <input type="date" id="startDate">
+<div class="body">
+  <!-- <input type="date" id="startDate">
   ~
   <input type="date" id="endDate">
-  <button onclick="fn_readSMS()">문자내역 가져오기</button>
-  <div id="sms_lists"></div>
+  <button onclick="fn_readSMS()">문자내역 가져오기</button> -->
+  <div>(최근 30일 기준)</div>
   <div id="sms_list"></div>
   <form id="form" method="post">
     {% csrf_token %}
@@ -22,23 +33,23 @@
 <script>
   // Start Function when Open Page
   $(document).ready(function() {
+    /* 
+    Format => 'yyyy.MM.dd HH:mm'
+    Replace all '-' -> '.' & Append ' HH:mm'
+    */
     const today = new Date();
     const year = today.getFullYear();
     const month = ('0' + (today.getMonth() + 1)).slice(-2);
     const day = ('0' + today.getDate()).slice(-2);
     // Last 30 days
-    let startDate = `${year}.${month-1}.${day} 00:00`;
-    let endDate = `${year}.${month}.${day} 00:00`;
+    const startDate = `${year}.${month-1}.${day} 00:00`;
+    const endDate = `${year}.${month}.${day} 23:59`;
 
     window.AndroidBridge.readSMS(startDate, endDate);
   });
 
   // Send Date Info to App
   function fn_readSMS() {
-    /* 
-    Format => 'yyyy.MM.dd HH:mm'
-    Replace all '-' -> '.' & Append ' HH:mm'
-    */
     startDate = $("#startDate").val().replace(/-/g, ".") + ' 00:00';
     endDate = $("#endDate").val().replace(/-/g, ".") + ' 00:00';
 
@@ -53,33 +64,69 @@
     }
   }
   
-  // Print JSON on Screen
+  // Parse resultSMS to JSON Value
   function fn_receiveSMSRead(resultSMS) {
-    const sms_lists = document.getElementById('sms_lists');
-    sms_lists.append(resultSMS);
-  }
-  
-  // Parse JSON & Filter
-  function fn_receiveSMSReadComplete() {
-    const sms_list = document.getElementById('sms_list');
-    const sms = sms_lists.innerText;
-    sms_lists.innerHTML = '';
-    sms_list.innerHTML = '';
+    const jsonDataArray = new Array();
+    const resultSMS_length= JSON.parse(resultSMS).length;
+    for(let i=0; i<resultSMS_length; i++) {
+      const date = JSON.parse(resultSMS)[i]['date'];
+      const body = JSON.parse(resultSMS)[i]['body'];
+      /*
+      Find Amount & Place RegEx
+      If no value in Amount or Place -> 0 or ''
+      */
+      let amount;
+      try {
+        amount = Number(body.match(/[0-9]*0원/)[0].slice(0, -1));
+      } catch(e) {
+        amount = 0;
+      }
 
-    for(let i=0; i<sms.length; i++) {
-      if(JSON.parse(sms)[i]['body']) {
-        sms_list.innerHTML += 
-        `<div id='sms' onclick="clickSMS('${JSON.parse(sms)[i]['date']}','${JSON.parse(sms)[i]['body']}')">
-          <div id='sms_head'>
-            ${JSON.parse(sms)[i]['date']}
+      let place;
+      try {
+        place = body.match(/0원[가-힣]*/)[0].substring(2);
+      } catch(e) {
+        place = '';
+      }
+      
+      // Push parsed Value of JSON to Array
+      jsonDataArray.push({
+        date : date,
+        body : body,
+        amount : amount,
+        place : place,
+      });
+    }
+    printJsonToScreen(jsonDataArray);
+  }
+
+  // Print JSON on Screen
+  function printJsonToScreen(array) {
+    const sms_list = document.getElementById('sms_list');
+    for(let i=0; i<array.length; i++) {
+      sms_list.innerHTML+=
+      `<div id='sms' onclick="clickSMS('${array[i].date}', '${array[i].body}')">
+        <div>
+          <div id='sms_head_date'>
+            ${array[i].date}
+          </div>
+          <div id='sms_head_amount'>
+            <span>${array[i].place}</span>
+            <span>${array[i].amount}원</span>
           </div>
           <div id='sms_body'>
-            ${JSON.parse(sms)[i]['body']}
+            ${array[i].body}
           </div>
-        </div><br>`;
-      }
+        </div>
+        <hr>
+      </div>`;
     }
   }
+
+  function fn_receiveSMSReadComplete() {
+    print('Finish');
+  }
+  
 
   function fn_receiveSMS(resultSMS) {
     sms_lists.innerHTML = resultSMS;
