@@ -318,10 +318,13 @@
 </div>
 
 <script>
+$(document).ready(function(){
+    let today = moment();
+    let today2 = today.format('YYYY-MM-DD')
+    $('#date').attr('value', today2);
+    });
+
 function submit(){
-    var str = $('#where').val();
-    var stockcode = str.slice(-6);
-    var stockname = str.replace(":"+stockcode,"");
     var max_int = 210000000;
 
     if ($('#amount').val() == '') {
@@ -332,22 +335,16 @@ function submit(){
         alert('입력받을수 있는 금액 범위를 초과하였습니다.');
         return false;
     }
-    else if ($('#date').val() == '') {
-        alert('날짜를 선택해주세요.');
-        return false;
-    }
     else if ($('#where').val() == '') {
         alert('소비처를 작성해주세요.');
         return false;
     }
     else{
-    document.getElementById('place').value = stockname;
-    document.getElementById('stock').value = stockcode;
     const form = document.getElementById('spend_form');
     form.action="{%url 'calendars:add_spend_calendar' %}"
     form.submit();
     }
-}
+    }
 
 
 

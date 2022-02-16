@@ -339,7 +339,6 @@ def stocksector_insert(stocksectors_bundle):
         else:
             print('Update: ', stocksector['isusrtcd'])
             stocksector_objects = Stocksector.objects.get(ss_isusrtcd=stocksector['isusrtcd'])
-            stocksector_objects.ss_isusrtcd = stocksector['isusrtcd']
             stocksector_objects.ss_isukorabbrv = stocksector['isukorabbrv']
             stocksector_objects.ss_marketcode = stocksector['marketcode']
             stocksector_objects.ss_idxindmidclsscd = stocksector['idxindmidclsscd']

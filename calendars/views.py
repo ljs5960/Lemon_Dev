@@ -10,7 +10,7 @@ from .models import Income, Spend, Stocksector, AccountBook
 from django.contrib.auth.decorators import login_required
 from .calendarsforms import SpendForm, IncomeForm
 from django.views.decorators.csrf import csrf_exempt
-from datetime import datetime
+from datetime import datetime, date
 import datetime, requests
 from django.db.models import Sum, Count
 import os, json
@@ -31,16 +31,40 @@ URL_LOGIN = '/login'
 def home(request):
     if request.method == 'POST':
         user = request.user.user_id
+        phonenumber = request.POST.get('phonenumber', None)
+        phonenumber = str(phonenumber)
+        invest = request.POST['invest']
+        birthday = request.POST['birthday']
+        pin = request.POST['pin']
+        
+        if invest == '0':
+            #invest_date = None
+            invest_date = date(1111,1,11)
+        else:
+            invest_date = datetime.now()
+        
+        if birthday == '':
+            #birthday = date(1111, 1, 11)
+            birthday = datetime.now()
+        else:
+            birthday = birthday
+
+        if pin == '':
+            pin = '0000'
+        else:
+            pin = pin
+        
         user = get_user_model().objects.filter(user_id=user).update(
             u_chk=request.POST['u_chk'],
             username=request.POST['username'],
             gender=request.POST.get("gender"),
             job=request.POST.get("job"),
-            phonenumber=request.POST['phonenumber'],
-            birthday=request.POST['birthday'],
-            pin=request.POST['pin'],
-            invest=request.POST['invest'],
+            phonenumber=phonenumber,
+            birthday=birthday,
+            pin=pin,
+            invest=invest,
         )
+        print("저장후 폰넘버", phonenumber)
         return redirect('/')
     invest = request.user.invest
     user = request.user.user_id
@@ -84,7 +108,7 @@ def home(request):
         else:
             home_chartjs_data.append(income_sum_value)
     return render(request, 'home.html', {'month': month, 'Expenditure': spend_sum, 'Income': income_sum, 'income_sum_value':income_sum_value,
-                                         'Home_chartjs_data': home_chartjs_data, 'Total_investment_amount':total_investment_amount, 'son':son})
+                                         'total_current_price': total_current_price,'Home_chartjs_data': home_chartjs_data, 'Total_investment_amount': total_investment_amount, 'son': son})
 
 
 def recom(request):
@@ -300,7 +324,7 @@ def ajax_sendSMS(request):
         'sender': ALIGO_SENDER,  # 발신번호
         'receiver': NUM,  # 수신번호 (,활용하여 1000명까지 추가 가능)
         'msg': f'[LEMON]인증번호 [{KEY}]를 입력해주세요.',  # 문자 내용
-        'testmode_yn': 'Y'  # 테스트모드 적용 여부 Y/N
+        #'testmode_yn': 'Y'  # 테스트모드 적용 여부 Y/N
         # 'msg_type' : 'SMS', #메세지 타입 (SMS, LMS)
         # 'title' : 'testTitle', #메세지 제목 (장문에 적용)
         # 'destination' : '01000000000|고객명', # %고객명% 치환용 입력
@@ -418,11 +442,11 @@ def ajax_pushdate(request):
     if request.method == "POST":
         user = request.user.user_id
         date = request.POST.get("clikDate", None)
-        spend = Spend.objects.filter(user_id=user, spend_date=date).values('kind', 'spend_date', 'amount', 'place')
-        income = Income.objects.filter(user_id=user, income_date=date).values('kind', 'income_date', 'amount',
+        spend = Spend.objects.filter(user_id=user, spend_date=date).values('spend_id','kind', 'spend_date', 'amount', 'place')
+        income = Income.objects.filter(user_id=user, income_date=date).values('income_id','kind', 'income_date', 'amount',
                                                                               'income_way')
         detail_month = income.union(spend).order_by('kind')
-        even1 = list(detail_month.values('kind', 'income_date', 'amount'))
+        even1 = list(detail_month.values('income_id','kind', 'income_date', 'amount', 'income_way'))
         evens = {'msg1': even1}
 
         return JsonResponse(evens)

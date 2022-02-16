@@ -283,6 +283,12 @@
 </div>
 
 <script>
+    $(document).ready(function(){
+    let today = moment();
+    let today2 = today.format('YYYY-MM-DD')
+    $('#date').attr('value', today2);
+    });
+    
     function submit(){
     var max_int = 210000000;
 
