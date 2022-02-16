@@ -108,7 +108,7 @@ def home(request):
         else:
             home_chartjs_data.append(income_sum_value)
     return render(request, 'home.html', {'month': month, 'Expenditure': spend_sum, 'Income': income_sum, 'income_sum_value':income_sum_value,
-                                         'Home_chartjs_data': home_chartjs_data, 'Total_investment_amount':total_investment_amount, 'son':son})
+                                         'total_current_price': total_current_price,'Home_chartjs_data': home_chartjs_data, 'Total_investment_amount': total_investment_amount, 'son': son})
 
 
 def recom(request):
