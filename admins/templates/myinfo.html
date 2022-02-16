@@ -128,19 +128,22 @@
                       </div>
                 </a>
             </li>
-            <li id="sms_read"><a href="{% url 'admins:sms_read' %}">
-                <i class="fas fa-question-circle" style="padding-right:5px;"></i><div class="order">
-                    <div>문자내역 가져오기</div>
-                    <i class="fas fa-chevron-right"></i>
-            </div>
-          </a>
-          </li>
+            <li class="sms">
+                <a href="{% url 'admins:sms_read' %}">
+                    <i class="fas fa-pen" style="padding-right:5px;"></i>
+                    <div class="order">
+                        <div>문자내역</div>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </a>
+            </li>
+
             <li><a style="color: #FF4444;" onclick="ask_out()">
                 <i class="fas fa-sign-out-alt" style="padding-right:5px;"></i><div class="order"><div>회원 탈퇴</div><i
                     class="fas fa-chevron-right"></i></div></a>
             </li>
             <li>
-                <a style="color: #FF4444;" href="{% url 'accounts:logout' %}">
+                <a style="color: #FF4444;" onclick="logout()">
                       <i class="fas fa-sign-out-alt" style="padding-right:5px;"></i><div class="order">
                     <div>로그아웃</div>
                     <i class="fas fa-chevron-right"></i>
@@ -151,28 +154,28 @@
     </div>
 </div>
 <script>
-        function ask_out(){
+    function ask_out(){
         if (confirm('정말로 탈퇴하시겠습니까?') == true){
-        window.location.href = "{% url 'admins:user_delete' user.user_id %}";
+            window.location.href = "{% url 'admins:user_delete' user.user_id %}";
         } else {
         return;
         }
-        }
+    }
+    function logout(){
+    if (confirm('로그아웃 하시겠습니까?') == true){
+        
+    window.location.href = "{% url 'accounts:logout' %}";
+    } else {
+        console.image("https://blog.kakaocdn.net/dn/nod8Z/btrcLB71HY2/ZRoPC8JIf8VgIrVUjbCLl1/img.gif");
+    return;
+    }
+}
 </script>
 <script>
-$(document).ready(function(){
-    $('.footer-selector').fadeIn(550);
-});
-
-function iosDisplayNone() {
-    // Display 'none' if Apple Device
-    const UA = navigator.userAgent.toLowerCase();
-
-    if(UA.indexOf("iphone") != -1) {
-        document.querySelector("#sms_read").style.display = "none";
-    } else {
-        document.querySelector("#sms_read").style.display = "none";
-    }
+// Display 'none' if Apple Device
+const mobile = (/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase()));
+if(mobile) {
+    $('.sms').hide();
 }
 </script>
 <!--    {% if message %}-->

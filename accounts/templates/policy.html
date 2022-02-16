@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}레몬::공지사항 상세{% endblock title %}
+{% block container %}
+<style>
+  #footer{display:none;}
+  #container, body{
+    background-color: #fff;
+  }
+</style>
+{% block nav %}
+<!-- 상단바 영역 시작 -->
+  <div id="nav" style="border-bottom: 1px solid #f1f1f1;">
+    <div>
+        <div style="text-align:center;">
+          <a style="color: #fff;" href="javascript:history.back();">
+            <i class="fa fa-angle-left"></i>
+          </a>개인정보 수집에 대한 안내
+        </div>
+    </div>
+  </div>
+<!-- 상단바 영역 끝 -->
+{% endblock nav %}
+
+<textarea rows="20" style="width:100%; border:none;">{% include 'persnal.html' %}</textarea>
+
+
+
+{% endblock %}
