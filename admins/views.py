@@ -100,3 +100,11 @@ def faq(request):
 def faq_detail(request, pk):
     faq = Faq.objects.get(faq_id = pk)
     return render(request, 'faq_detail.html', {'faq': faq})
+
+# SMS 읽기
+def sms_read(request):
+    return render(request, 'sms_read.html')
+
+# 문자내역 지출작성 페이지
+def sms_write(request):
+    return render(request, 'sms_write.html')

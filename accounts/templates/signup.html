@@ -227,7 +227,7 @@
             alert('이용약관을 동의해 주세요.')
         }
         else if ($('#uid').val() == '') {
-            alert('아이디를 입력해주세요.');
+            alert('아이디 입력 또는 중복확인 해주세요.');
             return false;
         }
         else if ($('#password').val() == '') {
@@ -243,7 +243,7 @@
             return false;
         }
         else if ($('#email').val() == '') {
-            alert('이메일을 입력해주세요.');
+            alert('이메일 입력 또는 중복확인 해주세요.');
             return false;
         }
         else {
@@ -392,6 +392,11 @@ document.addEventListener('keydown', function(event) {
     function checkID() {
         var vailID = document.getElementById('Vailduid').value;
 
+        if (vailID == ''){
+            alert('아이디를 입력해주세요.');
+            return false;
+        }
+
         $.ajax({
             type: "POST",
             url: "{% url 'accounts:ajax_checkID' %}",
@@ -419,6 +424,11 @@ document.addEventListener('keydown', function(event) {
 
     function checkEmail() {
         var vailEmail = document.getElementById('Vailemail').value;
+
+        if (vailEmail == '') {
+            alert('이메일을 입력해주세요.');
+        return false;
+        }
 
         $.ajax({
             type: "POST",

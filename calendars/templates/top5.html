@@ -91,9 +91,9 @@
             <!-- 행시작 -->
             <tr>
               <td width='10'><li style="font-weight: bold; color:#8e8e8e;"></li></td>
-              <td style="text-align: left;" width='60'>
+              <td style="text-align: left;" width='90'>
                 {% if category.category == 0 %}
-                <a class="myPattern-a" >카테고리 선택안함</a>
+                <a class="myPattern-a" >카테고리 미선택</a>
                 {% elif category.category == 1 %}
                 <a class="myPattern-a">금융/보험</a>
                 {% elif category.category == 2 %}
@@ -329,9 +329,9 @@ function click_evt() {
       {% for category in Category_count %}
       <tr>
         <td width='10'><li style="font-weight: bold; color:#8e8e8e;"></li></td>
-        <td style="text-align: left;" width='60'>
+        <td style="text-align: left;" width='90'>
             {% if category.category == 0 %}
-            <a class="myPattern-a">카테고리 선택안함</a>
+            <a class="myPattern-a">카테고리 미선택</a>
             {% elif category.category == 1 %}
             <a class="myPattern-a">금융/보험</a>
             {% elif category.category == 2 %}

@@ -12,8 +12,8 @@ from .models import user
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
-# Create your views here.
 import datetime
+from datetime import datetime, date, timedelta
 from django.db.models import Sum, Count
 import os, json
 from django.conf import settings
@@ -22,13 +22,14 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .socialviews import KakaoSignInView, KakaoSignInCallbackView
+from django.urls import reverse_lazy
 from django.core.mail.message import EmailMessage
 from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, PasswordResetDoneView
 from django.contrib.auth.forms import (
     AuthenticationForm, PasswordChangeForm, PasswordResetForm, SetPasswordForm,
 )
-from django.urls import reverse_lazy
-from datetime import datetime, date, timedelta
+
+# Create your views here.
 
 URL_LOGIN = '/login'
 
@@ -38,6 +39,10 @@ def send_email(request):
     from_email = "basoup.t@gmail.com"
     message = "메지시 테스트"
     EmailMessage(subject=subject, body=message, to=to, from_email=from_email).send()
+
+
+def policy(request):
+    return render(request, 'policy.html')
 
 def main(request):
     return render(request, 'main.html')
@@ -105,6 +110,16 @@ def signup(request):
         return render(request, 'signup.html')
     return render(request, 'signup.html')
 
+
+def pin_date_save(request):
+    now_time = datetime.now() + timedelta(days=1)
+    if request.method == 'POST':
+        user_id = request.user.user_id
+        user_db = user.objects.get(user_id=user_id)
+        user_db.pin_date = now_time
+        user_db.save()
+        return redirect('/')
+
 class UserPasswordResetView(PasswordResetView):
     template_name = 'password_reset.html' #템플릿을 변경하려면 이와같은 형식으로 입력
     success_url = reverse_lazy('password_reset_done')
@@ -119,6 +134,9 @@ class UserPasswordResetView(PasswordResetView):
 class UserPasswordResetDoneView(PasswordResetDoneView):
     template_name = 'password_reset_done.html' #템플릿을 변경하려면 이와같은 형식으로 입력
 
+
+def fail(request):
+    return render(request, 'registration/password_reset_done_fail.html')
 
 def ajax_checkID(request):
     if request.method == "POST":
