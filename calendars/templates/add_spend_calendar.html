@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
+
 {% load static %}
 {% block title %}레몬::추가하기{% endblock title %}
-
 {% block nav %}
 <!-- 상단바 영역 시작 -->
 <div id="nav" style="border-bottom: 1px solid #f1f1f1;">
@@ -13,9 +13,15 @@
       </div>
   </div>
 </div>
-<!-- 상단바 영역 끝 -->
+<style>
+    .loader-main{
+    bottom:0px !important;
+    }
+    #footer{
+    display: none;
+  }
+</style><!-- 상단바 영역 끝 -->
 {% endblock nav %}
-
 {% block container %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,9 +33,6 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <style>
-  #footer{
-    display: none;
-  }
   #container{
     margin: 0 20px !important;
   }
@@ -71,6 +74,11 @@
       font-size: 15px;
       border-bottom: 1px solid rgb(202, 202, 202);
   }
+}
+#ui-id-1{
+height:20%;
+width:230px !important;
+overflow:scroll;
 }
 </style>
 

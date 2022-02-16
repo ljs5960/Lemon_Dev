@@ -1,9 +1,17 @@
+
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}레몬::추가하기{% endblock title %}
-
 {% block nav %}
 <!-- 상단바 영역 시작 -->
+<style>
+ .loader-main{
+    bottom:0px !important;
+    }
+    #footer{
+    display: none;
+  }
+</style>
 <div id="nav" style="border-bottom: 1px solid #f1f1f1;">
   <div>
       <div style="text-align:center;">
@@ -28,6 +36,9 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <style>
+#footer{
+    display: none;
+  }
     #container{
         margin: 0 20px !important;
     }
@@ -69,7 +80,6 @@
 </style>
 
 <div class="addEvent-wrap">
-
     <form action="{% url 'calendars:add_income_calendar' %}" method = "POST" id="income_form">
         {% csrf_token %}
     <div class="income_div" id="income_div">
