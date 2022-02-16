@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+\{% extends 'base.html' %}
 {% load static %}
 {% block title %}레몬::지출내역수정페이지{% endblock title %}
 {% block container %}
@@ -191,9 +191,10 @@
 
 <script>
 
+
     $(function() {
         var cardlist_Tags = [{% for i in wntlr %}
-        '{{i.ss_isukorabbrv}}'
+        '{{i.ss_isukorabbrv}}',
         {% endfor %}];
         $('#place').autocomplete({
             source: cardlist_Tags,
@@ -206,13 +207,7 @@
 <!--      });-->
 
 
-     $(function() {
-        var cardlist_Tags = [{% for i in wntlr %}'{{i.ss_isukorabbrv}}{{i.ss_isusrtcd}}',{% endfor %}];
-        $('#place').autocomplete({
-            source: cardlist_Tags,
-            max:10
-        });
-    });
+
 
     /*
     $(document).ready(function(){

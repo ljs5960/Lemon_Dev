@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load humanize %}
-
+{% load mytag %}
 {% block title %}레몬::홈{% endblock title %}
 {% block container %}
 <style>
@@ -132,7 +132,7 @@
         <div class="add_info_content">
             <input type="text" class="add_info_input" id="pin" name="pin" placeholder="핀번호 입력해주세요. 미입력시 초기 비밀번호는 0000 입니다." value="">
         </div>
-        
+
         <button class="access_btn" id="signupBtn" onclick="signup_check();" type="button" value="signup" disabled style="width:100%">레몬 시작하기</button>
     </div><!-- 추가정보 영역 끝 -->
     </form>
@@ -386,7 +386,7 @@ document.addEventListener('keydown', function(event) {
     </div> <!-- 차트부분 끝 -->
 
     <!-- 소비 영역 -->
-    <div class="home-spand-div"> 
+    <div class="home-spand-div">
         <div class="home-spand-title">
             <a><strong>{{month}}월</strong> 소비</a>
             <b class="home-spand-dateView" id="date_view"></b>
@@ -414,7 +414,7 @@ document.addEventListener('keydown', function(event) {
         </div>
 
         <div class="home-stock-input2">
-            <a>{{son|intcomma}}원</a>
+          <a>{{son|intcomma}}원({{total_current_price|yields:Total_investment_amount|rounds:2}}%)</a>
         </div>
 
 
