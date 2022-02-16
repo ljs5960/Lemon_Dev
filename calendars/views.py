@@ -354,7 +354,7 @@ def add_spend_calendar(request):
 
 
 # SMS문자내역 입력
-def sms_add_spend_calendar(request, date, amount, place):
+def sms_add_spend_calendar(request):
     if request.method == "POST":
         date = request.POST.get("date", None)
         amount = request.POST.get("amount", None)
