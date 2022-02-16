@@ -125,6 +125,13 @@
         placeholder="" value="">
     </div>
 
+    <!-- 핀번호 입력 input -->
+    <div class="signup-form">
+        <a>Pin번호 <strong>(필수)</strong></a>
+        <input type="number" name="pin" maxlength='4' class="add_info_select_signup"
+            id="pin" placeholder="최대 4자리" value=""/>
+    </div>
+
     <a style="margin-top: 10px; display:none;" onclick="hideBtn()" id="hide-btn">닫기<i style="margin-left: 5px;" class="fas fa-chevron-up"></i></a>
     <a style="margin-top: 10px;" onclick="showBtn()" id="show-btn">추가정보 입력하기<i style="margin-left: 5px;" class="fas fa-chevron-down"></i></a>
 
@@ -244,6 +251,10 @@
         }
         else if ($('#email').val() == '') {
             alert('이메일 입력 또는 중복확인 해주세요.');
+            return false;
+        }
+        else if ($('#pin').val() == '') {
+            alert('Pin 번호 4자리를 입력해주세요.');
             return false;
         }
         else {

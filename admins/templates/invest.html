@@ -24,7 +24,7 @@
     border:1px solid #31bc8a;
     text-align:center;
   }
-  
+
   .footer-line-myinfo{
     /* 하단바 선택시 밑줄 */
     width: 50px;
@@ -59,21 +59,21 @@
           <div class="setup-content-row1-1">기존 투자 금액</div>
           {{ user.invest|intcomma }} 원
         </div> <!-- setup-content-row1 div 끝 -->
-    
+
         <div class="setup-content-row2"> <!-- setup-content-row2 div 시작 -->
           <div class="setup-content-row2-1">설정 날짜</div>
           {{ user.invest_date|date:"Y-m-d" }}
         </div> <!-- setup-content-row2 div 끝 -->
-        
-      
+
+
         <div class="setup-content-row3"> <!-- setup-content-row3 div 시작 -->
           <div class="setup-content-row3-1">변경 가능 날짜</div>
           {{can_date|date:"Y-m-d"}}
         </div> <!-- setup-content-row3 div 끝 -->
-    
+
     <div>
       {% if can_date|date:"Y-m-d" <= now_date|date:"Y-m-d" %}
-      <input class="invest" type="text" name="invest" value="{{ user.invest|intcomma }}" required>
+      <input class="invest" type="number" name="invest" value="" required>
       {% else %}
       <input class="invest" type="text" name="invest" value="{{ user.invest|intcomma }}" disabled>
       {% endif %}
