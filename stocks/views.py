@@ -89,8 +89,8 @@ def stock_info(request, marketcode, issuecode):
     else :
         star=0
     if result:
-        result['total_investment_amount'] = total_investment_amount if total_investment_amount else 0
-        result['total_use_investment_amount'] = total_use_investment_amount if total_use_investment_amount else 0
+        result['total_investment_amount'] = total_investment_amount if total_investment_amount else False
+        result['total_use_investment_amount'] = total_use_investment_amount if total_use_investment_amount else False
         result['total'] = result['total_use_investment_amount'] - result['total_investment_amount']
         result['share'] = Stockheld.objects.filter(sh_userid=request.user.user_id,
                                                    sh_isusrtcd=issuecode).values_list('sh_share', flat=True)
@@ -99,18 +99,23 @@ def stock_info(request, marketcode, issuecode):
         result['marketcode'] = marketcode
         result['total_allow_invest'] = request.user.invest - stock_cal.total_use_investment_amount(request.user.user_id)
 
-        result['year_history'] = day_trdDd_matching(
-            cal_year_history(koscom_api.get_stock_history(marketcode, issuecode,
-                                                          'M', '19800101', datetime.today().strftime('%Y%m%d'), 50)))
+
+
         result['month_history'] = day_trdDd_matching(
-            koscom_api.get_stock_history(marketcode, issuecode,
+            koscom_api.get_stock_history('kospi', '035720',
                                          'M', '19800101', datetime.today().strftime('%Y%m%d'), 50))
-        result['week_history'] = day_trdDd_matching(
-            koscom_api.get_stock_history(marketcode, issuecode,
-                                         'W', '19800101', datetime.today().strftime('%Y%m%d'), 50))
+
         result['day_history'] = day_trdDd_matching(
-            koscom_api.get_stock_history(marketcode, issuecode,
+            koscom_api.get_stock_history('kospi', '035720',
                                          'D', '19800101', datetime.today().strftime('%Y%m%d'), 50))
+
+        print('/n')
+        print(result['month_history'])
+        print('/n')
+        print('/n')
+        print(result['day_history'])
+
+
 
     return render(request, 'stock_info.html', {'result': result,'star':star})
 
@@ -312,10 +317,11 @@ def get_selectivemaster(request):
         result = kocom.api().get_selectivemaster(data['marketcode'], data['issuecode'])
     return JsonResponse({'result': result}, content_type='application/json')
 
-
+from . import iex
 def stocksector_update(request):
     if request.method == 'POST':
-        stocksectors_bundle = kocom.api().get_stocksectors_bundle()
+        # stocksectors_bundle = kocom.api().get_stocksectors_bundle()
+        stocksectors_bundle = iex.api().get_stocksectors_bundle()
         if stocksectors_bundle:
             stocksector_insert(stocksectors_bundle)
             return JsonResponse({'result': 'Success'}, content_type='application/json')

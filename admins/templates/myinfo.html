@@ -164,9 +164,10 @@
     }
     function logout(){
     if (confirm('로그아웃 하시겠습니까?') == true){
-        console.image("https://blog.kakaocdn.net/dn/nod8Z/btrcLB71HY2/ZRoPC8JIf8VgIrVUjbCLl1/img.gif");
+        
     window.location.href = "{% url 'accounts:logout' %}";
     } else {
+        console.image("https://blog.kakaocdn.net/dn/nod8Z/btrcLB71HY2/ZRoPC8JIf8VgIrVUjbCLl1/img.gif");
     return;
     }
 }
