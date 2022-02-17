@@ -27,15 +27,14 @@
     border-radius: 10px;
   }
   .add_info_phonecode_signup{
-    margin-bottom: 10px;
-    padding-left: 10px;
-    border: 1px solid #D1D6DA;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
+    margin-top: 10px;
+    margin-bottom:5px;
+    border: none;
     width: 50%;
-    height: 35px;
-    border-radius: 10px;
+    display: inline-block;
+    border-bottom: 1px solid #ebebeb;
+    background-color: white;
+    margin-top: 10px;
   }
 	.changeInfo-btn{
     margin-top: 10px;
@@ -74,7 +73,7 @@
           <div style="display: flex;align-items: center;justify-content: space-between;">
             <input style="display: none;" id="inputCode" name="codecode" class="add_info_phonecode_signup" type="number" placeholder="인증번호 입력" disabled>
             <div style="display: flex; align-items: center;justify-content: space-between;"><a id="count" class="count-signup" style="width:50px;margin-top: 5px; margin-bottom:10px;"></a>
-              <button style="display: none;" type="submit" id="certBtn" onclick="certfun();" class="phone_code_btn_signup" disabled >확인</button>
+              <button style="display: none; margin-right:0px;" type="submit" id="certBtn" onclick="certfun();" class="phone_code_btn_signup" disabled >확인</button>
             </div>
         </div>
         </div>
