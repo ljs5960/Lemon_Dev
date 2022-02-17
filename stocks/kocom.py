@@ -32,7 +32,7 @@ class api:
         except Exception as e:
             print('Error in get_current_price: \n', e)
             return False
-        
+
     def s_get_current_price(self, marketcode, id):
         try:
             url = f'https://sandbox-apigw.koscom.co.kr/v2/market/stocks/{marketcode}/{id}/price'

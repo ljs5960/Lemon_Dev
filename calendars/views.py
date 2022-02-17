@@ -36,13 +36,13 @@ def home(request):
         invest = request.POST['invest']
         birthday = request.POST['birthday']
         pin = request.POST['pin']
-        
+
         if invest == '0':
             #invest_date = None
             invest_date = date(1111,1,11)
         else:
             invest_date = datetime.now()
-        
+
         if birthday == '':
             #birthday = date(1111, 1, 11)
             birthday = datetime.now()
@@ -53,7 +53,7 @@ def home(request):
             pin = '0000'
         else:
             pin = pin
-        
+
         user = get_user_model().objects.filter(user_id=user).update(
             u_chk=request.POST['u_chk'],
             username=request.POST['username'],
