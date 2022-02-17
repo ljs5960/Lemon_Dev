@@ -351,8 +351,7 @@ def add_income_calendar(request):
             return redirect('/history')
     else:
         iform = IncomeForm()
-    wntlr = Stocksector.objects.all().values('ss_isusrtcd', 'ss_isukorabbrv')
-    return render(request, 'add_income_calendar.html', {'wntlr': wntlr})
+    return render(request, 'add_income_calendar.html')
 
 
 def add_spend_calendar(request):
@@ -373,7 +372,7 @@ def add_spend_calendar(request):
             return redirect('/history')
     else:
         sform = SpendForm()
-    wntlr = Stocksector.objects.all().values('ss_isusrtcd', 'ss_isukorabbrv')
+    wntlr = Stocksector.objects.all().values('ss_isukorabbrv')
     return render(request, 'add_spend_calendar.html', {'wntlr': wntlr})
 
 # SMS문자내역 입력
