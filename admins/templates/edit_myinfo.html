@@ -42,6 +42,23 @@
     color: #fff;
         float: right;
   }
+  select {
+    border-radius:0; /* 아이폰 사파리 보더 없애기 */
+    -webkit-appearance:none; /* 화살표 없애기 for chrome*/
+    -moz-appearance:none; /* 화살표 없애기 for firefox*/
+    appearance:none /* 화살표 없애기 공통*/
+  }
+  /* input number  */
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+  }
+  /* Firefox */
+  input[type=number] {
+  -moz-appearance: textfield;
+  }
 </style>
 {% block nav %}
 <!-- 상단바 영역 시작 -->
