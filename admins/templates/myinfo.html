@@ -73,7 +73,7 @@
 <div class="profile-wrap invest">
     {% if user.invest == 0 or user.invest == NULL %}
     <a style="padding-right:5px;">보유 가상 자산</a>
-    <div class="invest_money"><a href="{% url 'accounts:myinfo' %}">가상자산을 설정해주세요.</a></div>
+    <div class="invest_money"><a onclick="location.replace('{% url 'admins:edit_invest' %}')">가상자산을 설정해주세요.</a></div>
     {% else %}
     <a style="padding-right:5px;">보유 가상 자산</a>
     <div class="invest_money"><span style="color:black;">{{ user.invest|default_if_none:'0'|intcomma }}원</span>
@@ -98,7 +98,7 @@
           </a>
           </li>
             <li>
-                <a href="{% url 'admins:edit_invest' %}">
+                <a onclick="location.replace('{% url 'admins:edit_invest' %}')">
                     <i class="fas fa-wallet" style="padding-right:5px;"></i><div class="order">
                         <div>가상투자 금액 추가</div>
                         <i  class="fas fa-chevron-right"></i>

@@ -54,7 +54,9 @@ font-family: 'Noto Sans KR', sans-serif;
 			-moz-appearance: textfield;
 			min-height: 1.2em;
     }
-		
+		::-webkit-scrollbar{
+    	display:none;
+		}
 	li{
 		font-family: 'Noto Sans KR', sans-serif;
 	}
