@@ -298,9 +298,10 @@ document.addEventListener('keydown', function(event) {
         var display = $('#count');
         var leftSec = 180;
         var phoneInput = document.getElementById('vaildPhonenumber');
+
         // Phonenumber Check Regular Expression -> 01* **** ****
         const phoneRegEx = /^01([0|1|6|7|8|9])([0-9]{3,4})([0-9]{4})$/;
-        
+
         if(phoneInput.value.match(phoneRegEx)) {
             alert('입력하신 휴대번호로 인증번호를 전송하였습니다.');
             $('#inputCode').removeAttr('disabled');
@@ -332,9 +333,11 @@ document.addEventListener('keydown', function(event) {
                 },
             });
             return 0;
-        } else {
+        }
+        else{
             alert('전화번호를 확인해주세요.');
         }
+        
         // 난수 설정
         function makeRandomNum(n) {
             let value = '';

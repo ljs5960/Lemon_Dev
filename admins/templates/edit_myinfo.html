@@ -76,7 +76,7 @@
     <!-- 성별 부분 영역 -->
       <div class="input_design">
         <div class="input_title">성별</div>
-        <select id="gender" name="gender">
+          <select id="gender" name="gender">
             <option value="0" {% if user.gender == '0' %} selected {% endif %}>--성별을 선택해주세요--</option>
             <option value="M" {% if user.gender == 'M' %} selected {% endif %}>남</option>
             <option value="F" {% if user.gender == 'F' %} selected {% endif %}>여</option>
@@ -86,7 +86,7 @@
     <!-- 직업 부분 영역 -->
       <div class="input_design">
       <div class="input_title">직업</div>
-      <select id="job" name="job">
+        <select id="job" name="job">
           <option value="0" {% if user.job == 0 %} selected {% endif %}>--직업을 선택해주세요--</option>
           <option value="1" {% if user.job == 1 %} selected {% endif %}>학생</option>
           <option value="2" {% if user.job == 2 %} selected {% endif %}>직장인</option>
