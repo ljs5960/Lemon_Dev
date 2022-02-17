@@ -43,7 +43,7 @@
   <div id="nav" style="border-bottom: 1px solid #f1f1f1;">
     <div>
       <div style="text-align:center;">
-        <a style="color: #fff;" href="{% url 'accounts:myinfo' %}">
+        <a style="color: #fff;" href="javascript:history.back();">
           <i class="fa fa-angle-left"></i>
         </a>가상투자 금액 상세
       </div>
@@ -95,11 +95,36 @@
   {% endif %}
 
     <div class="changeinvest-wrap">
-      {% if can_date|date:"Y-m-d" <= now_date|date:"Y-m-d" %} <button class="changeinvest_btn" type="submit">변경</button>
+      {% if can_date|date:"Y-m-d" <= now_date|date:"Y-m-d" %}
+      <div class="changeinvest_btn" onclick="submit()">추가</div>
         {% else %}
         <div class="changeinvest_btn" onclick="alert('30일 동안 변경을 하실수 없습니다.')">변경</div>
         {% endif %}
     </div>
   </form>
-</div> <!-- 가상투자 영역 끝 -->
+</div>
+<!-- 가상투자 영역 끝 -->
+<script>
+  function submit(){
+  var input_money = $('.invest').val();
+  $.ajax({
+                type: "POST",
+                url: "{% url 'admins:edit_invest' %}",
+                data: {
+                    input_money: input_money,
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    dataType: "json",
+                },
+                success: function(data){
+                    console.log('성공');
+                    var here = window.location.href;
+                        location.replace(here);
+                },
+                fail: function(data) {
+                    console('실패');
+                },
+            });
+  }
+
+</script>
 {% endblock %}
