@@ -40,7 +40,7 @@
       <div style="text-align:center;">
         <a style="color: #fff;" href="javascript:history.back();">
           <i class="fa fa-angle-left"></i>
-        </a>가상투자 금액 상세
+        </a>가상투자 금액 추가
       </div>
     </div>
   </div>
@@ -73,7 +73,7 @@
     
     <div>
       {% if can_date|date:"Y-m-d" <= now_date|date:"Y-m-d" %}
-      <input class="invest" type="text" name="invest" value="{{ user.invest|intcomma }}" required>
+      <input class="invest" type="text" name="invest" value="" required>
       {% else %}
       <input class="invest" type="text" name="invest" value="{{ user.invest|intcomma }}" disabled>
       {% endif %}
@@ -93,7 +93,7 @@
       {% if can_date|date:"Y-m-d" <= now_date|date:"Y-m-d" %}
       <div class="changeinvest_btn" onclick="submit()">추가</div>
         {% else %}
-        <div class="changeinvest_btn" onclick="alert('30일 동안 변경을 하실수 없습니다.')">변경</div>
+        <div class="changeinvest_btn" onclick="alert('30일 동안 변경을 하실수 없습니다.')">추가</div>
         {% endif %}
     </div>
   </form>
