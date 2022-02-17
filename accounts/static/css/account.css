@@ -52,6 +52,7 @@
     border-radius: 1px;
     color: white;
     border-radius: 10px;
+        line-height: 35px;
   }
   .phone_code_btn_signup:disabled{
     float:right;
