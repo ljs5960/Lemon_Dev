@@ -312,10 +312,11 @@ def get_selectivemaster(request):
         result = kocom.api().get_selectivemaster(data['marketcode'], data['issuecode'])
     return JsonResponse({'result': result}, content_type='application/json')
 
-
+from . import iex
 def stocksector_update(request):
     if request.method == 'POST':
-        stocksectors_bundle = kocom.api().get_stocksectors_bundle()
+        # stocksectors_bundle = kocom.api().get_stocksectors_bundle()
+        stocksectors_bundle = iex.api().get_stocksectors_bundle()
         if stocksectors_bundle:
             stocksector_insert(stocksectors_bundle)
             return JsonResponse({'result': 'Success'}, content_type='application/json')
