@@ -41,13 +41,13 @@
     }
 </style>
 {% load mytag %}
-<table style="position:fixed;background-color:white;height:35px;width: 100%;">
+<table style="position:absolute;background-color:white;height:40px;width: 100%;">
     <tr>
         <td style="width:50%;text-align:center;" onclick="move_page(0)">보유 주식</td>
         <td style="width:50%;text-align:center;" onclick="move_page(1)">관심 주식</td>
     </tr>
 </table>
-<div style="padding-top:35px;">
+<div style="margin-top:40px;">
 <div class="swiper">
     <div class="swiper-scrollbar" style="top:0px;height:3px;"></div>
     <div class="swiper-wrapper">
@@ -148,41 +148,5 @@
         }
         return "";
     }
-
-    function fn_koscom_history() {
-        var data = {
-<!--                'marketcode': 'kospi',-->
-<!--                'issuecode': '005930',-->
-<!--                'trnsmCycleTpCd': 'D',-->
-<!--                'inqStrtDd': '20170101',-->
-<!--                'inqEndDd': '20170331',-->
-<!--                'reqCnt': '20'-->
-            }
-            headers = new Headers();
-        headers.append('Content-Type', 'application/json')
-        headers.append('X-CSRFToken', csrftoken)
-        fetch('/get_history', {
-            method: "POST",
-            headers: headers,
-            body: JSON.stringify(data)
-        })
-        .then(res => {
-            if(res.status === 200) return res.json();
-            else console.log(res.statusText);
-        })
-        .then(json => {
-            console.log(json.result);
-        })
-        .catch(err => {
-            console.log(err)
-        })
-    }
-
-</script>
-
-<script>
-$(document).ready(function(){
-   // $('.footer-selector').fadeIn(550);
-});
 </script>
 {% endblock %}

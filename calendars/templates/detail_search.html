@@ -71,13 +71,14 @@
     </script>
 
     <div class="filter-menu-contents" id="filter-contents" style="display: none;padding-top:15px;">
-      <form class="check_box_form" action="{% url 'calendars:detail_search' %}" method="post">
+      <form class="check_box_form" action="{% url 'calendars:detail_search' %}"  method="post" id="search_form">
     {% csrf_token %}
       <div style="text-align: center;">
       <input class="search-date" type="date" id="start_date" min="1900-01-01" max="2099-12-31" autocomplete="off" name="start_date" value=""> ~
-      <input class="search-date" type="date" id="end_date" min="1900-01-01" max="2099-12-31" autocomplete="off" name="end_date" value=""> <br>
-    <div class="search-btn" onclick="check_date()">상세 검색</div></form> <br>
-      </div>
+      <input class="search-date" type="date" id="end_date" min="1900-01-01" max="2099-12-31" autocomplete="off" name="end_date" value="">
+        <div style="display: flex;justify-content: center;">
+    <div class="search-btn" onclick="check_date()">상세 검색</div></div>
+      </div></form>
     </div>
 
   </div>
@@ -90,7 +91,11 @@
   {% for filter in total_date %}
   <tr class="tr-month-title">
   {% ifchanged filter.spend_date.month %}
-    <th class="th-month-title">{{ filter.spend_date | date:'m월' }}</th>
+    <th colspan="2" class="th-month-title" style="text-align:center;">
+      <div style="display:flex;align-items:center;justify-content:center">
+      <img src="media/date.png" style="margin-right: 5px; width:30px; height:30px; vertical-align: -webkit-baseline-middle;">{{ filter.spend_date | date:'m월' }}
+    </div>
+    </th>
   {% endifchanged %}
   </tr>
   {% ifchanged filter.spend_date.day %}
