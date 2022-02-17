@@ -84,6 +84,7 @@ def stock_info(request, marketcode, issuecode):
     koscom_api = kocom.api()
     result = koscom_api.get_stock_master(marketcode, issuecode)
     mark = bookmark.objects.filter(user_id=request.user.user_id, marketcode=marketcode, isuSrtCd=issuecode)
+
     if mark:
         star=1
     else :
@@ -97,23 +98,14 @@ def stock_info(request, marketcode, issuecode):
         print(result['share'])
         result['curPrice'] = koscom_api.get_current_price(marketcode, issuecode)
         result['marketcode'] = marketcode
+        print(marketcode)
+
         result['total_allow_invest'] = request.user.invest - stock_cal.total_use_investment_amount(request.user.user_id)
 
 
 
-        result['month_history'] = day_trdDd_matching(
-            koscom_api.get_stock_history('kospi', '035720',
-                                         'M', '19800101', datetime.today().strftime('%Y%m%d'), 50))
+    
 
-        result['day_history'] = day_trdDd_matching(
-            koscom_api.get_stock_history('kospi', '035720',
-                                         'D', '19800101', datetime.today().strftime('%Y%m%d'), 50))
-
-        print('/n')
-        print(result['month_history'])
-        print('/n')
-        print('/n')
-        print(result['day_history'])
 
 
 

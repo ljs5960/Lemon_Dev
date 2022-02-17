@@ -101,18 +101,7 @@ class api:
             print('Error in get_stocksector: \n', e)
             return False
 
-    def get_stock_history(self, symbol, h_range, h_date=None):
-        try:
-            url = f'https://cloud.iexapis.com/stable/stock/{symbol}/chart'f'/{h_range}'
-            url += f'/{h_date}?token={IEX_C_TOKEN}' if h_date is not None else f'?token={IEX_C_TOKEN}'
-            response = requests.get(url, timeout=self.timeout)
-            if response.status_code == 200:
-                return json.loads(response.text)
-            else:
-                return False
-        except Exception as e:
-            print('Error in get_stock_history: \n', e)
-            return False
+
 
     def get_per_pbr_bundle(self):
         result = []
