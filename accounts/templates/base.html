@@ -159,32 +159,7 @@
     </script>
 
 <body>
-  <!-- 페이지 로딩 에니메이션 -->
-  <div id="page-preloader">
-      <div class="loader-main">
-          <div class="la-ball-clip-rotate">
-              <div></div>
-          </div>
-      </div>
-  </div>
-  <!-- 페이지 로딩 에니메이션 끝 -->
-
-  <!-- 네비게이션바 선언 -->
-  {% block nav %}
-  <div id="nav">
-    <div>
-      <div style="margin-left:15px; float:left; width:35%;">
-          <img onclick="location.href='{% url 'calendars:home' %}'" src="{% static 'main/assets/img/레몬 가로.png'%}"
-                width="100px">
-      </div>
-      <div style="margin-right:15px; float:right;">
-          <a href="{% url 'stocks:search_stock' %}"><i class="fa fa-search" style="color:#31bc8a"></i></a>
-      </div>
-    </div>
-  </div>
-  {% endblock %}
-  <!-- 네비게이션바 선언 끝 -->
-
+  {% if user.u_chk == 1 %}
   <script>
     $( document ).ready(function() {
         let pin_date = '{{ user.pin_date | date:'Y/n/d H:i'}}';
@@ -222,14 +197,13 @@
     </script>
 
     <!-- 핀 번호 로드 -->
-    {% if user.u_chk == 1 %}
     <div id="pin-preload">
         <div class="pin_saver">
             <div class="pin-input-wrap">
                 <input type="password" pattern="[0-9]*" inputmode="numeric" name="pin" id="pin" maxlength='4' />
             </div>
             <div class="pin-btn-wrap">
-                <div onclick="pin_saver({{user.pin}})" class="pinBtn" type="submit">Pin 번호</div>
+                <div onclick="pin_saver({{user.pin}})" class="pinBtn">Pin 번호</div>
             </div>
         </div>
     </div>
@@ -241,6 +215,32 @@
     {% endif %}
     
 
+ <!-- 페이지 로딩 에니메이션 -->
+  <div id="page-preloader">
+      <div class="loader-main">
+          <div class="la-ball-clip-rotate">
+              <div></div>
+          </div>
+      </div>
+  </div>
+  <!-- 페이지 로딩 에니메이션 끝 -->
+
+  <!-- 네비게이션바 선언 -->
+  {% block nav %}
+  <div id="nav">
+    <div>
+      <div style="margin-left:15px; float:left; width:35%;">
+          <img onclick="location.href='{% url 'calendars:home' %}'" src="{% static 'main/assets/img/레몬 가로.png'%}"
+                width="100px">
+      </div>
+      <div style="margin-right:15px; float:right;">
+          <a href="{% url 'stocks:search_stock' %}"><i class="fa fa-search" style="color:#31bc8a"></i></a>
+      </div>
+    </div>
+  </div>
+  {% endblock %}
+  <!-- 네비게이션바 선언 끝 -->
+
     <!-- 하단바 -->
     <div id="footer">
       {% block footer %}
@@ -249,7 +249,7 @@
         <tr>
           <li class="bottom-nav-home" style="width: 20%; height:100%; text-align:center;">
             <a class="footer-line-home" href="{% url 'calendars:home' %}">
-              <img id="footer_home" class="fa-home" src="/media/home.png"></img>
+              <img id="footer_home" class="fa-home" src="/media/home.png">
             </a>
             <div class="footer-selector"></div>
           </li>
@@ -258,7 +258,7 @@
         <tr>
           <li class="bottom-nav-calendar" style="width: 20%; height:100%; text-align:center;">
             <a class="footer-line-calendar" href="{% url 'calendars:history' %}">
-              <img id="footer_calendar" class="fa-calendar" src="/media/calendar.png"></img>
+              <img id="footer_calendar" class="fa-calendar" src="/media/calendar.png">
             </a>
           </li>
         </tr>
@@ -266,7 +266,7 @@
         <tr>
           <li class="bottom-nav-portfolio" style="width: 20%; height:100%; text-align:center;">
             <a class="footer-line-portfolio" href="{% url 'stocks:portfolio' %}">
-              <img id="footer_portfolio" class="fa-portfolio" src="/media/portfolio.png"></img>
+              <img id="footer_portfolio" class="fa-portfolio" src="/media/portfolio.png">
             </a>
           </li>
         </tr>
@@ -274,7 +274,7 @@
         <tr>
           <li class="bottom-nav-stock" style="width: 20%; height:100%; text-align:center;">
             <a class="footer-line-stock" href="{% url 'stocks:stock' %}">
-              <img id="footer_stock" class="fa-stock" src="/media/stock.png"></img>
+              <img id="footer_stock" class="fa-stock" src="/media/stock.png">
             </a>
           </li>
         </tr>
@@ -282,7 +282,7 @@
             <tr>
               <li class="bottom-nav-myinfo" style="width: 20%; height:100%; text-align:center;">
                 <a class="footer-line-myinfo" href="{% url 'accounts:myinfo' %}">
-                  <img id="footer_myinfo" class="fa-myinfo" src="/media/myinfo.png"></img>
+                  <img id="footer_myinfo" class="fa-myinfo" src="/media/myinfo.png">
                 </a>
               </li>
             </tr>

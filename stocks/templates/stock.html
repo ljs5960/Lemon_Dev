@@ -41,13 +41,13 @@
     }
 </style>
 {% load mytag %}
-<table style="position:fixed;background-color:white;height:35px;width: 100%;">
+<table style="position:absolute;background-color:white;height:40px;width: 100%;">
     <tr>
         <td style="width:50%;text-align:center;" onclick="move_page(0)">보유 주식</td>
         <td style="width:50%;text-align:center;" onclick="move_page(1)">관심 주식</td>
     </tr>
 </table>
-<div style="padding-top:35px;">
+<div style="margin-top:40px;">
 <div class="swiper">
     <div class="swiper-scrollbar" style="top:0px;height:3px;"></div>
     <div class="swiper-wrapper">
@@ -149,6 +149,7 @@
         return "";
     }
 
+/*
     function fn_koscom_history() {
         var data = {
 <!--                'marketcode': 'kospi',-->
@@ -177,7 +178,7 @@
             console.log(err)
         })
     }
-
+*/
 </script>
 
 <script>

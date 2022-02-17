@@ -6,6 +6,7 @@ from accounts.models import user
 from .models import Notice, Faq
 from datetime import timedelta
 from datetime import datetime
+from django.http import JsonResponse
 from django.contrib.auth import login, authenticate, get_user_model
 # Create your views here.
 
@@ -30,21 +31,14 @@ def invest_change(request):
     previous_date = user_db.invest_date
     now_date = datetime.now()
     can_date = user_db.invest_date + timedelta(days=30) if user_db.invest_date else 0000-00-00
-    # try:
-    #     if((previous_date.strftime('%Y %m')) == (now_date.strftime('%Y %m'))): # 당월 중복변경의 경우 myinfo로 이동
-    #         return render(request, 'myinfo.html', {'message': '변경불가'})
-    #     else: # 당월 첫변경의 경우 invest로 이동
-    #         if request.method == 'POST':
-    #             user_db.invest_date = now_date
-    #             user_db.invest = request.POST['invest']
-    #             user_db.save()
-    #             return redirect('/myinfo')
-    # except AttributeError:
-    if request.method == 'POST':
-            user_db.invest_date = now_date
-            user_db.invest = request.POST['invest']
-            user_db.save()
-            return redirect('/invest/update')
+    if request.method == "POST":
+        input_money = request.POST.get("input_money", None)
+        uid = int(input_money)
+        user_db.invest_date = now_date
+        user_db.invest = uid + user_db.invest
+        user_db.save()
+        data = {}
+        return JsonResponse(data)
     return render(request, 'invest.html', {'user': user_db, 'can_date': can_date, 'now_date': now_date})
 
 # 내 정보 변경
