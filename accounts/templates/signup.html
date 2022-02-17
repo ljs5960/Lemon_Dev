@@ -87,7 +87,7 @@
     <a>아이디 <strong>(필수)</strong></a><br>
         <div>
             <input type="text" class="add_info_select_signup" style="width:70%; margin-top: 10px; margin-bottom:10px;"
-          id="Vailduid" name="Vailduid" placeholder="" value="" ><button type="button" onclick="checkID();" id="check_ID" class="idVailed_btn">중복확인</button>
+          id="Vailduid" name="Vailduid" placeholder="(영문시작/숫자 포함 6~20자)" value="" ><button type="button" onclick="checkID();" id="check_ID" class="idVailed_btn">중복확인</button>
         </div>
         <br><input type="hidden" class="add_info_select_signup" style="margin-top: 10px; margin-bottom:10px;"
           id="uid" name="uid" placeholder="" value="">
@@ -128,7 +128,7 @@
     <!-- 핀번호 입력 input -->
     <div class="signup-form">
         <a>Pin번호 <strong>(필수)</strong></a>
-        <input type="number" name="pin" maxlength='4' class="add_info_select_signup"
+        <input type="number" name="pin" class="add_info_select_signup"
             id="pin" placeholder="최대 4자리" value=""/>
     </div>
 
@@ -209,14 +209,6 @@
                 value="0" style="margin-top: 10px; margin-bottom:25px;"><br>
 
         </div>
-
-        <!-- 핀번호 입력 input -->
-        <div class="signup-form">
-            <a>핀번호 (선택)</a>
-            <input type="number" name="pin" maxlength='4' class="add_info_select_signup"
-                id="pin" placeholder="미입력시 초기 번호는 0000 입니다."/>
-        </div>
-
     </div>
     <!-- <button class="signup-btn" id="signupBtn" onclick="signup_check()" disabled style="width:100%">회원가입</button> -->
     <div class="signup-btn" id="signupBtn" onclick="signup_check();" style="width:100%">회원가입</span>
@@ -245,6 +237,10 @@
             alert('한번더 비밀번호를 입력해주세요.');
             return false;
         }
+        else if ($('#password').val() !== $('#password1').val()) {
+            alert('비밀번호가 일치하지 않습니다.');
+            return false;
+        }
         else if ($('#name').val() == '') {
             alert('이름을 입력해주세요.');
             return false;
@@ -253,7 +249,7 @@
             alert('이메일 입력 또는 중복확인 해주세요.');
             return false;
         }
-        else if ($('#pin').val() == '') {
+        else if (!$('#pin').val().match(/^[0-9]{4}$/)) {
             alert('Pin 번호 4자리를 입력해주세요.');
             return false;
         }
@@ -302,16 +298,10 @@ document.addEventListener('keydown', function(event) {
         var display = $('#count');
         var leftSec = 180;
         var phoneInput = document.getElementById('vaildPhonenumber');
-        if(phoneInput.value == '' || phoneInput.value == null){
-            alert('휴대전화 번호를 입력하세요.');
-            return false;
-        }
-        if(phoneInput.value.length != 11){
-            alert('휴대전화 번호 11자리를 입력하세요.');
-            return false;
-        }
-
-        if((phoneInput.value != '' || phoneInput.value != null) && phoneInput.value.length == 11 ){
+        // Phonenumber Check Regular Expression -> 01* **** ****
+        const phoneRegEx = /^01([0|1|6|7|8|9])([0-9]{3,4})([0-9]{4})$/;
+        
+        if(phoneInput.value.match(phoneRegEx)) {
             alert('입력하신 휴대번호로 인증번호를 전송하였습니다.');
             $('#inputCode').removeAttr('disabled');
             $('#certBtn').removeAttr('disabled');
@@ -342,9 +332,8 @@ document.addEventListener('keydown', function(event) {
                 },
             });
             return 0;
-        }
-        else{
-
+        } else {
+            alert('전화번호를 확인해주세요.');
         }
         // 난수 설정
         function makeRandomNum(n) {
@@ -402,68 +391,72 @@ document.addEventListener('keydown', function(event) {
 <script>
     function checkID() {
         var vailID = document.getElementById('Vailduid').value;
+        // ID Check Regular Expression -> 6~20 only num & eng
+        const IDRegEx = /^[a-z]+[0-9a-zA-Z]{5,19}$/g;
 
-        if (vailID == ''){
-            alert('아이디를 입력해주세요.');
+        if(vailID.match(IDRegEx)) {
+            $.ajax({
+                type: "POST",
+                url: "{% url 'accounts:ajax_checkID' %}",
+                data: {
+                    Vaildid: vailID,
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    dataType: "json",
+                },
+                success: function (result_msg) {
+                    if (result_msg == 0){
+                        alert('사용중인 아이디입니다.');
+                        return false;
+                    }
+                    else{
+                        alert('사용가능한 아이디입니다.');
+                        $('input[name=uid]').attr('value', vailID);
+                        $('input[name=Vailduid]').attr('disabled', true);
+                    }
+                },
+                fail: function () {
+                    console.log('ajax send error!');
+                },
+            });
+        } else {
+            alert('아이디를 확인해주세요.');
             return false;
         }
-
-        $.ajax({
-            type: "POST",
-            url: "{% url 'accounts:ajax_checkID' %}",
-            data: {
-                Vaildid: vailID,
-                csrfmiddlewaretoken: '{{ csrf_token }}',
-                dataType: "json",
-            },
-            success: function (result_msg) {
-                if (result_msg == 0){
-                    alert('사용중인 아이디입니다.');
-                    return false;
-                }
-                else{
-                    alert('사용가능한 아이디입니다.');
-                    $('input[name=uid]').attr('value', vailID);
-                    $('input[name=Vailduid]').attr('disabled', true);
-                }
-            },
-            fail: function () {
-                console.log('ajax send error!');
-            },
-        });
     }
 
     function checkEmail() {
         var vailEmail = document.getElementById('Vailemail').value;
+        // Email Check Regular Expression -> your_email@domain_name.com
+        const emiailRegEx = /[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]$/i;
 
-        if (vailEmail == '') {
-            alert('이메일을 입력해주세요.');
-        return false;
+        if(vailEmail.match(emiailRegEx)) {
+            $.ajax({
+                type: "POST",
+                url: "{% url 'accounts:ajax_checkEmail' %}",
+                data: {
+                    vailEmail: vailEmail,
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    dataType: "json",
+                },
+                success: function (result_msg) {
+                    if (result_msg == 0) {
+                        alert('사용중인 이메일입니다.');
+                        return false;
+                    }
+                    else {
+                        alert('사용가능한 이메일입니다.');
+                        $('input[name=email]').attr('value', vailEmail);
+                        $('input[name=Vailemail]').attr('disabled', true);
+                    }
+                },
+                fail: function () {
+                    console.log('ajax send error!');
+                },
+            });
+        } else {
+            alert('이메일을 확인해주세요.');
+            return false;
         }
-
-        $.ajax({
-            type: "POST",
-            url: "{% url 'accounts:ajax_checkEmail' %}",
-            data: {
-                vailEmail: vailEmail,
-                csrfmiddlewaretoken: '{{ csrf_token }}',
-                dataType: "json",
-            },
-            success: function (result_msg) {
-                if (result_msg == 0) {
-                    alert('사용중인 이메일입니다.');
-                    return false;
-                }
-                else {
-                    alert('사용가능한 이메일입니다.');
-                    $('input[name=email]').attr('value', vailEmail);
-                    $('input[name=Vailemail]').attr('disabled', true);
-                }
-            },
-            fail: function () {
-                console.log('ajax send error!');
-            },
-        });
     }
 </script>
 </html>
