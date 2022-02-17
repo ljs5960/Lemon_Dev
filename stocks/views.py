@@ -99,18 +99,30 @@ def stock_info(request, marketcode, issuecode):
         result['marketcode'] = marketcode
         result['total_allow_invest'] = request.user.invest - stock_cal.total_use_investment_amount(request.user.user_id)
 
+
         result['year_history'] = day_trdDd_matching(
             cal_year_history(koscom_api.get_stock_history(marketcode, issuecode,
-                                                          'M', '19800101', datetime.today().strftime('%Y%m%d'), 50)))
+                                                                'M', '19800101', datetime.today().strftime('%Y%m%d'), 50)))
+        if result['year_history'] is False:
+                result['year_history'] = str(0)
+
         result['month_history'] = day_trdDd_matching(
             koscom_api.get_stock_history(marketcode, issuecode,
-                                         'M', '19800101', datetime.today().strftime('%Y%m%d'), 50))
+                                        'M', '19800101', datetime.today().strftime('%Y%m%d'), 50))
+        if result['month_history'] is False:
+            result['month_history'] = str(0)
         result['week_history'] = day_trdDd_matching(
             koscom_api.get_stock_history(marketcode, issuecode,
-                                         'W', '19800101', datetime.today().strftime('%Y%m%d'), 50))
+                                        'W', '19800101', datetime.today().strftime('%Y%m%d'), 50))
+
+        if result['week_history'] is False:
+            result['week_history'] = str(0)
+
         result['day_history'] = day_trdDd_matching(
             koscom_api.get_stock_history(marketcode, issuecode,
-                                         'D', '19800101', datetime.today().strftime('%Y%m%d'), 50))
+                                        'D', '19800101', datetime.today().strftime('%Y%m%d'), 50))
+        if result['day_history'] is False:
+            result['day_history'] = str(0)
 
     return render(request, 'stock_info.html', {'result': result,'star':star})
 
