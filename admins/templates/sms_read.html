@@ -1,5 +1,18 @@
 {% extends 'base.html' %}
 {% block title %}레몬::문자내역 불러오기{% endblock title %}
+{% block nav %}
+<!-- 상단바 영역 시작 -->
+  <div id="nav" style="border-bottom: 1px solid #f1f1f1;">
+    <div>
+        <div style="text-align:center;">
+          <a style="color: #fff;" href="{% url 'accounts:myinfo' %}">
+            <i class="fa fa-angle-left"></i>
+          </a>문자내역 불러오기
+        </div>
+    </div>
+  </div>
+<!-- 상단바 영역 끝 -->
+{% endblock nav %}
 {% block container %}
 <style>
   .body {
