@@ -121,19 +121,7 @@ class api:
             print('Error in get_stocksector: \n', e)
             return False
 
-    def get_stock_history(self, marketcode, issuecode, trnsmCycleTpCd, inqStrtDd, inqEndDd, reqCnt):
-        try:
-            url = f'https://sandbox-apigw.koscom.co.kr/v2/market/stocks/{marketcode}/{issuecode}/history' \
-                  f'?trnsmCycleTpCd={trnsmCycleTpCd}&inqStrtDd={inqStrtDd}&inqEndDd={inqEndDd}&reqCnt={reqCnt}'
-            headers = {'apikey': KOSCOM_KEY}
-            response = requests.get(url, headers=headers, timeout=self.timeout)
-            if response.status_code == 200:
-                return json.loads(response.text)['result']['hisLists']
-            else:
-                return False
-        except Exception as e:
-            print('Error in get_stock_history: \n', e)
-            return False
+
 
     def get_per_pbr_bundle(self):
         result = []

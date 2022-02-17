@@ -7,6 +7,7 @@ from datetime import datetime
 from django.db import transaction
 from . import kocom
 from . import stockcal as cal
+from . import iex
 from .models import *
 from accounts import models as acc_models
 from stocks.models import Stocksector
@@ -33,7 +34,7 @@ def stock(request):
 
     for element in mark :
         find_stock_name = Stocksector.objects.filter(ss_isusrtcd=element.isuSrtCd).values_list('ss_isukorabbrv', flat=True)
-        name = find_stock_name[0:]
+        name = find_stock_name[0]
         current_price = koscom_api.get_current_price(element.marketcode, element.isuSrtCd)
         bookmark_date.append([element.marketcode,element.isuSrtCd, current_price, name])
     return render(request, 'stock.html', {'stock_data': stock_data,'bookmark_date':bookmark_date})
@@ -82,44 +83,35 @@ def stock_info(request, marketcode, issuecode):
     total_investment_amount = stock_cal.total_investment_amount(request.user.user_id)
     total_use_investment_amount = stock_cal.total_use_investment_amount(request.user.user_id)
     koscom_api = kocom.api()
-    kos_api = kocom.api()
     result = koscom_api.get_stock_master(marketcode, issuecode)
     mark = bookmark.objects.filter(user_id=request.user.user_id, marketcode=marketcode, isuSrtCd=issuecode)
-
     if mark:
         star=1
     else :
         star=0
     if result:
-        result['usePrice'] = stock_cal.total_use_investment_amount(request.user.user_id)
-        print(result['usePrice'])
         result['total_investment_amount'] = total_investment_amount if total_investment_amount else False
-        print(result['total_investment_amount'])
         result['total_use_investment_amount'] = total_use_investment_amount if total_use_investment_amount else False
-        print(result['total_use_investment_amount'])
         result['total'] = result['total_use_investment_amount'] - result['total_investment_amount']
-        print(result['total'])
         result['share'] = Stockheld.objects.filter(sh_userid=request.user.user_id,
                                                    sh_isusrtcd=issuecode).values_list('sh_share', flat=True)
         print(result['share'])
         result['curPrice'] = koscom_api.get_current_price(marketcode, issuecode)
-        print(result['curPrice'])
         result['marketcode'] = marketcode
-        print(result['marketcode'])
         result['total_allow_invest'] = request.user.invest - stock_cal.total_use_investment_amount(request.user.user_id)
-        print(result['total_allow_invest'])
 
-        result['month_history'] = day_trdDd_matching(kos_api.get_stock_history(marketcode, issuecode,
-                                                                                   'M', '19800101', datetime.today().strftime('%Y%m%d'), 500))
-        
-        print('\n\n\n')
-        # print(result['year_history'])
-        print('\n')
-        print(result['month_history'])
-        print('\n')
-        #print(result['week_history'])
-        print('\n')
-        # print(result['day_history'])
+        result['year_history'] = day_trdDd_matching(
+            cal_year_history(koscom_api.get_stock_history(marketcode, issuecode,
+                                                          'M', '19800101', datetime.today().strftime('%Y%m%d'), 50)))
+        result['month_history'] = day_trdDd_matching(
+            koscom_api.get_stock_history(marketcode, issuecode,
+                                         'M', '19800101', datetime.today().strftime('%Y%m%d'), 50))
+        result['week_history'] = day_trdDd_matching(
+            koscom_api.get_stock_history(marketcode, issuecode,
+                                         'W', '19800101', datetime.today().strftime('%Y%m%d'), 50))
+        result['day_history'] = day_trdDd_matching(
+            koscom_api.get_stock_history(marketcode, issuecode,
+                                         'D', '19800101', datetime.today().strftime('%Y%m%d'), 50))
 
     return render(request, 'stock_info.html', {'result': result,'star':star})
 
@@ -160,7 +152,6 @@ def boomark(request, marketcode, isuSrtCd ):
 
 def day_trdDd_matching(history):
     day_trdDd_array = []
-    print(day_trdDd_array)
     try:
         for element in history:
             day_trdDd_array.append({'trdDd': element['trdDd'], 'trdPrc': element['trdPrc']})
@@ -322,10 +313,11 @@ def get_selectivemaster(request):
         result = kocom.api().get_selectivemaster(data['marketcode'], data['issuecode'])
     return JsonResponse({'result': result}, content_type='application/json')
 
-
+from . import iex
 def stocksector_update(request):
     if request.method == 'POST':
-        stocksectors_bundle = kocom.api().get_stocksectors_bundle()
+        # stocksectors_bundle = kocom.api().get_stocksectors_bundle()
+        stocksectors_bundle = iex.api().get_stocksectors_bundle()
         if stocksectors_bundle:
             stocksector_insert(stocksectors_bundle)
             return JsonResponse({'result': 'Success'}, content_type='application/json')

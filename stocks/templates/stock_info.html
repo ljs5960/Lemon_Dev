@@ -3,7 +3,7 @@
 {% block title %}레몬::주식{% endblock title %}
 {% block container %}
 {% load humanize %}
-
+{% load mathfilters %}
 <style>
     .bottom-nav-stock,.bottom-nav-stock a{
         color: #FFD859;
@@ -110,8 +110,8 @@
             <i class="fas fa-angle-up red"></i>
             <i class="fas fa-angle-down blue"></i>
             <i class="fas fa-minus"></i>
-                <div id="howup" style="display:inline-block;"> {{  result.curPrice|intcomma }}</div><div class="percent" style="display:inline-block">원</div>
-                 <div class="percent" style="display:inline-block;">({{ result.curPrice|floatformat:2 }}%)</div>
+                <div id="howup" style="display:inline-block;"> {{  result.curPrice|sub:result.prevddClsprc|intcomma }}</div><div class="percent" style="display:inline-block">원</div>
+                 <div class="percent" style="display:inline-block;">({{ result.curPrice|sub:result.prevddClsprc|div:result.prevddClsprc|mul:100|floatformat:2 }}%)</div>
         </div>
         {% else %}
             상세정보가 없습니다.
@@ -918,7 +918,7 @@ $( document ).ready(function() {
     }
 });
 $( document ).ready(function() {
-var number = {{user.invest}};
+var number = {{user.invest|add:result.total|div:result.curPrice|floatformat}};
 var final = Math.trunc(number);
 $('#howmuch').val(final);
 });
