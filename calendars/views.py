@@ -108,7 +108,7 @@ def home(request):
         else:
             home_chartjs_data.append(income_sum_value)
     return render(request, 'home.html', {'month': month, 'Expenditure': spend_sum, 'Income': income_sum, 'income_sum_value':income_sum_value,
-                                         'Home_chartjs_data': home_chartjs_data, 'Total_investment_amount':total_investment_amount, 'son':son})
+                                         'total_current_price': total_current_price,'Home_chartjs_data': home_chartjs_data, 'Total_investment_amount': total_investment_amount, 'son': son})
 
 
 def recom(request):
@@ -324,7 +324,7 @@ def ajax_sendSMS(request):
         'sender': ALIGO_SENDER,  # 발신번호
         'receiver': NUM,  # 수신번호 (,활용하여 1000명까지 추가 가능)
         'msg': f'[LEMON]인증번호 [{KEY}]를 입력해주세요.',  # 문자 내용
-        'testmode_yn': 'Y'  # 테스트모드 적용 여부 Y/N
+        #'testmode_yn': 'Y'  # 테스트모드 적용 여부 Y/N
         # 'msg_type' : 'SMS', #메세지 타입 (SMS, LMS)
         # 'title' : 'testTitle', #메세지 제목 (장문에 적용)
         # 'destination' : '01000000000|고객명', # %고객명% 치환용 입력

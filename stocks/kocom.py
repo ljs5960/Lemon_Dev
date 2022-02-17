@@ -32,7 +32,7 @@ class api:
         except Exception as e:
             print('Error in get_current_price: \n', e)
             return False
-        
+
     def s_get_current_price(self, marketcode, id):
         try:
             url = f'https://sandbox-apigw.koscom.co.kr/v2/market/stocks/{marketcode}/{id}/price'
@@ -123,7 +123,7 @@ class api:
 
     def get_stock_history(self, marketcode, issuecode, trnsmCycleTpCd, inqStrtDd, inqEndDd, reqCnt):
         try:
-            url = f'https://sandbox-apigw.koscom.co.kr/v2/market/stocks/{marketcode}/{issuecode}/history' \
+            url = f'https://sandbox-apigw.koscom.co.kr/v2/market/stocks/stock_info/006400/history' \
                   f'?trnsmCycleTpCd={trnsmCycleTpCd}&inqStrtDd={inqStrtDd}&inqEndDd={inqEndDd}&reqCnt={reqCnt}'
             headers = {'apikey': KOSCOM_KEY}
             response = requests.get(url, headers=headers, timeout=self.timeout)

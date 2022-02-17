@@ -414,7 +414,11 @@ document.addEventListener('keydown', function(event) {
         </div>
 
         <div class="home-stock-input2">
+<<<<<<< HEAD
           <a>{{son|intcomma}}원({{total_current_price|yields:Total_investment_amount|rounds:2}}%)</a>
+=======
+            <a>{{son|intcomma}}원({{total_current_price|default_if_none:'0'|yields:Total_investment_amount|rounds:2}}%)</a>
+>>>>>>> ced83a3fc46f43319d315b4659e7c4c8049579a6
         </div>
 
 
