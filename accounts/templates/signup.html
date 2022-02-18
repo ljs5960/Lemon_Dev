@@ -78,7 +78,6 @@
     </div>
 </div>
 <!-- 회원가입 navbar 끝 -->
-
 <!-- 회원가입 Wrapper -->
 <div class="signup-wrapper" style="padding:70px 20px 40px 20px;">
   <form class="validation-form" style="width:100%;" method="POST" action="{% url 'accounts:signup' %}" id="signupForm">
@@ -88,7 +87,7 @@
         <a>개인정보 수집 동의(필수)</a><br>
         <textarea cols="30" rows="10" style="width:100%;" disabled="disabled">{% include 'persnal.html' %}</textarea><br>
         <label style="text-align:end;">
-            <input type="checkbox" name="u_chk" value ="1" id="require_chk2" style="-webkit-appearance: checkbox">
+            <input type="checkbox" name="u_chk" value ="1" id="require_chk2" style="-webkit-appearance: checkbox;">
             <span>이용약관에 동의합니다.</span>
         </label>
       </div>
