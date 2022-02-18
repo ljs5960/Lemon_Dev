@@ -77,26 +77,9 @@
   </head>
 
   <style>
-  * { -ms-user-select: none;
-      -moz-user-select: -moz-none;
-      -khtml-user-select: none;
-      -webkit-user-select: none;
-      user-select: none; }
-
     a:link, a:visited, a:hover {
         color: #2b2b2b;
         text-decoration-line: none;
-    }
-
-    input[type="password"] {
-      border-radius: 10px;
-      margin-top: 30px;
-      padding: 10px;
-      width: 80%;
-      border: 1px solid #31bc8a;
-      text-align: left;
-      padding-left: 20%;
-      letter-spacing: 40px;
     }
 
     select {
@@ -165,62 +148,6 @@
     </script>
 
 <body>
-  {% if user.u_chk == 1 %}
-  <script>
-    $( document ).ready(function() {
-        let pin_date = '{{ user.pin_date | date:'Y/n/d H:i'}}';
-        let today = new Date();
-        var year = today.getFullYear();
-        let month = today.getMonth() + 1;  // 월
-        let date = today.getDate();  // 날짜
-        let hours = today.getHours(); // 시
-        let minutes = today.getMinutes();
-        var now = year + '/' + month + '/' + date + ' ' + hours + ':' + minutes;
-
-        if ( pin_date > now ){
-            $('.pin_saver').hide()
-        }else{
-            $('.fa-search').hide()
-        
-        $('#footer').hide()
-        }
-    });
-
-    function pin_saver(pin){
-      let password = $('#pin').val()
-        if ( password == pin ){
-          $('.pin_saver').fadeOut()
-          $('.fa-search').show()
-          $('#footer').show()
-
-          const form = document.getElementById('pin_form');
-            form.action ="/pin_date_save" ;
-            form.submit();
-            } else {
-                alert('핀번호가 틀렸습니다.');
-            }
-    }
-    </script>
-
-    <!-- 핀 번호 로드 -->
-    <div id="pin-preload">
-        <div class="pin_saver">
-            <div class="pin-input-wrap">
-                <input type="password" pattern="[0-9]*" inputmode="numeric" name="pin" id="pin" maxlength='4' />
-            </div>
-            <div class="pin-btn-wrap">
-                <div onclick="pin_saver({{user.pin}})" class="pinBtn">Pin 번호</div>
-            </div>
-        </div>
-    </div>
-    </div>
-
-    <form id="pin_form" method="post">
-        {% csrf_token %}
-    </form>
-    {% endif %}
-    
-
  <!-- 페이지 로딩 에니메이션 -->
   <div id="page-preloader">
       <div class="loader-main">
