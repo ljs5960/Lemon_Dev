@@ -246,7 +246,7 @@
     </div>
     <form id="seidt_form" action="{%url 'calendars:sedit_calendar' i.spend_id %}" method="POST">
         {% csrf_token %}
-    <a class="span_div" id="span_div">
+    <div class="span_div" id="span_div">
         <div class="span_list">
                 <input type="text" style="display: none;" readonly name="user" value="{{user.user_id}}"/>
                 <input type="text" style="display: none;" readonly name="kind" value="지출"/>

@@ -250,7 +250,7 @@ font-family: 'Noto Sans KR', sans-serif;
     #footer{
         max-width: 768px;
         position: fixed;
-        background-color: #4C8AE5;
+        background-color: white;
         border-radius : 1rem 1rem 0 0 ;
         box-shadow: 0 3px 5px 3px rgb(202, 202, 202);
         z-index: 1024;
