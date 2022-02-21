@@ -304,14 +304,14 @@
     </div>
 
     <div style="text-align:center; margin-top:15px;">
-    <div class="addBtn" onclick="submit()" style="line-height:47px;">추가하기</div>
+    <div class="addBtn" onclick="check()" style="line-height:47px;">추가하기</div>
     </div>
   </form>
   </div>
 </div>
 
 <script>
-function submit(){
+function check(){
     var max_int = 210000000;
     if ($('#amount').val() == '') {
         alert('금액을 입력 해주세요.');

@@ -373,11 +373,11 @@
 
                 </table>
             </div>
-            <div class="addBtn" onclick="submit()" style="line-height:44px;text-align:center;">수정</div>
+            <div class="addBtn" onclick="check()" style="line-height:44px;text-align:center;">수정</div>
             </div>
     </form>
     <script>
-        function submit() {
+        function check() {
             const form = document.getElementById('seidt_form');
             form.action = "{%url 'calendars:sedit_calendar' i.spend_id %}"
             form.submit();
