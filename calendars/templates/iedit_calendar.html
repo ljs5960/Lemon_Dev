@@ -287,10 +287,10 @@
             </table>
         </div>
     </div>
-         <div class="addBtn" onclick="submit()" style="line-height:37px;text-align:center;">수정</div>
+         <div class="addBtn" onclick="check()" style="line-height:37px;text-align:center;">수정</div>
     </form>
     <script>
-            function submit(){
+            function check(){
             const form = document.getElementById('ieidt_form');
             form.action="{% url 'calendars:iedit_calendar' i.income_id %}"
             form.submit();

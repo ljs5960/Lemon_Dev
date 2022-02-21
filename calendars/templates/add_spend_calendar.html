@@ -3,6 +3,13 @@
 {% block title %}레몬::추가하기{% endblock title %}
 {% block nav %}
 <style>
+    *{
+        user-select: all;
+        -webkit-user-select: text; /* Safari fallback only */
+        -webkit-user-select: all; /* Chrome/Safari */
+        -moz-user-select: all; /* Firefox */
+        -ms-user-select: all; /* IE10+ */
+    }
     .loader-main{
     bottom:0px !important;
     }
@@ -174,7 +181,7 @@
         </div>
 
         <div style="text-align:center; margin-top:15px;">
-        <div class="addBtn" onclick="submit()" style="line-height:47px;">추가하기</div>
+        <div class="addBtn" onclick="check()" style="line-height:47px;">추가하기</div>
         </div>
     </div>
     </form>
@@ -198,7 +205,7 @@ function doubleSubmitCheck() {
         }
     }
 
-function submit(){
+function check(){
     var max_int = 210000000;
     if ($('#amount').val() == '') {
         alert('금액을 입력 해주세요.');
