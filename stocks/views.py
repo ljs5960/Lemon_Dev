@@ -344,7 +344,7 @@ def stockprofit_input(user_id, data, kind):
     if not stockprofit_check:
         print(f'stockprofit Insert: {user_id}, {price}')
         Stockprofit(
-            sp_userid=user_id,
+            sp_userid=acc_models.user.objects.get(user_id=user_id),
             sp_profit=price,
         ).save()
     else:
