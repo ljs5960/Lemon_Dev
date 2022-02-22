@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from datetime import datetime
 from django.db import transaction
 from . import kocom
+from . import iex
 from . import stockcal as cal
 from .models import *
 from accounts import models as acc_models
@@ -347,7 +348,7 @@ def get_selectivemaster(request):
         result = kocom.api().get_selectivemaster(data['marketcode'], data['issuecode'])
     return JsonResponse({'result': result}, content_type='application/json')
 
-from . import iex
+
 def stocksector_update(request):
     if request.method == 'POST':
         # stocksectors_bundle = kocom.api().get_stocksectors_bundle()
