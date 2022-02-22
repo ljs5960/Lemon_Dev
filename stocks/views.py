@@ -80,6 +80,7 @@ def portfolio(request):
         result['total_current_price'] = 0
         result['total_use_investment_amount'] = 0
     else:
+        result['category_stock'] = category_stock
         result['user_total_investment_amount'] = user_total_investment_amount
         result['total_investment_amount'] = total_investment_amount
         result['total_current_price'] = total_current_price
