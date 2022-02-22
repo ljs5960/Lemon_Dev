@@ -104,11 +104,11 @@ def portfolio(request):
 
 
 def stock_info(request, marketcode, issuecode):
+    api = iex.api() if marketcode == 'nasdaq' else kocom.api()
     stock_cal = cal.calculator()
     total_investment_amount = stock_cal.total_investment_amount(request.user.user_id)
     total_use_investment_amount = stock_cal.total_use_investment_amount(request.user.user_id)
-    koscom_api = kocom.api()
-    result = koscom_api.get_stock_master(marketcode, issuecode)
+    result = api.get_current_stock(marketcode, issuecode) if marketcode == 'nasdaq' else api.get_stock_master(marketcode, issuecode)
     mark = bookmark.objects.filter(user_id=request.user.user_id, marketcode=marketcode, isuSrtCd=issuecode)
     if mark:
         star=1
@@ -120,39 +120,49 @@ def stock_info(request, marketcode, issuecode):
         result['total'] = result['total_use_investment_amount'] - result['total_investment_amount']
         result['share'] = Stockheld.objects.filter(sh_userid=request.user.user_id,
                                                    sh_isusrtcd=issuecode).values_list('sh_share', flat=True)
-        result['curPrice'] = koscom_api.get_current_price(marketcode, issuecode)
+        result['curPrice'] = api.get_current_price(marketcode, issuecode)
         result['marketcode'] = marketcode
         result['total_allow_invest'] = request.user.invest - stock_cal.total_use_investment_amount(request.user.user_id)
 
-
-        result['year_history'] = day_trdDd_matching(
-            cal_year_history(koscom_api.get_stock_history(marketcode, issuecode,
-                                                                'M', '19800101', datetime.today().strftime('%Y%m%d'), 50)))
-        if result['year_history'] is False:
-                result['year_history'] = str(0)
-
-        result['month_history'] = day_trdDd_matching(
-            koscom_api.get_stock_history(marketcode, issuecode,
-                                        'M', '19800101', datetime.today().strftime('%Y%m%d'), 50))
-        if result['month_history'] is False:
+        if marketcode == 'nasdaq':
+            result['year_history'] = str(0)
             result['month_history'] = str(0)
-        result['week_history'] = day_trdDd_matching(
-            koscom_api.get_stock_history(marketcode, issuecode,
-                                        'W', '19800101', datetime.today().strftime('%Y%m%d'), 50))
-
-        if result['week_history'] is False:
             result['week_history'] = str(0)
-
-        result['day_history'] = day_trdDd_matching(
-            koscom_api.get_stock_history(marketcode, issuecode,
-                                        'D', '19800101', datetime.today().strftime('%Y%m%d'), 50))
-        if result['day_history'] is False:
             result['day_history'] = str(0)
+        else:
+            result['year_history'] = day_trdDd_matching(
+                cal_year_history(api.get_stock_history(marketcode, issuecode,
+                                                                    'M', '19800101', datetime.today().strftime('%Y%m%d'), 50)))
+            if result['year_history'] is False:
+                    result['year_history'] = str(0)
 
+            result['month_history'] = day_trdDd_matching(
+                api.get_stock_history(marketcode, issuecode,
+                                            'M', '19800101', datetime.today().strftime('%Y%m%d'), 50))
+            if result['month_history'] is False:
+                result['month_history'] = str(0)
+            result['week_history'] = day_trdDd_matching(
+                api.get_stock_history(marketcode, issuecode,
+                                            'W', '19800101', datetime.today().strftime('%Y%m%d'), 50))
+
+            if result['week_history'] is False:
+                result['week_history'] = str(0)
+
+            result['day_history'] = day_trdDd_matching(
+                api.get_stock_history(marketcode, issuecode,
+                                            'D', '19800101', datetime.today().strftime('%Y%m%d'), 50))
+            if result['day_history'] is False:
+                result['day_history'] = str(0)
     else:
-        return redirect('/stock_info' + '/' + marketcode + '/' + issuecode)
+        if marketcode == 'nasdaq':
+            return redirect('/nasdaq_stock_info' + '/' + marketcode + '/' + issuecode)
+        else:
+            return redirect('/stock_info' + '/' + marketcode + '/' + issuecode)
 
-    return render(request, 'stock_info.html', {'result': result,'star':star})
+    if marketcode == 'nasdaq':
+        return render(request, 'nasdaq_stock_info.html', {'result': result, 'star':star})
+    else:
+        return render(request, 'stock_info.html', {'result': result, 'star':star})
 
 
 def cal_year_history(history):
