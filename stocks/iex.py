@@ -19,7 +19,8 @@ class api:
             print('Error in get_current_stock: \n', e)
             return False
 # 마켓코드가 있으면 에러가 발생하여 가격 불러오기 테스트 위해 마켓코드 임시로 제거 했습니다
-    def get_current_price(self, symbol):
+
+    def get_current_price(self, marketcode, symbol):
         try:
             url = f'https://cloud.iexapis.com/stable/stock/{symbol}/price?token={IEX_C_TOKEN}'
             url = f'https://sandbox.iexapis.com/stable/stock/{symbol}/price?token={IEX_S_TOKEN}'
