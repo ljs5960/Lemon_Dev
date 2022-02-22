@@ -956,7 +956,7 @@ $.ajaxSetup({
         alert('관심 종목에 등록이 되었습니다.');
          $.ajax({
         type:'post',
-        url:'{% url 'stocks:boomark' result.marketcode result.isuSrtCd  %}',
+        url:'{% url 'stocks:boomark' result.marketcode result.symbol  %}',
         data:JSON.stringify(data),
         success:function(json){
         $('.pick').addClass('gold');
@@ -970,7 +970,7 @@ $.ajaxSetup({
         alert('관심 종목에 등록이 해지 되었습니다.');
          $.ajax({
         type:'post',
-        url:'{% url 'stocks:boomark' result.marketcode result.isuSrtCd  %}',
+        url:'{% url 'stocks:boomark' result.marketcode result.symbol  %}',
         data:JSON.stringify(data),
         success:function(json){
         $('.pick').removeClass('gold');
@@ -983,7 +983,7 @@ $.ajaxSetup({
 
 </script>
 <div  style="display:none;">
-    <form action = "{% url 'stocks:boomark' result.marketcode result.isuSrtCd  %}" method="POST" id="form3">
+    <form action = "{% url 'stocks:boomark' result.marketcode result.symbol  %}" method="POST" id="form3">
         {% csrf_token %}
     </form>
 </div>

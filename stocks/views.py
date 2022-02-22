@@ -65,6 +65,18 @@ def portfolio(request):
         category_stock.append([stock_suggestion, element['id'], element['per'],
                               element['pbr'], element['marketcode'], element['name'], element['category']])
 
+
+    nasdaq_category = nasdaq_test.objects.filter(category__in=category_arr[0:3]).values_list('nasdaq_cname', flat=True).values("nasdaq_cname")
+    nasdaq_top5 = Totalmerge.objects.exclude(id__in=isurtcd_arr).filter(category__in=nasdaq_category).values("id", 'per', 'pbr', "marketcode", "name", "category").annotate(ROA=(F('per') * Decimal('1.0') / F('pbr') * Decimal('1.0'))).order_by('-ROA')[0:5]
+    nasdaq_top5_price = []
+    nasdaq_api = iex.api()
+    for element in nasdaq_top5:
+        symbol = element['id']
+        marketcode = element['marketcode']
+        naqdaq_price = nasdaq_api.get_current_price(symbol)
+        nasdaq_top5_price.append([naqdaq_price, element['id'], element['per'],
+                                element['pbr'], element['marketcode'], element['name'], element['category']])
+
     result = {}
     stock_cal = cal.calculator()
     user_total_investment_amount = stock_cal.user_total_investment_amount(
@@ -80,7 +92,10 @@ def portfolio(request):
         result['user_total_investment_amount'] = 0
         result['total_current_price'] = 0
         result['total_use_investment_amount'] = 0
+        result['category_stock'] = category_stock
+        result['nasdaq_top5_price'] = nasdaq_top5_price
     else:
+        result['nasdaq_top5_price'] = nasdaq_top5_price
         result['category_stock'] = category_stock
         result['user_total_investment_amount'] = user_total_investment_amount
         result['total_investment_amount'] = total_investment_amount
@@ -396,6 +411,10 @@ def get_history(request):
 def per_pbr_update(request):
     result = False
     if request.method == 'POST':
+        data = json.loads(request.body) # 여기서부터 코스피 perpbr 버튼 , 나스닥 perpbr 버튼 구분
+        print(data) # 여기서 portfolio.html 의 perpbr button 태그 내 value 가 출력됩니다. (kospi or nasdaq)
+        ############
+
         koscom_api = kocom.api()
         try:
             per_pbr_bundle = koscom_api.get_per_pbr_bundle()
