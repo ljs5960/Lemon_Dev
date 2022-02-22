@@ -88,10 +88,21 @@ def home(request):
     total_use_investment_amount = stock_cal.total_use_investment_amount(request.user.user_id)
     total_current_price = stock_cal.total_current_price(request.user.user_id)
     user_total_investment_amount = stock_cal.user_total_investment_amount(request.user.user_id)
-    if total_current_price is None:
+    
+    if total_current_price is False:
         total_current_price = 0
     else:
         total_current_price = total_current_price
+
+    if user_total_investment_amount is False:
+        user_total_investment_amount = 0
+    else:
+        user_total_investment_amount = user_total_investment_amount
+
+    if total_investment_amount is False:
+        total_investment_amount = 0
+    else:
+        total_investment_amount = total_investment_amount
 
     home_chartjs_data = [invest, total_current_price]
     for spend_sum_value in spend_sum_value:

@@ -107,7 +107,7 @@
 
    <div style="background-color:#fff; margin:20px 5% 40px 5%; padding: 10px;">
     <div style="text-align:left; font-weight: bold; font-size:16px;">
-      <a style="font-weight: bold; font-family: 'Noto Sans KR', sans-serif; font-size:16pt;">포트폴리오 기반 추천 Top 5</a>
+      <a style="font-weight: bold; font-family: 'Noto Sans KR', sans-serif; font-size:16pt;">포트폴리오 기반 추천 Top 5</a><button type="button" onclick="usdkrw()">클릭미</button>
     </div>
         <form id="form" method="post">
             {% csrf_token %}
@@ -116,7 +116,7 @@
         </form>
     <div>
       <ol style="padding-left: 1rem !important;">
-        <table style="width: 100%; margin-top:10px; border-collapse:inherit;">
+        <table id="porfolTable" style="width: 100%; margin-top:10px; border-collapse:inherit;">
           {% for recom in category_stock %}
           <tr onclick="info('{{ recom.1 }}','{{ recom.4 }}')">
             <td width='10'>
@@ -125,8 +125,8 @@
             <td class="spendTop5-tableTitle" width='50'>
               <a>{{recom.5}}</a>
             </td>
-            <td style="text-align: right;" width='25'>
-              <a style="font-weight:400; color:#3a3a3a">{{ recom.1|truncatechars:500|intcomma }}원</a>
+            <td id="usdtd" style="text-align: right;" width='25'>
+              <a class="usdtest" style="font-weight:400; color:#3a3a3a">{{ recom.1|truncatechars:500|intcomma }}원</a>
             </td>
           {% empty %}
           <div class="summary-nodata-wrap">
@@ -193,5 +193,32 @@ $(document).ready(function(){
         form.submit();
         }
     }
+</script>
+
+<script>
+  // 환율 정보 가져오기
+  function usdkrw(){
+    fetch('https://api.manana.kr/exchange/rate/KRW/USD.json', {
+      method: 'POST',
+    })
+      // 환율 정보를 가져왔다면, json으로 변환시키고
+      .then((res) => {
+        return res.json();
+      })
+      // data로 받고, data arry에 환율만 뽑아오기
+      .then((data) => {
+        console.log(data);
+        let usd = data[0].rate; // usd 에 환율을 넣는다
+
+        for (var i = 0; i < 5; i++) {
+          // 포트폴리오 기반 추천 top5 테이블 내 id=usdtd 인 td 태그의 값들을 가져오고 ',' '원' 제거하고 int 타입으로 변환
+          let getTable = $('#porfolTable td[id=usdtd]')[i].innerText.replace('원','').replace(',','')*1;
+          // 원화를 달러로 바꾸고 소숫점 2번째 자리에서 반올림
+          let clac = (getTable / usd).toFixed(2)
+          // 변환된 값을 다시 제자리에 넣어준다.
+          let result = $('#porfolTable td[id=usdtd]')[i].innerText = clac +' $';
+        }
+      });
+  };
 </script>
 {% endblock %}
