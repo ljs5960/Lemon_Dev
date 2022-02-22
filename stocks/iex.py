@@ -1,7 +1,6 @@
 import json
 import requests
-from mysettings import IEX_C_TOKEN
-from mysettings import IEX_S_TOKEN
+from mysettings import IEX_C_TOKEN, IEX_S_TOKEN
 
 
 class api:
@@ -19,11 +18,12 @@ class api:
         except Exception as e:
             print('Error in get_current_stock: \n', e)
             return False
-
-    def get_current_price(self, marketcode, symbol):
+# 마켓코드가 있으면 에러가 발생하여 가격 불러오기 테스트 위해 마켓코드 임시로 제거 했습니다
+    def get_current_price(self, symbol):
         try:
             url = f'https://cloud.iexapis.com/stable/stock/{symbol}/price?token={IEX_C_TOKEN}'
             url = f'https://sandbox.iexapis.com/stable/stock/{symbol}/price?token={IEX_S_TOKEN}'
+
             response = requests.get(url, timeout=self.timeout)
             if response.status_code == 200:
                 return json.loads(response.text)
