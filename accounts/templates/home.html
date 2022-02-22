@@ -193,7 +193,7 @@ document.addEventListener('keydown', function(event) {
         }
         else {
             const form = document.getElementById('signupForm');
-            alert($('#name').val() + '님, 소셜아이디 회원가입을 축하합니다.')
+            alert($('#name').val() + '님, 소셜 아이디 회원가입을 축하합니다.')
             form.action = "{% url 'calendars:home' %}"
             form.submit();
         }

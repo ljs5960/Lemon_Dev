@@ -64,7 +64,7 @@ def home(request):
             pin=pin,
             invest=invest,
         )
-        return redirect('/')
+        return redirect('/home')
     invest = request.user.invest
     user = request.user.user_id
     now = datetime.datetime.now()
