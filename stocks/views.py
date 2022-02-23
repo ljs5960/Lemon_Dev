@@ -73,7 +73,7 @@ def portfolio(request):
     for element in nasdaq_top5:
         symbol = element['id']
         marketcode = element['marketcode']
-        naqdaq_price = nasdaq_api.get_current_price(symbol)
+        naqdaq_price = nasdaq_api.get_current_price(marketcode,symbol)
         nasdaq_top5_price.append([naqdaq_price, element['id'], element['per'],
                                 element['pbr'], element['marketcode'], element['name'], element['category']])
 
@@ -86,6 +86,8 @@ def portfolio(request):
     total_current_price = stock_cal.total_current_price(request.user.user_id)
     total_use_investment_amount = stock_cal.total_use_investment_amount(
         request.user.user_id)
+    invest = request.user.invest
+    total_invest = invest + total_use_investment_amount
 
     if total_investment_amount is False or total_current_price is False or total_use_investment_amount is False or user_total_investment_amount is False:
         result['total_investment_amount'] = 0
@@ -94,6 +96,7 @@ def portfolio(request):
         result['total_use_investment_amount'] = 0
         result['category_stock'] = category_stock
         result['nasdaq_top5_price'] = nasdaq_top5_price
+        result['total_invest'] = 0
     else:
         result['nasdaq_top5_price'] = nasdaq_top5_price
         result['category_stock'] = category_stock
@@ -101,6 +104,7 @@ def portfolio(request):
         result['total_investment_amount'] = total_investment_amount
         result['total_current_price'] = total_current_price
         result['total_use_investment_amount'] = total_use_investment_amount
+        result['total_invest'] = total_invest
     return render(request, 'portfolio.html', result)
 
 
