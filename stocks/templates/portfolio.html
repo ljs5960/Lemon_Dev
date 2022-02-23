@@ -38,7 +38,7 @@
 
     <div style="text-align:center;font-size:22px;font-weight:bold;">{{total_current_price|intcomma}}원</div>
     <div style="text-align:center;font-size:14px;color:white;">
-       {{total_current_price|sub:user_total_investment_amount|intcomma}} ({{total_current_price|yields:user_total_investment_amount|rounds:2}}%) </div>
+       {{total_current_price|sub:user_total_investment_amount|intcomma}} ({{total_current_price|yields:user_total_investment_amount|floatformat:2}}%) </div>
     <div class="my_stock"><a class="my_stock-btn" href="{% url 'stocks:stock' %}">보유 주식</a></div>
 
 </div>
@@ -46,7 +46,7 @@
 
 <div class="home-chart" id="home-chart" style="padding:20px;">
     <div class="title" style="color:black;margin-bottom:20px; font-size:16pt; font-weight:bold;">주식 정보</div>
-    <div style="text-align:center;font-size:14px;text-align:left;">내 가상 자산 {{ user.invest|intcomma }} 원에서 {{total_use_investment_amount|yields:user.invest|rounds:2}}% 증가</div>
+    <div style="text-align:center;font-size:14px;text-align:left;">내 가상 자산 {{ user.invest|intcomma }} 원에서 {{total_use_investment_amount|yields:user.invest|floatformat:2}}% 증가</div>
     <div style="text-align:center;font-size:14px;text-align:left;">총 가상 자산 : {{ user.invest|add:total_use_investment_amount|intcomma}}원</div>
     <div style="text-align:center;font-size:14px;text-align:left;">손익금 : {{total_use_investment_amount|intcomma}}원</div>
 

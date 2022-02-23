@@ -126,6 +126,7 @@ def stock_info(request, marketcode, issuecode):
         result['total_allow_invest'] = request.user.invest - stock_cal.total_use_investment_amount(request.user.user_id)
 
         if marketcode == 'nasdaq':
+            result['ex_rate'] = api.get_ex_rate('FRX.KRWUSD')
             result['year_history'] = str(0)
             result['month_history'] = str(0)
             result['week_history'] = str(0)
