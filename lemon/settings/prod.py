@@ -9,12 +9,12 @@ ALLOWED_HOSTS = [
   'www.lemon-bs.com',
   ]
 
-# Media Files
-# ---For Prod Env---
-MEDIA_URL = 'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
-DEFAULT_FILE_STORAGE = 'config.storages.MediaStorage'
+# # Media Files
+# # ---For Prod Env---
+# MEDIA_URL = 'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
+# DEFAULT_FILE_STORAGE = 'config.storages.MediaStorage'
 
-# Static Files
-# ---For Prod Env---
-STATIC_URL = 'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
-STATICFILES_STORAGE = 'config.storages.StaticStorage'
+# # Static Files
+# # ---For Prod Env---
+# STATIC_URL = 'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
+# STATICFILES_STORAGE = 'config.storages.StaticStorage'
