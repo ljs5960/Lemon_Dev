@@ -116,7 +116,7 @@
 
     <!-- 생년월일 입력 input -->
     <div class="signup-form">
-      <a>생년월일 <strong>(필수)</strong></a>
+      <a>생년월일</a>
       <input class="add_info_select_signup" name=birthday type="date" id="year" maxlength="8" placeholder="생년월일을 입력해주세요. 예시)19801210" style="margin-top: 10px; margin-bottom:25px;">
     </div>
 
@@ -126,9 +126,6 @@
       <input type="number" name="pin" class="add_info_select_signup" id="pin" placeholder="최대 4자리" value=""/>
     </div>
 
-    <div class="signup-form">
-      <a>옵션</a>
-    </div>
     
     <!-- 성별 입력 input -->
     <div class="options_info" id="options_info">
@@ -202,10 +199,6 @@
       alert('이메일 입력 또는 중복확인 해주세요.');
       return false;
     }
-    else if ($('#year').val() == '') {
-      alert('생년월일을 입력해주세요.');
-      return false;
-    }
     else if (!$('#pin').val().match(/^[0-9]{4}$/)) {
       alert('Pin 번호 4자리를 입력해주세요.');
       return false;
@@ -220,12 +213,14 @@
   /* Form 유효성 검사 END */
 </script>
 <script>
+/*
   $( document ).ready(function() {
     let temp_date = document.getElementById('invest').value;
     if (temp_date == 0) {
       $('input[name=invest_date]').attr('value', date);
     }
   });
+  */
 </script>
 <script>
   /* 전화번호 길이 검증 스크립트 */
