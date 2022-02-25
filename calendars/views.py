@@ -32,6 +32,8 @@ URL_LOGIN = '/login'
 def home(request):
     u_chk = request.user.u_chk
     if u_chk == True:
+        messages.add_message(request, messages.SUCCESS, '로그인 성공')
+
         invest = request.user.invest
         user = request.user.user_id
         now = datetime.datetime.now()
@@ -95,6 +97,7 @@ def home(request):
         result['total_investment_amount'] = total_investment_amount
         result['user_total_investment_amount'] = user_total_investment_amount
     else:
+        messages.add_message(request, messages.WARNING, '로그인 실패')
         return redirect('social/info')
     return render(request, 'home.html', result)
 

@@ -45,6 +45,12 @@
     }
 </style>
 <!-- 홈 wrap 시작 -->
+{% if messages %}
+	{% for message in messages %}
+		{{ message.tags }}
+		{{ message.message }}
+	{% endfor %}
+{% endif %}
 <div class="home-wrap">
     <div class="home-title">
         <a><strong>{{user.username}}</strong>님의 <br><strong>소비</strong>와 <strong>투자 현황</strong></a>
