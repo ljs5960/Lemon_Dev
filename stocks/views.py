@@ -267,7 +267,6 @@ def buy_stock(request):
         if (request.user.invest + total_rest_investment) - buy_price < 0:
             return JsonResponse({'result': '가상잔액이 부족합니다'}, content_type='application/json')
         try:
-            print(data['marketcode'])
             stock_api = iex.api() if data['marketcode'] == 'nasdaq' else koscom.api()
             stock_master = stock_api.get_stock_master(data['marketcode'], data['issuecode'])
             stockheld_check = Stockheld.objects.filter(sh_userid=request.user.user_id,
