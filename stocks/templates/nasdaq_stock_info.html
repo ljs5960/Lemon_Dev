@@ -789,8 +789,8 @@ var myChart4 = new Chart(ctx, {
         let marketcode = document.getElementById('buy_marketcode').value;
         let issuecode = document.getElementById('buy_issuecode').value;
         let current_price = document.getElementById('buy_price').value;
-        let share = document.getElementById('buy_share').value;
-        let howmuch = $('#howmuch').val();
+        let share = parseInt(document.getElementById('buy_share').value);
+        let howmuch = parseInt($('#howmuch').val());
         if(share == '' || share == 0) {
             alert('구매할 주를 입력해주세요.');
         }
@@ -827,7 +827,7 @@ var myChart4 = new Chart(ctx, {
         let marketcode = document.getElementById('sold_marketcode').value
             issuecode = document.getElementById('sold_issuecode').value
             current_price = document.getElementById('buy_price').value
-            share = document.getElementById('sold_share').value;
+            share = parseInt(document.getElementById('sold_share').value);
             curr_share = document.getElementById('curr_share').value;
         let sold_stock =  curr_share - share ;
             if (sold_stock < 0 ){
@@ -838,7 +838,6 @@ var myChart4 = new Chart(ctx, {
             headers.append('Content-Type', 'application/json')
             headers.append('X-CSRFToken', csrftoken)
             var data = { marketcode, issuecode, current_price, share }
-            console.log(data)
             fetch('/sold_stock', {
                 method: "POST",
                 headers: headers,
