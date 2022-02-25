@@ -79,9 +79,10 @@
 {% comment %} <div style="text-align:center;font-size:22px;">{{total_current_amount|intcomma}}원</div> {% endcomment %}
 <!--<div style="text-align:center;font-size:22px;">{{total_invest_amount|intcomma}}원</div>-->
 
-    <div style="text-align:center;font-size:22px;font-weight:bold;">{{total_investment_amount|intcomma}}원</div>
+    <div style="text-align:center;font-size:22px;font-weight:bold;">{{total_current_price|intcomma}}원</div>
     <div style="text-align:center;font-size:14px;color:white;">
-    {{total_investment_amount|sub:user_total_investment_amount|intcomma}} ({{total_investment_amount|yields:user_total_investment_amount|floatformat:2}}%) </div>
+    
+    {{total_current_price|sub:user_total_investment_amount|intcomma}} ({{total_profit_amount|yields2:user_total_investment_amount|floatformat:2}}%) </div>
     <div class="my_stock"><a class="my_stock-btn" href="{% url 'stocks:stock' %}">보유 주식</a></div>
 
 </div>
@@ -144,7 +145,7 @@
 <div class="stock-container" style="margin-top:20px; margin-bottom:50px;">
     <span class="stock-container-side">금일 기준</span>
     <div class="stock-container-title">주문 가능 금액</div>
-    <div style="text-align:center;font-size:22px;">{{user.invest|sub:total_investment_amount|add:total_use_investment_amount|intcomma}}원</div>
+    <div style="text-align:center;font-size:22px;">{{user.invest|add:total_use_investment_amount|intcomma}}원</div>
     <div class="my_stock"><a href="{% url 'admins:edit_invest' %}" class="my_stock-btn" >추가</a></div>
     </div>
 </div>

@@ -155,8 +155,11 @@ class calculator:
                 for element in stockheld:
                     stocktrading = Stocktrading.objects.filter(st_userid=user_id,
                                                                st_isusrtcd=element.sh_isusrtcd,
-                                                               st_date__gt=element.sh_z_date).aggregate(
+                                                               st_date__gt=element.sh_z_date,
+                                                               st_kind = 'B'
+                                                               ).aggregate(
                         total=Sum(F('st_price') * F('st_share')))['total']
+                        
                     total_buy += stocktrading
                 return -total_buy
             else:
@@ -164,3 +167,49 @@ class calculator:
         except Exception as e:
             print('Error in total_buy_investment_amount: \n', e)
             return False
+    def user_total_investment_amount1(self, user_id):
+        total_buy = 0
+        try:
+            stockheld = Stockheld.objects.filter(
+                sh_userid=user_id).exclude(sh_share__lte=0)
+            if stockheld.exists():
+                for element in stockheld:
+                    stocktrading = Stocktrading.objects.filter(st_userid=user_id,
+                                                                st_isusrtcd=element.sh_isusrtcd,
+                                                                st_date__gt=element.sh_z_date,
+                                                                st_kind = 'B'
+                                                                ).values(
+                        'st_price','st_share')
+                        #total=Sum(F('st_price') * F('st_share')), share_total=Sum('st_share'))
+                    total = int(stocktrading.values('st_price'))
+                    print('totaltotaltotal',total)
+                    total2 = int(stocktrading.values('st_share'))
+                    total3 = total/total2
+                    return total3
+            else:
+                return False
+        except Exception as e:
+            print('Error in total_buy_investment_amount: \n', e)
+            return False
+
+    def user_total_investment_amount2(self, user_id):
+        total_buy = 0
+        try:
+            stockheld = Stockheld.objects.filter(
+                sh_userid=user_id).exclude(sh_share__lte=0)
+            if stockheld.exists():
+                for element in stockheld:
+                    stocktrading = Stocktrading.objects.filter(st_userid=user_id,
+                                                                st_isusrtcd=element.sh_isusrtcd,
+                                                                st_date__gt=element.sh_z_date,
+                                                                st_kind = 's'
+                                                                ).aggregate(
+                        total=(F('st_price') / F('st_share')))['total']
+                    total_buy += stocktrading
+                return total_buy
+            else:
+                return False
+        except Exception as e:
+            print('Error in total_buy_investment_amount: \n', e)
+            return False
+
