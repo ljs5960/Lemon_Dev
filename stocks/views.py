@@ -125,11 +125,11 @@ def portfolio(request):
 
 
 def stock_info(request, marketcode, issuecode):
-    api = iex.api() if marketcode == 'nasdaq' else koscom.api()
+    stock_api = iex.api() if marketcode == 'nasdaq' else koscom.api()
     stock_cal = cal.calculator()
     total_investment_amount = stock_cal.total_investment_amount(request.user.user_id)
     total_use_investment_amount = stock_cal.total_use_investment_amount(request.user.user_id)
-    result = api.get_stock_master(marketcode, issuecode)
+    result = stock_api.get_stock_master(marketcode, issuecode)
     mark = bookmark.objects.filter(user_id=request.user.user_id, marketcode=marketcode, isuSrtCd=issuecode)
     if mark:
         star=1
@@ -140,37 +140,37 @@ def stock_info(request, marketcode, issuecode):
         result['total_use_investment_amount'] = total_use_investment_amount if total_use_investment_amount else 0
         result['share'] = Stockheld.objects.filter(sh_userid=request.user.user_id,
                                                    sh_isusrtcd=issuecode).values_list('sh_share', flat=True)
-        result['curPrice'] = api.get_current_price(marketcode, issuecode)
+        result['curPrice'] = stock_api.get_current_price(marketcode, issuecode)
         result['marketcode'] = marketcode
         result['total_allow_invest'] = request.user.invest - stock_cal.total_use_investment_amount(request.user.user_id)
 
         if marketcode == 'nasdaq':
-            result['ex_rate'] = api.get_ex_rate('FRX.KRWUSD')
+            result['ex_rate'] = stock_api.get_ex_rate('FRX.KRWUSD')
             result['year_history'] = str(0)
             result['month_history'] = str(0)
             result['week_history'] = str(0)
             result['day_history'] = str(0)
         else:
             result['year_history'] = day_trdDd_matching(
-                cal_year_history(api.get_stock_history(marketcode, issuecode,
+                cal_year_history(stock_api.get_stock_history(marketcode, issuecode,
                                                                     'M', '19800101', datetime.today().strftime('%Y%m%d'), 50)))
             if result['year_history'] is False:
                     result['year_history'] = str(0)
 
             result['month_history'] = day_trdDd_matching(
-                api.get_stock_history(marketcode, issuecode,
+                stock_api.get_stock_history(marketcode, issuecode,
                                             'M', '19800101', datetime.today().strftime('%Y%m%d'), 50))
             if result['month_history'] is False:
                 result['month_history'] = str(0)
             result['week_history'] = day_trdDd_matching(
-                api.get_stock_history(marketcode, issuecode,
+                stock_api.get_stock_history(marketcode, issuecode,
                                             'W', '19800101', datetime.today().strftime('%Y%m%d'), 50))
 
             if result['week_history'] is False:
                 result['week_history'] = str(0)
 
             result['day_history'] = day_trdDd_matching(
-                api.get_stock_history(marketcode, issuecode,
+                stock_api.get_stock_history(marketcode, issuecode,
                                             'D', '19800101', datetime.today().strftime('%Y%m%d'), 50))
             if result['day_history'] is False:
                 result['day_history'] = str(0)
@@ -267,7 +267,6 @@ def buy_stock(request):
         if (request.user.invest + total_rest_investment) - buy_price < 0:
             return JsonResponse({'result': '가상잔액이 부족합니다'}, content_type='application/json')
         try:
-            print(data['marketcode'])
             stock_api = iex.api() if data['marketcode'] == 'nasdaq' else koscom.api()
             stock_master = stock_api.get_stock_master(data['marketcode'], data['issuecode'])
             stockheld_check = Stockheld.objects.filter(sh_userid=request.user.user_id,
