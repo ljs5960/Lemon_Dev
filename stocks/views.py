@@ -23,19 +23,20 @@ def stock(request):
     stockheld = Stockheld.objects.filter(sh_userid=request.user.user_id).exclude(sh_share=0) # 자기가 구매한 것 보이고 다 판건 안보이게 만듬
     stock_data = []
     stock_cal = cal.calculator()
-    koscom_api = koscom.api()
     mark = bookmark.objects.filter(user_id=request.user.user_id)
     bookmark_date = []
     for element in stockheld:
+        stock_api = iex.api() if element.sh_marketcode == 'nasdaq' else koscom.api()
         average_price = stock_cal.average_price(request.user.user_id, element.sh_isusrtcd)
-        current_price = koscom_api.get_current_price(element.sh_marketcode, element.sh_isusrtcd)
+        current_price = stock_api.get_current_price(element.sh_marketcode, element.sh_isusrtcd)
         stock_data.append(
             [element.sh_isukorabbrv, average_price, current_price, element.sh_isusrtcd, element.sh_marketcode, element.sh_share])
 
     for element in mark :
+        stock_api = iex.api() if element.marketcode == 'nasdaq' else koscom.api()
         find_stock_name = Stocksector.objects.filter(ss_isusrtcd=element.isuSrtCd).values_list('ss_isukorabbrv', flat=True)
         name = find_stock_name[0]
-        current_price = koscom_api.get_current_price(element.marketcode, element.isuSrtCd)
+        current_price = stock_api.get_current_price(element.marketcode, element.isuSrtCd)
         bookmark_date.append([element.marketcode,element.isuSrtCd, current_price, name])
     return render(request, 'stock.html', {'stock_data': stock_data,'bookmark_date':bookmark_date})
 
@@ -100,22 +101,25 @@ def portfolio(request):
     total_investment_amount = stock_cal.total_investment_amount(
         request.user.user_id)
     total_current_price = stock_cal.total_current_price(request.user.user_id)
-    total_use_investment_amount = stock_cal.total_use_investment_amount(
-        request.user.user_id)
+    total_use_investment_amount = stock_cal.total_use_investment_amount(request.user.user_id)
+    total_profit_n_loss = stock_cal.total_profit_n_loss(request.user.user_id)
     invest = request.user.invest
     total_invest = invest + total_use_investment_amount
+
 
     if total_investment_amount is False or total_current_price is False or total_use_investment_amount is False or user_total_investment_amount is False:
         result['total_investment_amount'] = 0
         result['user_total_investment_amount'] = 0
         result['total_current_price'] = 0
         result['total_use_investment_amount'] = 0
+        result['total_profit_n_loss'] = 0
         result['total_invest'] = 0
     else:
         result['user_total_investment_amount'] = user_total_investment_amount
         result['total_investment_amount'] = total_investment_amount
         result['total_current_price'] = total_current_price
         result['total_use_investment_amount'] = total_use_investment_amount
+        result['total_profit_n_loss'] = total_profit_n_loss
         result['total_invest'] = total_invest
     return render(request, 'portfolio.html', result)
 
@@ -263,6 +267,7 @@ def buy_stock(request):
         if (request.user.invest + total_rest_investment) - buy_price < 0:
             return JsonResponse({'result': '가상잔액이 부족합니다'}, content_type='application/json')
         try:
+            print(data['marketcode'])
             stock_api = iex.api() if data['marketcode'] == 'nasdaq' else koscom.api()
             stock_master = stock_api.get_stock_master(data['marketcode'], data['issuecode'])
             stockheld_check = Stockheld.objects.filter(sh_userid=request.user.user_id,
@@ -270,6 +275,7 @@ def buy_stock(request):
             if data['marketcode'] == 'nasdaq':
                 stock_master['idxIndMidclssCd'] = stock_api.get_stocksector(data['issuecode'])['sector']
                 stock_master['isuCd'] = data['issuecode']
+                stock_master['isuKorAbbrv'] = stock_master['companyName']
             with transaction.atomic():
                 if stock_master and not stockheld_check:
                     stockheld_insert(request.user.user_id, data, stock_master)
@@ -317,7 +323,7 @@ def stockheld_insert(user_id, data, master):
         sh_userid=acc_models.user.objects.get(user_id=user_id),
         sh_isusrtcd=data['issuecode'],
         sh_isucd=master['isuCd'],
-        sh_isukorabbrv=master['companyName'],
+        sh_isukorabbrv=master['isuKorAbbrv'],
         sh_marketcode=data['marketcode'],
         sh_idxindmidclsscd=master['idxIndMidclssCd'],
         sh_share=data['share'],
