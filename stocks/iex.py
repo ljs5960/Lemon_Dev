@@ -53,6 +53,7 @@ class api:
     def get_stock_master(self, marketcode, symbol):
         try:
             url = f'https://cloud.iexapis.com/stable/stock/{symbol}/quote?token={IEX_C_TOKEN}'
+            # url = f'https://cloud.iexapis.com/stable/tops?symbols={symbol}&token={IEX_C_TOKEN}'
             response = requests.get(url, timeout=self.timeout)
             if response.status_code == 200:
                 return json.loads(response.text)

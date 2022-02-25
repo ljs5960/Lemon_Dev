@@ -20,7 +20,7 @@ from django.contrib.auth.hashers import check_password
 from dateutil.relativedelta import relativedelta
 from django.http import JsonResponse
 from stocks import stockcal as cal
-from stocks import kocom
+from stocks import koscom
 from stocks import iex
 from stocks.models import Stocksector, Totalmerge
 
@@ -223,7 +223,7 @@ def top5(request):
     category_amount_count = spend_month_filter.values('category').annotate(count=Count('category')).order_by('-count')[:5]
 
     category_stock = []
-    koscom_api = kocom.api()
+    koscom_api = koscom.api()
     nasdaq_api = iex.api()
     for element in category_place:
         find_market_code = Stocksector.objects.filter(ss_isukorabbrv=element['place']).values_list('ss_marketcode', flat=True)

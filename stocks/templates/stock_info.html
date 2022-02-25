@@ -941,7 +941,7 @@ $( document ).ready(function() {
     }
 });
 $( document ).ready(function() {
-var number = {{user.invest|add:result.total|div:result.curPrice|floatformat}};
+var number = {{user.invest|add:result.total_use_investment_amount|div:result.curPrice|floatformat}};
 var final = Math.trunc(number);
 $('#howmuch').val(final);
 });
