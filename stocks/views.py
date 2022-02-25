@@ -439,13 +439,10 @@ def get_history(request):
 def per_pbr_update(request):
     result = False
     if request.method == 'POST':
-        data = json.loads(request.body) # 여기서부터 코스피 perpbr 버튼 , 나스닥 perpbr 버튼 구분
-        print(data) # 여기서 portfolio.html 의 perpbr button 태그 내 value 가 출력됩니다. (kospi or nasdaq)
-        ############
-
-        koscom_api = koscom.api()
+        data = json.loads(request.body)     # 여기서부터 코스피 perpbr 버튼 , 나스닥 perpbr 버튼 구분
+        stock_api = iex.api() if data == 'nasdaq' else koscom.api()
         try:
-            per_pbr_bundle = koscom_api.get_per_pbr_bundle()
+            per_pbr_bundle = stock_api.get_per_pbr_bundle()
             if per_pbr_bundle:
                 per_pbr_insert(per_pbr_bundle)
                 result = True
