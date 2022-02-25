@@ -1,5 +1,5 @@
 from .models import *
-from . import kocom
+from . import koscom
 from django.db.models import Sum, F
 
 
@@ -45,7 +45,7 @@ class calculator:
             stockheld = Stockheld.objects.filter(sh_userid=user_id).exclude(sh_share__lte=0)
             if stockheld.exists():
                 for element in stockheld:
-                    current_price = kocom.api().get_current_price(element.sh_marketcode, element.sh_isusrtcd)
+                    current_price = koscom.api().get_current_price(element.sh_marketcode, element.sh_isusrtcd)
                     if current_price:
                         total_current_price += current_price * element.sh_share
                         return total_current_price
