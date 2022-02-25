@@ -54,7 +54,7 @@
 <div class="pagenation">
   <ul style="padding-left: 0 !important;">
     <li id="pagenation_portfolio"><a style="font-size: 13px;" href="{% url 'stocks:portfolio' %}">포트폴리오</a></li>
-    <li id="pagenation_recommend"><a style="padding-right: 13px;" href="{% url 'stocks:suggestion' %}">추천</a></li>
+    <li id="pagenation_recommend"><a style="padding-right: 13px;" onclick="go_suggest();">추천</a></li>
   </ul>
 </div>
 
@@ -155,6 +155,12 @@ $(document).ready(function(){
 });
 </script>
 <script>
+    function go_suggest(){
+        $('#goLoading').show();
+        window.location.href="/suggestion";
+    }
+
+
     var myElement = document.getElementById('container');
 
     // create a simple instance
@@ -163,6 +169,7 @@ $(document).ready(function(){
 
     // listen to events...
     mc.on("swipeleft", function(ev) {
+        $('#goLoading').show();
         window.location.href="/suggestion";
     });
   </script>
