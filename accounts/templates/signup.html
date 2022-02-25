@@ -13,7 +13,6 @@
   <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
   <title>레몬::회원가입</title>
 </head>
-
 <style>
   body,html{
     width: 100%;
@@ -64,7 +63,6 @@
   padding-top:5px;
   }
 </style>
-
 <body>
 <!-- 회원가입 navbar -->
 <div id="nav" style="border-bottom: 1px solid #f1f1f1;">
@@ -92,41 +90,36 @@
         </label>
       </div>
     </div>
-
   <!-- 회원가입 폼 시작 -->
   <div class="signup-form-wrap"> 
     <!-- 아이디 입력 input -->
     <div class="signup-form">
     <a>아이디 <strong>(필수)</strong></a><br>
         <div style="display: flex; justify-content: space-between;">
-            <input type="text" class="add_info_select_signup" style="width:70%; margin-top: 10px; margin-bottom:10px;"
+            <input type="text" class="add_info_select_signup" style="width:70%; margin-top: 10px; margin-bottom:10px;text-transform: lowercase;"
           id="Vailduid" name="Vailduid" placeholder="(영문시작/숫자 포함 6~20자)" value="" ><div onclick="checkID();" id="check_ID" class="idVailed_btn">중복확인</div>
         </div>
         <br><input type="hidden" class="add_info_select_signup" style="margin-top: 10px; margin-bottom:10px;"
           id="uid" name="uid" placeholder="" value="">
     </div>
-
     <!-- 비밀번호 입력 input -->
     <div class="signup-form">
     <a>비밀번호 <strong>(필수)</strong></a>
         <input type="password" class="add_info_select_signup" style="margin-top: 10px; margin-bottom:10px;"
           id="password" name="password" placeholder="" value="">
     </div>
-
     <!-- 비밀번호 입력2 input -->
     <div class="signup-form">
     <a>비밀번호 확인 <strong>(필수)</strong></a>
         <input type="password" class="add_info_select_signup" style="margin-top: 10px; margin-bottom:10px;"
           id="password1" name="password1" placeholder="" value="">
     </div>
-
     <!-- 이름 입력 input -->
     <div class="signup-form">
     <a>이름 <strong>(필수)</strong></a>
         <input type="text" class="add_info_select_signup" style="margin-top: 10px; margin-bottom:10px;"
           id="name" name="username" placeholder="" value="">
     </div>
-
     <!-- 이메일 입력 input -->
     <div class="signup-form">
     <a>이메일 <strong>(필수)</strong></a>
@@ -137,23 +130,19 @@
     <input type="hidden" class="add_info_select_signup" style="margin-top: 10px; margin-bottom:10px;" id="email" name="email"
         placeholder="" value="">
     </div>
-
-    <!-- 생년월일 입력 input -->
-    <div class="signup-form">
-        <a>생년월일</a>
+    <!-- 핀번호 입력 input -->
+        <div class="signup-form">
+            <a>Pin번호 <strong>(필수)</strong></a>
+            <input type="number" name="pin" class="add_info_select_signup"
+                id="pin" placeholder="최대 4자리" value=""/>
+        </div>
+    <div class="options_info" id="options_info">
+            <!-- 생년월일 입력 input -->
+        <div class="signup-form" style="margin-top: 20px;">
+        <a>생년월일 (선택)</a>
         <input class="add_info_select_signup" name=birthday type="date" id="year" maxlength="8" placeholder="생년월일을 입력해주세요. 예시)19801210" style="margin-top: 10px; margin-bottom:25px;">
     </div>
-
-    <!-- 핀번호 입력 input -->
-    <div class="signup-form">
-        <a>Pin번호 <strong>(필수)</strong></a>
-        <input type="number" name="pin" class="add_info_select_signup"
-            id="pin" placeholder="최대 4자리" value=""/>
-    </div>
-
-
-    <div class="options_info" id="options_info">
-        <div class="signup-form" style="margin-top: 20px;">
+        <div class="signup-form">
             <a>성별 (선택)</a>
             <select name="gender" class="add_info_select" style="margin-top: 10px; margin-bottom:10px;">
                 <option value="0"> -- 선택 -- </option>
@@ -161,7 +150,6 @@
                 <option value="F"> 여자 </option>
             </select>
         </div>
-
         <!-- 직업군 입력 input -->
         <div class="signup-form">
             <a>직업군 (선택)</a>
@@ -175,7 +163,6 @@
                 <option value="6">무직</option>
             </select>
         </div>
-
         <!-- 연락처 입력 input -->
         <div class="signup-form">
             <a>전화번호 (선택)</a>
@@ -200,7 +187,6 @@
             <a>모의투자 금액 (선택)</a>
             <input type="number" class="add_info_select_signup" id="invest" name="invest" placeholder="모의 투자금액을 입력하세요."
                 value="0" style="margin-top: 10px; margin-bottom:25px;"><br>
-
         </div>
     </div>
     <!-- <button class="signup-btn" id="signupBtn" onclick="signup_check()" disabled style="width:100%">회원가입</button> -->
@@ -209,7 +195,6 @@
   </form>
 </div><!-- 회원가입 Wrapper 끝 -->
 </body>
-
 <script>
     // 이용약관도 체크 확인 하기
     // 핸드폰 중복 확인
@@ -254,7 +239,6 @@
         }
     }
 </script>
-
 <script>
     $( document ).ready(function() {
         let temp_date = document.getElementById('invest').value;
@@ -262,9 +246,7 @@
             $('input[name=invest_date]').attr('value',date);
         }
     });
-
 </script>
-
 <script>
 /* 전화번호 길이 검증 스크립트 */
 document.addEventListener('keydown', function(event) {
@@ -272,17 +254,14 @@ document.addEventListener('keydown', function(event) {
         event.preventDefault();
     };
 }, true);
-
   document.addEventListener('keydown', function(event) {
   if (event.keyCode === 13) {
     event.preventDefault();
   };
 }, true);
 </script>
-
 <script>
     document.getElementById('codeBtn').addEventListener('click', codebtn);
-
     KEY = undefined;
     function codebtn(){
         KEY = makeRandomNum(4);
@@ -291,10 +270,8 @@ document.addEventListener('keydown', function(event) {
         var display = $('#count');
         var leftSec = 180;
         var phoneInput = document.getElementById('vaildPhonenumber');
-
         // Phonenumber Check Regular Expression -> 01* **** ****
         const phoneRegEx = /^01([0|1|6|7|8|9])([0-9]{3,4})([0-9]{4})$/;
-
         if(phoneInput.value.match(phoneRegEx)) {
             alert('입력하신 휴대번호로 인증번호를 전송하였습니다.');
             $('#inputCode').removeAttr('disabled');
@@ -307,7 +284,6 @@ document.addEventListener('keydown', function(event) {
             }else{
                 startTimer(leftSec, display);
             };
-
             $.ajax({
                 type: "POST",
                 url: "{% url 'calendars:ajax_sendSMS' %}",
@@ -330,7 +306,6 @@ document.addEventListener('keydown', function(event) {
         else{
             alert('전화번호를 확인해주세요.');
         }
-        
         // 난수 설정
         function makeRandomNum(n) {
             let value = '';
@@ -340,7 +315,6 @@ document.addEventListener('keydown', function(event) {
             return value;
         }
     }
-
     function certfun() {
         if(document.querySelector("#inputCode").value == KEY){
             alert('확인되었습니다.');
@@ -352,6 +326,8 @@ document.addEventListener('keydown', function(event) {
             $('#codeBtn').attr('disabled', true);
             $('#certBtn').attr('disabled', true);
             document.querySelector("#count").style.display = "none";
+            const element = document.getElementById('certBtn');
+            element.style.backgroundColor = 'grey';
         }
         else if(document.querySelector("#inputCode").value != KEY) {
             alert('인증번호가 일치하지 않습니다. 다시 확인해주세요.');
@@ -360,7 +336,6 @@ document.addEventListener('keydown', function(event) {
             alert('알수없는 오류가 발생하였습니다. 다시 진행해주세요.');
         }
     }
-
     function startTimer(count, display) {
         var minutes, seconds;
         timer = setInterval(function () {
@@ -383,13 +358,11 @@ document.addEventListener('keydown', function(event) {
             isRunning = true;
     }
 </script>
-
 <script>
     function checkID() {
         var vailID = document.getElementById('Vailduid').value;
         // ID Check Regular Expression -> 6~20 only num & eng
         const IDRegEx = /^[a-z]+[0-9a-zA-Z]{5,19}$/g;
-
         if(vailID.match(IDRegEx)) {
             $.ajax({
                 type: "POST",
@@ -408,6 +381,8 @@ document.addEventListener('keydown', function(event) {
                         alert('사용가능한 아이디입니다.');
                         $('input[name=uid]').attr('value', vailID);
                         $('input[name=Vailduid]').attr('disabled', true);
+                        const element = document.getElementById('check_ID');
+                        element.style.backgroundColor = 'grey';
                     }
                 },
                 fail: function () {
@@ -419,12 +394,10 @@ document.addEventListener('keydown', function(event) {
             return false;
         }
     }
-
     function checkEmail() {
         var vailEmail = document.getElementById('Vailemail').value;
         // Email Check Regular Expression -> your_email@domain_name.com
         const emiailRegEx = /[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]$/i;
-
         if(vailEmail.match(emiailRegEx)) {
             $.ajax({
                 type: "POST",
@@ -443,6 +416,8 @@ document.addEventListener('keydown', function(event) {
                         alert('사용가능한 이메일입니다.');
                         $('input[name=email]').attr('value', vailEmail);
                         $('input[name=Vailemail]').attr('disabled', true);
+                        const element = document.getElementById('check_Email');
+                        element.style.backgroundColor = 'grey';
                     }
                 },
                 fail: function () {
