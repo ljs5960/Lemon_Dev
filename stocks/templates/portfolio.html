@@ -68,6 +68,7 @@
             <a>아래 버튼은 관리자 권한을 가진 사용자만 보입니다.</a>
             <button id="kospi" class="perPbr-Btn" value="kospi">코스피 PER, PBR 넣기</button>
             <button id="nasdaq" class="perPbr-Btn2" value="nasdaq">나스닥 PER, PBR 넣기</button>
+            <button id="close_price" class="close_price-Btn">종가 넣기</button>
         </div>
     {% else %}{% endif %}
 
@@ -207,7 +208,7 @@ $(document).ready(function(){
             value = $('.perPbr-Btn2').val();
         }
         
-        var headers = new Headers();
+        let headers = new Headers();
         headers.append('Content-Type', 'application/json')
         headers.append('X-CSRFToken', csrftoken)
         fetch('/per_pbr_update', {
@@ -225,7 +226,27 @@ $(document).ready(function(){
         .catch(err => {
             console.log(err)
         })
-        
+    });
+
+    let close_price_btn = document.getElementById('close_price');
+    close_price_btn.addEventListener('click', (e) => {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json')
+        headers.append('X-CSRFToken', csrftoken)
+        fetch('/close_price_update', {
+            method: "POST",
+            headers: headers,
+        })
+        .then(res => {
+            if(res.status === 200) return res.json();
+            else console.log(res.statusText);
+        })
+        .then(json => {
+            console.log(json.result);
+        })
+        .catch(err => {
+            console.log(err)
+        })
     });
 
     function info(issuecode, marketcode) {

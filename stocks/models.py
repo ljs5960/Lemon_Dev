@@ -76,8 +76,9 @@ class Totalmerge(models.Model):
     name = models.CharField(max_length=50)
     marketcode = models.CharField(max_length=30)
     category = models.CharField(max_length=30)
-    per = models.SmallIntegerField()
-    pbr = models.SmallIntegerField()
+    per = models.SmallIntegerField(blank=True, null=True)
+    pbr = models.SmallIntegerField(blank=True, null=True)
+    closeprice = models.IntegerField(blank=True, null=True)
     haltyn = models.CharField(db_column='haltYN', max_length=5)  # Field name made lowercase.
     logo = models.CharField(max_length=70)
     date = models.DateTimeField(auto_now=True)

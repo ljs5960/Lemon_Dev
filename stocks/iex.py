@@ -36,7 +36,6 @@ class api:
             print('Error in get_current_stock: \n', e)
             return False
 
-
     def get_current_price(self, marketcode, symbol):
         try:
             url = f'https://cloud.iexapis.com/stable/stock/{symbol}/price?token={IEX_C_TOKEN}'
@@ -101,6 +100,7 @@ class api:
     def stocks_list(self):
         try:
             url = f'https://cloud.iexapis.com/beta/ref-data/symbols?token={IEX_C_TOKEN}'
+            url = f'https://sandbox.iexapis.com/beta/ref-data/symbols?token={IEX_S_TOKEN}'
             response = requests.get(url, timeout=self.timeout)
             if response.status_code == 200:
                 return json.loads(response.text)
@@ -149,6 +149,25 @@ class api:
                         'isusrtcd': get_stocksector['symbol'],
                         'per': get_stocksector['per'],
                         'pbr': get_stocksector['pbr'],
+                    })
+                else:
+                    print('========>Fail get stocksector: ', stock['symbol'])
+        else:
+            return False
+        return result
+
+    def get_close_price_bundle(self):
+        result = []
+        stocks_list = self.stocks_list()
+        ex_rate = self.get_ex_rate('FRX.KRWUSD')
+        if stocks_list:
+            for stock in stocks_list:
+                get_stock_master = self.get_stock_master('nasdaq', stock['symbol'])
+                if get_stock_master['close'] is not None:
+                    print(f"symbol: {get_stock_master['symbol']}  //  close_price: {round(get_stock_master['close'] * ex_rate)}")
+                    result.append({
+                        'symbol': stock['symbol'],
+                        'close_price': round(get_stock_master['close'] * ex_rate),
                     })
                 else:
                     print('========>Fail get stocksector: ', stock['symbol'])

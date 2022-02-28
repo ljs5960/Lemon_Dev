@@ -526,3 +526,36 @@ def per_pbr_insert(per_pbr_bundle):
             not_exists_list.append(per_pbr['isusrtcd'])
     print('==================> Finish insert per_pbr <==================')
     print(f'not exists list \n {not_exists_list}')
+
+
+def close_price_update(request):
+    result = False
+    if request.method == 'POST':
+        try:
+            stock_api = [koscom.api(), iex.api()]
+            for api in stock_api:
+                get_close_price_bundle = api.get_close_price_bundle()
+                if get_close_price_bundle:
+                    close_price_insert(get_close_price_bundle)
+            result = True
+        except Exception as e:
+            print('Error in close_price_update: \n', e)
+        return JsonResponse({'result': result}, content_type='application/json')
+
+
+def close_price_insert(close_price_bundle):
+    print('==================> Start insert close_price <==================')
+    not_exists_list = []
+    for close_price in close_price_bundle:
+        try:
+            totalmerge_check = Totalmerge.objects.filter(id=close_price['symbol']).exists()
+            if totalmerge_check:
+                totalmerge_objects = Totalmerge.objects.get(id=close_price['symbol'])
+                totalmerge_objects.closeprice = close_price['close_price']
+                totalmerge_objects.save()
+                print(f'update: {close_price["symbol"]}')
+        except Exception as e:
+            print(f'Error in close_price_insert: \n{e}\n !!!!But wait for finish this task!!!!')
+            not_exists_list.append(close_price['symbol'])
+    print('==================> Finish insert close_price <==================')
+    print(f'not exists list \n {not_exists_list}')
