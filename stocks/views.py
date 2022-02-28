@@ -45,11 +45,12 @@ def stock(request):
     return render(request, 'stock.html', {'stock_data': stock_data,'bookmark_date':bookmark_date})
 
 def suggestion(request):
-    koscom_api = koscom.api()
-    nasdaq_api = iex.api()
-    categorys = Stockheld.objects.exclude(sh_share=0).filter(sh_userid=request.user.user_id ).values('sh_idxindmidclsscd', 'sh_isusrtcd').annotate(count=Count('sh_idxindmidclsscd')).order_by('-count').distinct()
+    categorys = Stockheld.objects.exclude(sh_share=0).filter(sh_userid=request.user.user_id ).values('sh_idxindmidclsscd').annotate(count=Count('sh_idxindmidclsscd')).order_by('-count').distinct()
+    isurtcd_exclude = Stockheld.objects.exclude(sh_share=0).filter(sh_userid=request.user.user_id ).values( 'sh_isusrtcd').distinct()
+    print(categorys)
+    print(isurtcd_exclude)
     category_list = list(categorys.values('sh_idxindmidclsscd'))
-    categorys_isurtcd = list(categorys.values('sh_isusrtcd'))
+    categorys_isurtcd = list(isurtcd_exclude.values('sh_isusrtcd'))
     category_keep = category_list[0:3]
     category_arr = []
     isurtcd_arr = []
@@ -57,43 +58,18 @@ def suggestion(request):
         category_arr.append(i['sh_idxindmidclsscd'])
     for i in categorys_isurtcd:
         isurtcd_arr.append(i['sh_isusrtcd'])
-    #stock_list = Category.objects.select_related('spend').filter(category=4)
-    stock_suggestion1 = Totalmerge.objects.exclude(id__in=isurtcd_arr).filter(category__in=category_arr[0:3]).values("id", 'per', 'pbr', "marketcode", "name", "category").annotate(
+    category_stock = Totalmerge.objects.exclude(id__in=isurtcd_arr).filter(category__in=category_arr[0:3]).values("id", 'per', 'pbr', "marketcode", "name", "category").annotate(
         ROA=(F('per') * Decimal('1.0') / F('pbr') * Decimal('1.0'))).order_by('-ROA')[0:5]
-    print(stock_suggestion1)
-    #stock_suggestion2 = list(stock_suggestion1)
-    category_stock = []
+    # stock_suggestion1 = Totalmerge.objects.exclude(id__in=isurtcd_arr).filter(category__in=category_arr[0:3]).values("id", 'per', 'pbr', "marketcode", "name", "category", "종[]").annotate(
+    #     ROA=(F('per') * Decimal('1.0') / F('pbr') * Decimal('1.0'))).order_by('-ROA')[0:5]
+    print(category_stock)
 
-    for element in stock_suggestion1:
-        issuecode = element['id']
-        stock_suggestion = koscom_api.get_current_price(element['marketcode'], issuecode)
-        print(stock_suggestion)
-        category_stock.append([stock_suggestion, issuecode, element['per'],
-                              element['pbr'], element['marketcode'], element['name'], element['category']])
-        print(category_stock)
     nasdaq = nasdaq_category.objects.filter(category__in=category_arr[0:3]).values_list('nasdaq_cname', flat=True).values("nasdaq_cname")
     nasdaq_top5 = Totalmerge.objects.exclude(id__in=isurtcd_arr).filter(category__in=nasdaq).values("id", 'per', 'pbr', "marketcode", "name", "category").annotate(ROA=(F('per') * Decimal('1.0') / F('pbr') * Decimal('1.0'))).order_by('-ROA')[0:5]
-    print(nasdaq_top5)
-    nasdaq_top5_price = []
+    #nasdaq_top5 = Totalmerge.objects.exclude(id__in=isurtcd_arr).filter(category__in=nasdaq).values("id", 'per', 'pbr', "marketcode", "name", "category","종가?").annotate(ROA=(F('per') * Decimal('1.0') / F('pbr') * Decimal('1.0'))).order_by('-ROA')[0:5]
 
 
-    for element in nasdaq_top5:
-        symbol = element['id']
-        print(symbol)
-        # marketcode = element['marketcode']
-        # print(marketcode)
-        naqdaq_price = nasdaq_api.get_current_price(element['marketcode'],symbol)
-        print(naqdaq_price)
-        nasdaq_top5_price.append([naqdaq_price, element['id'], element['per'],
-                                element['pbr'], element['marketcode'], element['name'], element['category']])
-        print(nasdaq_top5_price)
-
-    # result = {}
-    # result['category_stock'] = category_stock
-    # result['nasdaq_top5_price'] = nasdaq_top5_price
-    # print(result)
-
-    return render(request, 'suggestions.html', {'category_stock':category_stock, 'nasdaq_top5_price':nasdaq_top5_price })
+    return render(request, 'suggestions.html', {'category_stock':category_stock, 'nasdaq_top5_price':nasdaq_top5 })
 
 
 def portfolio(request):
@@ -162,19 +138,23 @@ def stock_info(request, marketcode, issuecode):
         if marketcode == 'nasdaq':
             result['ex_rate'] = stock_api.get_ex_rate('FRX.KRWUSD')
             nasdaq_history = stock_api.get_stock_history(marketcode, issuecode, 'max')
-            result['year_history'] = day_trdDd_matching(cal_year_history(nasdaq_history, marketcode), marketcode)
+            nasdaq_history = list(reversed(nasdaq_history))
+
+            result['year_history'] = day_trdDd_matching(cal_date_history(cal_year_history(nasdaq_history, marketcode)), marketcode)
             if result['year_history'] is False:
                 result['year_history'] = str(0)
 
-            result['month_history'] = day_trdDd_matching(cal_month_history(nasdaq_history, marketcode), marketcode)
+            result['month_history'] = day_trdDd_matching(cal_date_history(cal_month_history(nasdaq_history, marketcode)), marketcode)
             if result['month_history'] is False:
                 result['month_history'] = str(0)
 
-            result['week_history'] = day_trdDd_matching(cal_week_history(nasdaq_history, marketcode), marketcode)
+            result['week_history'] = day_trdDd_matching(cal_date_history(cal_week_history(nasdaq_history, marketcode)), marketcode)
             if result['week_history'] is False:
                 result['week_history'] = str(0)
 
-            result['day_history'] = str(0)
+            result['day_history'] = day_trdDd_matching(cal_date_history(nasdaq_history), marketcode)
+            if result['day_history'] is False:
+                result['day_history'] = str(0)
         else:
             result['year_history'] = day_trdDd_matching(
                 cal_year_history(stock_api.get_stock_history(marketcode, issuecode,
@@ -211,7 +191,7 @@ def stock_info(request, marketcode, issuecode):
         return render(request, 'stock_info.html', {'result': result, 'star':star})
 
 
-def cal_year_history(history, marketcode):
+def cal_year_history(history, marketcode='nasdaq'):
     try:
         key = 'date' if marketcode == 'nasdaq' else 'trdDd'
         temp_year = ''
@@ -227,7 +207,7 @@ def cal_year_history(history, marketcode):
         return False
 
 
-def cal_month_history(history, marketcode):
+def cal_month_history(history, marketcode='nasdaq'):
     try:
         key = 'date' if marketcode == 'nasdaq' else 'trdDd'
         temp_month = ''
@@ -239,25 +219,36 @@ def cal_month_history(history, marketcode):
                 month_trdPrc.append(element)
         return month_trdPrc
     except Exception as e:
-        print('Error in cal_year_history: \n', e)
+        print('Error in cal_month_history: \n', e)
         return False
 
 
-def cal_week_history(history, marketcode):
+def cal_week_history(history, marketcode='nasdaq'):
     try:
         key = 'date' if marketcode == 'nasdaq' else 'trdDd'
-        start = 5 if marketcode == 'nasdaq' else 4
-        end = 7 if marketcode == 'nasdaq' else 6
         temp_week = ''
         week_trdPrc = []
         for element in history:
-            cur_week = str(element[key])[start:end]
+            cur_week = str(element[key])[4:6]
             if cur_week != temp_week:
                 temp_week = cur_week
                 week_trdPrc.append(element)
         return week_trdPrc
     except Exception as e:
-        print('Error in cal_year_history: \n', e)
+        print('Error in cal_week_history: \n', e)
+        return False
+
+
+def cal_date_history(history, marketcode='nasdaq'):
+    try:
+        date_trdPrc = []
+        history_range = len(history)
+        history_range = 50 if history_range >= 50 else history_range
+        for num in range(0, history_range):
+            date_trdPrc.append(history[num])
+        return date_trdPrc
+    except Exception as e:
+        print('Error in cal_date_history: \n', e)
         return False
 
 
@@ -525,4 +516,37 @@ def per_pbr_insert(per_pbr_bundle):
             print(f'Error in per_pbr_insert: \n{e}\n !!!!But wait for finish this task!!!!')
             not_exists_list.append(per_pbr['isusrtcd'])
     print('==================> Finish insert per_pbr <==================')
+    print(f'not exists list \n {not_exists_list}')
+
+
+def close_price_update(request):
+    result = False
+    if request.method == 'POST':
+        try:
+            stock_api = [koscom.api(), iex.api()]
+            for api in stock_api:
+                get_close_price_bundle = api.get_close_price_bundle()
+                if get_close_price_bundle:
+                    close_price_insert(get_close_price_bundle)
+            result = True
+        except Exception as e:
+            print('Error in close_price_update: \n', e)
+        return JsonResponse({'result': result}, content_type='application/json')
+
+
+def close_price_insert(close_price_bundle):
+    print('==================> Start insert close_price <==================')
+    not_exists_list = []
+    for close_price in close_price_bundle:
+        try:
+            totalmerge_check = Totalmerge.objects.filter(id=close_price['symbol']).exists()
+            if totalmerge_check:
+                totalmerge_objects = Totalmerge.objects.get(id=close_price['symbol'])
+                totalmerge_objects.closeprice = close_price['close_price']
+                totalmerge_objects.save()
+                print(f'update: {close_price["symbol"]}')
+        except Exception as e:
+            print(f'Error in close_price_insert: \n{e}\n !!!!But wait for finish this task!!!!')
+            not_exists_list.append(close_price['symbol'])
+    print('==================> Finish insert close_price <==================')
     print(f'not exists list \n {not_exists_list}')
