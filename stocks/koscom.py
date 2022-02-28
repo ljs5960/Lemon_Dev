@@ -155,3 +155,23 @@ class api:
             else:
                 return False
         return result
+
+    def get_close_price_bundle(self):
+        result = []
+        marketcode = ['kospi', 'kosdaq']
+        for code in marketcode:
+            stocks_list = self.stocks_list(code)
+            if stocks_list:
+                for stock in stocks_list:
+                    get_stocksector = self.get_selectivemaster(code, stock['isuSrtCd'])
+                    if get_stocksector:
+                        print(f"symbol: {get_stocksector['isuSrtCd']}  //  close_price: {get_stocksector['prevddClsprc']}")
+                        result.append({
+                            'symbol': stock['isuSrtCd'],
+                            'close_price': get_stocksector['prevddClsprc'],
+                        })
+                    else:
+                        print('========>Fail get stocksector: ', stock['isuSrtCd'])
+            else:
+                return False
+        return result
