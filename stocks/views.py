@@ -162,19 +162,23 @@ def stock_info(request, marketcode, issuecode):
         if marketcode == 'nasdaq':
             result['ex_rate'] = stock_api.get_ex_rate('FRX.KRWUSD')
             nasdaq_history = stock_api.get_stock_history(marketcode, issuecode, 'max')
-            result['year_history'] = day_trdDd_matching(cal_year_history(nasdaq_history, marketcode), marketcode)
+            nasdaq_history = list(reversed(nasdaq_history))
+
+            result['year_history'] = day_trdDd_matching(cal_date_history(cal_year_history(nasdaq_history, marketcode)), marketcode)
             if result['year_history'] is False:
                 result['year_history'] = str(0)
 
-            result['month_history'] = day_trdDd_matching(cal_month_history(nasdaq_history, marketcode), marketcode)
+            result['month_history'] = day_trdDd_matching(cal_date_history(cal_month_history(nasdaq_history, marketcode)), marketcode)
             if result['month_history'] is False:
                 result['month_history'] = str(0)
 
-            result['week_history'] = day_trdDd_matching(cal_week_history(nasdaq_history, marketcode), marketcode)
+            result['week_history'] = day_trdDd_matching(cal_date_history(cal_week_history(nasdaq_history, marketcode)), marketcode)
             if result['week_history'] is False:
                 result['week_history'] = str(0)
 
-            result['day_history'] = str(0)
+            result['day_history'] = day_trdDd_matching(cal_date_history(nasdaq_history), marketcode)
+            if result['day_history'] is False:
+                result['day_history'] = str(0)
         else:
             result['year_history'] = day_trdDd_matching(
                 cal_year_history(stock_api.get_stock_history(marketcode, issuecode,
@@ -211,7 +215,7 @@ def stock_info(request, marketcode, issuecode):
         return render(request, 'stock_info.html', {'result': result, 'star':star})
 
 
-def cal_year_history(history, marketcode):
+def cal_year_history(history, marketcode='nasdaq'):
     try:
         key = 'date' if marketcode == 'nasdaq' else 'trdDd'
         temp_year = ''
@@ -227,7 +231,7 @@ def cal_year_history(history, marketcode):
         return False
 
 
-def cal_month_history(history, marketcode):
+def cal_month_history(history, marketcode='nasdaq'):
     try:
         key = 'date' if marketcode == 'nasdaq' else 'trdDd'
         temp_month = ''
@@ -239,25 +243,36 @@ def cal_month_history(history, marketcode):
                 month_trdPrc.append(element)
         return month_trdPrc
     except Exception as e:
-        print('Error in cal_year_history: \n', e)
+        print('Error in cal_month_history: \n', e)
         return False
 
 
-def cal_week_history(history, marketcode):
+def cal_week_history(history, marketcode='nasdaq'):
     try:
         key = 'date' if marketcode == 'nasdaq' else 'trdDd'
-        start = 5 if marketcode == 'nasdaq' else 4
-        end = 7 if marketcode == 'nasdaq' else 6
         temp_week = ''
         week_trdPrc = []
         for element in history:
-            cur_week = str(element[key])[start:end]
+            cur_week = str(element[key])[4:6]
             if cur_week != temp_week:
                 temp_week = cur_week
                 week_trdPrc.append(element)
         return week_trdPrc
     except Exception as e:
-        print('Error in cal_year_history: \n', e)
+        print('Error in cal_week_history: \n', e)
+        return False
+
+
+def cal_date_history(history, marketcode='nasdaq'):
+    try:
+        date_trdPrc = []
+        history_range = len(history)
+        history_range = 50 if history_range >= 50 else history_range
+        for num in range(0, history_range):
+            date_trdPrc.append(history[num])
+        return date_trdPrc
+    except Exception as e:
+        print('Error in cal_date_history: \n', e)
         return False
 
 
