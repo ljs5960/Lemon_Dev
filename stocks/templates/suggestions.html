@@ -71,15 +71,15 @@
       <ol style="padding-left: 1rem !important;">
         <table id="porfolTable" style="width: 100%; margin-top:10px; border-collapse:inherit;">
           {% for recom in category_stock %}
-          <tr onclick="info('{{ recom.1 }}','{{ recom.4 }}')">
+          <tr onclick="info('{{ recom.id }}','{{ recom.marketcode}}')">
             <td width='10'>
               <li style="font-weight: bold; color:#8e8e8e;"></li>
             </td>
             <td class="spendTop5-tableTitle" width='50'>
-              <a>{{recom.5}}</a>
+              <a>{{recom.name}}</a>
             </td>
             <td id="usdtd" style="text-align: right;" width='25'>
-              <a class="usdtest" style="font-weight:400; color:#3a3a3a">{{ recom.1|truncatechars:500|intcomma }}원</a>
+              <a class="usdtest" style="font-weight:400; color:#3a3a3a">{{ recom.|truncatechars:500|intcomma }}원</a>
             </td>
           {% empty %}
           <div class="summary-nodata-wrap">
@@ -159,6 +159,18 @@
 </script>
 
 <script>
+    function info(issuecode, marketcode) {
+        document.getElementById('issuecode').value = issuecode;
+        document.getElementById('marketcode').value = marketcode;
+        if (marketcode == 'None') {
+        alert('주식 정보가 없습니다.')
+        }
+        else{
+        const form = document.getElementById('form');
+        form.action="/stock_info/" + marketcode + "/" + issuecode ;
+        form.submit();
+        }
+    }
   var myElement = document.getElementById('container');
 
   // create a simple instance

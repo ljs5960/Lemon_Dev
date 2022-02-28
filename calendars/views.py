@@ -216,33 +216,26 @@ def top5(request):
     # 소비 TOP5 카테고리 , 카드, 거래처
     category_amount = spend_month_filter.values('category', 'card', 'place').annotate(amount=Sum('amount')).order_by(
         '-amount')[:5]
-
+    # 요약 페이지_카테고리 건수별 TOP5
+    category_amount_count = spend_month_filter.values('category').annotate(count=Count('category')).order_by('-count')[:5]
     # 소비 TOP5 카테고리 금액 합계
     category_sum = spend_month_filter.values('category').annotate(amount=Sum('amount')).order_by('-amount')[:5]
     category_card = spend_month_filter.values('card').annotate(amount=Sum('amount')).order_by('-amount')[:5]
     category_place = spend_month_filter.values('place').annotate(amount=Sum('amount')).order_by('-amount')[:5]
 
-    category_category = spend_month_filter.values('category').annotate(amount=Sum('amount')).order_by('-amount')[:5]
 
-    # 요약 페이지_카테고리 건수별 TOP5
-    category_amount_count = spend_month_filter.values('category').annotate(count=Count('category')).order_by('-count')[:5]
-
+    category_list = list(category_place.values('place','amount'))
     category_stock = []
-    koscom_api = koscom.api()
-    nasdaq_api = iex.api()
-    for element in category_place:
-        find_market_code = Stocksector.objects.filter(ss_isukorabbrv=element['place']).values_list('ss_marketcode', flat=True)
-        find_isusrtcd = Stocksector.objects.filter(ss_isukorabbrv=element['place']).values_list('ss_isusrtcd', flat=True)
+    for element in category_list:
+        marketcode = Totalmerge.objects.filter(name = element['place']).values_list('marketcode', flat=True)
+        issuecode = Totalmerge.objects.filter(name = element['place']).values_list('id' , flat=True)
+        # 종가 = Totalmerge.objects.filter(name = element['place']).values_list('종#' , flat=True)
+        marketcode = marketcode[0] if marketcode else None
+        issuecode = issuecode[0] if issuecode else None
+        category_stock.append([element['place'], element['amount'], issuecode, marketcode])
+        #category_stock.append([element['place'], element['amount'], id, marketcode, 종가])
 
-
-        market_code = find_market_code[0] if find_market_code else None
-        issuecode = find_isusrtcd[0] if find_isusrtcd else None
-        if market_code == 'kospi' or 'kospdaq':
-            current_price = koscom_api.get_current_price(market_code , issuecode )
-        else:
-            symbol = issuecode
-            current_price = nasdaq_api.get_current_price(market_code, symbol)
-        category_stock.append([current_price, element['amount'], element['place'], issuecode, market_code])
+        print(category_stock)
 
     category_amount_data = []
     category_amount_label = []
