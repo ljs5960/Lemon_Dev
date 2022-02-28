@@ -82,7 +82,7 @@
     <div style="text-align:center;font-size:22px;font-weight:bold;">{{total_current_price|intcomma}}원</div>
     <div style="text-align:center;font-size:14px;color:white;">
     
-    {{total_current_price|sub:user_total_investment_amount|intcomma}} ({{total_profit_amount|yields2:user_total_investment_amount|floatformat:2}}%) </div>
+    {{total_investment_amount|sub:user_total_investment_amount|intcomma}}원 ({{s_stock_amout|yields2:b_stock_amout|floatformat:2}}%)
     <div class="my_stock"><a class="my_stock-btn" href="{% url 'stocks:stock' %}">보유 주식</a></div>
 
 </div>

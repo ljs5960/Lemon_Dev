@@ -23,12 +23,16 @@ def stock(request):
     stockheld = Stockheld.objects.filter(sh_userid=request.user.user_id).exclude(sh_share=0) # 자기가 구매한 것 보이고 다 판건 안보이게 만듬
     stock_data = []
     stock_cal = cal.calculator()
+    koscom_api = koscom.api()
+    nasdaq_api = iex.api()
     mark = bookmark.objects.filter(user_id=request.user.user_id)
     bookmark_date = []
     for element in stockheld:
-        stock_api = iex.api() if element.sh_marketcode == 'nasdaq' else koscom.api()
+        stock_api = nasdaq_api if element.sh_marketcode == 'nasdaq' else koscom_api
         average_price = stock_cal.average_price(request.user.user_id, element.sh_isusrtcd)
         current_price = stock_api.get_current_price(element.sh_marketcode, element.sh_isusrtcd)
+        if element.sh_marketcode == 'nasdaq':
+            current_price = int(current_price * stock_api.get_ex_rate('FRX.KRWUSD'))
         stock_data.append(
             [element.sh_isukorabbrv, average_price, current_price, element.sh_isusrtcd, element.sh_marketcode, element.sh_share])
 
@@ -67,8 +71,7 @@ def suggestion(request):
         category_stock.append([stock_suggestion, issuecode, element['per'],
                               element['pbr'], element['marketcode'], element['name'], element['category']])
         print(category_stock)
-    nasdaq_category = nasdaq_test.objects.filter(category__in=category_arr[0:3]).values_list('nasdaq_cname', flat=True).values("nasdaq_cname")
-    print(nasdaq_category)
+    nasdaq = nasdaq_category.objects.filter(category__in=category_arr[0:3]).values_list('nasdaq_cname', flat=True).values("nasdaq_cname")
     nasdaq_top5 = Totalmerge.objects.exclude(id__in=isurtcd_arr).filter(category__in=nasdaq_category).values("id", 'per', 'pbr', "marketcode", "name", "category").annotate(ROA=(F('per') * Decimal('1.0') / F('pbr') * Decimal('1.0'))).order_by('-ROA')[0:5]
     print(nasdaq_top5)
     nasdaq_top5_price = []
@@ -96,17 +99,8 @@ def suggestion(request):
 def portfolio(request):
     result = {}
     stock_cal = cal.calculator()
-
     user_total_investment_amount = stock_cal.user_total_investment_amount(
         request.user.user_id)
-    user_total_investment_amount1 = stock_cal.user_total_investment_amount1(
-        request.user.user_id)
-    print('user_total_investment_amount1:',user_total_investment_amount1)
-    user_total_investment_amount2 = stock_cal.user_total_investment_amount2(
-        request.user.user_id)
-    print('user_total_investment_amount2:',user_total_investment_amount2)
-    total_profit_amount = stock_cal.total_profit_amount(request.user.user_id)
-    print('---------',total_profit_amount)
     print('user_total_investment_amount:',user_total_investment_amount)
     total_investment_amount = stock_cal.total_investment_amount(
         request.user.user_id)
@@ -114,36 +108,34 @@ def portfolio(request):
     total_current_price = stock_cal.total_current_price(request.user.user_id)
     print('total_current_price:',total_current_price)
     total_use_investment_amount = stock_cal.total_use_investment_amount(request.user.user_id)
-    print('---------------------------')
     print('total_use_investment_amount:',total_use_investment_amount)
     total_profit_n_loss = stock_cal.total_profit_n_loss(request.user.user_id)
-    print('total_profit_n_loss',total_profit_n_loss)
-    print('-------------')
+    print('total_profit_n_loss:',total_profit_n_loss)
     invest = request.user.invest
+    print('invest:',invest)
     total_invest = invest + total_use_investment_amount
-    total_clac = total_investment_amount + total_use_investment_amount
-    print('total_clac:',total_clac)
-    if total_current_price is False:
+    print('total_invest:',total_invest)
+    s_stock_amout = stock_cal.S_total_investment(request.user.user_id)
+    print('s_stock_amout:',s_stock_amout)
+    b_stock_amout = stock_cal.B_total_investment(request.user.user_id)
+    print('b_stock_amout:',b_stock_amout)
+
+    if total_investment_amount is False or total_current_price is False or total_use_investment_amount is False or user_total_investment_amount is False:
+        result['total_investment_amount'] = 0
+        result['user_total_investment_amount'] = 0
         result['total_current_price'] = 0
+        result['total_use_investment_amount'] = 0
+        result['total_profit_n_loss'] = 0
+        result['total_invest'] = 0
     else:
+        result['user_total_investment_amount'] = user_total_investment_amount
+        result['total_investment_amount'] = total_investment_amount
         result['total_current_price'] = total_current_price
-    #if total_investment_amount is False or total_current_price is False or total_use_investment_amount is False or user_total_investment_amount is False:
-    result['total_investment_amount'] = total_investment_amount
-    result['user_total_investment_amount'] = user_total_investment_amount
-    #result['total_current_price'] = 0
-    result['total_use_investment_amount'] = total_use_investment_amount
-    result['total_profit_n_loss'] = total_profit_n_loss
-    result['total_invest'] = total_invest
-    result['total_clac'] = total_clac
-    result['total_profit_amount']=total_profit_amount
-    
-    #else:
-    # result['user_total_investment_amount'] = user_total_investment_amount
-    # result['total_investment_amount'] = total_investment_amount
-    # result['total_current_price'] = total_current_price
-    # result['total_use_investment_amount'] = total_use_investment_amount
-    # result['total_profit_n_loss'] = total_profit_n_loss
-    # result['total_invest'] = total_invest
+        result['total_use_investment_amount'] = total_use_investment_amount
+        result['total_profit_n_loss'] = total_profit_n_loss
+        result['total_invest'] = total_invest
+        result['s_stock_amout'] = s_stock_amout
+        result['b_stock_amout'] = b_stock_amout
     return render(request, 'portfolio.html', result)
 
 
@@ -459,12 +451,9 @@ def per_pbr_update(request):
     result = False
     if request.method == 'POST':
         data = json.loads(request.body) # 여기서부터 코스피 perpbr 버튼 , 나스닥 perpbr 버튼 구분
-        print(data) # 여기서 portfolio.html 의 perpbr button 태그 내 value 가 출력됩니다. (kospi or nasdaq)
-        ############
-
-        koscom_api = koscom.api()
+        stock_api = iex.api() if data == 'nasdaq' else koscom.api()
         try:
-            per_pbr_bundle = koscom_api.get_per_pbr_bundle()
+            per_pbr_bundle = stock_api.get_per_pbr_bundle()
             if per_pbr_bundle:
                 per_pbr_insert(per_pbr_bundle)
                 result = True

@@ -33,7 +33,7 @@ def yields(value, arg):
 @register.filter
 def yields2(value, arg):
     if arg:
-        return value / arg
+        return (value / arg) * 100  - 100
     else:
         return float('0')
 
