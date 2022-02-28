@@ -83,7 +83,7 @@
     <div style="text-align:center;font-size:22px;font-weight:bold;">{{total_current_price|intcomma}}원</div>
     <div style="text-align:center;font-size:14px;color:white;">
     
-    {{total_investment_amount|sub:user_total_investment_amount|intcomma}}원 ({{s_stock_amout|yields2:b_stock_amout|floatformat:2}}%)
+    {{total_current_price|add:total_use_investment_amount|intcomma}}원 ({{s_stock_amout|yields2:b_stock_amout|floatformat:2}}%)
     <div class="my_stock"><a class="my_stock-btn" href="{% url 'stocks:stock' %}">보유 주식</a></div>
 
 </div>
@@ -99,7 +99,7 @@
             <div><a style="color: #4c8ae5; padding-right: 5px;">■</a><a>가상 잔여 금액</a><a
                     style="float: right;">{{user.invest|sub:total_investment_amount|intcomma}}원</a></div>
             <div><a style="color: #ff5d51; padding-right: 5px;">■</a><a>구매한 주식</a><a
-                    style="float: right;">{{total_investment_amount|intcomma}}원</a></div>
+                    style="float: right;">{{total_current_price|intcomma}}원</a></div>
             <div><a style="color: #ffd85a; padding-right: 5px;">■</a><a>손익금</a><a
                     style="float: right;">{{total_profit_n_loss|intcomma}}원</a></div>
         </div>
@@ -115,7 +115,7 @@
             data: {
                 labels: ['가상 잔여 금액','구매한 주식','손익금'],
                 datasets: [{
-                    data: ['{{user.invest|sub:total_investment_amount}}', '{{total_investment_amount}}', '{{total_use_investment_amount}}'],
+                    data: ['{{user.invest|sub:total_investment_amount}}', '{{total_current_price}}', '{{total_use_investment_amount}}'],
                     backgroundColor: [
                         '#4c8ae5',
                         '#ff5d51',
@@ -146,7 +146,7 @@
 <div class="stock-container" style="margin-top:20px; margin-bottom:50px;">
     <span class="stock-container-side">금일 기준</span>
     <div class="stock-container-title">주문 가능 금액</div>
-    <div style="text-align:center;font-size:22px;">{{user.invest|add:total_use_investment_amount|intcomma}}원</div>
+    <div style="text-align:center;font-size:22px;">{{user.invest|add:total_use_investment_amount|add:total_profit_n_loss|intcomma}}원</div>
     <div class="my_stock"><a href="{% url 'admins:edit_invest' %}" class="my_stock-btn" >추가</a></div>
     </div>
 </div>

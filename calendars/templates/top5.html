@@ -292,18 +292,18 @@ function click_evt() {
       <ol style="padding-left: 1rem !important;">
         <table style="width: 100%; margin-top:10px; border-collapse:inherit;">
           {% for area in category_stock %}
-          <tr onclick="info('{{ area.3}}','{{ area.4 }}')">
+          <tr onclick="info('{{ area.2}}','{{ area.3 }}')">
             <td width='10'>
               <li style="font-weight: bold; color:#8e8e8e;"></li>
             </td>
             <td class="spendTop5-tableTitle" width='50'>
-              <a>{{ area.2 }}</a>
+              <a>{{ area.0 }}</a>
             </td>
             <td style="text-align: right;" width='25'>
               <a style="font-weight:400; color:#3a3a3a">{{ area.1|truncatechars:500|intcomma }}원</a>
             </td>
             <td width='10' style="text-align: right;">
-              <a style="font-size:9pt; font-weight:300; color:#ff5d51">{% if area.4 == 'nasdaq'%}$ {{area.0|intcomma}} {%else%} {{area.0|intcomma}}원 {% endif %}</a>
+              <a style="font-size:9pt; font-weight:300; color:#ff5d51">{% if area.3 == 'nasdaq'%}$ {{area.4|intcomma}} {%else%} {{area.4|intcomma}}원 {% endif %}</a>
             </td>
           </tr>
           {% empty %}

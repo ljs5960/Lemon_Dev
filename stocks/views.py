@@ -45,11 +45,12 @@ def stock(request):
     return render(request, 'stock.html', {'stock_data': stock_data,'bookmark_date':bookmark_date})
 
 def suggestion(request):
-    koscom_api = koscom.api()
-    nasdaq_api = iex.api()
-    categorys = Stockheld.objects.exclude(sh_share=0).filter(sh_userid=request.user.user_id ).values('sh_idxindmidclsscd', 'sh_isusrtcd').annotate(count=Count('sh_idxindmidclsscd')).order_by('-count').distinct()
+    categorys = Stockheld.objects.exclude(sh_share=0).filter(sh_userid=request.user.user_id ).values('sh_idxindmidclsscd').annotate(count=Count('sh_idxindmidclsscd')).order_by('-count').distinct()
+    isurtcd_exclude = Stockheld.objects.exclude(sh_share=0).filter(sh_userid=request.user.user_id ).values( 'sh_isusrtcd').distinct()
+    print(categorys)
+    print(isurtcd_exclude)
     category_list = list(categorys.values('sh_idxindmidclsscd'))
-    categorys_isurtcd = list(categorys.values('sh_isusrtcd'))
+    categorys_isurtcd = list(isurtcd_exclude.values('sh_isusrtcd'))
     category_keep = category_list[0:3]
     category_arr = []
     isurtcd_arr = []
@@ -57,43 +58,18 @@ def suggestion(request):
         category_arr.append(i['sh_idxindmidclsscd'])
     for i in categorys_isurtcd:
         isurtcd_arr.append(i['sh_isusrtcd'])
-    #stock_list = Category.objects.select_related('spend').filter(category=4)
-    stock_suggestion1 = Totalmerge.objects.exclude(id__in=isurtcd_arr).filter(category__in=category_arr[0:3]).values("id", 'per', 'pbr', "marketcode", "name", "category").annotate(
+    category_stock = Totalmerge.objects.exclude(id__in=isurtcd_arr).filter(category__in=category_arr[0:3]).values("id", 'per', 'pbr', "marketcode", "name", "category").annotate(
         ROA=(F('per') * Decimal('1.0') / F('pbr') * Decimal('1.0'))).order_by('-ROA')[0:5]
-    print(stock_suggestion1)
-    #stock_suggestion2 = list(stock_suggestion1)
-    category_stock = []
+    # stock_suggestion1 = Totalmerge.objects.exclude(id__in=isurtcd_arr).filter(category__in=category_arr[0:3]).values("id", 'per', 'pbr', "marketcode", "name", "category", "종[]").annotate(
+    #     ROA=(F('per') * Decimal('1.0') / F('pbr') * Decimal('1.0'))).order_by('-ROA')[0:5]
+    print(category_stock)
 
-    for element in stock_suggestion1:
-        issuecode = element['id']
-        stock_suggestion = koscom_api.get_current_price(element['marketcode'], issuecode)
-        print(stock_suggestion)
-        category_stock.append([stock_suggestion, issuecode, element['per'],
-                              element['pbr'], element['marketcode'], element['name'], element['category']])
-        print(category_stock)
     nasdaq = nasdaq_category.objects.filter(category__in=category_arr[0:3]).values_list('nasdaq_cname', flat=True).values("nasdaq_cname")
     nasdaq_top5 = Totalmerge.objects.exclude(id__in=isurtcd_arr).filter(category__in=nasdaq).values("id", 'per', 'pbr', "marketcode", "name", "category").annotate(ROA=(F('per') * Decimal('1.0') / F('pbr') * Decimal('1.0'))).order_by('-ROA')[0:5]
-    print(nasdaq_top5)
-    nasdaq_top5_price = []
+    #nasdaq_top5 = Totalmerge.objects.exclude(id__in=isurtcd_arr).filter(category__in=nasdaq).values("id", 'per', 'pbr', "marketcode", "name", "category","종가?").annotate(ROA=(F('per') * Decimal('1.0') / F('pbr') * Decimal('1.0'))).order_by('-ROA')[0:5]
 
 
-    for element in nasdaq_top5:
-        symbol = element['id']
-        print(symbol)
-        # marketcode = element['marketcode']
-        # print(marketcode)
-        naqdaq_price = nasdaq_api.get_current_price(element['marketcode'],symbol)
-        print(naqdaq_price)
-        nasdaq_top5_price.append([naqdaq_price, element['id'], element['per'],
-                                element['pbr'], element['marketcode'], element['name'], element['category']])
-        print(nasdaq_top5_price)
-
-    # result = {}
-    # result['category_stock'] = category_stock
-    # result['nasdaq_top5_price'] = nasdaq_top5_price
-    # print(result)
-
-    return render(request, 'suggestions.html', {'category_stock':category_stock, 'nasdaq_top5_price':nasdaq_top5_price })
+    return render(request, 'suggestions.html', {'category_stock':category_stock, 'nasdaq_top5_price':nasdaq_top5 })
 
 
 def portfolio(request):
