@@ -1,5 +1,6 @@
 from .models import *
 from . import koscom
+from . import iex
 from django.db.models import Sum, F
 
 
@@ -40,19 +41,23 @@ class calculator:
 
     # 현재 있는 주식에 대한 전체 현재가
     def total_current_price(self, user_id):
-        total_current_price = 0
         try:
+            total_current_price = 0
             stockheld = Stockheld.objects.filter(sh_userid=user_id).exclude(sh_share__lte=0)
+            iex_api = iex.api()
+            koscom_api = koscom.api()
             if stockheld.exists():
                 for element in stockheld:
-                    current_price = koscom.api().get_current_price(element.sh_marketcode, element.sh_isusrtcd)
+                    stock_api = iex_api if element.sh_marketcode == 'nasdaq' else koscom_api
+                    current_price = stock_api.get_current_price(element.sh_marketcode, element.sh_isusrtcd)
+
                     if current_price:
                         total_current_price += current_price * element.sh_share
-                        return total_current_price
                     else:
                         return False
             else:
                 return False
+            return total_current_price
         except Exception as e:
             print('Error in total_current_price: \n', e)
             return False

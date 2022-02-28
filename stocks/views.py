@@ -71,7 +71,7 @@ def suggestion(request):
         category_stock.append([stock_suggestion, issuecode, element['per'],
                               element['pbr'], element['marketcode'], element['name'], element['category']])
         print(category_stock)
-    nasdaq_category = nasdaq_test.objects.filter(category__in=category_arr[0:3]).values_list('nasdaq_cname', flat=True).values("nasdaq_cname")
+    nasdaq_category = nasdaq_category.objects.filter(category__in=category_arr[0:3]).values_list('nasdaq_cname', flat=True).values("nasdaq_cname")
     print(nasdaq_category)
     nasdaq_top5 = Totalmerge.objects.exclude(id__in=isurtcd_arr).filter(category__in=nasdaq_category).values("id", 'per', 'pbr', "marketcode", "name", "category").annotate(ROA=(F('per') * Decimal('1.0') / F('pbr') * Decimal('1.0'))).order_by('-ROA')[0:5]
     print(nasdaq_top5)
@@ -150,32 +150,42 @@ def stock_info(request, marketcode, issuecode):
 
         if marketcode == 'nasdaq':
             result['ex_rate'] = stock_api.get_ex_rate('FRX.KRWUSD')
-            result['year_history'] = str(0)
-            result['month_history'] = str(0)
-            result['week_history'] = str(0)
+            nasdaq_history = stock_api.get_stock_history(marketcode, issuecode, 'max')
+            result['year_history'] = day_trdDd_matching(cal_year_history(nasdaq_history, marketcode), marketcode)
+            if result['year_history'] is False:
+                result['year_history'] = str(0)
+
+            result['month_history'] = day_trdDd_matching(cal_month_history(nasdaq_history, marketcode), marketcode)
+            if result['month_history'] is False:
+                result['month_history'] = str(0)
+
+            result['week_history'] = day_trdDd_matching(cal_week_history(nasdaq_history, marketcode), marketcode)
+            if result['week_history'] is False:
+                result['week_history'] = str(0)
+
             result['day_history'] = str(0)
         else:
             result['year_history'] = day_trdDd_matching(
                 cal_year_history(stock_api.get_stock_history(marketcode, issuecode,
-                                                                    'M', '19800101', datetime.today().strftime('%Y%m%d'), 50)))
+                                                             'M', '19800101',
+                                                             datetime.today().strftime('%Y%m%d'), 50), marketcode), marketcode)
             if result['year_history'] is False:
                     result['year_history'] = str(0)
-
             result['month_history'] = day_trdDd_matching(
                 stock_api.get_stock_history(marketcode, issuecode,
-                                            'M', '19800101', datetime.today().strftime('%Y%m%d'), 50))
+                                            'M', '19800101', datetime.today().strftime('%Y%m%d'), 50), marketcode)
             if result['month_history'] is False:
                 result['month_history'] = str(0)
+
             result['week_history'] = day_trdDd_matching(
                 stock_api.get_stock_history(marketcode, issuecode,
-                                            'W', '19800101', datetime.today().strftime('%Y%m%d'), 50))
-
+                                            'W', '19800101', datetime.today().strftime('%Y%m%d'), 50), marketcode)
             if result['week_history'] is False:
                 result['week_history'] = str(0)
 
             result['day_history'] = day_trdDd_matching(
                 stock_api.get_stock_history(marketcode, issuecode,
-                                            'D', '19800101', datetime.today().strftime('%Y%m%d'), 50))
+                                            'D', '19800101', datetime.today().strftime('%Y%m%d'), 50), marketcode)
             if result['day_history'] is False:
                 result['day_history'] = str(0)
     else:
@@ -190,18 +200,66 @@ def stock_info(request, marketcode, issuecode):
         return render(request, 'stock_info.html', {'result': result, 'star':star})
 
 
-def cal_year_history(history):
+def cal_year_history(history, marketcode):
     try:
+        key = 'date' if marketcode == 'nasdaq' else 'trdDd'
         temp_year = ''
         year_trdPrc = []
         for element in history:
-            cur_year = str(element['trdDd'])[0:4]
+            cur_year = str(element[key])[0:4]
             if cur_year != temp_year:
                 temp_year = cur_year
                 year_trdPrc.append(element)
         return year_trdPrc
     except Exception as e:
         print('Error in cal_year_history: \n', e)
+        return False
+
+
+def cal_month_history(history, marketcode):
+    try:
+        key = 'date' if marketcode == 'nasdaq' else 'trdDd'
+        temp_month = ''
+        month_trdPrc = []
+        for element in history:
+            cur_month = str(element[key])[4:6]
+            if cur_month != temp_month:
+                temp_month = cur_month
+                month_trdPrc.append(element)
+        return month_trdPrc
+    except Exception as e:
+        print('Error in cal_year_history: \n', e)
+        return False
+
+
+def cal_week_history(history, marketcode):
+    try:
+        key = 'date' if marketcode == 'nasdaq' else 'trdDd'
+        start = 5 if marketcode == 'nasdaq' else 4
+        end = 7 if marketcode == 'nasdaq' else 6
+        temp_week = ''
+        week_trdPrc = []
+        for element in history:
+            cur_week = str(element[key])[start:end]
+            if cur_week != temp_week:
+                temp_week = cur_week
+                week_trdPrc.append(element)
+        return week_trdPrc
+    except Exception as e:
+        print('Error in cal_year_history: \n', e)
+        return False
+
+
+def day_trdDd_matching(history, marketcode):
+    try:
+        day_trdDd_array = []
+        date = 'date' if marketcode == 'nasdaq' else 'trdDd'
+        price = 'close' if marketcode == 'nasdaq' else 'trdPrc'
+        for element in history:
+            day_trdDd_array.append({'trdDd': element[date], 'trdPrc': element[price]})
+        return list(reversed(day_trdDd_array))
+    except Exception as e:
+        print('Error in day_trdDd_matching: \n', e)
         return False
 
 
@@ -222,17 +280,6 @@ def boomark(request, marketcode, isuSrtCd ):
             'result': data,
         }
         return JsonResponse(context)
-
-
-def day_trdDd_matching(history):
-    day_trdDd_array = []
-    try:
-        for element in history:
-            day_trdDd_array.append({'trdDd': element['trdDd'], 'trdPrc': element['trdPrc']})
-        return list(reversed(day_trdDd_array))
-    except Exception as e:
-        print('Error in day_trdDd_matching: \n', e)
-        return False
 
 
 def current_stock(request):
