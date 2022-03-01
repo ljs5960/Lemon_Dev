@@ -107,8 +107,8 @@
 {% endblock nav %}
         {% if result %}
         <div class="title">
-                <div class="stock-name">{{ result.companyName }} </div>
-                <div class="code">{{ result.symbol }} </div>
+                <div class="stock-name" style="width: 70%;">{{ result.companyName }}  <div class="code">{{ result.symbol }} </div></div>
+
             <div class="pick {% if star == 1  %} gold {% endif %}" onclick="pick()"><i class="fas fa-star"></i></div>
             <div class="marketcode"> {{ result.marketcode }}</div>
                 <div class="curprice">{{ result.curPrice|mul:result.ex_rate|floatformat:0|intcomma }}원</div>
