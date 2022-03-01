@@ -72,7 +72,7 @@
         <table id="porfolTable" style="width: 100%; margin-top:10px; border-collapse:inherit;">
           {% for recom in category_stock %}
           <tr onclick="info('{{ recom.id }}','{{ recom.marketcode}}')">
-            <td width='10'>
+            <td width='1'>
               <li style="font-weight: bold; color:#8e8e8e;"></li>
             </td>
             <td class="spendTop5-tableTitle" width='50'>
@@ -103,7 +103,7 @@
             <table style="width: 100%; margin-top:10px; border-collapse:inherit;">
                 {% for recom in nasdaq_top5_price %}
                 <tr onclick="info('{{ recom.id }}','{{ recom.marketcode }}')">
-                    <td width='10'>
+                    <td width='1'>
                         <li style="font-weight: bold; color:#8e8e8e;"></li>
                     </td>
                     <td class="spendTop5-tableTitle" width='50'>

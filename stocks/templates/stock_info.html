@@ -226,6 +226,7 @@
         $('.buy-btn').addClass('act');
     }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-crosshair@1"></script>
 <script>
 <!-- 일봉 차트 -->
 var ctx = document.getElementById("myChart");
@@ -246,95 +247,52 @@ var myChart = new Chart(ctx, {
             borderWidth:2,
         }]
     },
-    options: {
+   options: {
+            elements: {
+                point:{
+                    radius: 0
+                }
+            },
+            scales: {
+                x: {
+            grid: {
+              display: false,
+            }
+          },
+          y: {
+            grid: {
+              display: false
+            }
+          },
+        },
+    plugins: {
         legend: {
-            display: false
+                display: false
+            },
+      tooltip: {
+        mode: 'interpolate',
+        intersect: false
+      },
+      crosshair: {
+        line: {
+          color: '#F66',  // crosshair line color
+          width: 1        // crosshair line width
         },
-        elements: {
-            point:{
-                radius: 0
-            }
+        sync: {
+          enabled: true,            // enable trace line syncing with other charts
+          group: 1,                 // chart group
+          suppressTooltips: false   // suppress tooltips when showing a synced tracer
         },
-        scales: {
-            xAxes: [{
-                gridLines: {
-                    display:false
-                },
-            }],
-            yAxes: [{
-                gridLines: {
-                    color: "rgba(221, 223, 227, 0.3)"
-                    //display:false
-                },
-                ticks: {
-                    beginAtZero:false,
-                     userCallback: function(value, index, values) {
-                     return value.toLocaleString();   // this is all we need
-                }
-                }
-            }]
+        zoom: {
+          enabled: true,                                      // enable zooming
+          zoomboxBackgroundColor: 'rgba(66,133,244,0.2)',     // background color of zoom box
+          zoomboxBorderColor: '#48F',                         // border color of zoom box
+          zoomButtonText: 'Reset Zoom',                       // reset zoom button text
+          zoomButtonClass: 'reset-zoom',                      // reset zoom button class
         },
-        tooltips:{
-            mode: 'nearest',
-            displayColors: true, // 툴팁 바 컬러 표시 여부
-            backgroundColor: '#FFF', // 툴팁 배경
-            titleFontSize: 16,
-            titleSpacing: 50,
-            titleMarginBottom: 16,
-            titleMarginLeft: 26,
-            titleFontStyle: 'bold',
-            titleFontColor: "#000",
-            bodyFontColor: '#000', // 툴팁 폰트 관련
-            bodyFontSize: 18,
-            borderWidth:2,
-            cornerRadius: 6,
-            xPadding:12,
-            yPadding:20,
-            footerMarginTop:30,
-            caretPadding:15,
-            borderColor: 'rgba(163, 163, 163,1)',
-            callbacks: {
-                title: function(tooltipItem) {
-                    return this._data.labels[tooltipItem[0].index];
-                },
-
-                labelColor: function(tooltipItem, chart) {
-                    return {
-                        borderColor: 'rgba(75, 139, 228,1)',
-                        backgroundColor: 'rgba(235, 235, 235,1)'
-                    }
-                },
-                labelTextColor:function(tooltipItem, chart){
-                    return '#543453';
-                }
-            }
-        },
-        plugins: {
-            zoom: {
-                /*
-                pan: {
-                    enabled: true,
-                    mode: 'xy',
-                    threshold: 5,
-                },
-                */
-                zoom:{/*
-                    wheel: {
-                        enable: true
-                    },*/
-                    pinch: {
-                        enable: true
-                    },
-                    mode: 'xy',
-                },
-                /*
-                zoom: {
-                    enabled: true,
-                    mode: 'xy',
-                },*/
-            }
-        },
+      }
     }
+  }
 });
 
 <!-- 주봉 차트 -->
@@ -355,95 +313,52 @@ var myChart2 = new Chart(ctx, {
             borderWidth:2,
         }]
     },
-    options: {
+   options: {
+            elements: {
+                point:{
+                    radius: 0
+                }
+            },
+            scales: {
+                x: {
+            grid: {
+              display: false,
+            }
+          },
+          y: {
+            grid: {
+              display: false
+            }
+          },
+        },
+    plugins: {
         legend: {
-            display: false
+                display: false
+            },
+      tooltip: {
+        mode: 'interpolate',
+        intersect: false
+      },
+      crosshair: {
+        line: {
+          color: '#F66',  // crosshair line color
+          width: 1        // crosshair line width
         },
-        elements: {
-            point:{
-                radius: 0
-            }
+        sync: {
+          enabled: true,            // enable trace line syncing with other charts
+          group: 1,                 // chart group
+          suppressTooltips: false   // suppress tooltips when showing a synced tracer
         },
-        scales: {
-            xAxes: [{
-                gridLines: {
-                    display:false
-                },
-            }],
-            yAxes: [{
-                gridLines: {
-                    color: "rgba(221, 223, 227, 0.3)"
-                    //display:false
-                },
-                ticks: {
-                    beginAtZero:false,
-                    userCallback: function(value, index, values) {
-                     return value.toLocaleString();   // this is all we need
-                }
-                }
-            }]
+        zoom: {
+          enabled: true,                                      // enable zooming
+          zoomboxBackgroundColor: 'rgba(66,133,244,0.2)',     // background color of zoom box
+          zoomboxBorderColor: '#48F',                         // border color of zoom box
+          zoomButtonText: 'Reset Zoom',                       // reset zoom button text
+          zoomButtonClass: 'reset-zoom',                      // reset zoom button class
         },
-        tooltips:{
-            mode: 'nearest',
-            displayColors: true, // 툴팁 바 컬러 표시 여부
-            backgroundColor: '#FFF', // 툴팁 배경
-            titleFontSize: 16,
-            titleSpacing: 50,
-            titleMarginBottom: 16,
-            titleMarginLeft: 26,
-            titleFontStyle: 'bold',
-            titleFontColor: "#000",
-            bodyFontColor: '#000', // 툴팁 폰트 관련
-            bodyFontSize: 18,
-            borderWidth:2,
-            cornerRadius: 6,
-            xPadding:12,
-            yPadding:20,
-            footerMarginTop:30,
-            caretPadding:15,
-            borderColor: 'rgba(163, 163, 163,1)',
-            callbacks: {
-                title: function(tooltipItem) {
-                    return this._data.labels[tooltipItem[0].index];
-                },
-
-                labelColor: function(tooltipItem, chart) {
-                    return {
-                        borderColor: 'rgba(75, 139, 228,1)',
-                        backgroundColor: 'rgba(235, 235, 235,1)'
-                    }
-                },
-                labelTextColor:function(tooltipItem, chart){
-                    return '#543453';
-                }
-            }
-        },
-        plugins: {
-            zoom: {
-                /*
-                pan: {
-                    enabled: true,
-                    mode: 'xy',
-                    threshold: 5,
-                },
-                */
-                zoom:{/*
-                    wheel: {
-                        enable: true
-                    },*/
-                    pinch: {
-                        enable: true
-                    },
-                    mode: 'xy',
-                },
-                /*
-                zoom: {
-                    enabled: true,
-                    mode: 'xy',
-                },*/
-            }
-        },
+      }
     }
+  }
 });
 
 <!-- 월봉 차트 -->
@@ -465,94 +380,51 @@ var myChart3 = new Chart(ctx, {
         }]
     },
     options: {
+            elements: {
+                point:{
+                    radius: 0
+                }
+            },
+            scales: {
+                x: {
+            grid: {
+              display: false,
+            }
+          },
+          y: {
+            grid: {
+              display: false
+            }
+          },
+        },
+    plugins: {
         legend: {
-            display: false
+                display: false
+            },
+      tooltip: {
+        mode: 'interpolate',
+        intersect: false
+      },
+      crosshair: {
+        line: {
+          color: '#F66',  // crosshair line color
+          width: 1        // crosshair line width
         },
-        elements: {
-            point:{
-                radius: 0
-            }
+        sync: {
+          enabled: true,            // enable trace line syncing with other charts
+          group: 1,                 // chart group
+          suppressTooltips: false   // suppress tooltips when showing a synced tracer
         },
-        scales: {
-            xAxes: [{
-                gridLines: {
-                    display:false
-                },
-            }],
-            yAxes: [{
-                gridLines: {
-                    color: "rgba(221, 223, 227, 0.3)"
-                    //display:false
-                },
-                ticks: {
-                    beginAtZero:false,
-                     userCallback: function(value, index, values) {
-                     return value.toLocaleString();   // this is all we need
-                }
-                }
-            }]
+        zoom: {
+          enabled: true,                                      // enable zooming
+          zoomboxBackgroundColor: 'rgba(66,133,244,0.2)',     // background color of zoom box
+          zoomboxBorderColor: '#48F',                         // border color of zoom box
+          zoomButtonText: 'Reset Zoom',                       // reset zoom button text
+          zoomButtonClass: 'reset-zoom',                      // reset zoom button class
         },
-        tooltips:{
-            mode: 'nearest',
-            displayColors: true, // 툴팁 바 컬러 표시 여부
-            backgroundColor: '#FFF', // 툴팁 배경
-            titleFontSize: 16,
-            titleSpacing: 50,
-            titleMarginBottom: 16,
-            titleMarginLeft: 26,
-            titleFontStyle: 'bold',
-            titleFontColor: "#000",
-            bodyFontColor: '#000', // 툴팁 폰트 관련
-            bodyFontSize: 18,
-            borderWidth:2,
-            cornerRadius: 6,
-            xPadding:12,
-            yPadding:20,
-            footerMarginTop:30,
-            caretPadding:15,
-            borderColor: 'rgba(163, 163, 163,1)',
-            callbacks: {
-                title: function(tooltipItem) {
-                    return this._data.labels[tooltipItem[0].index];
-                },
-
-                labelColor: function(tooltipItem, chart) {
-                    return {
-                        borderColor: 'rgba(75, 139, 228,1)',
-                        backgroundColor: 'rgba(235, 235, 235,1)'
-                    }
-                },
-                labelTextColor:function(tooltipItem, chart){
-                    return '#543453';
-                }
-            }
-        },
-        plugins: {
-            zoom: {
-                /*
-                pan: {
-                    enabled: true,
-                    mode: 'xy',
-                    threshold: 5,
-                },
-                */
-                zoom:{/*
-                    wheel: {
-                        enable: true
-                    },*/
-                    pinch: {
-                        enable: true
-                    },
-                    mode: 'xy',
-                },
-                /*
-                zoom: {
-                    enabled: true,
-                    mode: 'xy',
-                },*/
-            }
-        },
+      }
     }
+  }
 });
 
 <!-- 연봉 차트 -->
@@ -574,95 +446,53 @@ var myChart4 = new Chart(ctx, {
         }]
     },
     options: {
+            elements: {
+                point:{
+                    radius: 0
+                }
+            },
+            scales: {
+                x: {
+            grid: {
+              display: false,
+            }
+          },
+          y: {
+            grid: {
+              display: false
+            }
+          },
+        },
+    plugins: {
         legend: {
-            display: false
+                display: false
+            },
+      tooltip: {
+        mode: 'interpolate',
+        intersect: false
+      },
+      crosshair: {
+        line: {
+          color: '#F66',  // crosshair line color
+          width: 1        // crosshair line width
         },
-        elements: {
-            point:{
-                radius: 0
-            }
+        sync: {
+          enabled: true,            // enable trace line syncing with other charts
+          group: 1,                 // chart group
+          suppressTooltips: false   // suppress tooltips when showing a synced tracer
         },
-        scales: {
-            xAxes: [{
-                gridLines: {
-                    display:false
-                },
-            }],
-            yAxes: [{
-                gridLines: {
-                    color: "rgba(221, 223, 227, 0.3)"
-                    //display:false
-                },
-                ticks: {
-                    beginAtZero:false,
-                     userCallback: function(value, index, values) {
-                     return value.toLocaleString();   // this is all we need
-                }
-                }
-            }]
+        zoom: {
+          enabled: true,                                      // enable zooming
+          zoomboxBackgroundColor: 'rgba(66,133,244,0.2)',     // background color of zoom box
+          zoomboxBorderColor: '#48F',                         // border color of zoom box
+          zoomButtonText: 'Reset Zoom',                       // reset zoom button text
+          zoomButtonClass: 'reset-zoom',                      // reset zoom button class
         },
-        tooltips:{
-            mode: 'nearest',
-            displayColors: true, // 툴팁 바 컬러 표시 여부
-            backgroundColor: '#FFF', // 툴팁 배경
-            titleFontSize: 16,
-            titleSpacing: 50,
-            titleMarginBottom: 16,
-            titleMarginLeft: 26,
-            titleFontStyle: 'bold',
-            titleFontColor: "#000",
-            bodyFontColor: '#000', // 툴팁 폰트 관련
-            bodyFontSize: 18,
-            borderWidth:2,
-            cornerRadius: 6,
-            xPadding:12,
-            yPadding:20,
-            footerMarginTop:30,
-            caretPadding:15,
-            borderColor: 'rgba(163, 163, 163,1)',
-            callbacks: {
-                title: function(tooltipItem) {
-                    return this._data.labels[tooltipItem[0].index];
-                },
-
-                labelColor: function(tooltipItem, chart) {
-                    return {
-                        borderColor: 'rgba(75, 139, 228,1)',
-                        backgroundColor: 'rgba(235, 235, 235,1)'
-                    }
-                },
-                labelTextColor:function(tooltipItem, chart){
-                    return '#543453';
-                }
-            }
-        },
-        plugins: {
-            zoom: {
-                /*
-                pan: {
-                    enabled: true,
-                    mode: 'xy',
-                    threshold: 5,
-                },
-                */
-                zoom:{/*
-                    wheel: {
-                        enable: true
-                    },*/
-                    pinch: {
-                        enable: true
-                    },
-                    mode: 'xy',
-                },
-                /*
-                zoom: {
-                    enabled: true,
-                    mode: 'xy',
-                },*/
-            }
-        },
+      }
     }
+  }
 });
+
     if (myChart.data.datasets[0].data == ''){
         const element = document.getElementById('dayChart');
         element.innerHTML = '<div class="noChartdata"><p>코스콤 주식 서버의 문제로<br>데이터를 불러올수 없습니다.</p></div>';
@@ -993,6 +823,7 @@ $.ajaxSetup({
   scrollbar: {
     el: '.swiper-scrollbar',
   },
+  allowTouchMove: false,
 });
     function move_page(index){
     swiper.slideTo(index)
