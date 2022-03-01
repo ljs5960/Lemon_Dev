@@ -79,7 +79,7 @@
               <a>{{recom.name}}</a>
             </td>
             <td id="usdtd" style="text-align: right;" width='25'>
-              <a class="usdtest" style="font-weight:400; color:#3a3a3a">{{ recom.|truncatechars:500|intcomma }}원</a>
+              <a class="usdtest" style="font-weight:400; color:#3a3a3a">{{ recom.closeprice|truncatechars:500|intcomma }}원</a>
             </td>
           {% empty %}
           <div class="summary-nodata-wrap">
@@ -99,16 +99,15 @@
         <ol style="padding-left: 1rem !important;">
             <table style="width: 100%; margin-top:10px; border-collapse:inherit;">
                 {% for recom in nasdaq_top5_price %}
-
-                <tr onclick="info('{{ recom.1 }}','{{ recom.4 }}')">
+                <tr onclick="info('{{ recom.id }}','{{ recom.marketcode }}')">
                     <td width='10'>
                         <li style="font-weight: bold; color:#8e8e8e;"></li>
                     </td>
                     <td class="spendTop5-tableTitle" width='50'>
-                        <a>{{recom.5}}</a>
+                        <a>{{recom.name}}</a>
                     </td>
                     <td style="text-align: right;" width='25'>
-                        <a style="font-weight:400; color:#3a3a3a">$ {{ recom.0|truncatechars:500|intcomma }}</a>
+                        <a style="font-weight:400; color:#3a3a3a">$ {{ recom.closeprice|truncatechars:500|intcomma }}</a>
                     </td>
                     {% empty %}
                     <div class="summary-nodata-wrap">
