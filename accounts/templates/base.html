@@ -210,9 +210,6 @@ filter: invert(78%) sepia(70%) saturate(1%) hue-rotate(2deg) brightness(94%) con
              return false;
         }
         if ( password == pin ){
-          $('.pin_saver').fadeOut()
-          $('.fa-search').show()
-          $('#footer').show()
           const form = document.getElementById('pin_form');
             form.action ="/pin_date_save" ;
             form.submit();
