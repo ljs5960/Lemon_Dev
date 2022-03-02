@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 # Create your views here.
 import json
 from django.http import JsonResponse
-from datetime import datetime
+from datetime import datetime, date
 from django.db import transaction
 from . import koscom
 from . import iex
@@ -219,12 +219,9 @@ def cal_month_history(history, marketcode='nasdaq'):
 def cal_week_history(history, marketcode='nasdaq'):
     try:
         key = 'date' if marketcode == 'nasdaq' else 'trdDd'
-        temp_week = ''
         week_trdPrc = []
         for element in history:
-            cur_week = str(element[key])[4:6]
-            if cur_week != temp_week:
-                temp_week = cur_week
+            if date(int(element[key][0:4]), int(element[key][4:6]), int(element[key][6:])).weekday() == 4:
                 week_trdPrc.append(element)
         return week_trdPrc
     except Exception as e:

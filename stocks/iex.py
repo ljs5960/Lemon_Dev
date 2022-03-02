@@ -164,7 +164,7 @@ class api:
         if stocks_list:
             for stock in stocks_list:
                 get_stock_master = self.get_stock_master('nasdaq', stock['symbol'])
-                if get_stock_master['previousClose'] is not None:
+                if type(get_stock_master['previousClose']) is not type(None):
                     print(f"symbol: {get_stock_master['symbol']}  //  close_price: {round(get_stock_master['previousClose'] * ex_rate)}")
                     result.append({
                         'symbol': stock['symbol'],
