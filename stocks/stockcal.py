@@ -251,6 +251,7 @@ class calculator:
             except Exception as e:
                 print('Error in total_buy_investment_amount: \n', e)
                 return False
+
     def B_total_investment(self, user_id):
         total_buy = 0
         try:
