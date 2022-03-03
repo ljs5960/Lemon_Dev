@@ -38,7 +38,7 @@
     <tr style="vertical-align:top;" id="date_title">
     <th style="text-align:left;padding-left:5px; border-bottom:1px solid #dddddd;">
       <img src="/media/date.png" style="margin-right: 5px; width:20px; height:20px; vertical-align:middle;">
-      <a style="font-weight: 100; color:#3a3a3a;font-size:20px; vertical-align: inherit;">{{ i.spend_date | date:'d 일' }}</a>
+      <a style="font-weight: 100; color:#3a3a3a;font-size:20px; vertical-align: inherit;">{{ i.spend_date | date:'M d일' }}</a>
     </th>
     <th style="text-align:right;font-size:13px; border-bottom:1px solid #dddddd; vertical-align: middle;">
       <div>
@@ -46,20 +46,14 @@
     </th>
     {% endifchanged %}
 </tr>
-
     <tr onclick="location.href='{% url 'calendars:edit_calendar'  i.kind i.spend_id %}'">
-
-      <tr onclick="location.href='{% url 'calendars:edit_calendar' i.kind i.spend_id %}'">
-
       <td style="vertical-align:top;">
         <div style="text-align:left;padding-left:30px;">
-
         <a id= "place" style="font-family: 'Noto Sans KR', sans-serif; font-weight:400; font-size:12pt; color: #3a3a3a; display:block;">{{ i.place }}</a>
           </div>
       </td>
       <td style="vertical-align: top;">
         <div style="text-align:right;">
-
         <a class="amount" style="color: #2a2a2a">-{{ i.amount|intcomma }}원</a>
         </div>
       </td>

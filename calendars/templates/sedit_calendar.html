@@ -2,20 +2,10 @@
 {% load static %}
 {% block title %}레몬::지출내역수정페이지{% endblock title %}
 {% block container %}
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link
-    href="https://fonts.googleapis.com/css2?family=Limelight&family=Nanum+Gothic:wght@400;700;800&family=Noto+Sans+KR:wght@400;500;700;900&family=Pacifico&display=swap"
-    rel="stylesheet">
-
-
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <style>
+.loader-main{
+    bottom:0px !important;
+    }
     #footer {
         display: none;
     }
@@ -37,7 +27,7 @@
         padding: 7px 0 5px 0;
         border-bottom: 2px solid #93bcf9;
     }
-    
+
     .span_table a {
         font-size: 15px;
     }
@@ -249,6 +239,15 @@
             }
         }
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link  href="https://fonts.googleapis.com/css2?family=Limelight&family=Nanum+Gothic:wght@400;700;800&family=Noto+Sans+KR:wght@400;500;700;900&family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
 {% block nav %}
 <div id="nav" style="border-bottom: 1px solid #f1f1f1;">
     <div>

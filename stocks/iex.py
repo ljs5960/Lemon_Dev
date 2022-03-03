@@ -163,15 +163,16 @@ class api:
         ex_rate = self.get_ex_rate('FRX.KRWUSD')
         if stocks_list:
             for stock in stocks_list:
-                get_stock_master = self.get_stock_master('nasdaq', stock['symbol'])
-                if get_stock_master['close'] is not None:
-                    print(f"symbol: {get_stock_master['symbol']}  //  close_price: {round(get_stock_master['close'] * ex_rate)}")
+                try:
+                    get_stock_master = self.get_stock_master('nasdaq', stock['symbol'])
+                    print(f"symbol: {get_stock_master['symbol']}  //  close_price: {round(get_stock_master['previousClose'] * ex_rate)}")
                     result.append({
                         'symbol': stock['symbol'],
-                        'close_price': round(get_stock_master['close'] * ex_rate),
+                        'close_price': round(get_stock_master['previousClose'] * ex_rate),
                     })
-                else:
-                    print('========>Fail get stocksector: ', stock['symbol'])
+                except Exception as e:
+                    print('Error in get_close_price_bundle: \n', e)
+                    print('========>Fail get stock_master: ', stock['symbol'])
         else:
             return False
         return result

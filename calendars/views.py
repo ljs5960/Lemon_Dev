@@ -229,10 +229,10 @@ def top5(request):
     for element in category_list:
         marketcode = Totalmerge.objects.filter(name = element['place']).values_list('marketcode', flat=True)
         issuecode = Totalmerge.objects.filter(name = element['place']).values_list('id' , flat=True)
-        # 종가 = Totalmerge.objects.filter(name = element['place']).values_list('종#' , flat=True)
+        closeprice = Totalmerge.objects.filter(name = element['place']).values_list('closeprice' , flat=True)
         marketcode = marketcode[0] if marketcode else None
         issuecode = issuecode[0] if issuecode else None
-        category_stock.append([element['place'], element['amount'], issuecode, marketcode])
+        category_stock.append([element['place'], element['amount'], issuecode, marketcode, closeprice[0]])
         #category_stock.append([element['place'], element['amount'], id, marketcode, 종가])
 
         print(category_stock)

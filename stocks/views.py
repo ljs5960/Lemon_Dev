@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 # Create your views here.
 import json
 from django.http import JsonResponse
-from datetime import datetime
+from datetime import datetime, date
 from django.db import transaction
 from . import koscom
 from . import iex
@@ -41,14 +41,15 @@ def stock(request):
         find_stock_name = Stocksector.objects.filter(ss_isusrtcd=element.isuSrtCd).values_list('ss_isukorabbrv', flat=True)
         name = find_stock_name[0]
         current_price = stock_api.get_current_price(element.marketcode, element.isuSrtCd)
+        if element.marketcode == 'nasdaq':
+            current_price = int(current_price * stock_api.get_ex_rate('FRX.KRWUSD'))
         bookmark_date.append([element.marketcode,element.isuSrtCd, current_price, name])
+
     return render(request, 'stock.html', {'stock_data': stock_data,'bookmark_date':bookmark_date})
 
 def suggestion(request):
     categorys = Stockheld.objects.exclude(sh_share=0).filter(sh_userid=request.user.user_id ).values('sh_idxindmidclsscd').annotate(count=Count('sh_idxindmidclsscd')).order_by('-count').distinct()
     isurtcd_exclude = Stockheld.objects.exclude(sh_share=0).filter(sh_userid=request.user.user_id ).values( 'sh_isusrtcd').distinct()
-    print(categorys)
-    print(isurtcd_exclude)
     category_list = list(categorys.values('sh_idxindmidclsscd'))
     categorys_isurtcd = list(isurtcd_exclude.values('sh_isusrtcd'))
     category_keep = category_list[0:3]
@@ -58,16 +59,11 @@ def suggestion(request):
         category_arr.append(i['sh_idxindmidclsscd'])
     for i in categorys_isurtcd:
         isurtcd_arr.append(i['sh_isusrtcd'])
-    category_stock = Totalmerge.objects.exclude(id__in=isurtcd_arr).filter(category__in=category_arr[0:3]).values("id", 'per', 'pbr', "marketcode", "name", "category").annotate(
+    category_stock = Totalmerge.objects.exclude(id__in=isurtcd_arr).filter(category__in=category_arr[0:3]).values("id", 'per', 'pbr', "marketcode", "name", "category", "closeprice").annotate(
         ROA=(F('per') * Decimal('1.0') / F('pbr') * Decimal('1.0'))).order_by('-ROA')[0:5]
-    # stock_suggestion1 = Totalmerge.objects.exclude(id__in=isurtcd_arr).filter(category__in=category_arr[0:3]).values("id", 'per', 'pbr', "marketcode", "name", "category", "종[]").annotate(
-    #     ROA=(F('per') * Decimal('1.0') / F('pbr') * Decimal('1.0'))).order_by('-ROA')[0:5]
-    print(category_stock)
-
     nasdaq = nasdaq_category.objects.filter(category__in=category_arr[0:3]).values_list('nasdaq_cname', flat=True).values("nasdaq_cname")
-    nasdaq_top5 = Totalmerge.objects.exclude(id__in=isurtcd_arr).filter(category__in=nasdaq).values("id", 'per', 'pbr', "marketcode", "name", "category").annotate(ROA=(F('per') * Decimal('1.0') / F('pbr') * Decimal('1.0'))).order_by('-ROA')[0:5]
-    #nasdaq_top5 = Totalmerge.objects.exclude(id__in=isurtcd_arr).filter(category__in=nasdaq).values("id", 'per', 'pbr', "marketcode", "name", "category","종가?").annotate(ROA=(F('per') * Decimal('1.0') / F('pbr') * Decimal('1.0'))).order_by('-ROA')[0:5]
-
+    nasdaq_top5 = Totalmerge.objects.exclude(id__in=isurtcd_arr).filter(category__in=nasdaq).values("id", 'per', 'pbr', "marketcode", "name", "category", "closeprice").annotate(ROA=(F('per') * Decimal('1.0') / F('pbr') * Decimal('1.0'))).order_by('-ROA')[0:5]
+    print(nasdaq_top5)
 
     return render(request, 'suggestions.html', {'category_stock':category_stock, 'nasdaq_top5_price':nasdaq_top5 })
 
@@ -226,12 +222,9 @@ def cal_month_history(history, marketcode='nasdaq'):
 def cal_week_history(history, marketcode='nasdaq'):
     try:
         key = 'date' if marketcode == 'nasdaq' else 'trdDd'
-        temp_week = ''
         week_trdPrc = []
         for element in history:
-            cur_week = str(element[key])[4:6]
-            if cur_week != temp_week:
-                temp_week = cur_week
+            if date(int(element[key][0:4]), int(element[key][4:6]), int(element[key][6:])).weekday() == 4:
                 week_trdPrc.append(element)
         return week_trdPrc
     except Exception as e:

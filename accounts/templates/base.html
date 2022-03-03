@@ -190,9 +190,9 @@ filter: invert(78%) sepia(70%) saturate(1%) hue-rotate(2deg) brightness(94%) con
         let today = new Date();
         var year = today.getFullYear();
         let month = today.getMonth() + 1;  // 월
-        let date = today.getDate();  // 날짜
+        let date = ("00" + today.getDate()).slice(-2);  // 날짜
         let hours = today.getHours(); // 시
-        let minutes = today.getMinutes();
+        let minutes = ("00"+today.getMinutes()).slice(-2);;
         var now = year + '/' + month + '/' + date + ' ' + hours + ':' + minutes;
         if ( pin_date > now ){
             $('.pin_saver').hide()
@@ -210,9 +210,6 @@ filter: invert(78%) sepia(70%) saturate(1%) hue-rotate(2deg) brightness(94%) con
              return false;
         }
         if ( password == pin ){
-          $('.pin_saver').fadeOut()
-          $('.fa-search').show()
-          $('#footer').show()
           const form = document.getElementById('pin_form');
             form.action ="/pin_date_save" ;
             form.submit();
@@ -248,13 +245,14 @@ filter: invert(78%) sepia(70%) saturate(1%) hue-rotate(2deg) brightness(94%) con
     <div id="pin-preload">
         <div class="pin_saver">
                <div class="pin-wrap" style="padding-top:155px;flex-direction: column;">
-        <div id="pw_container">
+        <div id="pw_container" style="text-align: center;">
 <ul id="password">
   <li class="pas5" id="pin_1"></li>
   <li class="pas6" id="pin_2"></li>
   <li class="pas7" id="pin_3"></li>
   <li class="pas8" id="pin_4"></li>
 </ul>
+                               <a id="forget-pin-kakao-link" style="color: rgba(0, 0, 0, 0.5); text-decoration: underline;">Pin번호를 잊으셨나요?</a>
   </div>
 <div id="numbers">
   <div class="li li1"><p>1</p></div>
@@ -273,7 +271,7 @@ filter: invert(78%) sepia(70%) saturate(1%) hue-rotate(2deg) brightness(94%) con
     </div>
       <input type="hidden" id="pin_change" name="pin">
     <div class="pin-btn-wrap">
-      <button class="pin-btn" type="button" onclick="pin_saver({{user.pin}})">Pin 번호 변경</button>
+      <button class="pin-btn" type="button" onclick="pin_saver({{user.pin}})">Pin 번호</button>
     </div>
         </div>
     </div>
