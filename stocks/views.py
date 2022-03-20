@@ -73,24 +73,15 @@ def portfolio(request):
     stock_cal = cal.calculator()
     user_total_investment_amount = stock_cal.user_total_investment_amount(
         request.user.user_id)
-    print('user_total_investment_amount:',user_total_investment_amount)
     total_investment_amount = stock_cal.total_investment_amount(
         request.user.user_id)
-    print('total_investment_amount:',total_investment_amount)
     total_current_price = stock_cal.total_current_price(request.user.user_id)
-    print('total_current_price:',total_current_price)
     total_use_investment_amount = stock_cal.total_use_investment_amount(request.user.user_id)
-    print('total_use_investment_amount:',total_use_investment_amount)
     total_profit_n_loss = stock_cal.total_profit_n_loss(request.user.user_id)
-    print('total_profit_n_loss:',total_profit_n_loss)
     invest = request.user.invest
-    print('invest:',invest)
     total_invest = invest + total_use_investment_amount
-    print('total_invest:',total_invest)
     s_stock_amout = stock_cal.S_total_investment(request.user.user_id)
-    print('s_stock_amout:',s_stock_amout)
     b_stock_amout = stock_cal.B_total_investment(request.user.user_id)
-    print('b_stock_amout:',b_stock_amout)
 
     if total_investment_amount is False or total_current_price is False or total_use_investment_amount is False or user_total_investment_amount is False:
         result['total_investment_amount'] = 0
@@ -99,6 +90,8 @@ def portfolio(request):
         result['total_use_investment_amount'] = 0
         result['total_profit_n_loss'] = 0
         result['total_invest'] = 0
+        result['s_stock_amout'] = 0
+        result['b_stock_amout'] = 0
     else:
         result['user_total_investment_amount'] = user_total_investment_amount
         result['total_investment_amount'] = total_investment_amount
