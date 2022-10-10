@@ -385,7 +385,7 @@ def sedit_calendar(request, spend_id):
         # if place == stock:
         #     stock = 000000
         spe = Spend.objects.filter(spend_id=spend_id, user_id=user).update(
-            amount=request.POST['amount'],
+            amount=request.POST['amount'].replace(',',''),
             place=request.POST['place'],
             spend_date=request.POST['spend_date'],
             way=request.POST['way'],
@@ -401,7 +401,7 @@ def iedit_calendar(request, income_id):
         user = request.user.user_id
         spe = Income.objects.filter(income_id=income_id, user_id=user).update(
             kind=request.POST['kind'],
-            amount=request.POST['amount'],
+            amount=request.POST['amount'].replace(',',''),
             income_date=request.POST['income_date'],
             income_way=request.POST['income_way'],
             memo=request.POST['memo'], )
