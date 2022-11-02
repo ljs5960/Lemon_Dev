@@ -244,7 +244,7 @@
             <table min-width="300">
                 <tr> <!-- 행선언 -->
                     <th width="200" height="60"><a class="span_list_title">금액</a></th>
-                    <th width="240" style="text-align: end;"><input class="input_span" id="amount" name="amount" type="number" pattern="[0-9]*" inputmode="numeric" value=""/></th>
+                    <th width="240" style="text-align: end;"><input class="input_span" id="amount" name="amount" type="text" pattern="[0-9]*" inputmode="numeric" value=""/></th>
                 </tr>
                 <tr> <!-- 행선언 -->
                     <th width="200" height="60"><a class="span_list_title">날짜</a></th>
@@ -286,6 +286,30 @@
 </div>
 
 <script>
+function updateTextView(_obj){
+  var num = getNumber(_obj.val());
+  if(num==0){
+    _obj.val('');
+  }else{
+    _obj.val(num.toLocaleString());
+  }
+}
+function getNumber(_str){
+  var arr = _str.split('');
+  var out = new Array();
+  for(var cnt=0;cnt<arr.length;cnt++){
+    if(isNaN(arr[cnt])==false){
+      out.push(arr[cnt]);
+    }
+  }
+  return Number(out.join(''));
+}
+$(document).ready(function(){
+  $('#amount').on('keyup',function(){
+    updateTextView($(this));
+  });
+});
+
     $(document).ready(function(){
     let today = moment();
     let today2 = today.format('YYYY-MM-DD')
@@ -320,6 +344,8 @@ function doubleSubmitCheck() {
         $("#date").focus();
         return false;
     }
+            var amount_number = $('#amount').val().replace(',','')
+            $('#amount').val(amount_number)
     if (doubleSubmitCheck()) {
     return false;
     }else{

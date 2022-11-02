@@ -2,6 +2,7 @@
 {% load static %}
 {% block title %}레몬::지출내역수정페이지{% endblock title %}
 {% block container %}
+{% load humanize %}
 <style>
 .loader-main{
     bottom:0px !important;
@@ -293,8 +294,8 @@
                     <tr>
                         <!-- 행선언 -->
                         <th width="200" height="60"><a class="span_list_title">금액</a></th>
-                        <th width="240" style="text-align: end;"><input id="amount" class="input_span" type="number" name="amount"
-                                pattern="[0-9]*" inputmode="numeric"  value="{{i.amount}}"></th>
+                        <th width="240" style="text-align: end;"><input id="amount" class="input_span" type="text" name="amount"
+                                pattern="[0-9]*" inputmode="numeric"  value="{{i.amount|intcomma}}"></th>
                     </tr>
                     <!--  행선언 -->
                     <tr>
@@ -383,6 +384,30 @@
             </div>
     </form>
     <script>
+        function updateTextView(_obj){
+  var num = getNumber(_obj.val());
+  if(num==0){
+    _obj.val('');
+  }else{
+    _obj.val(num.toLocaleString());
+  }
+}
+function getNumber(_str){
+  var arr = _str.split('');
+  var out = new Array();
+  for(var cnt=0;cnt<arr.length;cnt++){
+    if(isNaN(arr[cnt])==false){
+      out.push(arr[cnt]);
+    }
+  }
+  return Number(out.join(''));
+}
+$(document).ready(function(){
+  $('#amount').on('keyup',function(){
+    updateTextView($(this));
+  });
+});
+
         function check() {
             var max_int = 210000000;
                 if ($('#amount').val() == '') {
@@ -400,6 +425,7 @@
                     $("#place").focus();
                     return false;
                 }
+
             const form = document.getElementById('seidt_form');
             form.action = "{%url 'calendars:sedit_calendar' i.spend_id %}"
             form.submit();

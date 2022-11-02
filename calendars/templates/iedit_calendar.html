@@ -2,6 +2,7 @@
 {% load static %}
 {% block title %}레몬::수입내역수정페이지{% endblock title %}
 {% block container %}
+{% load humanize %}
 <style>
     .loader-main{
     bottom:0px !important;
@@ -280,7 +281,7 @@
                 </tr>
                 <tr> <!-- 행선언 -->
                     <th width="200" height="60"><a class="span_list_title">금액</a></th>
-                    <th width="240" style="text-align: end;"><input class="input_span" id="amount" name="amount" type="number" pattern="[0-9]*" inputmode="numeric" value="{{i.amount}}"/></th>
+                    <th width="240" style="text-align: end;"><input class="input_span" id="amount" name="amount" type="text" pattern="[0-9]*" inputmode="numeric" value="{{i.amount|intcomma}}"/></th>
                 </tr>
                 <tr> <!-- 행선언 -->
                 <th width="200" height="60"><a class="span_list_title">메모</a></th>
@@ -293,6 +294,30 @@
          <div class="addBtn" onclick="check()" style="line-height:37px;text-align:center;">수정</div>
     </form>
     <script>
+    function updateTextView(_obj){
+  var num = getNumber(_obj.val());
+  if(num==0){
+    _obj.val('');
+  }else{
+    _obj.val(num.toLocaleString());
+  }
+}
+function getNumber(_str){
+  var arr = _str.split('');
+  var out = new Array();
+  for(var cnt=0;cnt<arr.length;cnt++){
+    if(isNaN(arr[cnt])==false){
+      out.push(arr[cnt]);
+    }
+  }
+  return Number(out.join(''));
+}
+$(document).ready(function(){
+  $('#amount').on('keyup',function(){
+    updateTextView($(this));
+  });
+});
+
             function check(){
             var max_int = 210000000;
                 if ($('#amount').val() == '') {

@@ -106,7 +106,8 @@ def signup(request):
                                             )
             auth.login(request, user)
             messages.add_message(request, messages.SUCCESS, '로그인 성공')
-            return redirect('/home')
+            return redirect('/summary')
+            # return redirect('/home')
         return render(request, 'signup.html')
     return render(request, 'signup.html')
 
@@ -118,7 +119,8 @@ def pin_date_save(request):
         user_db = user.objects.get(user_id=user_id)
         user_db.pin_date = now_time
         user_db.save()
-        return redirect('/home')
+        return redirect('/summary')
+        # return redirect('/home')
 
 
 class UserPasswordResetView(PasswordResetView):
@@ -206,7 +208,9 @@ def social_info(request):
                 invest=invest,
                 invest_date=invest_date,
             )
-            return redirect('/home')
+            # return redirect('/home')
+            return redirect('/summary')
     else:
-        return redirect('/home')
+        # return redirect('/home')
+        return redirect('/summary')
     return render(request, 'social_signup-aditional_info.html') 
