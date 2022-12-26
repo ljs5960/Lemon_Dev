@@ -65,3 +65,12 @@
 - BackEnd: [LIMJAEHUN](https://github.com/LIMJAEHUN), [ljs5960](https://github.com/ljs5960)
 - Android/IOS: [washble](https://github.com/washble)
 - Design
+
+<br/>
+
+# ETC
+## Project Peroid
+- 2021.12 ~ 2022.02 (3개월)
+## HomePage Site
+- [https://lemon-bs.com](https://lemon-bs.com/)
+    - ##### (현재 서비스 종료)
